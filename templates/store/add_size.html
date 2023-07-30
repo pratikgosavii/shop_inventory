@@ -1,0 +1,90 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block head %}
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    
+   
+
+
+<!-- Hierarchy Select Js -->
+
+{% endblock %}
+
+{% block title %}Create Product{% endblock title %}
+
+{% block breadcrumbs %}
+
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Add Size</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="#" method="post" >
+                            {% csrf_token %}
+
+                           
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Category</label>
+                                {{ form.category }}
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Size</label>
+                                {{ form.name }}
+                            </div>
+
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="payment-button-amount">Create Product</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- .card -->
+
+    </div><!--/.col-->
+</div>
+
+<script>
+
+
+    
+    $("#company").change(function () {
+        const comapnyID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
+        $.ajax({                       // initialize an AJAX request
+            type: "POST",
+            url: '{% url "get_company_goods_ajax" %}',
+            data: {
+                'company_id': comapnyID,       // add the country id to the POST parameters
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {   // `data` is from `get_topics_ajax` view function
+                let html_data = '<option value="" selected disabled>------------</option>';
+                data.forEach(function (data) {
+            
+                    html_data += `<option value="${data.id}" >${data.name}</option>` 
+                });
+                $("#company_goods").html(html_data); // replace the contents of the topic input with the data that came from the server
+            }
+        });
+    });
+
+
+</script>
+  
+{% endblock content %}

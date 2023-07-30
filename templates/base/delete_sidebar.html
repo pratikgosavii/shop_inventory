@@ -1,0 +1,49 @@
+<aside id="left-panel" class="left-panel">
+    <nav class="navbar navbar-expand-sm navbar-default">
+        <div id="main-menu" class="main-menu collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li >
+                    <a href="{% url 'dashboard' %}"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
+                </li>
+                <li class="menu-title">Delete</li><!-- /.menu-title -->
+
+                <li class="menu-item-has-children dropdown active">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="True"> <i class="menu-icon fa fa-archive"></i>Delete Godown</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_company_delete' %}">View</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-archive"></i>Delete Category</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_company_goods_delete' %}">View</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-archive"></i>Delete Size</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_goods_company_delete' %}">View</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-archive"></i>Delete Inward</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_inward_delete' %}">View</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-archive"></i>Delete Outward</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_outward_delete' %}">View</a></li>
+                    </ul>
+                </li>
+
+            
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </nav>
+</aside>

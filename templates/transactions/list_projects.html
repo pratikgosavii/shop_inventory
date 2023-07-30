@@ -1,0 +1,268 @@
+{% extends 'base/base.html' %} {% block title %}Product List{% endblock title %}
+{% block head %}
+
+<style>
+  tr.hide-table-padding td {
+    padding: 0;
+  }
+
+  .expand-button {
+    position: relative;
+  }
+
+  .accordion-toggle .expand-button:after {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translate(0, -50%);
+    content: "-";
+  }
+  .accordion-toggle.collapsed .expand-button:after {
+    content: "+";
+  }
+</style>
+
+{% endblock head %} {% block content %}
+<div style="justify-content: center; display: flex; align-items: center">
+  <a href="{% url 'add_project' %}">
+    <button
+      id="payment-button"
+      style="
+        background-color: green;
+        border: green;
+        padding: 10px;
+        border-radius: 12px;
+      "
+      type="button"
+      class="btn-info"
+    >
+      <span id="payment-button-amount">Add Project +</span>
+    </button>
+  </a>
+</div>
+<br />
+
+
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="box-title">Project List</h4>
+      </div>
+      <div class="card-body--">
+        <div class="table-stats order-table ov-h">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="serial">#</th>
+                <th>Employee name</th>
+                <th>Customer Name</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for i in data %}
+
+              <tr
+                data-toggle="collapse"
+                data-target="#demo{{ forloop.counter }}"
+                class="accordion-toggle"
+              >
+                
+                <input type="hidden" value="{{ i.id }}" />
+                <td class="serial">{{ i.id }}</td>
+                <td>{{ i.employee_name }}</td>
+                <td>{{ i.customer }}</td>
+                <td>{{ i.description }}</td>
+                <td>{{ i.DC_date }}</td>
+                <td style="display:flex; gap:10px;" > <a href="{% url 'assign_matarial_qr' i.id %}"> <i class="fa fa-qrcode" style="font-size: 1.5em;" aria-hidden="true"></i> </a> <a href="{% url 'close_project' %}">   <i class="fa fa-info-circle" style="font-size: 1.5em;" aria-hidden="true"> </i> </a> <a> <i class="fa fa-trash" style="font-size: 1.5em;" aria-hidden="true"></i> </a> </td>
+
+              </tr>
+
+
+              <tr>
+                <td colspan="12" class="hiddenRow">
+                  <div class="accordian-body collapse" id="demo{{ forloop.counter }}">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr class="info">
+
+                          <th>#</th>
+                          <th>Matrial Name</th>
+                          <th>Size</th>
+                          <th>Grade</th>
+                          <th>Thickness</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {% for z in i.project_material_re.all %}
+
+                     
+
+                        <tr
+                          data-toggle="collapse"
+                          class="accordion-toggle"
+                          data-target="#demo{{ forloop.parentloop.counter }}"
+                        >
+                          <td><a href="#">{{ forloop.counter }}</a></td>
+                          <td>{{ z.product.category.name }}</td>
+                          <td>{{ z.product.size.name }}</td>
+                          <td>{{ z.product.grade.name }}</td>
+                          <td>{{ z.product.thickness.name }}</td>
+                          <td><i class="fa fa-paper-plane" aria-hidden="true"></i></td>
+                         
+                          
+                        </tr>
+
+                        {% endfor %}
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+
+              {% endfor %}
+
+            </tbody>
+          </table>
+
+          {% if data.has_other_pages %}
+          <nav>
+            <ul class="pagination justify-content-center">
+              {% if data.has_previous %}
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  href="?page={{ data.previous_page_number }}"
+                  aria-label="Previous"
+                >
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&laquo;</span>
+              </li>
+              {% endif %} 
+              {% for p in data.paginator.page_range %} 
+              {% if data.number == p %}
+              <li class="page-item">
+                <a class="page-link" style="color: red" href="#">{{ p }}</a>
+              </li>
+              {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+              </li>
+              {% endif %} 
+              {% endfor %} {% if data.has_next %}
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  href="?page={{ data.next_page_number }}"
+                  aria-label="Next"
+                >
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&raquo;</span>
+              </li>
+              {% endif %}
+            </ul>
+          </nav>
+          {% endif %}
+        </div>
+        <!-- /.table-stats -->
+      </div>
+    </div>
+    <!-- /.card -->
+  </div>
+  <!-- /.col-lg-8 -->
+</div>
+
+<script>
+  $("#company").change(function () {
+    const comapnyID = $(this).val(); // get the selected subject ID from the HTML dropdown list
+    $.ajax({
+      // initialize an AJAX request
+      type: "POST",
+      url: '{% url "get_company_goods_ajax" %}',
+      data: {
+        company_id: comapnyID, // add the country id to the POST parameters
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (data) {
+        // `data` is from `get_topics_ajax` view function
+        let html_data =
+          '<option value="" selected disabled>------------</option>';
+        data.forEach(function (data) {
+          html_data += `<option value="${data.id}" >${data.name}</option>`;
+        });
+        $("#company_goods").html(html_data); // replace the contents of the topic input with the data that came from the server
+      },
+    });
+  });
+
+  $("#company_goods").change(function () {
+    const comapny_goods_ID = $(this).val(); // get the selected subject ID from the HTML dropdown list
+    var e = document.getElementById("company");
+    var comapnyID = e.value;
+    $.ajax({
+      // initialize an AJAX request
+      type: "POST",
+      url: '{% url "get_goods_company_ajax" %}',
+      data: {
+        company_id: comapnyID,
+        company_goods: comapny_goods_ID, // add the country id to the POST parameters
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (data) {
+        // `data` is from `get_topics_ajax` view function
+        let html_data =
+          '<option value="" selected disabled>------------</option>';
+        data.forEach(function (data) {
+          html_data += `<option value="${data.id}" >${data.goods_company_name}</option>`;
+        });
+        $("#goods_company").html(html_data); // replace the contents of the topic input with the data that came from the server
+      },
+    });
+  });
+
+  $("#company").change(function () {
+    const comapnyID = $(this).val(); // get the selected subject ID from the HTML dropdown list
+    $.ajax({
+      // initialize an AJAX request
+      type: "POST",
+      url: '{% url "get_agent_company_ajax" %}',
+      data: {
+        company_id: comapnyID, // add the country id to the POST parameters
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (data) {
+        // `data` is from `get_topics_ajax` view function
+        let html_data =
+          '<option value="" selected disabled>------------</option>';
+        data.forEach(function (data) {
+          html_data += `<option value="${data.id}" >${data.name}</option>`;
+        });
+        $("#agent").html(html_data); // replace the contents of the topic input with the data that came from the server
+      },
+    });
+  });
+
+  $("#year").change(function () {
+    url = window.location.href;
+    url = url.split("?")[0];
+    url = url + "?year=" + $(this).val();
+    location.href = url;
+  });
+</script>
+
+{% endblock content %}

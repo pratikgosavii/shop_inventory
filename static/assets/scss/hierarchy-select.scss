@@ -1,0 +1,15 @@
+.hierarchy-select.dropdown {
+    .hs-searchbox {
+      padding: 0 5px 4px;
+    }
+    @mixin padding-left($level) {
+      a[data-level='#{$level}'] {
+        padding-left: $level * 20px;
+      }
+    }
+    .dropdown-menu {
+      @for $i from 2 through 10 {
+        @include padding-left($i);
+      }
+    }
+  }

@@ -1,0 +1,72 @@
+{% extends 'base/delete_base.html' %}
+
+
+
+{% block title %}Create Product{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Delete Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            {% comment %} <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Product</a></li>
+                            <li class="active">Create</li>
+                        </ol>
+                    </div>
+                </div>
+            </div> {% endcomment %}
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                       <div class="container" style="border: 2px dotted red;padding: 200px 0px;text-align: center;">
+
+                            <h1> Alert before delete </h1>
+
+                        <div>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- .card -->
+
+    </div><!--/.col-->
+</div>
+
+    {% block js %}
+
+        <script>
+
+            $('.cal').keyup(function(){
+                var textone;
+                var texttwo;
+            textone = parseFloat($('#bag_size').val());
+            texttwo = parseFloat($('#total_bag').val());
+            var result = textone * texttwo;
+            $('#total_pck').val(result.toFixed(2));
+        });
+        </script>
+
+    {% endblock js %}
+{% endblock content %}

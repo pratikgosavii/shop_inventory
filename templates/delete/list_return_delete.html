@@ -1,0 +1,123 @@
+{% extends 'base/delete_base.html' %}
+
+{% block title %}Product List{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            {% comment %} <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Product</a></li>
+                            <li class="active">List</li>
+                        </ol>
+                    </div>
+                </div>
+            </div> {% endcomment %}
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div style="justify-content: center;display: flex;align-items: center;">
+   <a href="{% url 'add_outward' %}" > <button id="payment-button" style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="button" class="btn-info ">
+         <span id="payment-button-amount">Add Company  +</span>
+     </button>  </a>
+   
+</div><br>
+
+
+<p>
+    
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Outward Report
+    </button>
+  </p>
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+      
+
+        <form method="get" action="{% url 'report_outward' %}" style="padding:15px;">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+
+                {{ filter_outward.form }}
+            
+            </div> <br>
+            
+            <button class="btn btn-primary" type="submit" > Download </button>
+
+        </form>
+    </div>
+  </div>
+  
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="box-title">Outward List </h4>
+            </div>
+            <div class="card-body--">
+                <div class="table-stats order-table ov-h">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th class="serial">#</th>
+                                <th>Company Name</th>
+                                <th>Crop</th>
+                                <th>Variety</th>
+                                <th>Total Packet</th>
+                                <th>Actions</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if data %}
+                            {% for i in data %}
+                            <tr>
+                                <td class="serial">{{ forloop.counter }}</td>
+                                <td>{{ i.company }}</td>
+                                <td>{{ i.company_goods }}</td>
+                                <td>{{ i.goods_company }}</td>
+                                <td>{{ i.bags }}</td>
+                                
+                                <td>  
+                                   <a href="{% url 'update_return' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+                                        <span id="payment-button-amount">View</span>
+                                    </button>  </a>
+                                    <a href="{% url 'delete_return' i.id %}">  <button id="delete_compnay-button" style="background-color: red; border: red; padding: 10px;border-radius: 12px;" type="submit" class="btn-info">
+                                        <span id="payment-button-amount">Delete</span>
+                                    </button>  </a>
+                                </td>
+                               
+                               
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                                <tr><td>No Product Data</td></tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div> <!-- /.table-stats -->
+            </div>
+        </div> <!-- /.card -->
+    </div>  <!-- /.col-lg-8 -->
+
+    
+</div>
+{% endblock content %}

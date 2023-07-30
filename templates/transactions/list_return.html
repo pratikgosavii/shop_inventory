@@ -1,0 +1,330 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Product List{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            {% comment %} <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Product</a></li>
+                            <li class="active">List</li>
+                        </ol>
+                    </div>
+                </div>
+            </div> {% endcomment %}
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+
+<div style="justify-content: center;display: flex;align-items: center;">
+    <a href="{% url 'add_return' %}"> <button id="payment-button" style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="button" class="btn-info ">
+          <span id="payment-button-amount">Add Return  +</span>
+      </button> </a>
+    
+ </div><br>
+
+<div style="display:flex;margin-bottom : 20px;">
+
+    
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Supply Return Report
+    </button>
+
+    <label style="color:black;margin-left: 50px;"> Bussiness Year </label>
+
+    <select class="form-control" style="width:20%;float:right;" id="year">
+        
+        {% if year %}
+
+            <option>{{ year }}</option>
+
+        {% else %}
+
+            <option>-------------</option>
+
+        {% endif %}
+      
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+        <option value="2026">2026</option>
+      
+      </select>
+
+    <form method="get" style="display: flex;position: absolute;right: 0;">
+
+        <input type="text" placeholder="Agent Name" name="agent_name" id="agent_name" class="form-control" style="width:300px"> <button class="btn btn-info" style="margin-left:10px;">Submit</button>
+    </form>
+
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+      
+
+        <form method="get" action="{% url 'report_supply_return' %}" style="padding:15px;">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="name" class="control-label mb-1">Company Name</label>
+                    <select name="company" class="form-control" id="company">
+                        <option value="" selected="">---------</option>
+
+                        {% for i in company_data %}
+
+                            <option value="{{ i.id }}">{{ i.company_name }}</option>
+
+                        {% endfor %}
+
+                      </select>
+                </div>
+                
+                <label for="inputStatus">Crop</label>
+                <select id="company_goods" class="form-control-sm custom-select" name="company_goods">
+
+               
+
+            </select>
+
+            <label for="inputStatus">Variety</label>
+                <select id="goods_company" class="form-control-sm custom-select" name="goods_company">
+
+               
+
+            </select>
+            <div class="form-group">
+                <label for="name" class="control-label mb-1">Start Date</label>
+                {{ filter_return_supply.form.DC_date_start__date }}
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="control-label mb-1">End Date</label>
+                {{ filter_return_supply.form.DC_date_end__date }}
+            </div>
+
+            </div> <br>
+            
+            <button class="btn btn-primary" type="submit" > Search </button>
+
+        </form>
+    </div>
+  </div>
+
+
+</div>
+  
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="box-title">Return List </h4>
+            </div>
+            <div class="card-body--">
+                <div class="table-stats order-table ov-h">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th class="serial">#</th>
+                                <th>Company Name</th>
+                                <th>Party</th>
+                                <th>Place</th>
+                                <th>Crop</th>
+                                <th>Variety</th>
+                                <th>DC number</th>
+                                <th>Total Packet</th>
+
+                                <th>Date</th>
+                                <th>Transport</th>
+                                <th>LR NO</th>
+                                <th>Frieght</th>
+                                
+                                <th>Actions</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if data %}
+                            {% for i in data %}
+                            <tr>
+                                <td class="serial">{{ forloop.counter }}</td>
+                                <td>{{ i.company }}</td>
+                                <td>{{ i.agent.name }}</td>
+                                <td>{{ i.agent.place }}</td>
+                                <td>{{ i.company_goods }}</td>
+                                <td>{{ i.goods_company }}</td>
+                                <td>{{ i.DC_number }}</td>
+                                <td>{{ i.bags }}</td>
+
+                                <td style="min-width:128px;">{{ i.DC_date|date:"d M, Y" }}</td>
+                                <td>{{ i.transport }}</td>
+                                <td>{{ i.LR_number }}</td>
+                                <td>{{ i.freight }}</td>
+
+                                
+                                <td>  
+                                   <a href="{% url 'update_return' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+                                        <span id="payment-button-amount">View</span>
+                                    </button>  </a>
+                                    
+                                </td>
+                               
+                               
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                                <tr><td>No Product Data</td></tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+
+                               
+  {% if data.has_other_pages %}
+  <nav>
+    <ul class="pagination justify-content-center">
+      {% if data.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ data.previous_page_number }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+            <span class="page-link" aria-hidden="true">&laquo;</span>
+        </li>
+      {% endif %}
+
+      {% for p in data.paginator.page_range %}
+        {% if data.number == p %}
+          <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
+        {% else %}
+          <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+        {% endif %}
+      {% endfor %}
+
+      {% if data.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ data.next_page_number }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link" aria-hidden="true">&raquo;</span>
+        </li>
+      {% endif %}
+  </ul>
+  </nav>
+{% endif %}
+
+
+                </div> <!-- /.table-stats -->
+            </div>
+        </div> <!-- /.card -->
+    </div>  <!-- /.col-lg-8 -->
+
+    
+</div>
+
+
+<script>
+    
+   
+
+    $("#company").change(function () {
+        const comapnyID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
+        $.ajax({                       // initialize an AJAX request
+            type: "POST",
+            url: '{% url "get_company_goods_ajax" %}',
+            data: {
+                'company_id': comapnyID,       // add the country id to the POST parameters
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {   // `data` is from `get_topics_ajax` view function
+                let html_data = '<option value="" selected disabled>------------</option>';
+                data.forEach(function (data) {
+            
+                    html_data += `<option value="${data.id}" >${data.name}</option>` 
+                });
+                $("#company_goods").html(html_data); // replace the contents of the topic input with the data that came from the server
+            }
+        });
+    });
+
+    $("#company_goods").change(function () {
+        const comapny_goods_ID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
+        var e = document.getElementById("company");
+        var comapnyID = e.value;
+        $.ajax({                       // initialize an AJAX request
+            type: "POST",
+            url: '{% url "get_goods_company_ajax" %}',
+            data: {
+                'company_id': comapnyID, 
+                'company_goods': comapny_goods_ID,       // add the country id to the POST parameters
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {   // `data` is from `get_topics_ajax` view function
+                let html_data = '<option value="" selected disabled>------------</option>';
+                data.forEach(function (data) {
+            
+                    html_data += `<option value="${data.id}" >${data.goods_company_name}</option>` 
+                });
+                $("#goods_company").html(html_data); // replace the contents of the topic input with the data that came from the server
+            }
+        });
+    });
+
+
+    $("#company").change(function () {
+        const comapnyID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
+        $.ajax({                       // initialize an AJAX request
+            type: "POST",
+            url: '{% url "get_agent_company_ajax" %}',
+            data: {
+                'company_id': comapnyID,       // add the country id to the POST parameters
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {   // `data` is from `get_topics_ajax` view function
+                let html_data = '<option value="" selected disabled>------------</option>';
+                data.forEach(function (data) {
+            
+                    html_data += `<option value="${data.id}" >${data.name}</option>` 
+                });
+                $("#agent").html(html_data); // replace the contents of the topic input with the data that came from the server
+            }
+        });
+    });
+
+
+
+    
+    $('#year').change(function(){
+        url = window.location.href
+        url = url.split('?')[0] 
+        url = url + '?year=' + $(this).val()
+        location.href = url;
+    })
+    
+
+
+    
+</script>
+
+
+{% endblock content %}

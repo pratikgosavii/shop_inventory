@@ -1,0 +1,254 @@
+{% extends 'base/base.html' %} {% block title %}Product List{% endblock title %}
+{% block head %}
+
+<style>
+  tr.hide-table-padding td {
+    padding: 0;
+  }
+
+  .expand-button {
+    position: relative;
+  }
+
+  .accordion-toggle .expand-button:after {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translate(0, -50%);
+    content: "-";
+  }
+  .accordion-toggle.collapsed .expand-button:after {
+    content: "+";
+  }
+</style>
+
+{% endblock head %} {% block content %}
+<div style="justify-content: center; display: flex; align-items: center">
+  <a href="{% url 'add_inward' %}">
+    <button
+      id="payment-button"
+      style="
+        background-color: green;
+        border: green;
+        padding: 10px;
+        border-radius: 12px;
+      "
+      type="button"
+      class="btn-info"
+    >
+      <span id="payment-button-amount">Add Project +</span>
+    </button>
+  </a>
+</div>
+<br />
+
+
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="box-title">Project List</h4>
+      </div>
+      <div class="card-body--">
+        <div class="table-stats order-table ov-h">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="serial">#</th>
+                <th>Employee name</th>
+                <th>Customer Name</th>
+                <th>Description</th>
+                <th>Date</th>
+                {% comment %}
+                <th>Transport</th>
+                <th>LR NO</th>
+                <th>Frieght</th>
+                {% endcomment %}
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                data-toggle="collapse"
+                data-target="#demo1"
+                class="accordion-toggle"
+              >
+                
+                <input type="hidden" value="{{ i.id }}" />
+                <td class="serial">1</td>
+                <td>Pratik Gosavi</td>
+                <td>Amit khan</td>
+                <td>Wanted to build Ganpati temple in home of size 10 X 20</td>
+                <td>28 July 2023</td>
+                <td><i class="fa fa-trash" aria-hidden="true"></i></td>
+
+              </tr>
+
+              <tr>
+                <td colspan="12" class="hiddenRow">
+                  <div class="accordian-body collapse" id="demo1">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr class="info">
+                          <th>Matrial Name</th>
+                          <th>Size</th>
+                          <th>Quantity</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr
+                          data-toggle="collapse"
+                          class="accordion-toggle"
+                          data-target="#demo10"
+                        >
+                          <td><a href="#">Metal Sheet</a></td>
+                          <td>10 X 20</td>
+                          <td> <input type="text" value="1" class="from-control" style="width : 50px;"> </td>
+                          <td><i class="fa fa-paper-plane" aria-hidden="true"></i></td>
+                         
+                        </tr>
+                       
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          {% if data.has_other_pages %}
+          <nav>
+            <ul class="pagination justify-content-center">
+              {% if data.has_previous %}
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  href="?page={{ data.previous_page_number }}"
+                  aria-label="Previous"
+                >
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&laquo;</span>
+              </li>
+              {% endif %} 
+              {% for p in data.paginator.page_range %} 
+              {% if data.number == p %}
+              <li class="page-item">
+                <a class="page-link" style="color: red" href="#">{{ p }}</a>
+              </li>
+              {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+              </li>
+              {% endif %} 
+              {% endfor %} {% if data.has_next %}
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  href="?page={{ data.next_page_number }}"
+                  aria-label="Next"
+                >
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&raquo;</span>
+              </li>
+              {% endif %}
+            </ul>
+          </nav>
+          {% endif %}
+        </div>
+        <!-- /.table-stats -->
+      </div>
+    </div>
+    <!-- /.card -->
+  </div>
+  <!-- /.col-lg-8 -->
+</div>
+
+<script>
+  $("#company").change(function () {
+    const comapnyID = $(this).val(); // get the selected subject ID from the HTML dropdown list
+    $.ajax({
+      // initialize an AJAX request
+      type: "POST",
+      url: '{% url "get_company_goods_ajax" %}',
+      data: {
+        company_id: comapnyID, // add the country id to the POST parameters
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (data) {
+        // `data` is from `get_topics_ajax` view function
+        let html_data =
+          '<option value="" selected disabled>------------</option>';
+        data.forEach(function (data) {
+          html_data += `<option value="${data.id}" >${data.name}</option>`;
+        });
+        $("#company_goods").html(html_data); // replace the contents of the topic input with the data that came from the server
+      },
+    });
+  });
+
+  $("#company_goods").change(function () {
+    const comapny_goods_ID = $(this).val(); // get the selected subject ID from the HTML dropdown list
+    var e = document.getElementById("company");
+    var comapnyID = e.value;
+    $.ajax({
+      // initialize an AJAX request
+      type: "POST",
+      url: '{% url "get_goods_company_ajax" %}',
+      data: {
+        company_id: comapnyID,
+        company_goods: comapny_goods_ID, // add the country id to the POST parameters
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (data) {
+        // `data` is from `get_topics_ajax` view function
+        let html_data =
+          '<option value="" selected disabled>------------</option>';
+        data.forEach(function (data) {
+          html_data += `<option value="${data.id}" >${data.goods_company_name}</option>`;
+        });
+        $("#goods_company").html(html_data); // replace the contents of the topic input with the data that came from the server
+      },
+    });
+  });
+
+  $("#company").change(function () {
+    const comapnyID = $(this).val(); // get the selected subject ID from the HTML dropdown list
+    $.ajax({
+      // initialize an AJAX request
+      type: "POST",
+      url: '{% url "get_agent_company_ajax" %}',
+      data: {
+        company_id: comapnyID, // add the country id to the POST parameters
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (data) {
+        // `data` is from `get_topics_ajax` view function
+        let html_data =
+          '<option value="" selected disabled>------------</option>';
+        data.forEach(function (data) {
+          html_data += `<option value="${data.id}" >${data.name}</option>`;
+        });
+        $("#agent").html(html_data); // replace the contents of the topic input with the data that came from the server
+      },
+    });
+  });
+
+  $("#year").change(function () {
+    url = window.location.href;
+    url = url.split("?")[0];
+    url = url + "?year=" + $(this).val();
+    location.href = url;
+  });
+</script>
+
+{% endblock content %}

@@ -1,0 +1,234 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Product List{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            <div class="col-sm-4">
+                <div class="page-header float-left">
+                    <div class="page-title">
+                        <h1>Dashboard</h1>
+                    </div>
+                </div>
+            </div>
+            {% comment %} <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Product</a></li>
+                            <li class="active">List</li>
+                        </ol>
+                    </div>
+                </div>
+            </div> {% endcomment %}
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+{% comment %} 
+<p>
+    
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Inward Report
+    </button>
+  </p>
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+      
+
+        <form method="get" action="{% url 'report_inward' %}" style="padding:15px;">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="name" class="control-label mb-1">Company Name</label>
+                    {{ filter_inward.form.company }}
+                </div>
+                
+                <label for="inputStatus">Name of Party</label>
+                <select id="agent" class="form-control-sm custom-select" name="agent">
+
+               
+
+                </select>
+                <label for="inputStatus">Crop</label>
+                <select id="company_goods" class="form-control-sm custom-select" name="company_goods">
+
+               
+
+            </select>
+
+            <label for="inputStatus">Variety</label>
+                <select id="goods_company" class="form-control-sm custom-select" name="goods_company">
+
+               
+
+            </select>
+            <div class="form-group">
+                <label for="name" class="control-label mb-1">Total Packet</label>
+                {{ filter_inward.form.DC_date_start__date }}
+            </div>
+
+            <div class="form-group">
+                <label for="name" class="control-label mb-1">Total Packet</label>
+                {{ filter_inward.form.DC_date_end__date }}
+            </div>
+
+            </div> <br>
+            
+            <button class="btn btn-primary" type="submit" > Search </button>
+
+        </form>
+    </div>
+  </div>
+   {% endcomment %}
+  
+<form method="post" action="{% url 'download' %}">
+
+    {% csrf_token %}
+
+    <input type="hidden" value="{{ link }}" name="link">
+    <button class="btn btn-primary" type="submit">
+        Download Report
+    </button> 
+</form>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="box-title">Product List </h4>
+            </div>
+            <div class="card-body--">
+                <div class="table-stats order-table ov-h">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th class="serial">#</th>
+                                <th>Party</th>
+                                <th>Place</th>
+                                <th>Company Name</th>
+                                <th>Crop</th>
+                                <th>Variety</th>
+                                <th>Total Packet</th>
+                                <th>Date</th>
+                                <th>Transport</th>
+                                <th>LR NO</th>
+                                <th>Frieght</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if data %}
+                            {% for i in data %}
+                            <tr>
+                                <td class="serial">{{ forloop.counter }}</td>
+                                <td>{{ i.0 }}</td>
+                                <td>{{ i.1 }}</td>
+                                <td>{{ i.4 }}</td>
+                                <td>{{ i.5 }}</td>
+                                <td>{{ i.6 }}</td>
+                                <td>{{ i.7 }}</td>
+                                <td>{{ i.8 }}</td>
+                                <td>{{ i.9 }}</td>
+                                <td>{{ i.10 }}</td>
+                                <td>{{ i.11 }}</td>
+                                
+                               
+                               
+                               
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                                <tr><td>No Product Data</td></tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div> <!-- /.table-stats -->
+            </div>
+        </div> <!-- /.card -->
+    </div>  <!-- /.col-lg-8 -->
+
+    
+</div>
+
+
+
+<script>
+    
+   
+
+    $("#company").change(function () {
+        const comapnyID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
+        $.ajax({                       // initialize an AJAX request
+            type: "POST",
+            url: '{% url "get_company_goods_ajax" %}',
+            data: {
+                'company_id': comapnyID,       // add the country id to the POST parameters
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {   // `data` is from `get_topics_ajax` view function
+                let html_data = '<option value="" selected disabled>------------</option>';
+                data.forEach(function (data) {
+            
+                    html_data += `<option value="${data.id}" >${data.name}</option>` 
+                });
+                $("#company_goods").html(html_data); // replace the contents of the topic input with the data that came from the server
+            }
+        });
+    });
+
+    $("#company_goods").change(function () {
+        const comapny_goods_ID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
+        var e = document.getElementById("company");
+        var comapnyID = e.value;
+        $.ajax({                       // initialize an AJAX request
+            type: "POST",
+            url: '{% url "get_goods_company_ajax" %}',
+            data: {
+                'company_id': comapnyID, 
+                'company_goods': comapny_goods_ID,       // add the country id to the POST parameters
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {   // `data` is from `get_topics_ajax` view function
+                let html_data = '<option value="" selected disabled>------------</option>';
+                data.forEach(function (data) {
+            
+                    html_data += `<option value="${data.id}" >${data.goods_company_name}</option>` 
+                });
+                $("#goods_company").html(html_data); // replace the contents of the topic input with the data that came from the server
+            }
+        });
+    });
+
+    $("#company").change(function () {
+        const comapnyID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
+        $.ajax({                       // initialize an AJAX request
+            type: "POST",
+            url: '{% url "get_agent_company_ajax" %}',
+            data: {
+                'company_id': comapnyID,       // add the country id to the POST parameters
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {   // `data` is from `get_topics_ajax` view function
+                let html_data = '<option value="" selected disabled>------------</option>';
+                data.forEach(function (data) {
+            
+                    html_data += `<option value="${data.id}" >${data.name}</option>` 
+                });
+                $("#agent").html(html_data); // replace the contents of the topic input with the data that came from the server
+            }
+        });
+    });
+    
+</script>
+
+
+
+{% endblock content %}

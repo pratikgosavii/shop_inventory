@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <style>
+            * {
+                font-size: 15px;
+            }
+
+            table {
+                table-layout: fixed;
+                width: 100%;
+            }
+
+            table th {
+                text-align: left;
+                padding: 3px;
+                padding-bottom: 0;
+            }
+
+            table td {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding: 3px;
+                padding-bottom: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+
+                <h1 style="text-align: center;
+                color: red;"> Gate Pass </h1>
+
+        <table>
+            <tr>
+                <th> Sr No:- 1111</th>
+                
+                <th style="text-align : right;"> Date:- {{ record.DC_date }} </th>
+            </tr>
+            <tr>
+            </tr><tr>
+            </tr><tr>
+            </tr>
+            <tr>
+
+                <td > Name:-  {{ record.gate_pass_name }} </td>
+                
+            </tr>
+            <tr>
+            </tr>
+            <tr > 
+                <td > Material:- {{ record.company }}, {{ record.company_goods }}, {{ record.goods_company }} </td>
+            </tr>
+
+        </table>
+    </body>
+</html>

@@ -1,0 +1,152 @@
+{% extends 'base/base.html' %}
+
+
+
+{% block title %}Create Product{% endblock title %}
+
+{% block breadcrumbs %}
+
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="icon-box">
+					<i class="material-icons">&#xE876;</i>
+				</div>				
+				<h4 class="modal-title w-100">Awesome!</h4>	
+			</div>
+			<div class="modal-body">
+				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>     
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Add Inward</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="#" id="submitform" method="post" >
+                            {% csrf_token %}
+
+                          
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Godown Name</label>
+                                <select name="godown" class="form-control" id="godown" required="" readonly>
+                                    <option value="{{ godown_instance.id }}" selected>{{ godown_instance.name }}</option>
+                                  
+                                  </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Category</label>
+                                <select name="company_goods" class="form-control" id="company_goods" required="">
+                                    <option value="" selected="">---------</option>
+                                  
+                                    {% for i in company_goods_data %}
+
+                                        <option value="{{ i.id }}">{{ i.name }}</option>
+
+                                    {% endfor %}
+                                  
+                                  
+                                  </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Size</label>
+                                {{ form.goods_company }}
+                            </div>
+
+                            
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Employee Name</label>
+                                {{ form.employee_name }}
+                            </div>
+
+                        
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Quantity</label>
+                                {{ form.bags }}
+                            </div>
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">DC Number</label>
+                                {{ form.DC_number }}
+                            </div>
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">DC Date</label>
+                                {{ form.DC_date }}
+                            </div>
+
+                          
+
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="payment-button-amount">Create Product</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- .card -->
+
+    </div><!--/.col-->
+</div>
+
+{% endblock content %}
+
+
+{% block js %}
+    
+
+<script>
+    
+   
+
+
+    $("#company_goods").change(function () {
+        const company_goodsID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
+        $.ajax({                       // initialize an AJAX request
+            type: "POST",
+            url: '{% url "get_category_ajax" %}',
+            data: {
+                'company_goods_id': company_goodsID,       // add the country id to the POST parameters
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {   // `data` is from `get_topics_ajax` view function
+                let html_data = '<option value="" selected disabled>------------</option>';
+                data.forEach(function (data) {
+            
+                    html_data += `<option value="${data.id}" >${data.goods_company_name}</option>` 
+                });
+                $("#category").html(html_data); // replace the contents of the topic input with the data that came from the server
+            }
+        });
+    });
+
+
+    
+</script>
+
+{% endblock js %}

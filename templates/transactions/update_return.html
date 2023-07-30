@@ -1,0 +1,239 @@
+{% extends 'base/base.html' %}
+
+
+
+{% block title %}Create Product{% endblock title %}
+
+{% block breadcrumbs %}
+
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Add Company Goods</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="#" method="post" >
+                            {% csrf_token %}
+
+                           
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Company Name</label>
+                                {{ form.company }}
+                            </div>
+
+                            <label for="inputStatus">Crop</label>
+                            <select id="company_goods" class="form-control-sm custom-select" name="company_goods">
+
+                           
+
+                        </select>
+
+                        <label for="inputStatus">Variety</label>
+                            <select id="goods_company" class="form-control-sm custom-select" name="goods_company">
+
+                           
+
+                        </select>
+
+                            
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Total Packet</label>
+                                {{ form.bags }}
+                            </div>
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">DC Number</label>
+                                {{ form.DC_number }}
+                            </div>
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">DC Date</label>
+                                {{ form.DC_date }}
+                            </div>
+
+                            <div style="display: flex;gap: 20px;margin: 26px 0px;">
+
+                                <label for="name" class="control-label mb-1">Transport</label>
+                                {{ form.transport }}
+
+                                <label for="name" class="control-label mb-1">LR Number</label>
+                                {{ form.LR_number }}
+
+                                <label for="name" class="control-label mb-1">Freight</label>
+                                {{ form.freight }}
+
+                            </div>
+                            
+
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="payment-button-amount">Update Product</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- .card -->
+
+    </div><!--/.col-->
+</div>
+
+
+{% endblock content %}
+
+
+{% block js %}
+
+<script>
+    
+   
+
+
+
+
+    //to select dropdown value one it get load using above code
+   
+    
+
+    $("#company").change(function () {
+        const comapnyID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
+        $.ajax({                       // initialize an AJAX request
+            type: "POST",
+            url: '{% url "get_company_goods_ajax" %}',
+            data: {
+                'company_id': comapnyID,       // add the country id to the POST parameters
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {   // `data` is from `get_topics_ajax` view function
+                let html_data = '<option value="" selected disabled>------------</option>';
+                data.forEach(function (data) {
+            
+                    html_data += `<option value="${data.id}" >${data.name}</option>` 
+                });
+                $("#company_goods").html(html_data); // replace the contents of the topic input with the data that came from the server
+            }
+        });
+    });
+
+    $("#company_goods").change(function () {
+        const comapny_goods_ID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
+        var e = document.getElementById("company");
+        var comapnyID = e.value;
+        $.ajax({                       // initialize an AJAX request
+            type: "POST",
+            url: '{% url "get_goods_company_ajax" %}',
+            data: {
+                'company_id': comapnyID, 
+                'company_goods': comapny_goods_ID,       // add the country id to the POST parameters
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {   // `data` is from `get_topics_ajax` view function
+                let html_data = '<option value="" selected disabled>------------</option>';
+                data.forEach(function (data) {
+            
+                    html_data += `<option value="${data.id}" >${data.goods_company_name}</option>` 
+                });
+                $("#goods_company").html(html_data); // replace the contents of the topic input with the data that came from the server
+            }
+        });
+    });
+
+    $("#company").change(function () {
+        const comapnyID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
+        $.ajax({                       // initialize an AJAX request
+            type: "POST",
+            url: '{% url "get_agent_company_ajax" %}',
+            data: {
+                'company_id': comapnyID,       // add the country id to the POST parameters
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {   // `data` is from `get_topics_ajax` view function
+                let html_data = '<option value="" selected disabled>------------</option>';
+                data.forEach(function (data) {
+            
+                    html_data += `<option value="${data.id}" >${data.name}</option>` 
+                });
+                $("#agent").html(html_data); // replace the contents of the topic input with the data that came from the server
+            }
+        });
+    });
+
+
+
+    
+    // help to enter value in dropdown when page gets load
+    //runonly one time
+    $.ajax({                       // initialize an AJAX request
+        type: "POST",
+        url: '{% url "get_company_goods_ajax" %}',
+        data: {
+            'company_id': {{ comapnyID }},       // add the country id to the POST parameters
+            'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {   // `data` is from `get_topics_ajax` view function
+            let html_data = '<option value="" selected disabled>------------</option>';
+            data.forEach(function (data) {
+        
+                html_data += `<option value="${data.id}" >${data.name}</option>` 
+            });
+            $("#company_goods").html(html_data); // replace the contents of the topic input with the data that came from the server
+            $("#company_goods").val({{ comapny_goods_ID }});
+            
+        }
+    });
+   
+   
+    
+    $.ajax({                       // initialize an AJAX request
+        type: "POST",
+        url: '{% url "get_goods_company_ajax" %}',
+        data: {
+            'company_id': {{ comapnyID }}, 
+            'company_goods': {{ comapny_goods_ID }},       // add the country id to the POST parameters
+            'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {   // `data` is from `get_topics_ajax` view function
+            let html_data = '<option value="" selected disabled>------------</option>';
+            data.forEach(function (data) {
+        
+                html_data += `<option value="${data.id}" >${data.goods_company_name}</option>` 
+            });
+            $("#goods_company").html(html_data); // replace the contents of the topic input with the data that came from the server
+            $("#goods_company").val({{ goods_company_ID }});
+        }
+    });
+
+
+    $.ajax({                       // initialize an AJAX request
+        type: "POST",
+        url: '{% url "get_agent_company_ajax" %}',
+        data: {
+            'company_id': {{ comapnyID }}, 
+            'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {   // `data` is from `get_topics_ajax` view function
+            let html_data = '<option value="" selected disabled>------------</option>';
+            data.forEach(function (data) {
+        
+                html_data += `<option value="${data.id}" >${data.name}</option>` 
+            });
+            $("#agent").html(html_data); // replace the contents of the topic input with the data that came from the server
+            $("#agent").val({{ agent_ID }});
+        
+        }
+    });
+    
+
+
+
+</script>
+ 
+{% endblock js %}
