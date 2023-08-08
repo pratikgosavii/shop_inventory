@@ -7,11 +7,18 @@
 {% block head %}
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    
 <style>
+
+
+    #video {
+        display: none;
+    }
 
 
     .table {
@@ -88,7 +95,7 @@
                 <!-- Credit Card -->
                 <div id="pay-invoice">
                     <div class="card-body">
-                        <form action="#" id="submitform" method="post">
+                        <form onsubmit="submitForm(event)" id="submitform" method="post">
                             {% csrf_token %}
 
                             
@@ -140,15 +147,20 @@
 
                                     {% for i in data %}
 
+                                        {% for z in i.project_material_re.all %}
+
                                     <tr>
-                                        <td> {{ i.product.category }} </td>
-                                        <td> {{ i.product.size }} </td>
-                                        <td> {{ i.product.grade }} </td>
-                                        <td> {{ i.product.thickness }} </td>
-                                        <td>  <video id="preview" style="width: 100%; height: auto;"></video>
-                                            <i id="startScanningIcon" class="fas fa-camera fa-2x" style="cursor: pointer;"></i> </td>
+                                        <td> {{ z.project_material.product.category }} </td>
+                                        <td> {{ z.project_material.product.size }} </td>
+                                        <td> {{ z.project_material.product.grade }} </td>
+                                        <td> {{ z.project_material.product.thickness }} </td>
+                                        <td>  <video id="video" width="320" height="240" autoplay></video>
+                                                <button class="btn btn-success startButton" id="{{ z.id }}">Start Scanning</button>
+                                                <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+                                        </td>
                                     </tr>
 
+                                    {% endfor %}
                                     {% endfor %}
 
                                 
@@ -178,49 +190,74 @@
     
 
 <script>
+
+    let material_id = [];
+    let scanned_value = [];
     
+    document.addEventListener("DOMContentLoaded", function () {
+        const video = document.getElementById("video");
+    const startButtons = document.querySelectorAll(".startButton");
+    let scanners = [];
 
+    function startVideo(buttonId) {
+        if (navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then((stream) => {
+                    video.style.display = "block";
+                    video.srcObject = stream;
+                    scanners[buttonId] = new Instascan.Scanner({ video: video });
+                    scanners[buttonId].addListener("scan", function (content) {
+                        const scannedValue = content;
+                        stopVideo(buttonId);
+                        console.log("Button ID: ", buttonId, ", Scanned Value: ", scannedValue);
+                        material_id.push(buttonId)
+                        scanned_value.push(scannedValue)
+                        console.log(material_id)
+                        console.log(scanned_value)
+                    });
+                    Instascan.Camera.getCameras().then(function (cameras) {
+                        if (cameras.length > 0) {
+                            scanners[buttonId].start(cameras[0]);
+                        } else {
+                            console.error("No cameras found.");
+                        }
+                    });
+                })
+                .catch((err) => {
+                    console.error("Error accessing camera:", err);
+                });
+        } else {
+            console.error("getUserMedia not supported.");
+        }
+    }
 
+    function stopVideo(buttonId) {
+        if (scanners[buttonId]) {
+            scanners[buttonId].stop();
+        }
 
- const scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
-        scanner.addListener('scan', function (content) {
-            // Handle the scanned QR code content here
-            alert('Scanned QR code: ' + content);
+        const stream = video.srcObject;
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+        video.srcObject = null;
 
-            // Stop the scanner after a QR code is detected
-            scanner.stop();
-            // You can make an AJAX request to your Django backend to mark the QR code as scanned
-            // Example: $.post('/mark_qr_code_as_scanned/', { content: content });
-        });
-
-        Instascan.Camera.getCameras().then(function (cameras) {
-            if (cameras.length > 0) {
-                // Comment this line to start scanning automatically without the icon click
-                // scanner.start(cameras[0]);
-            } else {
-                console.error('No cameras found.');
+        video.style.display = "none";
+        startButtons.forEach((button) => {
+            if (button.id === buttonId) {
+                button.disabled = false;
             }
-        }).catch(function (e) {
-            console.error(e);
         });
+    }
 
-        // Add event listener to the icon to start scanning when clicked
-        const startScanningIcon = document.getElementById('startScanningIcon');
-        startScanningIcon.addEventListener('click', function () {
-            Instascan.Camera.getCameras().then(function (cameras) {
-                if (cameras.length > 0) {
-                    scanner.start(cameras[0]);
-                } else {
-                    console.error('No cameras found.');
-                }
-            }).catch(function (e) {
-                console.error(e);
-            });
+    startButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+            const buttonId = this.id;
+            startVideo(buttonId);
+            this.disabled = true;
         });
-
-
-
-
+    });
+    });
+    
 
     $("#company_goods").change(function () {
         const company_goodsID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
@@ -232,12 +269,13 @@
                 'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
             },
             success: function (data) {   // `data` is from `get_topics_ajax` view function
-                let html_data = '<option value="" selected disabled>------------</option>';
-                data.forEach(function (data) {
-            
-                    html_data += `<option value="${data.id}" >${data.goods_company_name}</option>` 
-                });
-                $("#category").html(html_data); // replace the contents of the topic input with the data that came from the server
+              data = json.parse(data)
+
+              console.log(data)
+
+              if(data.status == "done"){
+                href.window.location = "{% url 'list_project' %}"
+              }
             }
         });
     });
@@ -280,7 +318,31 @@ tableBody.addEventListener('click', function(event) {
     }
   });
 
+
+
+  
+  function submitForm(event) {
+    event.preventDefault(); // Prevent form submission to avoid page reload
+
+    alert('sdsdsd')
+
+    $.ajax({                       // initialize an AJAX request
+        type: "POST",
+        url: '{% url "assign_matarial_qr" project_id %}',
+        data: {
+            'material_id': [...material_id],       // add the country id to the POST parameters
+            'scanned_value': [...scanned_value],       // add the country id to the POST parameters
+            'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function (data) {   // `data` is from `get_topics_ajax` view function
+            console.log(data.value)
+        }
+    });
+
     
+}
+
+
 
 </script>
 

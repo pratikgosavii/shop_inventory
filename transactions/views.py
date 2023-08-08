@@ -1787,7 +1787,10 @@ def add_project(request):
 
                     product_id = created
 
-                project_material.objects.create(product = product_id, project = project_instance, quantity = i)
+                project_material_instance = project_material.objects.create(product = product_id, project = project_instance, quantity = i)
+
+                for z in range(int(i)): 
+                    project_matarial_qr.objects.create(project_material = project_material_instance)
               
             return redirect('list_project')
 
@@ -1822,10 +1825,38 @@ def assign_matarial_qr(request, project_id):
 
     project_instance = project.objects.get(id = project_id)
 
+    print(request.POST)
 
     if request.method == 'POST':
 
-        print(request.POST)
+        
+
+        material = request.POST.getlist('material_id[]')
+        scan = request.POST.getlist('scanned_value[]')
+
+
+
+        print(material)
+        print(scan)
+
+        for i, z in zip(material, scan):
+
+            pro = project_matarial_qr.objects.get(id = i)
+            product_qr_instance = product_qr.objects.get(id = z)
+            pro.product_qr = product_qr_instance
+            pro.save()
+
+
+
+        some_data_to_dump = {
+            'status': 'done',
+        }
+
+
+        return JsonResponse((some_data_to_dump), safe = False) 
+
+
+
 
        
 
@@ -1844,6 +1875,7 @@ def assign_matarial_qr(request, project_id):
             'form': forms,
             'data_form': data_form,
             'data': data,
+            'project_id': project_id,
         }
         return render(request, 'transactions/assign_material_qr.html', context)
 
@@ -1869,10 +1901,9 @@ def generate_qr_codes_pdf(qr_codes):
     doc = SimpleDocTemplate(buffer, pagesize=A4)
     elements = []
 
-    col_count = 6
+    col_count = 4
     qr_width = 150
     qr_height = 150
-    qr_margin = 20
 
     data = []
     row = []
@@ -1902,16 +1933,18 @@ def generate_qr_codes_pdf(qr_codes):
 
 def generate_product_qr(request):
 
+    quantity = request.POST.get('quantity')
+
     qr_codes = []
 
-    for i in range(2):
+    for i in range(int(quantity)):
 
         a = product_qr.objects.create()
 
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=10,
+            box_size=5,
             border=4,
         )
         qr.add_data(a.id)
@@ -1938,7 +1971,53 @@ def generate_product_qr(request):
     return response
 
 
-    return response
+
+
+
+def scanner_page(request):
+
+    return render(request, 'transactions/scanner.html')
+
+def assign_values_to_qr(request):
+
+    product_id = request.POST.get('scanned_value')
+
+    product_qr_instance = product_qr.objects.get(id = product_id)
+
+    if request.method == 'POST':
+
+
+        form = product_Form(request.POST)
+
+        if form.is_valid():
+            book, created = product.objects.get_or_create(**form.cleaned_data)
+
+            if book:
+
+                product_instance = book
+
+            else:
+
+                product_instance = created
+
+            
+            product_qr_instance.product = product_instance
+            product_qr_instance.save()
+
+
+    else:
+
+        forms = product_Form(instance=product_qr_instance)
+
+        context = {
+            'form': forms
+        }
+
+        return render(request, 'transactions/assign_value_to_qr.html', context)
+
+
+    
+
 
 def update_product(request, product_id):
 

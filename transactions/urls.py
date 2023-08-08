@@ -28,6 +28,9 @@ urlpatterns = [
 
 
     path('generate-product-qr/', generate_product_qr, name='generate_product_qr'),
+    
+    path('scanner-page', scanner_page, name='scanner_page'),
+    path('assign-values-to-qr', assign_values_to_qr, name='assign_values_to_qr'),
 
 
     path('list-stock/', generate_report_stock, name='list_stock'),

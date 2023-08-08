@@ -54,8 +54,21 @@
     </div>
 
     
-    <div class="form-group">
-        <a href="{% url 'generate_product_qr' %}"> <button class="btn btn-success form-input"> Generate QR </button> </a>
+    <div class="form-group" style="display: flex">
+
+        <form action="{% url 'generate_product_qr' %}" method="post" style="display: flex; gap: 40px;">
+
+            {% csrf_token %}
+
+            <input type="text" class="form-control" style="width : 263px;" name="quantity" placeholder="Enter Material Quantity">
+            <button type="submit" class="btn btn-success form-input"> Generate QR </button>
+
+        </form>
+
+
+         <a style="margin-left : 20px;" href="{% url 'scanner_page' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan QR </button> </a>
+
+
     </div>
 
 
