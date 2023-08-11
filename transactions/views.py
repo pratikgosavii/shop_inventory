@@ -1975,16 +1975,54 @@ def generate_product_qr(request):
 
 
 def scanner_page(request):
-
-    return render(request, 'transactions/scanner.html')
-
-def assign_values_to_qr(request):
-
+    
     product_id = request.POST.get('scanned_value')
 
+    context = {
+                'product_id': product_id,
+        }
+
+    return render(request, 'transactions/scanner.html', context)
+
+def assign_values_to_qr_page(request):
+
+    scanned_value = request.POST.get("scanned_value")
+
+    
+    redirect_url = reverse('assign_values_to_qr', args=[scanned_value]) 
+    response_data = {'status' : 'success', 'redirect_url': redirect_url}
+    return JsonResponse(response_data)
+    
+
+def assign_values_to_qr_page_data(request, product_qr_id):
+
+    product_qr_instance = product_qr.objects.get(id = product_qr_id)
+
+    product_form = product_Form(instance = product_qr_instance.product)
+    
+    context = {
+        'form': product_form,
+    }
+
+    return render(request, 'transactions/assign_values_to_qr_page_data.html', context)
+    
+
+def assign_values_to_qr(request, product_qr_id):
+    
+    product_id = product_qr_id
+
+    
     product_qr_instance = product_qr.objects.get(id = product_id)
 
     if request.method == 'POST':
+
+
+        print('-------------------')
+        print('-------------------')
+        print('-------------------')
+        print(product_id)
+
+        print(product_qr_instance)
 
 
         form = product_Form(request.POST)
@@ -2004,18 +2042,27 @@ def assign_values_to_qr(request):
             product_qr_instance.product = product_instance
             product_qr_instance.save()
 
+            print('-------------product_id-------------')
+            print(product_id)
 
-    else:
+            redirect_url = reverse('assign_values_to_qr_page_data', args=[product_qr_id])
 
-        forms = product_Form(instance=product_qr_instance)
+            return redirect(redirect_url)
 
+
+
+
+    else:    
+
+        form = product_Form(instance=product_qr_instance.product)
+
+        
         context = {
-            'form': forms
+            'form': form,
+            'product_qr_id': product_qr_id,
         }
 
         return render(request, 'transactions/assign_value_to_qr.html', context)
-
-
     
 
 

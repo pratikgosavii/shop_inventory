@@ -1,76 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QR Code Scanner</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.2.0/html5-qrcode.min.js"></script>
-
-  
-
-  <style>
-    h1 {
-        text-align: center;
-      }
-      
-      #reader {
-        width: 500px;
-      }
-      
-      .result {
-        background-color: green;
-        color: #fff;
-        padding: 20px;
-      }
-      
-      .row {
-        display: flex;
-      }
-      
-      #reader__scan_region {
-        background: white;
-      }
-      
-      
-  </style>
-
+    <title>QR Code Scanner</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        #scanner-container {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        #scanner-video {
+            width: 100%;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
-
-    <!-- QR SCANNER CODE BELOW  -->
-    <div class="row">
-      <div class="col">
-        <div id="reader"></div>
-      </div>
-      <div class="col" style="padding: 30px">
-      
-      </div>
-    
+  <form method="post">
+    {% csrf_token %}
+    <div id="scanner-container">
+        <video id="scanner-video"></video>
     </div>
-  <script>
+    </form>
 
-   // When scan is successful fucntion will produce data
-function onScanSuccess(qrCodeMessage) {
-    console.log('sdsdsd')
-  }
-  
-  // When scan is unsuccessful fucntion will produce error message
-  function onScanError(errorMessage) {
-    // Handle Scan Error
-  }
-  
-  // Setting up Qr Scanner properties
-  var html5QrCodeScanner = new Html5QrcodeScanner("reader", {
-    fps: 10,
-    qrbox: 250
-  });
-  
-  // in
-  html5QrCodeScanner.render(onScanSuccess, onScanError);
-  
-  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <script>
 
-  </script>
+        const scannerContainer = document.getElementById('scanner-container');
+        const scannerVideo = document.getElementById('scanner-video');
+    
+        Instascan.Camera.getCameras().then(function (cameras) {
+            if (cameras.length > 0) {
+                const scanner = new Instascan.Scanner({ video: scannerVideo });
+                scanner.addListener('scan', function (content) {
+                    console.log('Scanned:', content);
+                    scanner.stop(); 
+                    $.ajax({                       // initialize an AJAX request
+                      type: "POST",
+                      url: '{% url "assign_values_to_qr_page" %}',
+                      data: {
+                          'scanned_value': content,       // add the country id to the POST parameters
+                          'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+                      },
+                      success: function (data) {   // `data` is from `get_topics_ajax` view function
+                          console.log(data.value)
+                          if(data.status = "success"){
+                            const redirectUrl = data.redirect_url;
+                            console.log('Received redirect URL:', redirectUrl);
+                            
+                            // Redirect the user to the received URL
+                            window.location.href = redirectUrl;
+                          }
+                      }
+                  });
+
+                });
+                scanner.start(cameras[0]);
+            } else {
+                console.error('No cameras found.');
+            }
+        });
+
+
+
+
+
+
+
+
+    </script>
 </body>
 </html>
