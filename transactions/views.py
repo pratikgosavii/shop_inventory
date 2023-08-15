@@ -1702,25 +1702,23 @@ def list_project(request):
     return render(request, 'transactions/list_projects.html', context)
 
 @login_required(login_url='login')
-def close_project(request):
+def close_project(request, project_id):
 
-  
-    data = request_material.objects.all()
+    project_instance = project.objects.get(id = project_id)
 
-    
-    page = request.GET.get('page', 1)
-    paginator = Paginator(data, 50)
+    forms = project_Form(instance = project_instance)
 
-    try:
-        data = paginator.page(page)
-    except PageNotAnInteger:
-        data = paginator.page(1)
-    except EmptyPage:
-        data = paginator.page(paginator.num_pages)
+    data_form = product_Form()
+
+    data = project_material.objects.filter(project = project_instance)
+
+    print(data)
 
     context = {
+        'form': forms,
+        'data_form': data_form,
         'data': data,
-       
+        'project_id': project_id,
     }
 
     return render(request, 'transactions/close_project.html', context)

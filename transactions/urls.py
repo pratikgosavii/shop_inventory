@@ -19,7 +19,7 @@ urlpatterns = [
     
     path('add-project/', add_project, name='add_project'),
     path('list-project/', list_project, name='list_project'),
-    path('close-project/', close_project, name='close_project'),
+    path('close-project/<project_id>', close_project, name='close_project'),
 
     path('assign-matarial-qr/<project_id>', assign_matarial_qr, name='assign_matarial_qr'),
     

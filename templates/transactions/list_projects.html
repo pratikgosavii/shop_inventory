@@ -78,7 +78,7 @@
                 <td>{{ i.customer }}</td>
                 <td>{{ i.description }}</td>
                 <td>{{ i.DC_date }}</td>
-                <td style="display:flex; gap:10px;" > <a href="{% url 'assign_matarial_qr' i.id %}"> <i class="fa fa-qrcode" style="font-size: 1.5em;" aria-hidden="true"></i> </a> <a href="{% url 'close_project' %}">   <i class="fa fa-info-circle" style="font-size: 1.5em;" aria-hidden="true"> </i> </a> <a> <i class="fa fa-trash" style="font-size: 1.5em;" aria-hidden="true"></i> </a> </td>
+                <td style="display:flex; gap:10px;" > <a href="{% url 'assign_matarial_qr' i.id %}"> <i class="fa fa-qrcode" style="font-size: 1.5em;" aria-hidden="true"></i> </a> <a href="{% url 'close_project' i.id %}">   <i class="fa fa-info-circle" style="font-size: 1.5em;" aria-hidden="true"> </i> </a> <a> <i class="fa fa-trash" style="font-size: 1.5em;" aria-hidden="true"></i> </a> </td>
 
               </tr>
 
