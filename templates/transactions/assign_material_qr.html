@@ -192,16 +192,16 @@
 <script>
 
     let material_id = [];
-    let scanned_value = [];
-    
-    document.addEventListener("DOMContentLoaded", function () {
-        const video = document.getElementById("video");
+let scanned_value = [];
+
+document.addEventListener("DOMContentLoaded", function () {
+    const video = document.getElementById("video");
     const startButtons = document.querySelectorAll(".startButton");
     let scanners = [];
 
-    function startVideo(buttonId) {
+    function startVideo(buttonId, camera) {
         if (navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: true })
+            navigator.mediaDevices.getUserMedia({ video: { deviceId: camera.id } })
                 .then((stream) => {
                     video.style.display = "block";
                     video.srcObject = stream;
@@ -215,13 +215,7 @@
                         console.log(material_id)
                         console.log(scanned_value)
                     });
-                    Instascan.Camera.getCameras().then(function (cameras) {
-                        if (cameras.length > 0) {
-                            scanners[buttonId].start(cameras[0]);
-                        } else {
-                            console.error("No cameras found.");
-                        }
-                    });
+                    scanners[buttonId].start(camera);
                 })
                 .catch((err) => {
                     console.error("Error accessing camera:", err);
@@ -252,12 +246,19 @@
     startButtons.forEach((button) => {
         button.addEventListener("click", function () {
             const buttonId = this.id;
-            startVideo(buttonId);
-            this.disabled = true;
+            Instascan.Camera.getCameras().then(function (cameras) {
+                const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
+                if (backCamera) {
+                    startVideo(buttonId, backCamera);
+                    this.disabled = true;
+                } else {
+                    console.error("Back camera not found.");
+                }
+            });
         });
     });
-    });
-    
+});
+
 
 
    $(document).ready(function() {
