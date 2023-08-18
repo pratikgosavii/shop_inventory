@@ -2100,6 +2100,8 @@ def assign_values_to_qr(request, product_qr_id):
             print('-------------product_id-------------')
             print(product_id)
 
+            messages.success(request, 'values added successfully')
+
             redirect_url = reverse('assign_values_to_qr_page_data', args=[product_qr_id])
 
             return redirect(redirect_url)
