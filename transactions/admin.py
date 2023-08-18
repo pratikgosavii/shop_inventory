@@ -10,3 +10,5 @@ from .models import *
 admin.site.register(project_material)
 admin.site.register(project_matarial_qr)
 admin.site.register(stock)
+admin.site.register(material_history)
+admin.site.register(project)

@@ -29,6 +29,7 @@ class project(models.Model):
     DC_date = models.DateField(auto_now_add=False)
     description = models.CharField( max_length=50)
     employee_name = models.CharField( max_length=50)
+    completed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.description
@@ -44,6 +45,20 @@ class project_material(models.Model):
 
     def __str__(self):
         return self.project.employee_name
+
+
+from store.models import * 
+
+class material_history(models.Model):
+
+    product_qr = models.ForeignKey(product_qr, on_delete=models.CASCADE, related_name = "fdthfh")
+    previous_size = models.CharField(max_length=50)
+    used_size = models.CharField(max_length=50)
+    left_size = models.CharField(max_length=50)
+
+
+    def __str__(self):
+        return self.product_qr.id
 
 
 

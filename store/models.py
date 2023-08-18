@@ -53,7 +53,7 @@ class category(models.Model):
 
 class size(models.Model):
     
-    category = models.ForeignKey(category, on_delete=models.CASCADE)
+    category = models.ForeignKey(category, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=120, unique=False)
 
     def __str__(self):

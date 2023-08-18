@@ -66,11 +66,24 @@
 
               {% for i in data %}
 
+
+              {% if i.completed == True %}
+
+              <tr
+                data-toggle="collapse"
+                data-target="#demo{{ forloop.counter }}"
+                class="accordion-toggle" style="background: #ffd890;"
+              >
+
+              {% else %}
+
               <tr
                 data-toggle="collapse"
                 data-target="#demo{{ forloop.counter }}"
                 class="accordion-toggle"
               >
+
+              {% endif %}
                 
                 <input type="hidden" value="{{ i.id }}" />
                 <td class="serial">{{ i.id }}</td>

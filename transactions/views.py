@@ -1701,27 +1701,84 @@ def list_project(request):
 
     return render(request, 'transactions/list_projects.html', context)
 
+
+import json
+
 @login_required(login_url='login')
 def close_project(request, project_id):
 
-    project_instance = project.objects.get(id = project_id)
+    print('here')
 
-    forms = project_Form(instance = project_instance)
+    if request.method == 'POST':
 
-    data_form = product_Form()
+        print('here')
 
-    data = project_material.objects.filter(project = project_instance)
+        print(request.POST)
 
-    print(data)
 
-    context = {
-        'form': forms,
-        'data_form': data_form,
-        'data': data,
-        'project_id': project_id,
-    }
+        project_instance = project.objects.get(id = project_id)
+        project_instance.completed = True
 
-    return render(request, 'transactions/close_project.html', context)
+        size_value = request.POST.getlist('size[]')
+        used_size = request.POST.getlist('used_size[]')
+        left_size = request.POST.getlist('left_size[]')
+        material = request.POST.getlist('materialsId[]')
+
+        print('------------------------------')
+        print('------------------------------')
+        print('------------------------------')
+        print('------------------------------')
+        print('------------------------------')
+        print(size)
+        print(used_size)
+        print(left_size)
+        print(material)
+       
+       
+
+        for a,b,c,d in zip(material, size_value, used_size, left_size):
+
+            print(a)
+            print(b)
+            print(c)
+            print(d)
+            size_instance1 = size.objects.get_or_create(name = b)
+            size_instance2 = size.objects.get_or_create(name = d)
+            
+            instance = project_material.objects.get(id = a)
+
+            product_instance = instance.product
+            # Now, retrieve the related project_qr instance
+            project_qr_instance = product_qr.objects.get(product=product_instance)
+
+            material_history.objects.create(product_qr = project_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = d)
+
+        project_instance.save()
+
+
+
+        return JsonResponse({'status' : 'done'})
+    
+    else:
+
+        project_instance = project.objects.get(id = project_id)
+
+        forms = project_Form(instance = project_instance)
+
+        data_form = product_Form()
+
+        data = project_material.objects.filter(project = project_instance)
+
+        print(data)
+
+        context = {
+            'form': forms,
+            'data_form': data_form,
+            'data': data,
+            'project_id': project_id,
+        }
+
+        return render(request, 'transactions/close_project.html', context)
 
 
 
@@ -2054,9 +2111,15 @@ def assign_values_to_qr(request, product_qr_id):
 
         form = product_Form(instance=product_qr_instance.product)
 
+        data = material_history.objects.filter(product_qr__id = product_qr_id)
+
+
+
+
         
         context = {
             'form': form,
+            'data': data,
             'product_qr_id': product_qr_id,
         }
 
