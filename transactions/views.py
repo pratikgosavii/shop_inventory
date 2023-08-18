@@ -1904,6 +1904,7 @@ def assign_matarial_qr(request, project_id):
 
         url = reverse('list_project')
 
+        print(url)
 
         some_data_to_dump = {
             'status': 'done',
