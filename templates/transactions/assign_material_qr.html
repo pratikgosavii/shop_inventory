@@ -197,7 +197,7 @@ let scanned_value = [];
 document.addEventListener("DOMContentLoaded", function () {
     const video = document.getElementById("video");
     const startButtons = document.querySelectorAll(".startButton");
-    let scanners = [];
+    let scanner = null;
 
     function startVideo(buttonId, camera) {
         if (navigator.mediaDevices.getUserMedia) {
@@ -205,17 +205,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then((stream) => {
                     video.style.display = "block";
                     video.srcObject = stream;
-                    scanners[buttonId] = new Instascan.Scanner({ video: video });
-                    scanners[buttonId].addListener("scan", function (content) {
+                    scanner = new Instascan.Scanner({ video: video });
+                    scanner.addListener("scan", function (content) {
                         const scannedValue = content;
                         stopVideo(buttonId);
                         console.log("Button ID: ", buttonId, ", Scanned Value: ", scannedValue);
-                        material_id.push(buttonId)
-                        scanned_value.push(scannedValue)
-                        console.log(material_id)
-                        console.log(scanned_value)
+                        material_id.push(buttonId);
+                        scanned_value.push(scannedValue);
+                        console.log(material_id);
+                        console.log(scanned_value);
                     });
-                    scanners[buttonId].start(camera);
+                    scanner.start(camera);
                 })
                 .catch((err) => {
                     console.error("Error accessing camera:", err);
@@ -226,8 +226,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function stopVideo(buttonId) {
-        if (scanners[buttonId]) {
-            scanners[buttonId].stop();
+        if (scanner) {
+            scanner.stop();
+            scanner = null;
         }
 
         const stream = video.srcObject;
@@ -258,6 +259,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+
+
 
 
 
@@ -304,7 +307,6 @@ tableBody.addEventListener('click', function(event) {
   function submitForm(event) {
     event.preventDefault(); // Prevent form submission to avoid page reload
 
-    alert('sdsdsd')
 
     $.ajax({                       // initialize an AJAX request
         type: "POST",
