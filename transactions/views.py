@@ -1907,7 +1907,7 @@ def assign_matarial_qr(request, project_id):
 
         some_data_to_dump = {
             'status': 'done',
-            'url': 'url',
+            'url': url,
         }
 
 
