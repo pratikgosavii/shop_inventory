@@ -35,39 +35,45 @@
     <script>
 
         const scannerContainer = document.getElementById('scanner-container');
-        const scannerVideo = document.getElementById('scanner-video');
-    
-        Instascan.Camera.getCameras().then(function (cameras) {
-            if (cameras.length > 0) {
-                const scanner = new Instascan.Scanner({ video: scannerVideo });
-                scanner.addListener('scan', function (content) {
-                    console.log('Scanned:', content);
-                    scanner.stop(); 
-                    $.ajax({                       // initialize an AJAX request
-                      type: "POST",
-                      url: '{% url "assign_values_to_qr_page" %}',
-                      data: {
-                          'scanned_value': content,       // add the country id to the POST parameters
-                          'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
-                      },
-                      success: function (data) {   // `data` is from `get_topics_ajax` view function
-                          console.log(data.value)
-                          if(data.status = "success"){
+const scannerVideo = document.getElementById('scanner-video');
+
+Instascan.Camera.getCameras().then(function (cameras) {
+    if (cameras.length > 0) {
+        // Find the back camera (usually the last one in the list)
+        const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
+
+        if (backCamera) {
+            const scanner = new Instascan.Scanner({ video: scannerVideo });
+            scanner.addListener('scan', function (content) {
+                console.log('Scanned:', content);
+                scanner.stop(); 
+                $.ajax({
+                    type: "POST",
+                    url: '{% url "assign_values_to_qr_page" %}',
+                    data: {
+                        'scanned_value': content,
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                    },
+                    success: function (data) {
+                        console.log(data.value)
+                        if (data.status === "success") { // Fix the comparison operator
                             const redirectUrl = data.redirect_url;
                             console.log('Received redirect URL:', redirectUrl);
-                            
-                            // Redirect the user to the received URL
                             window.location.href = redirectUrl;
-                          }
-                      }
-                  });
-
+                        }
+                    }
                 });
-                scanner.start(cameras[0]);
-            } else {
-                console.error('No cameras found.');
-            }
-        });
+
+            });
+            scanner.start(backCamera); // Start the back camera
+        } else {
+            console.error('Back camera not found.');
+        }
+    } else {
+        console.error('No cameras found.');
+    }
+});
+
 
 
 
