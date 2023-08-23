@@ -20,6 +20,11 @@ urlpatterns = [
     path('update-customer/<customer_id>', update_customer, name='update_customer'),
     path('delete-customer/<customer_id>', delete_customer, name='delete_customer'),
     path('list-customer/', list_customer, name='list_customer'),
+    
+    path('add-employee/', add_employee, name='add_employee'),
+    path('update-employee/<employee_id>', update_employee, name='update_employee'),
+    path('delete-employee/<employee_id>', delete_employee, name='delete_employee'),
+    path('list-employee/', list_employee, name='list_employee'),
 
     path('add-dealer/', add_dealer, name='add_dealer'),
     path('update-dealer/<dealer_id>', update_dealer, name='update_dealer'),

@@ -31,6 +31,16 @@ class customer(models.Model):
     def __str__(self):
         return self.name
 
+class employee(models.Model):
+
+    name = models.CharField(max_length=120, unique=False)
+    address = models.CharField(max_length=120, unique=False)
+    mobile_no = models.IntegerField()
+    
+    
+    def __str__(self):
+        return self.name
+
 
 
 
@@ -45,9 +55,6 @@ class category(models.Model):
     def __str__(self):
         return self.name
 
-    
-    def __str__(self):
-        return self.name
 
 
 
@@ -104,3 +111,6 @@ class product_qr(models.Model):
     shelf = models.ForeignKey(godown, on_delete=models.CASCADE, null = True, blank = True)
     product = models.ForeignKey(product, on_delete=models.CASCADE, related_name = "project_material_re", null = True, blank = True)
     qr_code = models.ImageField(upload_to='static/qrcode/', height_field=None, width_field=None, max_length=None, null = True, blank = True)
+    supplier = models.ForeignKey(dealer, on_delete=models.CASCADE, null = True, blank = True)
+
+    date_of_pur = models.DateField(auto_now_add=False)

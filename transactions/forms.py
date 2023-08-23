@@ -50,11 +50,11 @@ class project_Form(forms.ModelForm):
         fields = '__all__'
         widgets = {
            
-            'employee_name': forms.TextInput(attrs={
+            'employee_name': forms.Select(attrs={
                 'class': 'form-control', 'id': 'employee_name'
             }),
 
-            'customer': forms.Select(attrs={
+            'customer': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'customer'
             }),
            
@@ -114,6 +114,9 @@ class product_qr_Form(forms.ModelForm):
             'grade': forms.Select(attrs={
                 'class': 'form-control', 'id': 'gradeyy'
             }),
+
+            'date_of_pur': DateInput(attrs={ 'class': 'form-control', 'type': 'date'}, format = '%Y-%m-%d'),
+              
           
           
             

@@ -54,12 +54,26 @@
                         <li><i class="fa fa-th"></i><a href="{% url 'list_dealer' %}">View</a></li>
                     </ul>
                 </li>
-
+{% comment %} 
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Customer </a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_customer' %}">Add</a></li>
                         <li><i class="fa fa-th"></i><a href="{% url 'list_customer' %}">View</a></li>
+                    </ul>
+                </li> {% endcomment %}
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Employee </a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_employee' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_employee' %}">View</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>All Materials </a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'list_generated_product_qr' %}">View</a></li>
                     </ul>
                 </li>
 

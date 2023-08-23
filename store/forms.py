@@ -74,6 +74,27 @@ class customer_Form(forms.ModelForm):
             
         }
 
+class employee_Form(forms.ModelForm):
+    class Meta:
+        model = employee
+        fields = '__all__'
+        widgets = {
+           
+            'name': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'name'
+            }),
+            'address': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'name'
+            }),
+            'mobile_no': forms.NumberInput(attrs={
+                'class': 'form-control', 'id': 'name'
+            }),
+            
+           
+     
+            
+        }
+
 
 
 

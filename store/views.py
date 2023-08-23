@@ -262,6 +262,76 @@ def list_customer(request):
     }
     return render(request, 'store/list_customer.html', context)
 
+@login_required(login_url='login')
+def add_employee(request):
+
+    if request.method == 'POST':
+
+        forms = employee_Form(request.POST)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_employee')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        forms = employee_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'store/add_employee.html', context)
+
+        
+
+@login_required(login_url='login')
+def update_employee(request, employee_id):
+
+    if request.method == 'POST':
+
+        instance = employee.objects.get(id=employee_id)
+
+        forms = employee_Form(request.POST, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_employee')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        instance = employee.objects.get(id=employee_id)
+        forms = employee_Form(instance=instance)
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'store/add_employee.html', context)
+
+        
+
+@login_required(login_url='login')
+def delete_employee(request, employee_id):
+
+    employee.objects.get(id=employee_id).delete()
+
+    request.session['employee'] = None
+
+    return HttpResponseRedirect(reverse('list_company_delete'))
+
+
+@login_required(login_url='login')
+def list_employee(request):
+
+    data = employee.objects.all()
+    context = {
+        'data': data
+    }
+    return render(request, 'store/list_employee.html', context)
+
         
 
 @login_required(login_url='login')

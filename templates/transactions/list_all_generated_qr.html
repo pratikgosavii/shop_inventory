@@ -43,6 +43,10 @@
                             <tr>
                                 <th class="serial">#</th>
                                 <th>Product Id</th>
+                                <th>Matrial Name</th>
+                                <th>Size</th>
+                                <th>Grade</th>
+                                <th>Thickness</th>
                                 <th>Qr</th>
                                 <th>Actions</th>
                                 
@@ -54,10 +58,14 @@
                             <tr>
                                 <td class="serial">{{ forloop.counter }}</td>
                                 <td>{{ i.id }}</td>
-                                <td>{{ i.qr_code.url  }}</td>
+                                <td>{{ i.product.category }}</td>
+                                <td>{{ i.product.size }}</td>
+                                <td>{{ i.product.grade }}</td>
+                                <td>{{ i.product.thickness }}</td>
+                                <td><img src="{{ i.qr_code.url  }}"></td>
                                 <td>  
                                    <a href="{% url 'print_single_qr' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
-                                        <span id="payment-button-amount">View</span>
+                                        <span id="payment-button-amount">Download</span>
                                     </button>  </a>
                                     
                                 </td>
