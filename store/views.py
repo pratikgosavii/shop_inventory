@@ -173,9 +173,7 @@ def delete_godown(request, godown_id):
 
     godown.objects.get(id=godown_id).delete()
 
-    request.session['godown'] = None
-
-    return HttpResponseRedirect(reverse('list_company_delete'))
+    return HttpResponseRedirect(reverse('list_godown'))
 
 
         
@@ -248,9 +246,7 @@ def delete_customer(request, customer_id):
 
     customer.objects.get(id=customer_id).delete()
 
-    request.session['customer'] = None
-
-    return HttpResponseRedirect(reverse('list_company_delete'))
+    return HttpResponseRedirect(reverse('list_customer'))
 
 
 @login_required(login_url='login')
@@ -318,9 +314,7 @@ def delete_employee(request, employee_id):
 
     employee.objects.get(id=employee_id).delete()
 
-    request.session['employee'] = None
-
-    return HttpResponseRedirect(reverse('list_company_delete'))
+    return HttpResponseRedirect(reverse('list_employee'))
 
 
 @login_required(login_url='login')
@@ -402,9 +396,7 @@ def delete_dealer(request, dealer_id):
 
     dealer.objects.get(id=dealer_id).delete()
 
-    request.session['dealer'] = None
-
-    return HttpResponseRedirect(reverse('list_company_delete'))
+    return HttpResponseRedirect(reverse('list_dealer'))
 
 
         
@@ -559,7 +551,7 @@ def delete_category(request, category_id):
     
     category.objects.get(id=category_id).delete()
 
-    return HttpResponseRedirect(reverse('list_category_delete'))
+    return HttpResponseRedirect(reverse('list_category'))
 
 
 @login_required(login_url='login')
@@ -639,7 +631,7 @@ def delete_size(request, company_goods_id):
     
     size.objects.get(id=company_goods_id).delete()
 
-    return HttpResponseRedirect(reverse('list_size_delete'))
+    return HttpResponseRedirect(reverse('list_size'))
 
 
 @login_required(login_url='login')
@@ -714,11 +706,11 @@ def update_grade(request, company_goods_id):
 
 
 @login_required(login_url='login')
-def delete_grade(request, company_goods_id):
+def delete_grade(request, grade_id):
     
-    grade.objects.get(id=company_goods_id).delete()
+    grade.objects.get(id=grade_id).delete()
 
-    return HttpResponseRedirect(reverse('list_grade_delete'))
+    return HttpResponseRedirect(reverse('list_grade'))
 
 
 @login_required(login_url='login')
@@ -795,7 +787,7 @@ def delete_thickness(request, thickness_id):
     
     thickness.objects.get(id=thickness_id).delete()
 
-    return HttpResponseRedirect(reverse('list_thickness_delete'))
+    return HttpResponseRedirect(reverse('list_thickness'))
 
 
 @login_required(login_url='login')

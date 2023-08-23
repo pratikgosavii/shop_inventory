@@ -72,8 +72,22 @@ class project_matarial_qr(models.Model):
 
 class stock(models.Model):
 
-    godown = models.ForeignKey(godown , on_delete=models.CASCADE, related_name='sfwwfddfds')
-    quantity = models.BigIntegerField()
+    quantity = models.BigIntegerField(null = True, blank = True)
+    product = models.ForeignKey(product, on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    
+
+class left_over_stock(models.Model):
+
+    quantity = models.BigIntegerField(null = True, blank = True)
+    product_qr = models.ForeignKey(product_qr, on_delete=models.CASCADE)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class scratch_stock(models.Model):
+
+    quantity = models.BigIntegerField(null = True, blank = True)
+    product_qr = models.ForeignKey(product_qr, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(auto_now=True)
 
     

@@ -38,7 +38,8 @@ urlpatterns = [
     path('assign_values_to_qr_page_data/<product_qr_id>', assign_values_to_qr_page_data, name='assign_values_to_qr_page_data'),
 
 
-    path('list-stock/', generate_report_stock, name='list_stock'),
+    path('list-stock/', list_stock, name='list_stock'),
+    path('list-left-over-stock/', list_left_over_stock, name='list_left_over_stock'),
 
     path('report-daily/', generate_report_daily, name='report_daily'),
     path('report-inward/', report_inward, name='report_inward'),

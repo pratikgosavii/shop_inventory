@@ -864,26 +864,28 @@ from .filters import *
 @login_required(login_url='login')
 def list_stock(request):
 
-    godown_id = request.session.get('gowdown')
-     
-    if godown_id == None:
-        godown_instance = godown.objects.first()
-        godown_id = godown_instance.id
-        request.session["gowdown"] = godown_id
-
-
-
-    data = stock.objects.filter(godown__id = godown_id)
-    stock_filter_data = stock_filter(request.GET, queryset = data)
-
-
-
+   
+    data = stock.objects.all()
+   
     context = {
-        'data': stock_filter_data.qs,
-        'stock_filter_data' : stock_filter_data,
+        'data': data,
+        
     }
 
     return render(request, 'transactions/list_stock.html', context)
+
+@login_required(login_url='login')
+def list_left_over_stock(request):
+
+   
+    data = left_over_stock.objects.all()
+   
+    context = {
+        'data': data,
+        
+    }
+
+    return render(request, 'transactions/list_left_over_stock.html', context)
 
 
 @login_required(login_url='login')
@@ -1750,9 +1752,25 @@ def close_project(request, project_id):
             product_instance = instance.product
             # Now, retrieve the related project_qr instance
             project_qr_instance = product_qr.objects.get(product=product_instance)
-
+        
             material_history.objects.create(product_qr = project_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = d)
+            
+            instance, created = left_over_stock.objects.get_or_create(product = product_instance)
 
+            stock_instance = stock.objects.get(product = product_instance)
+            stock_instance.quantity = stock_instance.quantity - 1
+            stock_instance.save()
+
+            if instance:
+
+                instance.quantity = instance.quantity + 1
+                instance.product_qr = project_qr_instance
+                instance.save()
+
+            else:
+
+                created.quantity = 1
+                created.save()
         project_instance.save()
 
 
@@ -2146,6 +2164,19 @@ def assign_values_to_qr(request, product_qr_id):
             print(product_id)
 
             messages.success(request, 'values added successfully')
+
+            instance, created = stock.objects.get_or_create(product = product_instance)
+
+            if instance:
+
+                instance.quantity = instance.quantity + 1
+                instance.save()
+
+            else:
+
+                created.quantity = 1
+                created.save()
+
 
             redirect_url = reverse('assign_values_to_qr_page_data', args=[product_qr_id])
 

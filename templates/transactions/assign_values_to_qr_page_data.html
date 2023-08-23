@@ -114,3 +114,35 @@
     </div><!--/.col-->
 </div>
 {% endblock content %}
+
+
+{% block js %}
+
+<script>
+
+    const form = document.getElementById('myForm');
+
+        form.addEventListener('submit', function(event) {
+            const inputs = form.querySelectorAll('input, textarea');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.classList.add('invalid');
+                } else {
+                    input.classList.remove('invalid');
+                }
+            });
+
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+
+        
+</script>
+
+
+{% endblock js %}
+

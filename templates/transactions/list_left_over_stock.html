@@ -30,17 +30,11 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-{% comment %} <div style="justify-content: center;display: flex;align-items: center;">
-    <a href="{% url 'add_company' %}"> <button id="payment-button" style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="button" class="btn-info ">
-         <span id="payment-button-amount">Add Company  +</span>
-     </button> </a>
-   
-</div><br> {% endcomment %}
 <div class="row">
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="box-title">Company List </h4>
+                <h4 class="box-title">Left Over Stock List </h4>
             </div>
             <div class="card-body--">
                 <div class="table-stats order-table ov-h">
@@ -48,8 +42,11 @@
                         <thead>
                             <tr>
                                 <th class="serial">#</th>
-                                <th>Name</th>
-                                <th>Actions</th>
+                                <th>Matrial Name</th>
+                                <th>Size</th>
+                                <th>Grade</th>
+                                <th>Thickness</th>
+                                <th>Quantity</th>
                                 
                             </tr>
                         </thead>
@@ -58,12 +55,16 @@
                             {% for i in data %}
                             <tr>
                                 <td class="serial">{{ forloop.counter }}</td>
-                                <td>{{ i.company_name }}</td>
+                                <td>{{ i.product.category }}</td>
+                                <td>{{ i.product.size }}</td>
+                                <td>{{ i.product.grade }}</td>
+                                <td>{{ i.product.thickness }}</td>
+                                <td>{{ i.quantity }}</td>
                                 <td>  
-                                   <a href="{% url 'update_company' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+                                   <a href="{% url 'update_grade' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
                                         <span id="payment-button-amount">View</span>
                                     </button>  </a>
-                                   
+                                    
                                 </td>
                                
                                
