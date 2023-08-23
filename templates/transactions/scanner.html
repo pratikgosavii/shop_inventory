@@ -30,52 +30,50 @@
     </div>
     </form>
 
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
     <script>
+
         const scannerContainer = document.getElementById('scanner-container');
-        const scannerVideo = document.getElementById('scanner-video');
-        const cameraSelect = document.createElement('select');
-        cameraSelect.id = 'camera-select';
+    const scannerVideo = document.getElementById('scanner-video');
 
-        // Get cameras and populate the camera select dropdown
-        Instascan.Camera.getCameras().then(function (cameras) {
-            if (cameras.length > 0) {
-                cameras.forEach(camera => {
-                    const option = document.createElement('option');
-                    option.value = camera.id;
-                    option.text = camera.name;
-                    cameraSelect.appendChild(option);
+    Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+            // Find the back camera (usually the last one in the list)
+            const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
+
+            if (backCamera) {
+                const scanner = new Instascan.Scanner({ video: scannerVideo, mirror: false }); // Set mirror to false
+                scanner.addListener('scan', function (content) {
+                    console.log('Scanned:', content);
+                    scanner.stop(); 
+                    $.ajax({
+                        type: "POST",
+                        url: '{% url "assign_values_to_qr_page" %}',
+                        data: {
+                            'scanned_value': content,
+                            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                        },
+                        success: function (data) {
+                            console.log(data.value)
+                            if (data.status === "success") { // Fix the comparison operator
+                                const redirectUrl = data.redirect_url;
+                                console.log('Received redirect URL:', redirectUrl);
+                                window.location.href = redirectUrl;
+                            }
+                        }
+                    });
+
                 });
-
-                scannerContainer.appendChild(cameraSelect);
-
-                // Function to start scanning with the selected camera
-                const startScanning = () => {
-                    const selectedCameraId = cameraSelect.value;
-                    const selectedCamera = cameras.find(camera => camera.id === selectedCameraId);
-
-                    if (selectedCamera) {
-                        const scanner = new Instascan.Scanner({ video: scannerVideo });
-                        scanner.addListener('scan', function (content) {
-                            // Your scan logic here
-                            console.log('Scanned:', content);
-                        });
-                        scanner.start(selectedCamera);
-                    } else {
-                        console.error('Selected camera not found.');
-                    }
-                };
-
-                // Trigger scanning when camera selection changes
-                cameraSelect.addEventListener('change', startScanning);
-
-                // Start scanning when the page loads
-                startScanning();
+                scanner.start(backCamera); // Start the back camera
             } else {
-                console.error('No cameras found.');
+                console.error('Back camera not found.');
             }
-        });
+        } else {
+            console.error('No cameras found.');
+        }
+    });
+
 
 
 
