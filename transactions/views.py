@@ -1738,13 +1738,13 @@ def close_project(request, project_id):
             
             instance = project_material.objects.get(id = a)
 
-            product_instance = instance.product.id
+            product_instance = instance.product
             # Now, retrieve the related project_qr instance
             project_qr_instance = product_qr.objects.get(product=product_instance)
         
             material_history.objects.create(product_qr = project_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = d)
             
-            instance, created = left_over_stock.objects.get_or_create(product__id = product_instance)
+            instance, created = left_over_stock.objects.get_or_create(product = product_instance)
 
             stock_instance = stock.objects.get(product = product_instance)
             stock_instance.quantity = stock_instance.quantity - 1
