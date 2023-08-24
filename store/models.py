@@ -113,4 +113,4 @@ class product_qr(models.Model):
     qr_code = models.ImageField(upload_to='static/qrcode/', height_field=None, width_field=None, max_length=None, null = True, blank = True)
     supplier = models.ForeignKey(dealer, on_delete=models.CASCADE, null = True, blank = True)
 
-    date_of_pur = models.DateField(auto_now_add=False)
+    date_of_pur = models.DateField(auto_now_add=False, null = True, blank = True)
