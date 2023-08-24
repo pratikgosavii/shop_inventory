@@ -2139,13 +2139,18 @@ def assign_values_to_qr(request, product_qr_id):
         print('-------------------')
         print(product_id)
 
-        print(product_qr_instance)
 
 
         form = product_Form(request.POST)
+        print(request.POST)
 
         if form.is_valid():
             book, created = product.objects.get_or_create(**form.cleaned_data)
+            print(form.cleaned_data)
+
+            product_qr_instance.date_of_pur = request.POST.get('date_of_pur')
+            product_qr_instance.save()
+            
 
             if book:
 
