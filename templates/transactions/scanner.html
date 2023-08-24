@@ -45,14 +45,17 @@
                 .then(function (stream) {
                     scannerVideo.srcObject = stream;
 
+
                     const scanner = new Instascan.Scanner({ video: scannerVideo });
                     scanner.addListener('scan', function (content) {
+                        content = content || '1';
                         console.log('Scanned:', content);
                         scanner.stop();
                         $.ajax({
                             type: "GET",
-                            url: '{% url "assign_values_to_qr" content %}',
+                            url: "{% url 'assign_values_to_qr' product_qr_id=0 %}".replace('0', encodeURIComponent(content));,
                             data: {
+                                'content' : content
                                 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
                             },
                             success: function (data) {

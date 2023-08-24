@@ -1740,7 +1740,8 @@ def close_project(request, project_id):
 
             product_instance = instance.product
             # Now, retrieve the related project_qr instance
-            project_qr_instance = product_qr.objects.get(product=product_instance)
+
+            project_qr_instance = product_instance.project_material_re
         
             material_history.objects.create(product_qr = project_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = d)
             
