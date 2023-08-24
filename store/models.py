@@ -112,5 +112,6 @@ class product_qr(models.Model):
     product = models.ForeignKey(product, on_delete=models.CASCADE, related_name = "project_material_re", null = True, blank = True)
     qr_code = models.ImageField(upload_to='static/qrcode/', height_field=None, width_field=None, max_length=None, null = True, blank = True)
     supplier = models.ForeignKey(dealer, on_delete=models.CASCADE, null = True, blank = True)
-
+    is_fix = models.BooleanField(default=False)
+    moved_to_scratch = models.BooleanField(default=False)
     date_of_pur = models.DateField(auto_now_add=False, null = True, blank = True)

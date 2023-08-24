@@ -43,8 +43,17 @@ class project_material(models.Model):
     project = models.ForeignKey(project, on_delete=models.CASCADE, related_name = "project_material_re")
 
 
+
+class project_matarial_qr(models.Model):
+    
+    project_material = models.ForeignKey(project_material, on_delete=models.CASCADE, related_name = "project_material_re", null = True, blank = True)
+    product_qr =  models.ForeignKey(product_qr, on_delete=models.CASCADE, null = True, blank = True)
+
+    
     def __str__(self):
-        return self.project.employee_name
+        return self.project_material.product.category.name
+
+
 
 
 from store.models import * 
@@ -62,12 +71,6 @@ class material_history(models.Model):
 
 
 
-class project_matarial_qr(models.Model):
-    
-    project_material = models.ForeignKey(project_material, on_delete=models.CASCADE, related_name = "project_material_re", null = True, blank = True)
-    product_qr =  models.ForeignKey(product_qr, on_delete=models.CASCADE, null = True, blank = True)
-
-
 
 class stock(models.Model):
 
@@ -80,13 +83,13 @@ class stock(models.Model):
 class left_over_stock(models.Model):
 
     quantity = models.BigIntegerField(default = 0, null = True, blank = True)
-    product_qr = models.ForeignKey(product_qr, on_delete=models.CASCADE)
+    product = models.ForeignKey(product, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(auto_now=True)
 
 class scratch_stock(models.Model):
 
     quantity = models.BigIntegerField(default = 0, null = True, blank = True)
-    product_qr = models.ForeignKey(product_qr, on_delete=models.CASCADE)
+    product = models.ForeignKey(product, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(auto_now=True)
 
     

@@ -1726,17 +1726,6 @@ def close_project(request, project_id):
         left_size = request.POST.getlist('left_size[]')
         material = request.POST.getlist('materialsId[]')
 
-        print('------------------------------')
-        print('------------------------------')
-        print('------------------------------')
-        print('------------------------------')
-        print('------------------------------')
-        print(size)
-        print(used_size)
-        print(left_size)
-        print(material)
-       
-       
 
         for a,b,c,d in zip(material, size_value, used_size, left_size):
 
@@ -1749,13 +1738,13 @@ def close_project(request, project_id):
             
             instance = project_material.objects.get(id = a)
 
-            product_instance = instance.product
+            product_instance = instance.product.id
             # Now, retrieve the related project_qr instance
             project_qr_instance = product_qr.objects.get(product=product_instance)
         
             material_history.objects.create(product_qr = project_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = d)
             
-            instance, created = left_over_stock.objects.get_or_create(product = product_instance)
+            instance, created = left_over_stock.objects.get_or_create(product__id = product_instance)
 
             stock_instance = stock.objects.get(product = product_instance)
             stock_instance.quantity = stock_instance.quantity - 1
@@ -1771,6 +1760,7 @@ def close_project(request, project_id):
 
                 created.quantity = 1
                 created.save()
+                
         project_instance.save()
 
 
@@ -1823,26 +1813,6 @@ def add_project(request):
         grade_id = request.POST.getlist("grade")
         quantity = request.POST.getlist("quantity")
 
-
-        print('----------------------')
-
-        print(category_id)
-        print(size_id)
-        print(thickness_id)
-        print(grade_id)
-        print(quantity)
-
-
-        
-
-
-
-
-
-
-
-        
-   
 
         if forms.is_valid():
 
@@ -2133,24 +2103,13 @@ def assign_values_to_qr(request, product_qr_id):
 
     if request.method == 'POST':
 
-
-        print('-------------------')
-        print('-------------------')
-        print('-------------------')
-        print(product_id)
-
-
-
         form = product_Form(request.POST)
-        print(request.POST)
 
         if form.is_valid():
             book, created = product.objects.get_or_create(**form.cleaned_data)
-            print(form.cleaned_data)
 
             product_qr_instance.date_of_pur = request.POST.get('date_of_pur')
             product_qr_instance.save()
-            
 
             if book:
 
@@ -2160,33 +2119,45 @@ def assign_values_to_qr(request, product_qr_id):
 
                 product_instance = created
 
-            
-            product_qr_instance.product = product_instance
-            product_qr_instance.save()
-
-            print('-------------product_id-------------')
-            print(product_id)
-
             messages.success(request, 'values added successfully')
 
             instance, created = stock.objects.get_or_create(product = product_instance)
 
-            if instance:
+            if product_qr_instance.is_fix:
 
-                instance.quantity = instance.quantity + 1
-                instance.save()
+                instance_previous_stock = stock.objects.get(product = product_qr_instance.product)
+                instance_previous_stock.quantity = instance_previous_stock.quantity - 1
+                instance_previous_stock.save()
+                
+                if instance:
+
+                    instance.quantity = instance.quantity + 1
+                    instance.save()
+
+                else:
+
+                    created.quantity = 1
+                    created.save()
 
             else:
 
-                created.quantity = 1
-                created.save()
+                if instance:
 
+                    instance.quantity = instance.quantity + 1
+                    instance.save()
+
+                else:
+
+                    created.quantity = 1
+                    created.save()
+            
+            product_qr_instance.product = product_instance
+            product_qr_instance.is_fix = True
+            product_qr_instance.save()
 
             redirect_url = reverse('assign_values_to_qr', args=[product_qr_id])
 
             return redirect(redirect_url)
-
-
 
 
     else:    
