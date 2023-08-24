@@ -37,59 +37,60 @@
       
 
         const scannerContainer = document.getElementById('scanner-container');
-        const scannerVideo = document.getElementById('scanner-video');
+const scannerVideo = document.getElementById('scanner-video');
 
-        // Check if getUserMedia is available in the browser
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-                .then(function (stream) {
-                    scannerVideo.srcObject = stream;
+// Check if getUserMedia is available in the browser
+if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(function (stream) {
+            scannerVideo.srcObject = stream;
 
+            const scanner = new Instascan.Scanner({ video: scannerVideo });
+            scanner.addListener('scan', function (content) {
+                content = content || '1';
+                console.log('Scanned:', content);
+                scanner.stop();
 
-                    const scanner = new Instascan.Scanner({ video: scannerVideo });
-                    scanner.addListener('scan', function (content) {
-                        content = content || '1';
-                        console.log('Scanned:', content);
-                        scanner.stop();
-                        $.ajax({
-                            type: "GET",
-                            url: "{% url 'assign_values_to_qr' product_qr_id=0 %}".replace('0', encodeURIComponent(content));,
-                            data: {
-                                'content' : content
-                                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                            },
-                            success: function (data) {
-                                console.log(data.value)
-                                if (data.status === "success") { // Fix the comparison operator
-                                    const redirectUrl = data.redirect_url;
-                                    console.log('Received redirect URL:', redirectUrl);
-                                    window.location.href = redirectUrl;
-                                }
-                            }
-                        });
-
-                    });
-
-                    Instascan.Camera.getCameras().then(function (cameras) {
-                        if (cameras.length > 0) {
-                            const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
-
-                            if (backCamera) {
-                                scanner.start(backCamera);
-                            } else {
-                                console.error('Back camera not found.');
-                            }
-                        } else {
-                            console.error('No cameras found.');
+                // Corrected AJAX request URL and data
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'assign_values_to_qr' 0 %}".replace('0', encodeURIComponent(content)),
+                    data: {
+                        'content': content,
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                    },
+                    success: function (data) {
+                        console.log(data.value);
+                        if (data.status === "success") {
+                            const redirectUrl = data.redirect_url;
+                            console.log('Received redirect URL:', redirectUrl);
+                            window.location.href = redirectUrl;
                         }
-                    });
-                })
-                .catch(function (error) {
-                    console.error('Error accessing camera:', error);
+                    }
                 });
-        } else {
-            console.error('getUserMedia is not supported.');
-        }
+            });
+
+            Instascan.Camera.getCameras().then(function (cameras) {
+                if (cameras.length > 0) {
+                    const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
+
+                    if (backCamera) {
+                        scanner.start(backCamera);
+                    } else {
+                        console.error('Back camera not found.');
+                    }
+                } else {
+                    console.error('No cameras found.');
+                }
+            });
+        })
+        .catch(function (error) {
+            console.error('Error accessing camera:', error);
+        });
+} else {
+    console.error('getUserMedia is not supported.');
+}
+
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
