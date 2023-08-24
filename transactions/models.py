@@ -26,10 +26,9 @@ class request_material(models.Model):
 class project(models.Model):
 
     customer = models.CharField( max_length=50)
-    employee = models.ForeignKey(employee , on_delete=models.CASCADE, related_name='dsscsdcs')
+    employee_name = models.ForeignKey(employee , on_delete=models.CASCADE, related_name='dfsdds')
     DC_date = models.DateField(auto_now_add=False)
     description = models.CharField( max_length=50)
-    employee_name = models.CharField( max_length=50)
     completed = models.BooleanField(default=False)
 
     def __str__(self):
@@ -72,7 +71,7 @@ class project_matarial_qr(models.Model):
 
 class stock(models.Model):
 
-    quantity = models.BigIntegerField(null = True, blank = True)
+    quantity = models.BigIntegerField(default = 0, null = True, blank = True)
     product = models.ForeignKey(product, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -80,13 +79,13 @@ class stock(models.Model):
 
 class left_over_stock(models.Model):
 
-    quantity = models.BigIntegerField(null = True, blank = True)
+    quantity = models.BigIntegerField(default = 0, null = True, blank = True)
     product_qr = models.ForeignKey(product_qr, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(auto_now=True)
 
 class scratch_stock(models.Model):
 
-    quantity = models.BigIntegerField(null = True, blank = True)
+    quantity = models.BigIntegerField(default = 0, null = True, blank = True)
     product_qr = models.ForeignKey(product_qr, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(auto_now=True)
 

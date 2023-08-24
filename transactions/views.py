@@ -1946,7 +1946,6 @@ def assign_matarial_qr(request, project_id):
 
         data = project_material.objects.filter(project = project_instance)
 
-        print(data)
 
         context = {
             'form': forms,
@@ -2178,7 +2177,7 @@ def assign_values_to_qr(request, product_qr_id):
                 created.save()
 
 
-            redirect_url = reverse('assign_values_to_qr_page_data', args=[product_qr_id])
+            redirect_url = reverse('assign_values_to_qr', args=[product_qr_id])
 
             return redirect(redirect_url)
 
@@ -2188,6 +2187,8 @@ def assign_values_to_qr(request, product_qr_id):
     else:    
 
         form = product_Form(instance=product_qr_instance.product)
+        form_qr = product_qr_Form(instance=product_qr_instance)
+
 
         data = material_history.objects.filter(product_qr__id = product_qr_id)
 
@@ -2197,6 +2198,7 @@ def assign_values_to_qr(request, product_qr_id):
         
         context = {
             'form': form,
+            'form_qr': form_qr,
             'data': data,
             'product_qr_id': product_qr_id,
         }

@@ -22,11 +22,11 @@ class request_material_Form(forms.ModelForm):
             'goods_company': forms.Select(attrs={
                 'class': 'form-control', 'id': 'category'
             }),
-            'employee_name': forms.TextInput(attrs={
+            'employee_name': forms.Select(attrs={
                 'class': 'form-control', 'id': 'bag_size'
             }),
 
-            'customer_name': forms.Select(attrs={
+            'customer_name': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'bag_size'
             }),
            
@@ -51,9 +51,8 @@ class project_Form(forms.ModelForm):
         widgets = {
            
             'employee_name': forms.Select(attrs={
-                'class': 'form-control', 'id': 'employee_name'
+                'class': 'form-control', 'id': 'bag_size'
             }),
-
             'customer': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'customer'
             }),
@@ -98,27 +97,10 @@ class product_qr_Form(forms.ModelForm):
         fields = '__all__'
         widgets = {
           
-          
-            'category': forms.Select(attrs={
-                'class': 'form-control', 'id': 'categoryyy'
-            }),
-          
-            'size': forms.Select(attrs={
-                'class': 'form-control', 'id': 'sizeyy'
-            }),
-          
-            'thickness': forms.Select(attrs={
-                'class': 'form-control', 'id': 'thicknessyy'
-            }),
-          
-            'grade': forms.Select(attrs={
-                'class': 'form-control', 'id': 'gradeyy'
-            }),
 
-            'date_of_pur': DateInput(attrs={ 'class': 'form-control', 'type': 'date'}, format = '%Y-%m-%d'),
-              
+            'date_of_pur' : DateInput(attrs={ 'class': 'form-control', 'type': 'date'}, format = '%Y-%m-%d'),
           
-          
+           
             
         }
 

@@ -115,6 +115,9 @@ class size_Form(forms.ModelForm):
             
         }
 
+from django.forms.widgets import DateInput
+
+
 class product_Form(forms.ModelForm):
     class Meta:
         model = product
@@ -137,11 +140,10 @@ class product_Form(forms.ModelForm):
             'grade': forms.Select(attrs={
                 'class': 'form-control', 'id': 'grade'
             }),
-          
+
            
             
         }
-
 
 
 

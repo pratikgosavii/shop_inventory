@@ -16,4 +16,5 @@ admin.site.register(godown)
 admin.site.register(customer)
 admin.site.register(product_qr)
 admin.site.register(product)
+admin.site.register(employee)
 

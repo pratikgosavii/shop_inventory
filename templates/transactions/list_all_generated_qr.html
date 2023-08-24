@@ -64,6 +64,10 @@
                                 <td>{{ i.product.thickness }}</td>
                                 <td><img src="{{ i.qr_code.url  }}"></td>
                                 <td>  
+                                   <a href="{% url 'assign_values_to_qr' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+                                        <span id="payment-button-amount">View</span>
+                                    </button>  </a>
+                                    
                                    <a href="{% url 'print_single_qr' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
                                         <span id="payment-button-amount">Download</span>
                                     </button>  </a>

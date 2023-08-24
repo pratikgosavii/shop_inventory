@@ -50,10 +50,9 @@
                         console.log('Scanned:', content);
                         scanner.stop();
                         $.ajax({
-                            type: "POST",
-                            url: '{% url "assign_values_to_qr_page" %}',
+                            type: "GET",
+                            url: '{% url "assign_values_to_qr" content %}',
                             data: {
-                                'scanned_value': content,
                                 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
                             },
                             success: function (data) {
