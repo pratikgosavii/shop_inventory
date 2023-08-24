@@ -31,19 +31,23 @@
     </form>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+<script src="https://cdn.rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
     <script>
 
         const scannerContainer = document.getElementById('scanner-container');
-    const scannerVideo = document.getElementById('scanner-video');
-
-    Instascan.Camera.getCameras().then(function (cameras) {
-        if (cameras.length > 0) {
-            // Find the back camera (usually the last one in the list)
-            const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
-
-            if (backCamera) {
-                const scanner = new Instascan.Scanner({ video: scannerVideo, mirror: false }); // Set mirror to false
+        const scannerVideo = document.getElementById('scanner-video');
+    
+        const constraints = {
+            video: {
+                facingMode: 'environment' // Use the back camera
+            }
+        };
+    
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then(function(stream) {
+                scannerVideo.srcObject = stream;
+                const scanner = new Instascan.Scanner({ video: scannerVideo, mirror: false });
+                
                 scanner.addListener('scan', function (content) {
                     console.log('Scanned:', content);
                     scanner.stop(); 
@@ -56,23 +60,20 @@
                         },
                         success: function (data) {
                             console.log(data.value)
-                            if (data.status === "success") { // Fix the comparison operator
+                            if (data.status === "success") {
                                 const redirectUrl = data.redirect_url;
                                 console.log('Received redirect URL:', redirectUrl);
                                 window.location.href = redirectUrl;
                             }
                         }
                     });
-
                 });
-                scanner.start(backCamera); // Start the back camera
-            } else {
-                console.error('Back camera not found.');
-            }
-        } else {
-            console.error('No cameras found.');
-        }
-    });
+                
+                scanner.start();
+            })
+            .catch(function(error) {
+                console.error('Error accessing camera:', error);
+            });
 
 
 
