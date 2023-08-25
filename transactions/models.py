@@ -61,13 +61,9 @@ from store.models import *
 class material_history(models.Model):
 
     product_qr = models.ForeignKey(product_qr, on_delete=models.CASCADE, related_name = "fdthfh")
-    previous_size = models.CharField(max_length=50)
-    used_size = models.CharField(max_length=50)
-    left_size = models.CharField(max_length=50)
-
-
-    def __str__(self):
-        return self.product_qr.id
+    previous_size =  models.ForeignKey(size, on_delete=models.CASCADE, related_name = "sdsdsc")
+    used_size =  models.ForeignKey(size, on_delete=models.CASCADE, related_name = "fscswdcscdthfh")
+    left_size =  models.ForeignKey(size, on_delete=models.CASCADE, related_name = "fdsfcsfcscthfh")
 
 
 

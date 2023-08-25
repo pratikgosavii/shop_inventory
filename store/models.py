@@ -124,5 +124,5 @@ class product_qr(models.Model):
 
      
     def __str__(self):
-        return self.product.size.name
+        return self.date_of_pur
 
