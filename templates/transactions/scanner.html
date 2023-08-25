@@ -34,8 +34,9 @@
     <script src="https://cdn.rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
     <script>
 
-
-
+        const scannerContainer = document.getElementById('scanner-container');
+        const scannerVideo = document.getElementById('scanner-video');
+    
         Instascan.Camera.getCameras().then(function (cameras) {
             if (cameras.length > 0) {
                 const scanner = new Instascan.Scanner({ video: scannerVideo });
@@ -54,7 +55,7 @@
                           if(data.status = "success"){
                             const redirectUrl = data.redirect_url;
                             console.log('Received redirect URL:', redirectUrl);
-
+                            
                             // Redirect the user to the received URL
                             window.location.href = redirectUrl;
                           }
@@ -62,11 +63,17 @@
                   });
 
                 });
-                scanner.start(cameras[0]);
+
+                const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
+                scanner.start(backCamera);
             } else {
                 console.error('No cameras found.');
             }
         });
+
+
+
+
 
 
 
