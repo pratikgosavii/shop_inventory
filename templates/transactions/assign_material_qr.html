@@ -221,8 +221,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         const buttonRow = scannedButton.closest("tr");
 
                         // Create a new cell for the scanned value
-                        const valueCell = scannedButton.previousElementSibling;
-                        valueCell.textContent = scannedValue;
+                        const scannedSheetCell = scannedButton.closest("tr").querySelector(".scanned-sheet-cell");
+                        scannedSheetCell.textContent = scannedValue;
+            
 
 
 
