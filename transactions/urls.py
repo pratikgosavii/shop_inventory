@@ -34,6 +34,7 @@ urlpatterns = [
     
     path('scanner-page', scanner_page, name='scanner_page'),
     path('assign-values-to-qr/<product_qr_id>', assign_values_to_qr, name='assign_values_to_qr'),
+    path('assign-values-to-qr-page', assign_values_to_qr_page, name='assign_values_to_qr_page'),
 
 
     path('list-stock/', list_stock, name='list_stock'),

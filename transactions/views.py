@@ -2166,6 +2166,8 @@ def assign_values_to_qr_page_data(request, product_qr_id):
 
 def assign_values_to_qr(request, product_qr_id):
     
+
+    print('hereeeeeeee')
     product_id = product_qr_id
 
     
@@ -2251,6 +2253,16 @@ def assign_values_to_qr(request, product_qr_id):
 
         return render(request, 'transactions/assign_value_to_qr.html', context)
     
+
+
+def assign_values_to_qr_page(request):
+
+    scanned_value = request.POST.get("scanned_value")
+
+
+    redirect_url = reverse('assign_values_to_qr', args=[scanned_value]) 
+    response_data = {'status' : 'success', 'redirect_url': redirect_url}
+    return JsonResponse(response_data)
 
 
 def update_product(request, product_id):
