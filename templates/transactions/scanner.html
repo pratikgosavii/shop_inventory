@@ -26,8 +26,7 @@
   <form method="post">
     {% csrf_token %}
     <div id="scanner-container">
-        <video id="scanner-video" autoplay playsinline></video>
-        <button id="switch-camera-button">Switch Camera</button>
+        <video id="scanner-video"></video>
     </div>
     </form>
 
@@ -36,62 +35,62 @@
     <script>
 
       
+
         const scannerContainer = document.getElementById('scanner-container');
 const scannerVideo = document.getElementById('scanner-video');
-const switchCameraButton = document.getElementById('switch-camera-button');
 
-let currentCameraIndex = 0;
-let cameras = [];
+// Check if getUserMedia is available in the browser
+if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { exact: 'environment' } } // Try to use the back camera
+    })
+        .then(function (stream) {
+            scannerVideo.srcObject = stream;
 
-// ...
+            const scanner = new Instascan.Scanner({ video: scannerVideo });
+            scanner.addListener('scan', function (content) {
+                content = content || '1';
+                console.log('Scanned:', content);
+                scanner.stop();
 
-Instascan.Camera.getCameras().then(function (cameraList) {
-    cameras = cameraList;
+                // Corrected AJAX request URL and data
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'assign_values_to_qr' 0 %}".replace('0', encodeURIComponent(content)),
+                    data: {
+                        'content': content,
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                    },
+                    success: function (data) {
+                        console.log(data.value);
+                        if (data.status === "success") {
+                            const redirectUrl = data.redirect_url;
+                            console.log('Received redirect URL:', redirectUrl);
+                            window.location.href = redirectUrl;
+                        }
+                    }
+                });
+            });
 
-    if (cameras.length > 0) {
-        // Start the scanner with the default camera (first available)
-        startScannerWithCamera(currentCameraIndex);
-    } else {
-        console.error('No cameras found.');
-    }
-});
+            Instascan.Camera.getCameras().then(function (cameras) {
+                if (cameras.length > 0) {
+                    const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
 
-// Button click event to switch between available cameras
-switchCameraButton.addEventListener('click', function () {
-    currentCameraIndex = (currentCameraIndex + 1) % cameras.length;
-    scanner.stop();
-    startScannerWithCamera(currentCameraIndex);
-});
-
-// ...
-
-function startScannerWithCamera(cameraIndex) {
-    const selectedCamera = cameras[cameraIndex];
-    scanner = new Instascan.Scanner({ video: scannerVideo, mirror: false }); // Set mirror to false for rear camera
-    scanner.addListener('scan', function (content) {
-        content = content || '1';
-        console.log('Scanned:', content);
-        scanner.stop();
-        $.ajax({
-            type: "GET",
-            url: "{% url 'assign_values_to_qr' 0 %}".replace('0', encodeURIComponent(content)),
-            data: {
-                'content': content,
-                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-            },
-            success: function (data) {
-                console.log(data.value);
-                if (data.status === "success") {
-                    const redirectUrl = data.redirect_url;
-                    console.log('Received redirect URL:', redirectUrl);
-                    window.location.href = redirectUrl;
+                    if (backCamera) {
+                        scanner.start(backCamera);
+                    } else {
+                        console.error('Back camera not found.');
+                    }
+                } else {
+                    console.error('No cameras found.');
                 }
-            }
+            });
+        })
+        .catch(function (error) {
+            console.error('Error accessing camera:', error);
         });
-    });
-
-    // Start the scanner
-    scanner.start(selectedCamera);
+} else {
+    console.error('getUserMedia is not supported.');
 }
 
     </script>

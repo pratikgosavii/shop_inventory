@@ -152,7 +152,7 @@
                                         {% for z in i.project_material_re.all %}
 
                                     <tr>
-                                        <input type="hidden" name ="materials" value="{{ z.project_material.id }}">
+                                        <input type="hidden" name ="materials" value="{{ z.id }}">
                                         <td> {{ z.project_material.product.category }} </td>
                                         <td> {{ z.project_material.product.size }} </td>
                                         <td> {{ z.project_material.product.grade }} </td>
@@ -166,9 +166,7 @@
                                             X
                                             <input type="text" id="remainingWidth1" class="form-control remaining-width-input" placeholder="Remaining Width" required> 
                                         </td>
-
-                                        <td> {{ z.project_material.move_to_scratch }} </td>
-
+                                        <td> <input type="checkbox" class="form-control" name="move_to_scratch" id="move_to_scratch"> </td>
                                         
                                     </tr>
 
@@ -254,20 +252,25 @@ function submitForm(e) {
     const used_size_arr = [];
     const left_size_arr = [];
     const materialsId_arr = [];
+    const move_to_scratch_arr = [];
 
     rows.forEach((row) => {
         const size = row.querySelectorAll('td')[1].textContent;
         const usedSize = row.querySelector('[id^="usedLength"]').value + " X " + row.querySelector('[id^="usedWidth"]').value;
         const leftSize = row.querySelector('[id^="remainingLength"]').value + " X " + row.querySelector('[id^="remainingWidth"]').value;
         const materialsId = row.querySelector('[name="materials"]').value;
+        const move_to_scratch_checkbox = row.querySelector('[name="move_to_scratch"]');
+        const move_to_scratch = move_to_scratch_checkbox.checked;
 
         size_arr.push(size);
         used_size_arr.push(usedSize);
         left_size_arr.push(leftSize);
         materialsId_arr.push(materialsId);
+        move_to_scratch_arr.push(move_to_scratch);
            
     });
 
+        alert(move_to_scratch_arr)
 
     $.ajax({                       // initialize an AJAX request
         type: "POST",
@@ -277,6 +280,7 @@ function submitForm(e) {
             'used_size': [...used_size_arr],       // add the country id to the POST parameters
             'left_size': [...left_size_arr],       // add the country id to the POST parameters
             'materialsId': [...materialsId_arr],       // add the country id to the POST parameters
+            'move_to_scratch': [...move_to_scratch_arr],       // add the country id to the POST parameters
             'sd': 'ww',       // add the country id to the POST parameters
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
         },

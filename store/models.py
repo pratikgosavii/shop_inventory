@@ -105,6 +105,10 @@ class product(models.Model):
     grade = models.ForeignKey(grade, on_delete=models.CASCADE, null = True, blank = True)
 
 
+    def __str__(self):
+        return self.grade
+
+
 
 class product_qr(models.Model):
     
@@ -114,4 +118,11 @@ class product_qr(models.Model):
     supplier = models.ForeignKey(dealer, on_delete=models.CASCADE, null = True, blank = True)
     is_fix = models.BooleanField(default=False)
     moved_to_scratch = models.BooleanField(default=False)
+    moved_to_left_over = models.BooleanField(default=False)
+
     date_of_pur = models.DateField(auto_now_add=False, null = True, blank = True)
+
+     
+    def __str__(self):
+        return self.product.size.name
+

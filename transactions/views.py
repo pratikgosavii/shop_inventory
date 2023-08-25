@@ -887,6 +887,19 @@ def list_left_over_stock(request):
 
     return render(request, 'transactions/list_left_over_stock.html', context)
 
+@login_required(login_url='login')
+def list_dead_stock(request):
+
+   
+    data = scratch_stock.objects.all()
+   
+    context = {
+        'data': data,
+        
+    }
+
+    return render(request, 'transactions/list_dead_stock.html', context)
+
 
 @login_required(login_url='login')
 def report_inward(request):
@@ -1725,43 +1738,99 @@ def close_project(request, project_id):
         used_size = request.POST.getlist('used_size[]')
         left_size = request.POST.getlist('left_size[]')
         material = request.POST.getlist('materialsId[]')
+        move_to_scratch = request.POST.getlist('move_to_scratch[]')
+
+        print('----------------------')
+        print(move_to_scratch)
+        print('----------------------')
 
 
-        for a,b,c,d in zip(material, size_value, used_size, left_size):
 
-            print(a)
-            print(b)
-            print(c)
-            print(d)
+        for a,b,c,d,e in zip(material, size_value, used_size, left_size, move_to_scratch):
+
+           
             size_instance1 = size.objects.get_or_create(name = b)
-            size_instance2 = size.objects.get_or_create(name = d)
+            size_instance2 = size.objects.get_or_create(name = c)
             
-            instance = project_material.objects.get(id = a)
+            project_matarial_qr_instance = project_matarial_qr.objects.get(id = a)
 
-            product_instance = instance.product
+            product_instance = project_matarial_qr_instance.project_material.product
             # Now, retrieve the related project_qr instance
 
-            project_qr_instance = product_instance.project_material_re
+            product_qr_instance = project_matarial_qr_instance.product_qr
+
+           
         
-            material_history.objects.create(product_qr = project_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = d)
+            material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = d)
             
-            instance, created = left_over_stock.objects.get_or_create(product = product_instance)
+            if e == "true":
 
-            stock_instance = stock.objects.get(product = product_instance)
-            stock_instance.quantity = stock_instance.quantity - 1
-            stock_instance.save()
+                print(' in scratch ')
 
-            if instance:
+                instance, created = scratch_stock.objects.get_or_create(product = product_instance)
 
-                instance.quantity = instance.quantity + 1
-                instance.product_qr = project_qr_instance
-                instance.save()
+                if product_qr_instance.moved_to_left_over != True:
+                
+                    stock_instance = stock.objects.get(product = product_instance)
+                    stock_instance.quantity = stock_instance.quantity - 1
+                    
+                    product_qr_instance.moved_to_scratch = True
+                    product_qr_instance.save()
+
+                    stock_instance.save()
+
+                else:
+                    
+                    left_over_instance =  left_over_stock.objects.get(product = product_instance)
+
+
+                    left_over_instance.quantity = left_over_instance.quantity - 1
+                    left_over_instance.save()
+
+                    product_qr_instance.moved_to_scratch = True
+                    product_qr_instance.save()
+
+
+
+                if instance:
+
+                    instance.quantity = instance.quantity + 1
+                    instance.product_qr = product_qr_instance
+                    instance.save()
+
+                else:
+
+                    created.quantity = 1
+                    created.save()
 
             else:
 
-                created.quantity = 1
-                created.save()
+                print(' in left over ')
+
+
                 
+                if product_qr_instance.moved_to_left_over != True:
+                    
+                    instance, created = left_over_stock.objects.get_or_create(product = product_instance)
+                
+                    stock_instance = stock.objects.get(product = product_instance)
+                    stock_instance.quantity = stock_instance.quantity - 1
+                    stock_instance.save()
+
+                    product_qr_instance.moved_to_left_over = True
+                    product_qr_instance.save()
+
+                    if instance:
+
+                        instance.quantity = instance.quantity + 1
+                        instance.product_qr = product_qr_instance
+                        instance.save()
+
+                    else:
+
+                        created.quantity = 1
+                        created.save()
+                    
         project_instance.save()
 
 

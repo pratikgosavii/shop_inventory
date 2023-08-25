@@ -40,7 +40,7 @@ class project_material(models.Model):
 
     quantity = models.IntegerField()
     product = models.ForeignKey(product, on_delete=models.CASCADE, related_name = "product_re")
-    project = models.ForeignKey(project, on_delete=models.CASCADE, related_name = "project_material_re")
+    project = models.ForeignKey(project, on_delete=models.CASCADE, related_name = "project_material_re_1")
 
 
 
