@@ -1749,8 +1749,36 @@ def close_project(request, project_id):
         for a,b,c,d,e in zip(material, size_value, used_size, left_size, move_to_scratch):
 
            
-            size_instance1 = size.objects.get_or_create(name = b)
-            size_instance2 = size.objects.get_or_create(name = c)
+            size_instance1, new_generated_size1 = size.objects.get_or_create(name = b)
+
+            if size_instance1 == None:
+
+                size_instance1 = new_generated_size1
+
+
+            size_instance2, new_generated_size2 = size.objects.get_or_create(name = c)
+
+            
+            if size_instance2 == None:
+
+                size_instance2 = new_generated_size2
+
+            size_instance3, new_generated_size3= size.objects.get_or_create(name = d)
+
+            
+            if size_instance3 == None:
+
+                size_instance3 = new_generated_size3
+
+            print('-------------------------')
+            print(size_instance1.id)
+            print(size_instance2.id)
+            print(size_instance3.id)
+
+            print('-------------------------')
+
+
+            
             
             project_matarial_qr_instance = project_matarial_qr.objects.get(id = a)
 
@@ -1759,10 +1787,14 @@ def close_project(request, project_id):
 
             product_qr_instance = project_matarial_qr_instance.product_qr
 
+            print(product_qr_instance)
+
            
         
-            material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = d)
+            material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = size_instance3)
             
+
+
             if e == "true":
 
                 print(' in scratch ')

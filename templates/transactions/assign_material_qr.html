@@ -138,6 +138,7 @@
                                         <td> Size </td>
                                         <td> Grade </td>
                                         <td> Thickness </td>
+                                        <td> Scanned Sheet </td>
                                         <td> Action </td>
                                         
                                     </tr>
@@ -154,6 +155,7 @@
                                         <td> {{ z.project_material.product.size }} </td>
                                         <td> {{ z.project_material.product.grade }} </td>
                                         <td> {{ z.project_material.product.thickness }} </td>
+                                        <td> </td>
                                         <td>  <video id="video" width="320" height="240" autoplay></video>
                                                 <button type="button" class="btn btn-success startButton" id="{{ z.id }}">Start Scanning</button>
                                                 <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
@@ -210,6 +212,19 @@ document.addEventListener("DOMContentLoaded", function () {
                         const scannedValue = content;
                         stopVideo(buttonId);
                         console.log("Button ID: ", buttonId, ", Scanned Value: ", scannedValue);
+
+                        const scannedButton = document.getElementById(buttonId);
+                        scannedButton.style.backgroundColor = "orange"; // Change to your desired color
+                    
+
+                         // Get the button's parent row
+            const buttonRow = scannedButton.closest("tr");
+
+            // Create a new cell for the scanned value
+            const valueCell = document.createElement("td");
+            valueCell.textContent = scannedValue;
+
+
                         material_id.push(buttonId);
                         scanned_value.push(scannedValue);
                         console.log(material_id);

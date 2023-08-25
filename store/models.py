@@ -123,6 +123,3 @@ class product_qr(models.Model):
     date_of_pur = models.DateField(auto_now_add=False, null = True, blank = True)
 
      
-    def __str__(self):
-        return self.date_of_pur
-
