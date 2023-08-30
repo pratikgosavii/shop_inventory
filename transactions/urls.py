@@ -23,6 +23,8 @@ urlpatterns = [
 
     path('assign-matarial-qr/<project_id>', assign_matarial_qr, name='assign_matarial_qr'),
     
+    path('update-assign-matarial-qr/<product_qr>', update_assign_matarial_qr, name='update_assign_matarial_qr'),
+    
     # path('update-project/<project_id>', update_project, name='update_project'),
     # path('list-project/', list_project, name='list_project'),
 

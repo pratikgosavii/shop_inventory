@@ -2028,6 +2028,64 @@ def assign_matarial_qr(request, project_id):
         return render(request, 'transactions/assign_material_qr.html', context)
 
 
+def update_assign_matarial_qr(request, product_qr):
+
+    product_qr_instance = product_qr.objects.get(id = product_qr)
+
+    if request.method == "POST":
+
+        a = request.POST.get('size')
+        b = request.POST.get('used_size')
+        c = request.POST.get('left_size')
+        move_to_scratch = request.POST.get('move_to_scratch')
+
+        
+
+        
+        size_instance1, new_generated_size1 = size.objects.get_or_create(name = a)
+
+        if size_instance1 == None:
+
+            size_instance1 = new_generated_size1
+
+
+        size_instance2, new_generated_size2 = size.objects.get_or_create(name = b)
+
+        if size_instance2 == None:
+
+            size_instance2 = new_generated_size2
+        
+
+        size_instance3, new_generated_size3= size.objects.get_or_create(name = c)
+            
+        if size_instance3 == None:
+
+            size_instance3 = new_generated_size3
+
+
+        material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = size_instance3)
+
+        # remove project for this qr
+        return JsonResponse({'status' : 'done'})
+
+
+    else:
+
+        context = {
+            'form': product_Form(instance=product_qr_instance.product),
+            'product_qr_id': product_qr,
+        }
+
+        return render(request, 'transactions/update_assign_material_qr.html', context)
+
+    
+
+
+
+
+
+
+
 import qrcode
 
 from django.core.files.base import ContentFile
