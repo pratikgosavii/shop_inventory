@@ -1845,10 +1845,14 @@ def close_project(request, project_id):
                     
                     instance, created = left_over_stock.objects.get_or_create(product = product_instance)
                 
-                    stock_instance = stock.objects.get(product = product_instance)
-                    stock_instance.quantity = stock_instance.quantity - 1
-                    stock_instance.save()
-
+                    stock_instance, stock_created = stock.objects.get_or_create(product = product_instance)
+                    if stock_instance:
+                        stock_instance.quantity = stock_instance.quantity - 1
+                        stock_instance.save()
+                    else:
+                        stock_created.quantity = 1
+                        stock_created.save()
+                        
                     product_qr_instance.moved_to_left_over = True
                     product_qr_instance.save()
 
