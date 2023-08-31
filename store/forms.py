@@ -117,9 +117,6 @@ class size_Form(forms.ModelForm):
         widgets = {
           
           
-            'category': forms.Select(attrs={
-                'class': 'form-control', 'id': 'categoryyy'
-            }),
             'name': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'name'
             }),
@@ -167,11 +164,6 @@ class thickness_Form(forms.ModelForm):
         fields = '__all__'
         widgets = {
           
-            'category': forms.Select(attrs={
-                'class': 'form-control', 'id': 'categoryyy'
-            }),
-          
-          
             'name': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'name'
             }),
@@ -184,11 +176,6 @@ class grade_Form(forms.ModelForm):
         model = grade
         fields = '__all__'
         widgets = {
-          
-          
-            'category': forms.Select(attrs={
-                'class': 'form-control', 'id': 'categoryyy'
-            }),
           
 
             'name': forms.TextInput(attrs={

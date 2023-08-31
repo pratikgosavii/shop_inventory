@@ -25,7 +25,7 @@ class request_material(models.Model):
 
 class project(models.Model):
 
-    customer = models.CharField( max_length=50)
+    customer = models.ForeignKey(customer , on_delete=models.CASCADE, related_name='hfghjgjvhj')
     employee_name = models.ForeignKey(employee , on_delete=models.CASCADE, related_name='dfsdds')
     DC_date = models.DateField(auto_now_add=False)
     description = models.CharField( max_length=50)

@@ -60,7 +60,6 @@ class category(models.Model):
 
 class size(models.Model):
     
-    category = models.ForeignKey(category, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=120, unique=False)
 
     def __str__(self):
@@ -68,7 +67,6 @@ class size(models.Model):
 
 class thickness(models.Model):
     
-    category = models.ForeignKey(category, on_delete=models.CASCADE)
     name = models.CharField(max_length=120, unique=False)
 
     def __str__(self):
@@ -76,7 +74,6 @@ class thickness(models.Model):
 
 class grade(models.Model):
     
-    category = models.ForeignKey(category, on_delete=models.CASCADE)
     name = models.CharField(max_length=120, unique=False)
 
     def __str__(self):

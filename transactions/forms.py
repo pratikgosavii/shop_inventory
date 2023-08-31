@@ -53,7 +53,7 @@ class project_Form(forms.ModelForm):
             'employee_name': forms.Select(attrs={
                 'class': 'form-control', 'id': 'bag_size'
             }),
-            'customer': forms.TextInput(attrs={
+            'customer': forms.Select(attrs={
                 'class': 'form-control', 'id': 'customer'
             }),
            
