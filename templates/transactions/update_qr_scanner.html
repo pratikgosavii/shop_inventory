@@ -49,11 +49,7 @@
                     
                       window.location.href = '/transactions/update-assign-matarial-qr/' + parameterValue;
                 });
-                const desiredFacingMode = 'environment'; // The facing mode for the back camera
-
-                // Find the back camera based on the desired facing mode
-                const backCamera = cameras.find(camera => camera.facingMode === desiredFacingMode);
-                
+                const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
                 scanner.start(backCamera);
             } else {
                 console.error('No cameras found.');
