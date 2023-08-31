@@ -23,7 +23,9 @@ urlpatterns = [
 
     path('assign-matarial-qr/<project_id>', assign_matarial_qr, name='assign_matarial_qr'),
     
-    path('update-assign-matarial-qr/<product_qr>', update_assign_matarial_qr, name='update_assign_matarial_qr'),
+    path('show-qr', show_scanner_assign_matarial_qr, name='show_scanner_assign_matarial_qr'),
+    path('update-assign-matarial-qr/<product_qr_id>', update_assign_matarial_qr, name='update_assign_matarial_qr'),
+    path('add_production/<project_id>', add_production, name='add_production'),
     
     # path('update-project/<project_id>', update_project, name='update_project'),
     # path('list-project/', list_project, name='list_project'),

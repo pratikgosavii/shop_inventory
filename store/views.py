@@ -189,6 +189,78 @@ def list_godown(request):
 
     return render(request, 'store/list_godown.html', context)
 
+@login_required(login_url='login')
+def add_item_code(request):
+
+    if request.method == 'POST':
+
+        forms = item_code_Form(request.POST)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_item_code')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        forms = item_code_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'store/add_item_code.html', context)
+
+        
+
+@login_required(login_url='login')
+def update_item_code(request, item_code_id):
+
+    if request.method == 'POST':
+
+        instance = item_code.objects.get(id=item_code_id)
+
+        forms = item_code_Form(request.POST, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_item_code')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        instance = item_code.objects.get(id=item_code_id)
+        forms = item_code_Form(instance=instance)
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'store/add_item_code.html', context)
+
+        
+
+@login_required(login_url='login')
+def delete_item_code(request, item_code_id):
+
+    item_code.objects.get(id=item_code_id).delete()
+
+    return HttpResponseRedirect(reverse('list_item_code'))
+
+
+        
+
+@login_required(login_url='login')
+def list_item_code(request):
+
+    data = item_code.objects.all()
+
+    context = {
+        'data': data
+    }
+
+    return render(request, 'store/list_item_code.html', context)
+
 
 @login_required(login_url='login')
 def add_customer(request):

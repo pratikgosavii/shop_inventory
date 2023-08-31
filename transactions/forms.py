@@ -87,6 +87,22 @@ class project_matarial_Form(forms.ModelForm):
             'project': forms.Select(attrs={
                 'class': 'form-control', 'id': 'bag_size'
             }),
+           
+        }
+
+class project_matarial_qr_Form(forms.ModelForm):
+    class Meta:
+        model = project_matarial_qr
+        fields = '__all__'
+        widgets = {
+           
+            'item_code': forms.Select(attrs={
+                'class': 'form-control', 'id': 'bag_size', 'name' : 'item_code'
+            }),
+            'production_quantity': forms.NumberInput(attrs={
+                'class': 'form-control', 'id': 'bag_size', 'name' : 'production_quantity'
+            }),
+
 
         }
 

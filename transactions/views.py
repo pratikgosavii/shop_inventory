@@ -1711,6 +1711,7 @@ def list_project(request):
 
     context = {
         'data': data,
+        'project_filter': project_filter(),
        
     }
 
@@ -1734,11 +1735,10 @@ def close_project(request, project_id):
         project_instance = project.objects.get(id = project_id)
         project_instance.completed = True
 
-        size_value = request.POST.getlist('size[]')
-        used_size = request.POST.getlist('used_size[]')
-        left_size = request.POST.getlist('left_size[]')
+        
+        quantity = request.POST.getlist('quantity[]')
+        item_code = request.POST.getlist('item_code[]')
         material = request.POST.getlist('materialsId[]')
-        move_to_scratch = request.POST.getlist('move_to_scratch[]')
 
         print('----------------------')
         print(move_to_scratch)
@@ -1746,129 +1746,7 @@ def close_project(request, project_id):
 
 
 
-        for a,b,c,d,e in zip(material, size_value, used_size, left_size, move_to_scratch):
-
-           
-            size_instance1, new_generated_size1 = size.objects.get_or_create(name = b)
-
-            if size_instance1 == None:
-
-                size_instance1 = new_generated_size1
-
-
-            size_instance2, new_generated_size2 = size.objects.get_or_create(name = c)
-
-            
-            if size_instance2 == None:
-
-                size_instance2 = new_generated_size2
-
-            size_instance3, new_generated_size3= size.objects.get_or_create(name = d)
-
-            
-            if size_instance3 == None:
-
-                size_instance3 = new_generated_size3
-
-            print('-------------------------')
-            print(size_instance1.id)
-            print(size_instance2.id)
-            print(size_instance3.id)
-
-            print('-------------------------')
-
-
-            
-            
-            project_matarial_qr_instance = project_matarial_qr.objects.get(id = a)
-
-            product_instance = project_matarial_qr_instance.project_material.product
-            # Now, retrieve the related project_qr instance
-
-            product_qr_instance = project_matarial_qr_instance.product_qr
-
-            print(product_qr_instance)
-
-           
         
-            material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = size_instance3)
-            
-
-
-            if e == "true":
-
-                print(' in scratch ')
-
-                instance, created = scratch_stock.objects.get_or_create(product = product_instance)
-
-                if product_qr_instance.moved_to_left_over != True:
-                
-                    stock_instance = stock.objects.get(product = product_instance)
-                    stock_instance.quantity = stock_instance.quantity - 1
-                    
-                    product_qr_instance.moved_to_scratch = True
-                    product_qr_instance.save()
-
-                    stock_instance.save()
-
-                else:
-                    
-                    left_over_instance =  left_over_stock.objects.get(product = product_instance)
-
-
-                    left_over_instance.quantity = left_over_instance.quantity - 1
-                    left_over_instance.save()
-
-                    product_qr_instance.moved_to_scratch = True
-                    product_qr_instance.save()
-
-
-
-                if instance:
-
-                    instance.quantity = instance.quantity + 1
-                    instance.product_qr = product_qr_instance
-                    instance.save()
-
-                else:
-
-                    created.quantity = 1
-                    created.save()
-
-            else:
-
-                print(' in left over ')
-
-
-                
-                if product_qr_instance.moved_to_left_over != True:
-                    
-                    instance, created = left_over_stock.objects.get_or_create(product = product_instance)
-                
-                    stock_instance, stock_created = stock.objects.get_or_create(product = product_instance)
-                    if stock_instance:
-                        stock_instance.quantity = stock_instance.quantity - 1
-                        stock_instance.save()
-                    else:
-                        stock_created.quantity = 1
-                        stock_created.save()
-                        
-                    product_qr_instance.moved_to_left_over = True
-                    product_qr_instance.save()
-
-                    if instance:
-
-                        instance.quantity = instance.quantity + 1
-                        instance.product_qr = product_qr_instance
-                        instance.save()
-
-                    else:
-
-                        created.quantity = 1
-                        created.save()
-                    
-        project_instance.save()
-
 
 
         return JsonResponse({'status' : 'done'})
@@ -1918,6 +1796,13 @@ def add_project(request):
         thickness_id = request.POST.getlist("thickness")
         grade_id = request.POST.getlist("grade")
         quantity = request.POST.getlist("quantity")
+
+
+        print(category_id)
+        print(size_id)
+        print(thickness_id )
+        print(grade_id )
+        print(quantity )
 
 
         if forms.is_valid():
@@ -1972,9 +1857,12 @@ def add_project(request):
 @login_required(login_url='login')
 def assign_matarial_qr(request, project_id):
 
+    print('hereeeeeeeeeeeeee')
+    print(request.POST)
+    print('------------')
+
     project_instance = project.objects.get(id = project_id)
 
-    print(request.POST)
 
     if request.method == 'POST':
 
@@ -1990,10 +1878,16 @@ def assign_matarial_qr(request, project_id):
 
         for i, z in zip(material, scan):
 
+            print('-----------------')
+
             pro = project_matarial_qr.objects.get(id = i)
+            print(pro)
             product_qr_instance = product_qr.objects.get(id = z)
+            print(product_qr_instance)
+
             pro.product_qr = product_qr_instance
             pro.save()
+            print('-----------------')
 
 
         url = reverse('list_project')
@@ -2032,20 +1926,24 @@ def assign_matarial_qr(request, project_id):
         return render(request, 'transactions/assign_material_qr.html', context)
 
 
-def update_assign_matarial_qr(request, product_qr):
+def show_scanner_assign_matarial_qr(request):
 
-    product_qr_instance = product_qr.objects.get(id = product_qr)
+    return render(request, 'transactions/update_qr_scanner.html')
+
+
+
+
+def update_assign_matarial_qr(request, product_qr_id):
+
+    product_qr_instance = product_qr.objects.get(id = product_qr_id)
 
     if request.method == "POST":
 
         a = request.POST.get('size')
         b = request.POST.get('used_size')
         c = request.POST.get('left_size')
-        move_to_scratch = request.POST.get('move_to_scratch')
+        e = request.POST.get('move_to_scratch')
 
-        
-
-        
         size_instance1, new_generated_size1 = size.objects.get_or_create(name = a)
 
         if size_instance1 == None:
@@ -2058,31 +1956,181 @@ def update_assign_matarial_qr(request, product_qr):
         if size_instance2 == None:
 
             size_instance2 = new_generated_size2
-        
+
 
         size_instance3, new_generated_size3= size.objects.get_or_create(name = c)
-            
+        
         if size_instance3 == None:
 
             size_instance3 = new_generated_size3
 
 
-        material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = size_instance3)
+        project_matarial_qr_instance = project_matarial_qr.objects.get(product_qr__id = product_qr_id)
 
+        product_instance = project_matarial_qr_instance.project_material.product
+
+        project_matarial_qr_instance.is_work_done = True
+        project_matarial_qr_instance.save()
+
+        # Now, retrieve the related project_qr instance
+    
+        material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = size_instance3)
+            
+        if e == "true":
+
+            print(' in scratch ')
+
+            instance, created = scratch_stock.objects.get_or_create(product = product_instance)
+
+            if product_qr_instance.moved_to_left_over != True:
+            
+                stock_instance = stock.objects.get(product = product_instance)
+                stock_instance.quantity = stock_instance.quantity - 1
+                
+                product_qr_instance.moved_to_scratch = True
+                product_qr_instance.save()
+
+                stock_instance.save()
+
+            else:
+                
+                left_over_instance =  left_over_stock.objects.get(product = product_instance)
+
+
+                left_over_instance.quantity = left_over_instance.quantity - 1
+                left_over_instance.save()
+
+                product_qr_instance.moved_to_scratch = True
+                product_qr_instance.save()
+
+
+
+            if instance:
+
+                instance.quantity = instance.quantity + 1
+                instance.product_qr = product_qr_instance
+                instance.save()
+
+            else:
+
+                created.quantity = 1
+                created.save()
+
+        else:
+
+            print(' in left over ')
+
+
+            
+            if product_qr_instance.moved_to_left_over != True:
+                
+                instance, created = left_over_stock.objects.get_or_create(product = product_instance)
+            
+                stock_instance, stock_created = stock.objects.get_or_create(product = product_instance)
+                if stock_instance:
+                    stock_instance.quantity = stock_instance.quantity - 1
+                    stock_instance.save()
+                else:
+                    stock_created.quantity = 1
+                    stock_created.save()
+
+                product_qr_instance.moved_to_left_over = True
+                product_qr_instance.save()
+
+                if instance:
+
+                    instance.quantity = instance.quantity + 1
+                    instance.product_qr = product_qr_instance
+                    instance.save()
+
+                else:
+
+                    created.quantity = 1
+                    created.save()
+        print('-------------------')
+        print('-------------------')
+        print('-------------------')
+        print(product_instance.category)
+        print(product_instance.thickness)
+        print(product_instance.grade)
+        print(product_instance.shelf)
+        print(size_instance3.id)
+        print('-------------------')
+        print('-------------------')
+        print('-------------------')
+        product_instance, product_created = product.objects.get_or_create(category = product_instance.category, thickness = product_instance.thickness, size = size_instance3, grade = product_instance.grade, shelf = product_instance.shelf)
+        
+        print('---------8888888888888888888888888888888888----------')
+      
+        
+        if product_instance == None:
+            product_qr_instance.product = product_created
+        else:
+            product_qr_instance.product = product_instance
+
+        print(product_instance)
+        print(product_instance.size)
+            
+        product_qr_instance.save()
+
+        
         # remove project for this qr
         return JsonResponse({'status' : 'done'})
 
 
     else:
 
+      
         context = {
-            'form': product_Form(instance=product_qr_instance.product),
-            'product_qr_id': product_qr,
+            'data': product_qr_instance,
+            'product_qr_id' : product_qr_id
         }
 
         return render(request, 'transactions/update_assign_material_qr.html', context)
 
     
+from django.forms import modelformset_factory
+
+def add_production(request, project_id):
+
+    project_instance = project.objects.get(id = project_id)
+
+    if request.method == "POST":
+
+        quantity = request.POST.getlist('quantity[]')
+        item_code_id = request.POST.getlist('item_code[]')
+        material = request.POST.getlist('materialsId[]')
+
+
+        for a,b,c in zip(material, item_code_id, quantity):
+
+            instance = project_matarial_qr.objects.get(id = a)
+            item_code_instance = item_code.objects.get(id = b)
+            instance.item_code = item_code_instance
+            instance.production_quantity = c
+            instance.save()
+       
+        return JsonResponse({'status' : 'sdsd'})
+        
+    else:
+
+        data = project_material.objects.filter(project = project_instance)
+
+        item_code_data = item_code.objects.all()
+
+        print(item_code_data)
+
+        # Create the formset with the initial data
+       
+        context = {
+            'form': project_Form(instance=project_instance),
+            'data' : data,
+            'item_code_data' : item_code_data,
+            'project_material_form' : project_matarial_qr_Form(),
+            'project_id' : project_id,
+        }
+
+        return render(request,'transactions/add_production.html', context )
 
 
 

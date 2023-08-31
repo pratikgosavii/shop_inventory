@@ -89,7 +89,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <strong class="card-title">Assign Material Qr</strong>
+                <strong class="card-title">Add Production Details</strong>
             </div>
             <div class="card-body">
                 <!-- Credit Card -->
@@ -134,12 +134,13 @@
                             <table class="table">
                                 <thead class="thead-light" style="background: #e3e3e3;">
                                     <tr>
+                                        <td> Sheet No </td>
                                         <td> Category </td>
                                         <td> Size </td>
                                         <td> Grade </td>
                                         <td> Thickness </td>
-                                        <td> Scanned Sheet </td>
-                                        <td> Action </td>
+                                        <td> Item Code </td>
+                                        <td> Production Quantity </td>
                                         
                                     </tr>
                                 </thead>
@@ -151,15 +152,25 @@
                                         {% for z in i.project_material_re.all %}
 
                                     <tr>
+                                        <input type="hidden" name ="materials" value="{{ z.id }}">
+                                        <td> {{ z.product_qr.id }} </td>
                                         <td> {{ z.project_material.product.category }} </td>
                                         <td> {{ z.project_material.product.size }} </td>
                                         <td> {{ z.project_material.product.grade }} </td>
                                         <td> {{ z.project_material.product.thickness }} </td>
-                                        <td> {{ z.product_qr.id }} </td>
-                                        <td>  <video id="video" width="320" height="240" autoplay></video>
-                                                <button type="button" class="btn btn-success startButton" id="{{ z.id }}">Start Scanning</button>
-                                                <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-                                        </td>
+                                        <td> <select name="item_code" class="form-control" id="bag_size">
+                                            
+                                            <option value="{{  z.item_code.id }}" selected> {{ z.item_code }} </option>
+
+                                            <option value="">---------</option>
+                                            {% for y in item_code_data %}
+                                                
+                                                <option value="{{ y.id }}">{{ y }}</option>
+                                                
+                                            {% endfor %}
+                                          </select> </td>
+                                        <td> <input type="number" value="{{ z.production_quantity }}" name="production_quantity" class="form-control" id="bag_size"> </td>
+                                        
                                     </tr>
 
                                     {% endfor %}
@@ -172,7 +183,7 @@
  <br>
                             <div>
                                 <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
-                                    <span id="payment-button-amount">Submit Plan</span>
+                                    <span id="payment-button-amount">Close Project</span>
                                 </button>
                             </div>
                         </form>
@@ -193,153 +204,53 @@
 
 <script>
 
-    let material_id = [];
-    let scanned_value = [];
-
-document.addEventListener("DOMContentLoaded", function () {
-    const video = document.getElementById("video");
-    const startButtons = document.querySelectorAll(".startButton");
-    let scanner = null;
-
-    function startVideo(buttonId, camera) {
-        if (navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: { deviceId: camera.id } })
-                .then((stream) => {
-                    video.style.display = "block";
-                    video.srcObject = stream;
-                    scanner = new Instascan.Scanner({ video: video });
-                    scanner.addListener("scan", function (content) {
-                        const scannedValue = content;
-                        stopVideo(buttonId);
-                        console.log("Button ID: ", buttonId, ", Scanned Value: ", scannedValue);
-
-                        const scannedButton = document.getElementById(buttonId);
-                        scannedButton.style.backgroundColor = "orange"; // Change to your desired color
-                    
-
-                     
-                        alert(scannedValue)
-            
 
 
 
-                        material_id.push(buttonId);
-                        scanned_value.push(scannedValue);
-                        console.log(material_id);
-                        console.log(scanned_value);
-                    });
-                    scanner.start(camera);
-                })
-                .catch((err) => {
-                    console.error("Error accessing camera:", err);
-                });
-        } else {
-            console.error("getUserMedia not supported.");
-        }
-    }
 
-    function stopVideo(buttonId) {
-        if (scanner) {
-            scanner.stop();
-            scanner = null;
-        }
 
-        const stream = video.srcObject;
-        const tracks = stream.getTracks();
-        tracks.forEach(track => track.stop());
-        video.srcObject = null;
+function submitForm(e) {
+    e.preventDefault();
 
-        video.style.display = "none";
-        startButtons.forEach((button) => {
-            if (button.id === buttonId) {
-                button.disabled = false;
-            }
-        });
-    }
+    const rows = document.querySelectorAll('tbody tr');
+    const item_code_arr = [];
+    const production_quantity_arr = [];
+    const materialsId_arr = [];
 
-    startButtons.forEach((button) => {
-        button.addEventListener("click", function () {
-            const buttonId = this.id;
-            Instascan.Camera.getCameras().then(function (cameras) {
-                const desiredCameraId = '810421246672b29ac3696882fb9d5a68238f73f93a336bd681e8399449bd690e'; // Replace with the actual camera ID you want to open
-                
-                const desiredCamera = cameras.find(camera => camera.id === desiredCameraId);
-                if (desiredCamera) {
-                    startVideo(buttonId, desiredCamera);
-                    this.disabled = true;
-                } else {
-                    console.error("Desired camera not found.");
-                }
-            });
-        });
+    rows.forEach((row) => {
+        const materialsId = row.querySelector('[name="materials"]').value;
+        const item_code = row.querySelector('[name="item_code"]').value;
+        const production_quantity = row.querySelector('[name="production_quantity"]').value;
+
+        materialsId_arr.push(materialsId);
+        item_code_arr.push(item_code);
+        production_quantity_arr.push(production_quantity);
+           
     });
-});
 
-
-
-
-
-   $(document).ready(function() {
-    var max = 10;
-    var cnt = 1;
-    $(".add-textbox").on("click", function(e){
-        e.preventDefault();
-        if(cnt < max){
-            cnt++;
-
-            const newRow = document.createElement('tr');
-            const tableBody = document.querySelector('#my-table tbody');
-
-            // Create your input elements here using Django template variables
-            newRow.innerHTML = `
-            <td> {{ data_form.category }} </td> <td>{{ data_form.size }} </td> <td> {{ data_form.grade }} </td> <td>{{ data_form.thickness }} </td> <td> <input type="number" class="form-control" name="quantity" placeholder="Qty"> </td> <td>  <span class="input-group-btn"><button type="button" class="btn btn-danger remove-textbox"> </td>
-            `;
-
-            
-                $(tableBody).append(newRow);
-
-
-        }
-    });
-});
-
-const tableBody = document.querySelector('#my-table tbody');
-
-tableBody.addEventListener('click', function(event) {
-
-    const target = event.target;
-    if (target.classList.contains('remove-textbox')) {
-      const row = target.closest('tr'); // Find the parent row
-      if (row.parentNode.children.length > 1) {
-        row.remove(); // Remove the row from the table if there are more than one rows
-      }
-    }
-  });
-
-
-
-  
-  function submitForm(event) {
-
-    alert(scanned_value)
-    event.preventDefault(); // Prevent form submission to avoid page reload
 
 
     $.ajax({                       // initialize an AJAX request
         type: "POST",
-        url: '{% url "assign_matarial_qr" project_id %}',
+        url: '{% url "add_production" project_id %}',
         data: {
-            'material_id': [...material_id],       // add the country id to the POST parameters
-            'scanned_value': [...scanned_value],       // add the country id to the POST parameters
+            'materialsId': [...materialsId_arr],       // add the country id to the POST parameters
+            'item_code': [...item_code_arr],       // add the country id to the POST parameters
+            'quantity': [...production_quantity_arr],     
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+              // add the country id to the POST parameters
         },
         success: function (data) {   // `data` is from `get_topics_ajax` view function
-            window.location.href = data.url
+
+          console.log(data)
+
+          if(data.status == "done"){
+            window.location.href = "{% url 'list_project' %}"
+          }
         }
     });
-
     
-}
+    }
 
 
 

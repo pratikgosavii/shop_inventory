@@ -41,13 +41,15 @@ class project_material(models.Model):
     quantity = models.IntegerField()
     product = models.ForeignKey(product, on_delete=models.CASCADE, related_name = "product_re")
     project = models.ForeignKey(project, on_delete=models.CASCADE, related_name = "project_material_re_1")
-
-
+    
 
 class project_matarial_qr(models.Model):
     
     project_material = models.ForeignKey(project_material, on_delete=models.CASCADE, related_name = "project_material_re", null = True, blank = True)
     product_qr =  models.ForeignKey(product_qr, on_delete=models.CASCADE, null = True, blank = True)
+    is_work_done = models.BooleanField(default=False)
+    item_code = models.ForeignKey(item_code, on_delete=models.CASCADE, related_name = "item_code_re_1", null = True, blank = True)
+    production_quantity = models.IntegerField(null = True, blank = True)
 
     
     def __str__(self):

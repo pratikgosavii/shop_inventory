@@ -71,6 +71,13 @@
                     </ul>
                 </li>
                 <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Iteam Code </a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_item_code' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_item_code' %}">View</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>All Materials </a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-id-card-o"></i><a href="{% url 'list_generated_product_qr' %}">View</a></li>

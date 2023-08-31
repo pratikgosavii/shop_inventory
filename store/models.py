@@ -93,6 +93,15 @@ class dealer(models.Model):
         return self.name
 
 
+class item_code(models.Model):
+
+    code = models.CharField(max_length=120, unique=False)
+    
+    
+    def __str__(self):
+        return self.code
+
+
 
 
 
@@ -105,9 +114,7 @@ class product(models.Model):
     grade = models.ForeignKey(grade, on_delete=models.CASCADE, null = True, blank = True)
 
 
-    def __str__(self):
-        return self.grade
-
+    
 
 
 class product_qr(models.Model):

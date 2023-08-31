@@ -16,6 +16,12 @@ urlpatterns = [
     path('delete-godown/<godown_id>', delete_godown, name='delete_godown'),
     path('list-godown/', list_godown, name='list_godown'),
     
+
+    path('add-item_code/', add_item_code, name='add_item_code'),
+    path('update-item_code/<item_code_id>', update_item_code, name='update_item_code'),
+    path('delete-item_code/<item_code_id>', delete_item_code, name='delete_item_code'),
+    path('list-item_code/', list_item_code, name='list_item_code'),
+    
     path('add-customer/', add_customer, name='add_customer'),
     path('update-customer/<customer_id>', update_customer, name='update_customer'),
     path('delete-customer/<customer_id>', delete_customer, name='delete_customer'),

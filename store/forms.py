@@ -15,6 +15,18 @@ class godown_Form(forms.ModelForm):
             }),
             
         }
+        
+class item_code_Form(forms.ModelForm):
+    class Meta:
+        model = item_code
+        
+        fields = ['code']
+        widgets = {
+            'code': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'code'
+            }),
+            
+        }
 
 
 class category_Form(forms.ModelForm):
