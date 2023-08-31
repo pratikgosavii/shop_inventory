@@ -261,11 +261,10 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener("click", function () {
             const buttonId = this.id;
             Instascan.Camera.getCameras().then(function (cameras) {
-                const desiredCameraId = '810421246672b29ac3696882fb9d5a68238f73f93a336bd681e8399449bd690e'; // Replace with the actual camera ID you want to open
-                
-                const desiredCamera = cameras.find(camera => camera.id === desiredCameraId);
-                if (desiredCamera) {
-                    startVideo(buttonId, desiredCamera);
+                const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
+
+                if (backCamera) {
+                    startVideo(buttonId, backCamera);
                     this.disabled = true;
                 } else {
                     console.error("Desired camera not found.");
