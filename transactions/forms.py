@@ -102,6 +102,9 @@ class project_matarial_qr_Form(forms.ModelForm):
             'production_quantity': forms.NumberInput(attrs={
                 'class': 'form-control', 'id': 'bag_size', 'name' : 'production_quantity'
             }),
+            'cutter': forms.NumberInput(attrs={
+                'class': 'form-control', 'id': 'bag_size', 'name' : 'cutter'
+            }),
 
 
         }

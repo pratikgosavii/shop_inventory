@@ -31,6 +31,11 @@ urlpatterns = [
     path('update-employee/<employee_id>', update_employee, name='update_employee'),
     path('delete-employee/<employee_id>', delete_employee, name='delete_employee'),
     path('list-employee/', list_employee, name='list_employee'),
+    
+    path('add-cutter/', add_cutter, name='add_cutter'),
+    path('update-cutter/<cutter_id>', update_cutter, name='update_cutter'),
+    path('delete-cutter/<cutter_id>', delete_cutter, name='delete_cutter'),
+    path('list-cutter/', list_cutter, name='list_cutter'),
 
     path('add-dealer/', add_dealer, name='add_dealer'),
     path('update-dealer/<dealer_id>', update_dealer, name='update_dealer'),

@@ -97,6 +97,49 @@
                                     </tbody>
 
                                 </table>  
+
+                                <hr>
+
+                            
+                                <label for="name" class="control-label mb-1"> Linked Product Used History </label>
+    
+
+
+                                
+
+                            <table class="table">
+                                <thead class="thead-light" style="background: #e3e3e3;">
+                                    <tr>
+                                        <td> Sheet No </td>
+                                        <td> Customer Name </td>
+                                        <td> Size Before </td>
+                                        <td> Used Size </td>
+                                        <td> Left Size </td>
+                                        
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for i in linked_data %}
+                                        <tr>
+                                            <td>{{ i.id }}</td>
+                                                {% for y in i.fdthfh.all %}
+                                                <tr>
+                                                <td> {{ y.product_qr.product.product_re.all.0.project.customer.name }}</td>
+                                                <td> {{ y.previous_size }} </td>
+                                                <td> {{ y.used_size }} </td>
+                                                <td> {{ y.left_size }} </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                            </table>
+                               
+                               
+
  <br>
                             
 

@@ -865,7 +865,7 @@ from .filters import *
 def list_stock(request):
 
    
-    data = stock.objects.all()
+    data = stock.objects.select_related('product__project_material_re').all()
    
     context = {
         'data': data,
@@ -1965,12 +1965,10 @@ def update_assign_matarial_qr(request, product_qr_id):
             size_instance3 = new_generated_size3
 
 
-        project_matarial_qr_instance = project_matarial_qr.objects.get(product_qr__id = product_qr_id)
+        project_matarial_qr_instance = project_matarial_qr.objects.filter(product_qr__id = product_qr_id).first()
 
         product_instance = project_matarial_qr_instance.project_material.product
 
-        project_matarial_qr_instance.is_work_done = True
-        project_matarial_qr_instance.save()
 
         # Now, retrieve the related project_qr instance
     
@@ -2067,6 +2065,7 @@ def update_assign_matarial_qr(request, product_qr_id):
             product_qr_instance.product = product_created
         else:
             product_qr_instance.product = product_instance
+
 
         print(product_instance)
         print(product_instance.size)
@@ -2192,23 +2191,27 @@ def generate_qr_codes_pdf(qr_codes):
 def generate_product_qr(request):
 
     quantity = request.POST.get('quantity')
-
     qr_codes = []
 
-    for i in range(int(quantity)):
+    # Specify the desired size in pixels (e.g., 600x600)
+    qr_size = 600
 
+    for i in range(int(quantity)):
         a = product_qr.objects.create()
+
+        # Adjust the box_size based on the desired size
+        box_size = qr_size // 4  # You can experiment with different values
 
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=5,
+            box_size=box_size,
             border=4,
         )
         qr.add_data(a.id)
         qr.make(fit=True)
-        
-        img = qr.make_image(fill_color="black", back_color="white")
+
+        img = qr.make_image(fill_color="black", back_color="white", size=(qr_size, qr_size))
         buffer = BytesIO()
         img.save(buffer, format="PNG")
 
@@ -2218,17 +2221,12 @@ def generate_product_qr(request):
 
         qr_codes.append(img)
 
-        print('--------------------')
-
     pdf_data = generate_qr_codes_pdf(qr_codes)
 
-    
     response = HttpResponse(pdf_data.getvalue(), content_type='application/pdf')
     response['Content-Disposition'] = 'inline; filename="qr_codes.pdf"'
 
     return response
-
-
 
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
@@ -2379,17 +2377,18 @@ def assign_values_to_qr(request, product_qr_id):
         form = product_Form(instance=product_qr_instance.product)
         form_qr = product_qr_Form(instance=product_qr_instance)
 
-
+        linked_data = product_qr.objects.filter(linked_sheet = product_qr_id)
+        print(linked_data)
+        print(product_qr_id)
         data = material_history.objects.filter(product_qr__id = product_qr_id)
 
-
-
-
+         
         
         context = {
             'form': form,
             'form_qr': form_qr,
             'data': data,
+            'linked_data': linked_data,
             'product_qr_id': product_qr_id,
         }
 

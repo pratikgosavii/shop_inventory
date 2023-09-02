@@ -1,79 +1,72 @@
 {% extends 'base/base.html' %}
 
-{% block title %}Product List{% endblock title %}
-
-{% block breadcrumbs %}
-<div class="breadcrumbs">
-    <div class="breadcrumbs-inner">
-        <div class="row m-0">
-            <div class="col-sm-4">
-                <div class="page-header float-left">
-                    <div class="page-title">
-                        <h1>Dashboard</h1>
-                    </div>
-                </div>
-            </div>
-            {% comment %} <div class="col-sm-8">
-                <div class="page-header float-right">
-                    <div class="page-title">
-                        <ol class="breadcrumb text-right">
-                            <li><a href="#">Dashboard</a></li>
-                            <li><a href="#">Product</a></li>
-                            <li class="active">List</li>
-                        </ol>
-                    </div>
-                </div>
-            </div> {% endcomment %}
-        </div>
-    </div>
-</div>
-{% endblock breadcrumbs %}
+{% block title %}Stock List{% endblock title %}
 
 {% block content %}
 <div class="row">
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="box-title">Stock List </h4>
+                <h4 class="box-title">Stock List</h4>
             </div>
             <div class="card-body--">
                 <div class="table-stats order-table ov-h">
-                    <table class="table ">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th class="serial">#</th>
-                                <th>Matrial Name</th>
+                                <th>Material Name</th>
                                 <th>Size</th>
                                 <th>Grade</th>
                                 <th>Thickness</th>
                                 <th>Quantity</th>
-                                
                             </tr>
                         </thead>
                         <tbody>
                             {% if data %}
-                            {% for i in data %}
-                            <tr>
-                                <td class="serial">{{ forloop.counter }}</td>
-                                <td>{{ i.product.category }}</td>
-                                <td>{{ i.product.size }}</td>
-                                <td>{{ i.product.grade }}</td>
-                                <td>{{ i.product.thickness }}</td>
-                                <td>{{ i.quantity }}</td>
-                                
-                               
-                            </tr>
-                            {% endfor %}
+                                {% for stock in data %}
+                                    <tr class="stock-row">
+                                        <td class="serial">{{ forloop.counter }}</td>
+                                        <td>{{ stock.product.category }}</td>
+                                        <td>{{ stock.product.size }}</td>
+                                        <td>{{ stock.product.grade }}</td>
+                                        <td>{{ stock.product.thickness }}</td>
+                                        <td>{{ stock.quantity }}</td>
+                                    </tr>
+                                    <!-- Add an accordion row for sheet numbers -->
+                                    <tr class="sheet-numbers">
+                                        <td colspan="6">
+                                            <!-- Insert your sheet numbers here -->
+                                            <ul>
+                                                {% for product_qr in stock.product.project_material_re.all %}
+                                                    <li>{{ product_qr.id }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
                             {% else %}
-                                <tr><td>No Product Data</td></tr>
+                                <tr><td colspan="6">No Product Data</td></tr>
                             {% endif %}
                         </tbody>
                     </table>
                 </div> <!-- /.table-stats -->
             </div>
         </div> <!-- /.card -->
-    </div>  <!-- /.col-lg-8 -->
-
-    
+    </div>  <!-- /.col-xl-12 -->
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function () {
+    // Hide all sheet number rows initially
+    $(".sheet-numbers").hide();
+
+    // Add click event handler to each stock row
+    $(".stock-row").click(function () {
+        // Toggle the visibility of sheet numbers for the clicked row
+        $(this).next(".sheet-numbers").toggle();
+    });
+});
+</script>
 {% endblock content %}

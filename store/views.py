@@ -398,6 +398,74 @@ def list_employee(request):
     }
     return render(request, 'store/list_employee.html', context)
 
+@login_required(login_url='login')
+def add_cutter(request):
+
+    if request.method == 'POST':
+
+        forms = cutter_Form(request.POST)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_cutter')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        forms = cutter_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'store/add_cutter.html', context)
+
+        
+
+@login_required(login_url='login')
+def update_cutter(request, cutter_id):
+
+    if request.method == 'POST':
+
+        instance = cutter.objects.get(id=cutter_id)
+
+        forms = cutter_Form(request.POST, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_cutter')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        instance = cutter.objects.get(id=cutter_id)
+        forms = cutter_Form(instance=instance)
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'store/add_cutter.html', context)
+
+        
+
+@login_required(login_url='login')
+def delete_cutter(request, cutter_id):
+
+    cutter.objects.get(id=cutter_id).delete()
+
+    return HttpResponseRedirect(reverse('list_cutter'))
+
+
+@login_required(login_url='login')
+def list_cutter(request):
+
+    data = cutter.objects.all()
+    context = {
+        'data': data
+    }
+    return render(request, 'store/list_cutter.html', context)
+
         
 
 @login_required(login_url='login')

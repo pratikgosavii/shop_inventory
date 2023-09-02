@@ -41,6 +41,16 @@ class employee(models.Model):
     def __str__(self):
         return self.name
 
+class cutter(models.Model):
+
+    name = models.CharField(max_length=120, unique=False)
+    address = models.CharField(max_length=120, unique=False)
+    mobile_no = models.IntegerField()
+    
+    
+    def __str__(self):
+        return self.name
+
 
 
 
@@ -123,7 +133,6 @@ class product_qr(models.Model):
     is_fix = models.BooleanField(default=False)
     moved_to_scratch = models.BooleanField(default=False)
     moved_to_left_over = models.BooleanField(default=False)
-
     date_of_pur = models.DateField(auto_now_add=False, null = True, blank = True)
 
      

@@ -50,6 +50,7 @@ class project_matarial_qr(models.Model):
     is_work_done = models.BooleanField(default=False)
     item_code = models.ForeignKey(item_code, on_delete=models.CASCADE, related_name = "item_code_re_1", null = True, blank = True)
     production_quantity = models.IntegerField(null = True, blank = True)
+    cutter =  models.ForeignKey(cutter, on_delete=models.CASCADE, null = True, blank = True)
 
     
     def __str__(self):

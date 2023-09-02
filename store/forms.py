@@ -107,6 +107,27 @@ class employee_Form(forms.ModelForm):
             
         }
 
+class cutter_Form(forms.ModelForm):
+    class Meta:
+        model = cutter
+        fields = '__all__'
+        widgets = {
+           
+            'name': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'name'
+            }),
+            'address': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'name'
+            }),
+            'mobile_no': forms.NumberInput(attrs={
+                'class': 'form-control', 'id': 'name'
+            }),
+            
+           
+     
+            
+        }
+
 
 
 
