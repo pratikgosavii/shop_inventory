@@ -865,7 +865,7 @@ from .filters import *
 def list_stock(request):
 
    
-    data = stock.objects.select_related('product__project_material_re').all()
+    data = stock.objects.prefetch_related('product__project_material_re').all()
    
     context = {
         'data': data,
