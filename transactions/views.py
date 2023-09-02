@@ -2377,7 +2377,6 @@ def assign_values_to_qr(request, product_qr_id):
         form = product_Form(instance=product_qr_instance.product)
         form_qr = product_qr_Form(instance=product_qr_instance)
 
-        print(linked_data)
         print(product_qr_id)
         data = material_history.objects.filter(product_qr__id = product_qr_id)
 
