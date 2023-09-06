@@ -141,6 +141,8 @@
                                         <td> Thickness </td>
                                         <td> Item Code </td>
                                         <td> Production Quantity </td>
+                                        <td> Action </td>
+                                        
                                         
                                     </tr>
                                 </thead>
@@ -152,15 +154,24 @@
                                         {% for z in i.project_material_re.all %}
 
                                     <tr>
-                                        <input type="hidden" name ="materials" value="{{ z.id }}">
+                                        <input type="hidden" id="materials" name ="materials" value="{{ z.id }}">
                                         <td> {{ z.product_qr.id }} </td>
                                         <td> {{ z.project_material.product.category }} </td>
                                         <td> {{ z.project_material.product.size }} </td>
                                         <td> {{ z.project_material.product.grade }} </td>
                                         <td> {{ z.project_material.product.thickness }} </td>
+                                       
+                                        
+                                        {% for s in z.project_matarial_qr_production.all %}
+                                        <tr>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
                                         <td> <select name="item_code" class="form-control" id="bag_size">
                                             
-                                            <option value="{{  z.item_code.id }}" selected> {{ z.item_code }} </option>
+                                            <option value="{{  s.item_code.id }}" selected> {{ s.item_code }} </option>
 
                                             <option value="">---------</option>
                                             {% for y in item_code_data %}
@@ -169,9 +180,13 @@
                                                 
                                             {% endfor %}
                                           </select> </td>
-                                        <td> <input type="number" value="{{ z.production_quantity }}" name="production_quantity" class="form-control" id="bag_size"> </td>
-                                        
-                                    </tr>
+                                            <td> <input type="number" value="{{ s.production_quantity }}" name="production_quantity" class="form-control" id="bag_size"> </td>
+                                            
+                                            <td> <input type="hidden" name="production_id" value="{{ s.id }}"> <button class="btn btn-danger"> <a href="{% url 'delete_production_entry' project_id s.id %}" > Remove </a> </button>  </td>
+                                       
+                                        </tr>
+                                        {% endfor %}
+
 
                                     {% endfor %}
                                     {% endfor %}
@@ -180,6 +195,11 @@
                                     </tbody>
 
                                 </table>  
+
+                                <button id="add-row-button" type="button" class="btn btn-primary">Add Row</button>
+
+                                <br>
+
  <br>
                             <div>
                                 <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
@@ -205,6 +225,97 @@
 <script>
 
 
+// Add an event listener to the "Add Row" button
+document.getElementById('add-row-button').addEventListener('click', function () {
+    const tableBody = document.querySelector('tbody');
+    const newRow = document.createElement('tr');
+
+    // Create empty columns for the first 4 columns
+    for (let i = 0; i < 5; i++) {
+        const emptyColumn = document.createElement('td');
+        newRow.appendChild(emptyColumn);
+    }
+
+    // Create a select element for the "Item Code" column
+   // Create a custom dropdown for the "Item Code" column
+// Create a custom dropdown for the "Item Code" column
+const itemCodeColumn = document.createElement('td');
+const customItemCodeSelect = document.createElement('select');
+customItemCodeSelect.setAttribute('name', 'item_code');
+customItemCodeSelect.setAttribute('class', 'form-control');
+
+// Create an option for the custom dropdown
+function createCustomOption(value, text) {
+    const customOption = document.createElement('option');
+    customOption.value = value;
+    customOption.textContent = text;
+    return customOption;
+}
+
+// Add the default "---------" option
+customItemCodeSelect.appendChild(createCustomOption('', '---------'));
+
+// Add your custom options here using a loop (similar to your Django template code)
+{% for y in item_code_data %}
+    customItemCodeSelect.appendChild(createCustomOption('{{ y.id }}', '{{ y }}'));
+{% endfor %}
+
+itemCodeColumn.appendChild(customItemCodeSelect);
+newRow.appendChild(itemCodeColumn);
+
+// Create an input element for the "Production Quantity" column
+const productionQuantityColumn = document.createElement('td');
+const productionQuantityInput = document.createElement('input');
+productionQuantityInput.setAttribute('type', 'number');
+productionQuantityInput.setAttribute('name', 'production_quantity');
+productionQuantityInput.setAttribute('class', 'form-control');
+
+productionQuantityColumn.appendChild(productionQuantityInput);
+newRow.appendChild(productionQuantityColumn);
+
+    
+    // Create an input element for the "Materials" column
+    const materialsColumn = document.createElement('td');
+    const materialsInput = document.createElement('input');
+    materialsInput.setAttribute('type', 'hidden'); // Assuming it's a hidden field
+    materialsInput.setAttribute('name', 'production_id');
+    materialsInput.setAttribute('value', ''); // Set the value as needed
+
+
+    productionQuantityColumn.appendChild(materialsInput);
+    newRow.appendChild(productionQuantityColumn);
+
+    
+
+    // Create a remove button for the row
+    const removeButtonColumn = document.createElement('td');
+    const removeButton = document.createElement('button');
+    removeButton.setAttribute('class', 'btn btn-danger remove-row');
+    removeButton.textContent = 'Remove';
+
+    // Add an event listener to the remove button to delete the row when clicked
+    removeButton.addEventListener('click', function () {
+        tableBody.removeChild(newRow);
+    });
+
+    
+
+    removeButtonColumn.appendChild(removeButton);
+    newRow.appendChild(removeButtonColumn);
+
+    // Append the new row to the table body
+    tableBody.appendChild(newRow);
+});
+
+// Add event listeners to all existing remove buttons (for initial rows)
+const removeButtons = document.querySelectorAll('.remove-row');
+removeButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+        const row = button.closest('tr');
+        const tableBody = row.parentNode;
+        tableBody.removeChild(row);
+    });
+});
 
 
 
@@ -213,30 +324,38 @@ function submitForm(e) {
     e.preventDefault();
 
     const rows = document.querySelectorAll('tbody tr');
-    const item_code_arr = [];
-    const production_quantity_arr = [];
-    const materialsId_arr = [];
+const item_code_arr = [];
+const production_quantity_arr = [];
+const production_id_arr = [];
+const materialsId = document.getElementById("materials").value;
 
-    rows.forEach((row) => {
-        const materialsId = row.querySelector('[name="materials"]').value;
-        const item_code = row.querySelector('[name="item_code"]').value;
-        const production_quantity = row.querySelector('[name="production_quantity"]').value;
+rows.forEach((row, index) => {
+    // Check if it's the first row (index 0), and skip it
+    if (index === 0) {
+        return;
+    }
 
-        materialsId_arr.push(materialsId);
-        item_code_arr.push(item_code);
-        production_quantity_arr.push(production_quantity);
-           
-    });
+    const item_code = row.querySelector('[name="item_code"]').value;
+    const production_quantity = row.querySelector('[name="production_quantity"]').value;
+    const production_id = row.querySelector('[name="production_id"]').value;
+
+    item_code_arr.push(item_code);
+    production_quantity_arr.push(production_quantity);
+    production_id_arr.push(production_id);
+});
+
+alert(production_id_arr)
 
 
-
+    alert(item_code_arr)
     $.ajax({                       // initialize an AJAX request
         type: "POST",
         url: '{% url "add_production" project_id %}',
         data: {
-            'materialsId': [...materialsId_arr],       // add the country id to the POST parameters
+            'materialsId': materialsId,       // add the country id to the POST parameters
             'item_code': [...item_code_arr],       // add the country id to the POST parameters
             'quantity': [...production_quantity_arr],     
+            'production_id': [...production_id_arr],     
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
               // add the country id to the POST parameters
         },

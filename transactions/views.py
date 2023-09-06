@@ -1718,6 +1718,57 @@ def list_project(request):
     return render(request, 'transactions/list_projects.html', context)
 
 
+
+@login_required(login_url='login')
+def project_report(request):
+
+    
+    data = project.objects.all()
+    
+    project_filters = project_filter(request.GET, queryset=data)
+    print('-------------------------')
+    
+    data = project_filters.qs
+
+    print(data)
+   
+
+    context = {
+        'data': data,
+        'project_filter': project_filters,
+       
+    }
+
+    return render(request, 'transactions/projects_report.html', context)
+
+def download_project_report(request):
+
+    data = project.objects.all()
+    project_filters = project_filter(request.GET, queryset=data)
+    data = project_filters.qs
+
+    # Create an HTTP response with CSV content type
+    response = HttpResponse(content_type='text/csv')
+    
+    # Set the CSV filename and attachment header
+    response['Content-Disposition'] = 'attachment; filename="project_report.csv"'
+
+    # Create a CSV writer and write the header row
+    writer = csv.writer(response)
+    writer.writerow(['Sr no', 'ITEM CODE', 'QUANTITY' ,'CUSTOMER NAME','DATE'])  # Replace with your actual column names
+
+    # Write the data rows
+    for index, item in enumerate(data, start=1):
+
+        for related_obj in item.project_material_re_1.all():
+
+            for project_material_obj in related_obj.project_material_re.all():
+                for production_obj in project_material_obj.project_matarial_qr_production.all():
+                    
+                    writer.writerow([index, production_obj.item_code, production_obj.production_quantity, item.customer, item.DC_date])  # Replace with your actual field names
+
+    return response
+
 import json
 
 @login_required(login_url='login')
@@ -1937,6 +1988,8 @@ def update_assign_matarial_qr(request, product_qr_id):
 
     product_qr_instance = product_qr.objects.get(id = product_qr_id)
 
+    print(request.POST)
+
     if request.method == "POST":
 
         a = request.POST.get('size')
@@ -2098,18 +2151,34 @@ def add_production(request, project_id):
 
         quantity = request.POST.getlist('quantity[]')
         item_code_id = request.POST.getlist('item_code[]')
-        material = request.POST.getlist('materialsId[]')
+        material = request.POST.get('materialsId')
+        production_id = request.POST.getlist('production_id[]')
 
+        print(item_code_id)
+        print(quantity)
+        print(production_id)
 
-        for a,b,c in zip(material, item_code_id, quantity):
+        material_instance = project_matarial_qr.objects.get(id = material)
 
-            instance = project_matarial_qr.objects.get(id = a)
-            item_code_instance = item_code.objects.get(id = b)
-            instance.item_code = item_code_instance
-            instance.production_quantity = c
-            instance.save()
+        for a, b,c in zip(production_id, item_code_id, quantity):
+
+            if a:
+
+                project_material_instnace = project_matarial_production.objects.get(id = a)
+                item_code_instance = item_code.objects.get(id = b)
+
+                project_material_instnace.item_code = item_code_instance
+                project_material_instnace.production_quantity = c
+                project_material_instnace.save()
+
+                print('here')
+
+            else:
+                    
+                item_code_instance = item_code.objects.get(id = b)
+                instance = project_matarial_production.objects.create(project_matarial_qr = material_instance, item_code = item_code_instance, production_quantity = c)
        
-        return JsonResponse({'status' : 'sdsd'})
+        return JsonResponse({'status' : 'done'})
         
     else:
 
@@ -2131,6 +2200,15 @@ def add_production(request, project_id):
 
         return render(request,'transactions/add_production.html', context )
 
+
+
+def delete_production_entry(request, project_id, production_id):
+
+
+    project_matarial_production.objects.get(id = production_id).delete()
+
+    url = reverse('add_production', args=[project_id])
+    return redirect(url)
 
 
 
@@ -2304,6 +2382,8 @@ def assign_values_to_qr_page_data(request, product_qr_id):
     return render(request, 'transactions/assign_values_to_qr_page_data.html', context)
     
 
+from django.core.files.storage import FileSystemStorage
+
 def assign_values_to_qr(request, product_qr_id):
     
 
@@ -2320,8 +2400,14 @@ def assign_values_to_qr(request, product_qr_id):
         if form.is_valid():
             book, created = product.objects.get_or_create(**form.cleaned_data)
 
-            product_qr_instance.date_of_pur = request.POST.get('date_of_pur')
-            product_qr_instance.save()
+
+            form2 = product_qr_Form(request.POST, request.FILES, instance = product_qr_instance)
+            if form2.is_valid():
+
+                # Save the file to a specific location using FileSystemStorage or another storage backend.
+                form2.save()
+
+            
 
             if book:
 

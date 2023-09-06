@@ -13,16 +13,19 @@ class project_filter(django_filters.FilterSet):
 
     item_code = django_filters.ModelChoiceFilter(
         queryset=item_code.objects.all(),  # Replace with your actual ItemCode queryset
-        field_name='project_material_re__project_matarial_qr__item_code',
+        field_name='project_material_re_1__project_material_re__project_matarial_qr_production__item_code',
         to_field_name='code',  # Field used to compare with the selected value
-        label='Item Code'
+        label='Item Code',
+        widget=forms.Select(attrs={'class': 'form-control'})
     )
+
+   
     
     employee_name = django_filters.ModelChoiceFilter(
         queryset=employee.objects.all(),
         widget=forms.Select(
             attrs={
-                'class' : 'form-control sele',
+                'class' : 'form-control',
                 'id' : 'employee'
             })
     )

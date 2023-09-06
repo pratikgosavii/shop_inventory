@@ -70,10 +70,10 @@ class category(models.Model):
 
 class size(models.Model):
     
-    name = models.CharField(max_length=120, unique=False)
+    name = models.FloatField(default=0)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 class thickness(models.Model):
     
@@ -134,5 +134,6 @@ class product_qr(models.Model):
     moved_to_scratch = models.BooleanField(default=False)
     moved_to_left_over = models.BooleanField(default=False)
     date_of_pur = models.DateField(auto_now_add=False, null = True, blank = True)
+    uploaded_file = models.FileField(upload_to='media/uploads/', null = True, blank = True) 
 
      

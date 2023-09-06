@@ -52,7 +52,7 @@
 
                             
                             <div class="form-group">
-                                <label for="name" class="control-label mb-1">Employee Name</label>
+                                <label for="name" class="control-label mb-1">Designer Name</label>
                                 {{ form.employee_name }}
                                
                             </div>
@@ -111,7 +111,7 @@
  <br>
                             <div>
                                 <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
-                                    <span id="payment-button-amount">Submit Plan</span>
+                                    <span id="payment-button-amount">Download CSV</span>
                                 </button>
                             </div>
                         </form>
@@ -133,13 +133,13 @@
 <script>
     
    
-
+'
 
     $("#company_goods").change(function () {
         const company_goodsID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
         $.ajax({                       // initialize an AJAX request
             type: "POST",
-            url: '{% url "get_category_ajax" %}',
+            url: {% url "get_category_ajax" %}',
             data: {
                 'company_goods_id': company_goodsID,       // add the country id to the POST parameters
                 'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),

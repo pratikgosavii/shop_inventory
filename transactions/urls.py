@@ -3,6 +3,9 @@ from django.urls import path
 from .views import *
 from store import views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
 
 
@@ -19,6 +22,8 @@ urlpatterns = [
     
     path('add-project/', add_project, name='add_project'),
     path('list-project/', list_project, name='list_project'),
+    path('report-project/', project_report, name='project_report'),
+    path('download-report-project/', download_project_report, name='download_project_report'),
     path('close-project/<project_id>', close_project, name='close_project'),
 
     path('assign-matarial-qr/<project_id>', assign_matarial_qr, name='assign_matarial_qr'),
@@ -26,6 +31,7 @@ urlpatterns = [
     path('show-qr', show_scanner_assign_matarial_qr, name='show_scanner_assign_matarial_qr'),
     path('update-assign-matarial-qr/<product_qr_id>', update_assign_matarial_qr, name='update_assign_matarial_qr'),
     path('add_production/<project_id>', add_production, name='add_production'),
+    path('delete_production/<project_id>/<production_id>', delete_production_entry, name='delete_production_entry'),
     
     # path('update-project/<project_id>', update_project, name='update_project'),
     # path('list-project/', list_project, name='list_project'),
@@ -70,4 +76,6 @@ urlpatterns = [
 
 
 
-]
+] 
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

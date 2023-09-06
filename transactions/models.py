@@ -47,16 +47,18 @@ class project_matarial_qr(models.Model):
     
     project_material = models.ForeignKey(project_material, on_delete=models.CASCADE, related_name = "project_material_re", null = True, blank = True)
     product_qr =  models.ForeignKey(product_qr, on_delete=models.CASCADE, null = True, blank = True)
-    is_work_done = models.BooleanField(default=False)
-    item_code = models.ForeignKey(item_code, on_delete=models.CASCADE, related_name = "item_code_re_1", null = True, blank = True)
-    production_quantity = models.IntegerField(null = True, blank = True)
     cutter =  models.ForeignKey(cutter, on_delete=models.CASCADE, null = True, blank = True)
 
     
     def __str__(self):
         return self.project_material.product.category.name
 
+class project_matarial_production(models.Model):
 
+    project_matarial_qr = models.ForeignKey(project_matarial_qr, on_delete=models.CASCADE, related_name = "project_matarial_qr_production", null = True, blank = True)
+    item_code = models.ForeignKey(item_code, on_delete=models.CASCADE, related_name = "item_code_re_1", null = True, blank = True)
+    production_quantity = models.IntegerField(null = True, blank = True)
+    
 
 
 from store.models import * 

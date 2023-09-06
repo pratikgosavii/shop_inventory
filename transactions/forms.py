@@ -111,15 +111,25 @@ class project_matarial_qr_Form(forms.ModelForm):
 
 
 class product_qr_Form(forms.ModelForm):
+
+    uploaded_file = forms.FileField(label='Select a file', required=False)
+    
     class Meta:
         model = product_qr
         fields = '__all__'
         widgets = {
           
+            'shelf': forms.Select(attrs={
+                'class': 'form-control', 'id': 'thickness'
+            }),
+
+            'supplier': forms.Select(attrs={
+                'class': 'form-control', 'id': 'thickness'
+            }),
+
 
             'date_of_pur' : DateInput(attrs={ 'class': 'form-control', 'type': 'date'}, format = '%Y-%m-%d'),
           
-           
             
         }
 

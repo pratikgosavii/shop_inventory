@@ -124,25 +124,26 @@
 
                                     
 
-                                    <tr>
-                                        <input type="hidden" name ="materials" value="{{ data.id }}">
-                                        <td> {{ data.product.category }} </td>
-                                        <td> {{ data.product.size }} </td>
-                                        <td> {{ data.product.grade }} </td>
-                                        <td> {{ data.product.thickness }} </td>
-                                        <td>  
-                                            <input type="text" id="usedLength1" class="form-control used-length-input" placeholder="Length" required>
+                                    <tr class="stock-row">
+                                        <input type="hidden" name="materials" value="{{ data.id }}">
+                                        <td>{{ data.product.category }}</td>
+                                        <td>{{ data.product.size }}</td>
+                                        <td>{{ data.product.grade }}</td>
+                                        <td>{{ data.product.thickness }}</td>
+                                        <td>
+                                            <input type="text" class="form-control used-length-input" placeholder="Length">
                                             X
-                                            <input type="text" id="usedWidth1" class="form-control used-width-input" placeholder="Width" required> </td>
-                                        <td>  
-                                            <input type="text" id="remainingLength1" class="form-control remaining-length-input" placeholder="Remaining Length" required>
-                                            X
-                                            <input type="text" id="remainingWidth1" class="form-control remaining-width-input" placeholder="Remaining Width" required> 
-                                        </td>
-                                        <td> <input type="checkbox" class="form-control" name="move_to_scratch" id="move_to_scratch"> </td>
-                                        
-                                    </tr>
+                                            <input type="text" class="form-control used-width-input" placeholder="Width">
 
+                                            <br>
+                                            <input type="text" class="form-control used-sq-inch-input" id="used-sq-inch-input" placeholder="Used Square Inches">
+
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control remaining-sq-inch-input" id="remaining-sq-inch-input" placeholder="Remaining Length" required>
+                                        </td>
+                                        <td><input type="checkbox" class="form-control" name="move_to_scratch"></td>
+                                    </tr>
                                  
                                 
                                     </tbody>
@@ -151,7 +152,7 @@
  <br>
                             <div>
                                 <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
-                                    <span id="payment-button-amount">Close Project</span>
+                                    <span id="payment-button-amount">Update Sheet</span>
                                 </button>
                             </div>
                         </form>
@@ -171,96 +172,117 @@
     
 
 <script>
-
-    const usedLengthInputs = document.querySelectorAll('.used-length-input');
-    const usedWidthInputs = document.querySelectorAll('.used-width-input');
-    const remainingLengthInputs = document.querySelectorAll('.remaining-length-input');
-    const remainingWidthInputs = document.querySelectorAll('.remaining-width-input');
-
-usedLengthInputs.forEach((usedLengthInput, index) => {
-    usedLengthInput.addEventListener('input', () => {
-        calculateRemainingSize(index);
-    });
-});
-
-usedWidthInputs.forEach((usedWidthInput, index) => {
-    usedWidthInput.addEventListener('input', () => {
-        calculateRemainingSize(index);
-    });
-});
-
-function calculateRemainingSize(index) {
-    const row = usedLengthInputs[index].closest('tr');
-    const originalSizeText = row.querySelectorAll('td')[1].textContent; // Size column
-    const originalSizeParts = originalSizeText.split(' X ');
-
-    const originalLength = parseFloat(originalSizeParts[0]);
-    const originalWidth = parseFloat(originalSizeParts[1]);
-
-    const usedLength = parseFloat(usedLengthInputs[index].value) || 0; // Use 0 if NaN
-    const usedWidth = parseFloat(usedWidthInputs[index].value);
-
-    if (!isNaN(usedWidth)) {
-        const remainingLength = originalLength - usedLength;
-        const remainingWidth = originalWidth - usedWidth;
-
-        remainingLengthInputs[index].value = remainingLength.toFixed(2);
-        remainingWidthInputs[index].value = remainingWidth.toFixed(2);
-    }
-}
-
-
-
-
-
     
-
-function submitForm(e) {
-    e.preventDefault();
-
-    const rows = document.querySelectorAll('tbody tr');
-    let size_arr = 0
-    let used_size_arr = 0
-    let left_size_arr = 0
-    let materialsId_arr = 0
-    let move_to_scratch_arr = 0
-    rows.forEach((row) => {
-        const size = row.querySelectorAll('td')[1].textContent;
-        const usedSize = row.querySelector('[id^="usedLength"]').value + " X " + row.querySelector('[id^="usedWidth"]').value;
-        const leftSize = row.querySelector('[id^="remainingLength"]').value + " X " + row.querySelector('[id^="remainingWidth"]').value;
-        const materialsId = row.querySelector('[name="materials"]').value;
-        const move_to_scratch_checkbox = row.querySelector('[name="move_to_scratch"]');
-        const move_to_scratch = move_to_scratch_checkbox.checked;
-
-        size_arr = size
-        used_size_arr = usedSize
-        left_size_arr = leftSize
-        materialsId_arr = materialsId
-        move_to_scratch_arr = move_to_scratch
-           
-    });
-
-    $.ajax({                       // initialize an AJAX request
-        type: "POST",
-        url: '{% url "update_assign_matarial_qr" product_qr_id %}',
-        data: {
-            'size': size_arr,       // add the country id to the POST parameters
-            'used_size': used_size_arr,       // add the country id to the POST parameters
-            'left_size': left_size_arr,       // add the country id to the POST parameters
-            'materialsId': materialsId_arr,       // add the country id to the POST parameters
-            'move_to_scratch': move_to_scratch_arr,       // add the country id to the POST parameters
-            'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
-        },
-        success: function (data) {   // `data` is from `get_topics_ajax` view function
-
-          console.log(data)
-
-          if(data.status == "done"){
-            window.location.href = "{% url 'list_project' %}"
-          }
+    document.querySelector("table").addEventListener("input", function (event) {
+        if (
+            event.target.classList.contains("used-length-input") ||
+            event.target.classList.contains("used-width-input") ||
+            event.target.classList.contains("used-sq-inch-input")
+        ) {
+            var row = event.target.closest(".stock-row");
+            var usedLengthInputs = row.querySelectorAll(".used-length-input");
+            var usedWidthInputs = row.querySelectorAll(".used-width-input");
+            var usedSqInchInput = row.querySelector(".used-sq-inch-input");
+            var remainingLengthInput = row.querySelector(".remaining-sq-inch-input");
+    
+            var totalUsedSqInch = 0;
+    
+            // Calculate the total used size in square inches based on length and width inputs
+            for (var i = 0; i < usedLengthInputs.length; i++) {
+                var usedLengthInput = parseFloat(usedLengthInputs[i].value);
+                var usedWidthInput = parseFloat(usedWidthInputs[i].value);
+    
+                if (!isNaN(usedLengthInput) && !isNaN(usedWidthInput)) {
+                    totalUsedSqInch += usedLengthInput * usedWidthInput;
+                }
+            }
+    
+            // Check if the entered value in "Used Square Inches" is a valid number
+            var enteredUsedSqInch = parseFloat(usedSqInchInput.value);
+    
+            if (event.target === usedSqInchInput) {
+                // If the input that triggered the event is the "Used Square Inches" input
+                // Handle the case where the entered value is not a valid number
+                if (isNaN(enteredUsedSqInch)) {
+                    usedSqInchInput.value = ""; // Clear the input
+                } else {
+                    // If a valid value is entered directly in "Used Square Inches" input
+                    // Use that value for calculations
+                    totalUsedSqInch = enteredUsedSqInch;
+    
+                    // Clear the "Used Length" and "Used Width" inputs
+                    for (var i = 0; i < usedLengthInputs.length; i++) {
+                        usedLengthInputs[i].value = "";
+                        usedWidthInputs[i].value = "";
+                    }
+                }
+            } else {
+                // If the event is triggered by changes in other inputs (length or width)
+                // Update the "Used Square Inches" input with the calculated value
+                usedSqInchInput.value = totalUsedSqInch.toFixed(2); // Display as two decimal places
+            }
+    
+            // Retrieve the product size in square inches from the second <td> (replace with your actual variable)
+            var productSizeInSqInch = parseFloat(row.querySelectorAll("td")[1].textContent);
+    
+            // Calculate the remaining size in square inches
+            var remainingSizeInSqInch = productSizeInSqInch - totalUsedSqInch;
+    
+            // Update the "Remaining Length" input with the calculated value
+            remainingLengthInput.value = remainingSizeInSqInch.toFixed(2); // Display as two decimal places
         }
     });
-    }
+    
+    
+
+
+    function submitForm(e) {
+        e.preventDefault();
+    
+        const rows = document.querySelectorAll('tbody tr');
+        let size_arr = 0
+        let used_size_arr = 0
+        let left_size_arr = 0
+        let materialsId_arr = 0
+        let move_to_scratch_arr = 0
+        rows.forEach((row) => {
+            const size = row.querySelectorAll('td')[1].textContent;
+            const usedSize = row.querySelector('[id^="used-sq-inch-input"]').value;
+            const leftSize = row.querySelector('[id^="remaining-sq-inch-input"]').value;
+            const materialsId = row.querySelector('[name="materials"]').value;
+            const move_to_scratch_checkbox = row.querySelector('[name="move_to_scratch"]');
+            const move_to_scratch = move_to_scratch_checkbox.checked;
+    
+            size_arr = size
+            used_size_arr = usedSize
+            left_size_arr = leftSize
+            materialsId_arr = materialsId
+            move_to_scratch_arr = move_to_scratch
+               
+        });
+    
+        $.ajax({                       // initialize an AJAX request
+            type: "POST",
+            url: '{% url "update_assign_matarial_qr" product_qr_id %}',
+            data: {
+                'size': size_arr,       // add the country id to the POST parameters
+                'used_size': used_size_arr,       // add the country id to the POST parameters
+                'left_size': left_size_arr,       // add the country id to the POST parameters
+                'materialsId': materialsId_arr,       // add the country id to the POST parameters
+                'move_to_scratch': move_to_scratch_arr,       // add the country id to the POST parameters
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {   // `data` is from `get_topics_ajax` view function
+    
+              console.log(data)
+    
+              if(data.status == "done"){
+                window.location.href = "{% url 'list_project' %}"
+              }
+            }
+        });
+        }
+
 
 </script>
 

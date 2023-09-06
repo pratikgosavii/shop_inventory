@@ -15,3 +15,4 @@ admin.site.register(scratch_stock)
 
 admin.site.register(material_history)
 admin.site.register(project)
+admin.site.register(project_matarial_production)
