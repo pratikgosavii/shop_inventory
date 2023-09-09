@@ -901,6 +901,25 @@ def list_dead_stock(request):
     return render(request, 'transactions/list_dead_stock.html', context)
 
 
+from django.http import HttpResponse
+from twilio.rest import Client
+from django.conf import settings
+
+def send_whatsapp_message(request, category, size, thickness, grade):
+
+    # Your message content
+    account_sid = 'AC99a2212d49d4b1349fc702d1227c0e00'
+    auth_token = '3971ae05dd33a4bf02eca219c54ec84d'
+    client = Client(account_sid, auth_token)
+    msg = 'Category: ' + str(category) + 'Thickness: ' +  str(thickness) + 'Grade: ' + str(grade) + 'Size : 98 X 48 Inch'+ 'Quantity is less than 10'
+    message = client.messages.create(
+    from_='whatsapp:+14155238886',
+    body=msg,
+    to='whatsapp:+918237377298'
+    )
+
+    return 0
+
 @login_required(login_url='login')
 def report_inward(request):
 
@@ -1728,13 +1747,13 @@ def project_report(request):
     project_filters = project_filter(request.GET, queryset=data)
     print('-------------------------')
     
-    data = project_filters.qs
+    data = project_filters
 
-    print(data)
+    print(data.qs)
    
 
     context = {
-        'data': data,
+        'data': data.qs,
         'project_filter': project_filters,
        
     }
@@ -2043,6 +2062,10 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                 stock_instance.save()
 
+                if stock_instance.quantity < 10:
+
+                    send_whatsapp_message(request, stock_instance.product.category, stock_instance.product.size, stock_instance.product.thickness, stock_instance.product.grade)
+
             else:
                 
                 left_over_instance =  left_over_stock.objects.get(product = product_instance)
@@ -2081,6 +2104,11 @@ def update_assign_matarial_qr(request, product_qr_id):
                 if stock_instance:
                     stock_instance.quantity = stock_instance.quantity - 1
                     stock_instance.save()
+
+                    if stock_instance.quantity < 10:
+
+                        send_whatsapp_message(request, stock_instance.product.category, stock_instance.product.size, stock_instance.product.thickness, stock_instance.product.grade)
+
                 else:
                     stock_created.quantity = 1
                     stock_created.save()
@@ -2151,18 +2179,23 @@ def add_production(request, project_id):
 
         quantity = request.POST.getlist('quantity[]')
         item_code_id = request.POST.getlist('item_code[]')
-        material = request.POST.get('materialsId')
+        material = request.POST.getlist('materialsId[]')
         production_id = request.POST.getlist('production_id[]')
 
-        print(item_code_id)
-        print(quantity)
+        print('-----------------------------------')
+        print('-----------------------------------')
+        print('-----------------------------------')
+        print('-----------------------------------')
+        print('-----------------------------------')
+        print(material)
         print(production_id)
 
-        material_instance = project_matarial_qr.objects.get(id = material)
 
-        for a, b,c in zip(production_id, item_code_id, quantity):
+        for a, b, c, d in zip(production_id, item_code_id, quantity, material):
 
-            if a:
+            material_instance = project_matarial_qr.objects.get(id = d)
+
+            if a and a!= '0':
 
                 project_material_instnace = project_matarial_production.objects.get(id = a)
                 item_code_instance = item_code.objects.get(id = b)

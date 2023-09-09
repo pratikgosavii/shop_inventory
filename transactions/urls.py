@@ -51,6 +51,8 @@ urlpatterns = [
     path('list-left-over-stock/', list_left_over_stock, name='list_left_over_stock'),
     path('list-dead-stock/', list_dead_stock, name='list_dead_stock'),
 
+    path('send-whatsapp-message/', send_whatsapp_message, name='send_whatsapp_message'),
+
     path('report-daily/', generate_report_daily, name='report_daily'),
     path('report-inward/', report_inward, name='report_inward'),
     path('report-outward/', report_outward, name='report_outward'),

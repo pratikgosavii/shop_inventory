@@ -140,6 +140,7 @@
 
 <script>
 
+
     document.addEventListener("DOMContentLoaded", function() {
         var form = document.getElementById("myForm");
         var formElements = form.elements;
@@ -147,6 +148,11 @@
         for (var i = 0; i < formElements.length; i++) {
             formElements[i].setAttribute("required", "true");
         }
+
+        const fileInput = document.getElementById("id_uploaded_file");
+      
+        // Remove the "required" attribute
+        fileInput.removeAttribute("required");
     });
 
 </script>
