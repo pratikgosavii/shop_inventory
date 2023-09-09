@@ -2062,10 +2062,7 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                 stock_instance.save()
 
-                if stock_instance.quantity < 10:
-
-                    send_whatsapp_message(request, stock_instance.product.category, stock_instance.product.size, stock_instance.product.thickness, stock_instance.product.grade)
-
+              
             else:
                 
                 left_over_instance =  left_over_stock.objects.get(product = product_instance)
@@ -2105,10 +2102,7 @@ def update_assign_matarial_qr(request, product_qr_id):
                     stock_instance.quantity = stock_instance.quantity - 1
                     stock_instance.save()
 
-                    if stock_instance.quantity < 10:
-
-                        send_whatsapp_message(request, stock_instance.product.category, stock_instance.product.size, stock_instance.product.thickness, stock_instance.product.grade)
-
+                   
                 else:
                     stock_created.quantity = 1
                     stock_created.save()
