@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'dbbackup',
     # 'django_crontab',
 ]
+
 
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
@@ -86,6 +88,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'inventory.wsgi.application'
+# settings.py
+
+ASGI_APPLICATION = "inventory.routing.application"
 
 
 # Database
@@ -149,6 +154,8 @@ AUTH_USER_MODEL = 'users.User'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# settings.py
 
 
 

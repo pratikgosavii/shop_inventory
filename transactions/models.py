@@ -96,3 +96,39 @@ class scratch_stock(models.Model):
     
 
 
+# models.py
+from django.db import models
+from django.contrib.auth.models import User
+
+class alert(models.Model):
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+# consumers.py (Django Channels consumer)
+import json
+from channels.generic.websocket import AsyncWebsocketConsumer
+
+class AlertConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        pass
+
+    async def receive(self, text_data):
+        # Handle incoming alerts and broadcast them to relevant users
+        alert_data = json.loads(text_data)
+        message = alert_data['message']
+        user_id = alert_data['user_id']
+        
+        # Logic to determine which users should receive the alert
+        recipients = [user_id]  # Replace with your logic
+        
+        for recipient_id in recipients:
+            await self.send_alert(message, recipient_id)
+
+    async def send_alert(self, message, user_id):
+        await self.send(text_data=json.dumps({
+            'message': message,
+            'user_id': user_id,
+        }))

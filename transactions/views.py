@@ -2041,16 +2041,27 @@ def update_assign_matarial_qr(request, product_qr_id):
 
         product_instance = project_matarial_qr_instance.project_material.product
 
-
         # Now, retrieve the related project_qr instance
     
         material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = size_instance3)
-            
+        
+        product_instance_new, product_created_new = product.objects.get_or_create(category = product_instance.category, thickness = product_instance.thickness, size = size_instance3, grade = product_instance.grade, shelf = product_instance.shelf)
+        
+        if product_instance_new == None:
+            product_qr_instance.product = product_created_new
+            product_instance_new = product_created_new
+        else:
+            product_qr_instance.product = product_instance_new
+
+
+        product_qr_instance.save()
+
+
         if e == "true":
 
             print(' in scratch ')
 
-            instance, created = scratch_stock.objects.get_or_create(product = product_instance)
+            instance, created = scratch_stock.objects.get_or_create(product = product_instance_new)
 
             if product_qr_instance.moved_to_left_over != True:
             
@@ -2095,17 +2106,13 @@ def update_assign_matarial_qr(request, product_qr_id):
             
             if product_qr_instance.moved_to_left_over != True:
                 
-                instance, created = left_over_stock.objects.get_or_create(product = product_instance)
+                print('----------done----------------')
+                instance, created = left_over_stock.objects.get_or_create(product = product_instance_new)
             
-                stock_instance, stock_created = stock.objects.get_or_create(product = product_instance)
-                if stock_instance:
-                    stock_instance.quantity = stock_instance.quantity - 1
-                    stock_instance.save()
+                stock_instance = stock.objects.get(product = product_instance)
+                stock_instance.quantity = stock_instance.quantity - 1
+                stock_instance.save()
 
-                   
-                else:
-                    stock_created.quantity = 1
-                    stock_created.save()
 
                 product_qr_instance.moved_to_left_over = True
                 product_qr_instance.save()
@@ -2119,33 +2126,8 @@ def update_assign_matarial_qr(request, product_qr_id):
                 else:
 
                     created.quantity = 1
-                    created.save()
-        print('-------------------')
-        print('-------------------')
-        print('-------------------')
-        print(product_instance.category)
-        print(product_instance.thickness)
-        print(product_instance.grade)
-        print(product_instance.shelf)
-        print(size_instance3.id)
-        print('-------------------')
-        print('-------------------')
-        print('-------------------')
-        product_instance, product_created = product.objects.get_or_create(category = product_instance.category, thickness = product_instance.thickness, size = size_instance3, grade = product_instance.grade, shelf = product_instance.shelf)
+     
         
-        print('---------8888888888888888888888888888888888----------')
-      
-        
-        if product_instance == None:
-            product_qr_instance.product = product_created
-        else:
-            product_qr_instance.product = product_instance
-
-
-        print(product_instance)
-        print(product_instance.size)
-            
-        product_qr_instance.save()
 
         
         # remove project for this qr
@@ -2366,6 +2348,7 @@ def print_single_qr(request, product_qr_id):
 
     return response
 
+
 def list_generated_product_qr(request):
 
     data = product_qr.objects.all()
@@ -2376,6 +2359,8 @@ def list_generated_product_qr(request):
     }
 
     return render(request, 'transactions/list_all_generated_qr.html', context)
+
+
 def scanner_page(request):
     
     product_id = request.POST.get('scanned_value')
