@@ -8,17 +8,22 @@
 
 <body>
 
-    {% for i in data %}
     <div style="display:flex">
-
-        <p> sheet no 1 </p>
+    {% for i in data %}
+        <div>
+        <p style="margin: 0px;
+        padding: 0px;
+        font-weight: 800;
+        font-size: 18px;
+        font-family: math;
+        margin-left: 30px;"> sheet no {{ i.id }} </p>
 
         <img class="form-control" height="200" width="200" src="{{ i.qr_code.url }}">
-
+        </div>
+        
+        {% endfor %}
+        
     </div>
-
-    {% endfor %}
-
 
 
 
