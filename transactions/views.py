@@ -2055,7 +2055,7 @@ def update_assign_matarial_qr(request, product_qr_id):
     
         material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = size_instance3)
         
-        product_instance_new, product_created_new = product.objects.get_or_create(category = product_instance.category, thickness = product_instance.thickness, size = size_instance3, grade = product_instance.grade, shelf = product_instance.shelf)
+        product_instance_new, product_created_new = product.objects.get_or_create(category = product_instance.category, thickness = product_instance.thickness, size = size_instance3, grade = product_instance.grade)
         
         if product_instance_new == None:
             product_qr_instance.product = product_created_new
