@@ -317,7 +317,7 @@ font-family: 'Montserrat', sans-serif;
 
           
         const notificationList = document.getElementById('notification-list');
-        const socket = new WebSocket('ws://shopinventory.pythonanywhere.com/ws/some_path/');
+        const socket = new WebSocket('wss://shopinventory.pythonanywhere.com/ws/some_path/');
         
         socket.onopen = () => {
             console.log('WebSocket connection opened.');
