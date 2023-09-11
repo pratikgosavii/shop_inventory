@@ -20,16 +20,6 @@ class project_filter(django_filters.FilterSet):
     )
 
    
-    
-    employee_name = django_filters.ModelChoiceFilter(
-        queryset=employee.objects.all(),
-        widget=forms.Select(
-            attrs={
-                'class' : 'form-control',
-                'id' : 'employee'
-            })
-    )
-   
     customer = django_filters.ModelChoiceFilter(
         queryset=customer.objects.all(),
         widget=forms.Select(
@@ -56,4 +46,3 @@ class project_filter(django_filters.FilterSet):
         model = project
         fields = '__all__'
        
-   

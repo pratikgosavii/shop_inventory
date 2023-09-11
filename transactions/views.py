@@ -1866,6 +1866,7 @@ def add_project(request):
         thickness_id = request.POST.getlist("thickness")
         grade_id = request.POST.getlist("grade")
         quantity = request.POST.getlist("quantity")
+        order_id = request.POST.get("order_id")
 
 
         print(category_id)
@@ -1895,6 +1896,8 @@ def add_project(request):
 
                 for z in range(int(i)): 
                     project_matarial_qr.objects.create(project_material = project_material_instance)
+
+            alert.objects.create(message = "new project created id" + order_id)
               
             return redirect('list_project')
 
@@ -2284,6 +2287,7 @@ def generate_product_qr(request):
     qr_size = 600
 
     for i in range(int(quantity)):
+        
         a = product_qr.objects.create()
 
         # Adjust the box_size based on the desired size
@@ -2306,14 +2310,14 @@ def generate_product_qr(request):
 
         a.qr_code.save(f"qr_code_{a.id}.png", qr_code_image)
 
-        qr_codes.append(img)
+        qr_codes.append(a)
 
-    pdf_data = generate_qr_codes_pdf(qr_codes)
+    context ={
+        'data' : qr_codes
+    }
 
-    response = HttpResponse(pdf_data.getvalue(), content_type='application/pdf')
-    response['Content-Disposition'] = 'inline; filename="qr_codes.pdf"'
-
-    return response
+    return render(request, 'transactions/html_qr.html', context)
+   
 
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
@@ -2348,7 +2352,6 @@ def print_single_qr(request, product_qr_id):
 
     return response
 
-
 def list_generated_product_qr(request):
 
     data = product_qr.objects.all()
@@ -2359,8 +2362,6 @@ def list_generated_product_qr(request):
     }
 
     return render(request, 'transactions/list_all_generated_qr.html', context)
-
-
 def scanner_page(request):
     
     product_id = request.POST.get('scanned_value')

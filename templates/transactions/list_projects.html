@@ -88,6 +88,7 @@
                 <th>Employee name</th>
                 <th>Customer Name</th>
                 <th>Description</th>
+                <th>Order ID</th>
                 <th>Date</th>
                 <th>Actions</th>
               </tr>
@@ -119,6 +120,7 @@
                 <td class="serial">{{ i.id }}</td>
                 <td>{{ i.employee_name }}</td>
                 <td>{{ i.customer }}</td>
+                <td>{{ i.order_id }}</td>
                 <td>{{ i.description }}</td>
                 <td>{{ i.DC_date }}</td>
                 <td style="display:flex; gap:10px;" > <a href="{% url 'assign_matarial_qr' i.id %}"> <i class="fa fa-qrcode" style="font-size: 1.5em;" aria-hidden="true"></i> </a> <a href="{% url 'close_project' i.id %}">   <i class="fa fa-info-circle" style="font-size: 1.5em;" aria-hidden="true"> </i> </a> <a> <i class="fa fa-trash" style="font-size: 1.5em;" aria-hidden="true"></i> </a>   <a href="{% url 'add_production' i.id %}"> <i class="fa fa-industry" style="font-size: 1.5em;" aria-hidden="true"></i> </a> </td>

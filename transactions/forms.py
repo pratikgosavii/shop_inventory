@@ -58,6 +58,10 @@ class project_Form(forms.ModelForm):
             }),
            
            
+            'order_id': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'order_id'
+            }),
+
             'description': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'description'
             }),

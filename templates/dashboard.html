@@ -2,6 +2,140 @@
 
 {% block title %}Dashboard{% endblock title %}
 
+
+{% block head %}
+
+
+<style>
+
+    ul#notificationList {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    ul#notificationList li {
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        margin: 5px;
+        padding: 10px;
+    }
+
+
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+
+.container1212{
+  font-family: 'Montserrat', sans-serif;
+font-family: 'Montserrat', sans-serif;
+
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+}
+.container1212:before{
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 450px;
+    top: -6rem;
+    left: -4.5rem;
+    opacity: .3;
+}
+.container1212:after{
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 350px;
+    border-radius: 50% 33% 50% 50%;
+    top: -5rem;
+    right: -4rem;
+    z-index: -1;
+    opacity: .5;
+}
+.container1212 > .box1, .container >.box2{
+    padding: 1rem 1rem 2rem;
+    position: relative;
+    border-radius: 10px;
+    background-color:#ffffff ;
+    box-shadow: 0 0 10px #f8f4ff, 0 0 10px #b5a6c1;
+    overflow: hidden;
+}
+.container1212 .xmark-box{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: #f9f9fb;
+    color: #555662;
+    width: 20px;
+    height: 20px;
+    border-radius: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2.5px #f9f9fb;
+    text-align: center;
+    transition: all .2s;
+    cursor: pointer;
+}
+.container1212 .xmark-box:hover{
+    opacity: .8;
+}
+.container1212 > .box1 > .caption-box, .container1212 > .box2 > .caption-box{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    position: relative;
+}
+.container1212 > .box1:after{
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 100px;
+    background-color: #d6ebf4;
+    opacity: .4;
+    border-radius: 50%;
+    top: 1.5rem;
+    left: -9rem;
+    rotate: 92deg;
+}
+.container1212 > .box2:after{
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 100px;
+    background-color: #facaf3;
+    opacity: .4;
+    border-radius: 50%;
+    top: 1.5rem;
+    left: -9rem;
+    rotate: 92deg;
+}
+.container1212 img{
+    width: 30px;
+    height: 30px;
+}
+.container1212 .caption-box{
+    margin-top: .8rem;
+}
+.container1212 .caption{
+    margin-left: .7rem;
+}
+.container1212 .caption h5 {
+    margin: 1rem 0 .5rem;
+    font-size: 15px;
+}
+.container1212 .caption p{
+    font-size: 14px;
+}
+
+
+
+</style>
+
+
+{% endblock head %}
+
 {% block content %}
 
 {% comment %} 
@@ -15,9 +149,15 @@
 
     <!-- Widgets  -->
 
-
-    <ul id="alert-list"></ul>
-
+    
+        <div class="container1212" style="" id="notificationDiv">
+           
+        </div>
+        
+    
+    
+    
+    
     
     <div class="row">
         <div class="col-lg-3 col-md-6">
@@ -150,37 +290,99 @@
         </div>
     </div> {% endcomment %}
     <!-- /.orders -->
+
+    <audio autoplay muted id="notificationSound">
+        <source src="static/audio/popup.mp3" type="audio/mpeg">
+    </audio>
+
+    
 {% endblock content %}
 
 
 {% block js %}
 
 
-<script>
+    <script>
 
-    
-    let url = `ws://${window.location.host}/ws/some_path/`
+        function playNotificationSound() {
+            // Create an AudioContext and play the notification sound
+           
+              let audio = new Audio("static/audio/popup.mp3");
+                audio.play();
+          }
+          
+          
+          
+          
+          
 
-    const socket = new WebSocket(url) // Adjust the WebSocket URL as needed
+          
+        const notificationList = document.getElementById('notification-list');
+        const socket = new WebSocket('ws://127.0.0.1:8000/ws/some_path/');
+        
+        socket.onopen = () => {
+            console.log('WebSocket connection opened.');
+        };
 
-    socket.onopen = () => {
-        console.log('WebSocket connection opened.');
-        socket.send('Hello, WebSocket!');
-    };
-    
-    socket.onmessage = (event) => {
-        console.log('WebSocket message received:', event.data);
-    };
-    
-    socket.onclose = (event) => {
-        if (event.wasClean) {
-            console.log(`WebSocket connection closed, code=${event.code}, reason=${event.reason}`);
-        } else {
-            console.error('WebSocket connection abruptly closed');
+        socket.onmessage = (event) => {
+            console.log('something');
+
+
+            var currentUser = "{{ request.user.is_reception }}";
+            var notificationDiv = document.getElementById('notificationDiv');
+            var closeNotificationButton = document.getElementById('closeNotification'); // Get the close button by its ID
+
+            var userStatusElement = document.getElementById('userStatus');
+            if (currentUser == "True") {
+                const notification = JSON.parse(event.data);
+
+                // Create a new div for the notification
+                var notificationDiv = document.getElementById('notificationDiv');
+
+            // Create a new div for the notification
+            var notificationItem = document.createElement('div');
+            notificationItem.className = 'box1';
+
+            // Add content to the notification div
+            var notificationContent = `
+                <div class="xmark-box">
+                    <i class="fa-solid fa-x" id="closeNotification"></i>
+                </div>
+                <div class="caption-box">
+                    <img src="https://www.pngall.com/wp-content/uploads/2/Approved-PNG-Download-Image.png" alt="approveimg">
+                    <div class="caption">
+                        <h5>sdsd</h5>
+                        <p>sdsd</p>
+                    </div>
+                </div>
+            `;
+            notificationItem.innerHTML = notificationContent;
+
+            // Add a click event listener to the close button
+            var closeButton = notificationItem.querySelector('#closeNotification');
+            closeButton.addEventListener('click', function () {
+                // Remove the notification item when the close button is clicked
+                notificationDiv.removeChild(notificationItem);
+            });
+
+            // Append the notification item to the notificationDiv
+            notificationDiv.appendChild(notificationItem);
+
+            // Play the notification sound
+            playNotificationSound();
         }
-    };
-    
-</script>
+        };
+
+        socket.onclose = (event) => {
+            if (event.wasClean) {
+                console.log(`WebSocket connection closed, code=${event.code}, reason=${event.reason}`);
+            } else {
+                console.error('WebSocket connection abruptly closed');
+            }
+        };
+    </script>
+
+    <script src="https://kit.fontawesome.com/8535745612.js" crossorigin="anonymous"></script>
 
 
 

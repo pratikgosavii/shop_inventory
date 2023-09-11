@@ -14,10 +14,14 @@ def login_page(request):
         if forms.is_valid():
             username = forms.cleaned_data['username']
             password = forms.cleaned_data['password']
+            print(username)
+            print(password)
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
                 return redirect('dashboard')
+            else:
+                messages.error(request, 'wrong username password')
     context = {'form': forms}
     return render(request, 'users/login.html', context)
 

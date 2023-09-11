@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Chat</title>
+    <style>
+        /* Add your CSS styling here */
+        #chat-box {
+            width: 400px;
+            height: 300px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: scroll;
+        }
+
+        #message-form {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-box"></div>
+    <form id="message-form" method="post">
+        {% csrf_token %}
+        <input type="text" id="message-input" autocomplete="off" placeholder="Type your message...">
+        <button type="submit">Send</button>
+    </form>
+
+    <script>
+        // JavaScript code for handling WebSocket communication
+        const chatBox = document.getElementById("chat-box");
+        const messageInput = document.getElementById("message-input");
+        const messageForm = document.getElementById("message-form");
+
+        const socket = new WebSocket("ws://127.0.0.1:8000/ws/some_path/3"); // Replace with your WebSocket URL
+
+        // Function to append a message to the chat box
+        function appendMessage(message) {
+            const messageElement = document.createElement("div");
+            messageElement.innerText = message;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Event listener for form submission (sending messages)
+        messageForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const message = messageInput.value.trim();
+            if (message !== "") {
+                socket.send(JSON.stringify({ message }));
+                messageInput.value = "";
+            }
+        });
+
+        // Event listener for incoming messages from the WebSocket
+        socket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            appendMessage(data.message);
+        };
+    </script>
+</body>
+</html>

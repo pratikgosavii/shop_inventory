@@ -11,3 +11,13 @@ class LoginForm(forms.Form):
         'placeholder': 'Password',
         'type': 'password'
     }))
+
+
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from .models import User  # Import your User model
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'password1', 'password2', 'is_accounts', 'is_admin', 'is_reception', 'is_designer')

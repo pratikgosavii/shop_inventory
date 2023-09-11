@@ -1,4 +1,5 @@
 from django.db import models
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -29,13 +30,13 @@ class project(models.Model):
     employee_name = models.ForeignKey(employee , on_delete=models.CASCADE, related_name='dfsdds')
     DC_date = models.DateField(auto_now_add=False)
     description = models.CharField( max_length=50)
+    order_id = models.CharField( max_length=50)
     completed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.description
 
    
-
 class project_material(models.Model):
 
     quantity = models.IntegerField()
@@ -99,36 +100,30 @@ class scratch_stock(models.Model):
 # models.py
 from django.db import models
 from django.contrib.auth.models import User
+# alerts/signals.py
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+import json
+
 
 class alert(models.Model):
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
-# consumers.py (Django Channels consumer)
-import json
-from channels.generic.websocket import AsyncWebsocketConsumer
+@receiver(post_save, sender=alert)
+def send_alert_notification(sender, instance, created, **kwargs):
 
-class AlertConsumer(AsyncWebsocketConsumer):
-    async def connect(self):
-        await self.accept()
+    print('yes')
+    if created:
+        print('yes2')
 
-    async def disconnect(self, close_code):
-        pass
-
-    async def receive(self, text_data):
-        # Handle incoming alerts and broadcast them to relevant users
-        alert_data = json.loads(text_data)
-        message = alert_data['message']
-        user_id = alert_data['user_id']
-        
-        # Logic to determine which users should receive the alert
-        recipients = [user_id]  # Replace with your logic
-        
-        for recipient_id in recipients:
-            await self.send_alert(message, recipient_id)
-
-    async def send_alert(self, message, user_id):
-        await self.send(text_data=json.dumps({
-            'message': message,
-            'user_id': user_id,
-        }))
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            'notification_group',  # You can define a group name
+            {
+                'type': 'send_notification',
+                'entry': instance.message  # Serialize your entry as needed
+            }
+        )

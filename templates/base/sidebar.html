@@ -5,6 +5,10 @@
                 <li class="active">
                     <a href="{% url 'dashboard' %}"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
                 </li>
+
+               
+                {% if request.user.is_superuser or request.user.is_reception %}
+                
                 <li class="menu-title">Setting</li><!-- /.menu-title -->
 
                 <li class="menu-item-has-children dropdown">
@@ -55,13 +59,6 @@
                     </ul>
                 </li>
 
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Customer </a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_customer' %}">Add</a></li>
-                        <li><i class="fa fa-th"></i><a href="{% url 'list_customer' %}">View</a></li>
-                    </ul>
-                </li>
 
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Designer </a>
@@ -78,13 +75,7 @@
                         <li><i class="fa fa-th"></i><a href="{% url 'list_cutter' %}">View</a></li>
                     </ul>
                 </li>
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Iteam Code </a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_item_code' %}">Add</a></li>
-                        <li><i class="fa fa-th"></i><a href="{% url 'list_item_code' %}">View</a></li>
-                    </ul>
-                </li>
+                
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>All Materials </a>
                     <ul class="sub-menu children dropdown-menu">
@@ -92,6 +83,35 @@
                     </ul>
                 </li>
 
+                {% endif %}
+
+                {% if request.user.is_accounts %}
+
+                <li class="menu-title">Setting</li><!-- /.menu-title -->
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Item Code </a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_item_code' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_item_code' %}">View</a></li>
+                    </ul>
+                </li>
+
+
+                
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Customer </a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_customer' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_customer' %}">View</a></li>
+                    </ul>
+                </li>
+
+                {% endif %}
+
+
+                {% if request.user.is_superuser or request.user.is_reception or request.user.is_designer %}
+                
                 <li class="menu-title">Transactions</li><!-- /.menu-title -->
 
                 <li class="menu-item-has-children dropdown">
@@ -109,6 +129,8 @@
                         <li><i class="fa fa-th"></i><a href="{% url 'list_project' %}">View</a></li>
                     </ul>
                 </li>
+
+                {% endif %}
 
                 
                 <li class="menu-title">Stock</li><!-- /.menu-title -->
@@ -130,13 +152,6 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-archive"></i> Dead Stock</a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-th"></i><a href="{% url 'list_dead_stock' %}">View</a></li>
-                    </ul>
-                </li>
-
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-archive"></i>Delete Dashboard</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-th"></i><a href="{% url 'delete_dashboard' %}">View</a></li>
                     </ul>
                 </li>
 
