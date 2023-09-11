@@ -1845,7 +1845,7 @@ def close_project(request, project_id):
 
 
 
-
+import pusher
 
 from store.forms import *
 
@@ -1897,8 +1897,15 @@ def add_project(request):
                 for z in range(int(i)): 
                     project_matarial_qr.objects.create(project_material = project_material_instance)
 
-            alert.objects.create(message = "new project created id" + order_id)
-              
+            a1212 = alert.objects.create(message = "new project created id" + order_id)
+            pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
+                                      key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
+                                      secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
+                                      cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
+                                      ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
+
+            pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
+
             return redirect('list_project')
 
 

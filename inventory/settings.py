@@ -93,11 +93,11 @@ WSGI_APPLICATION = 'inventory.wsgi.application'
 
 ASGI_APPLICATION = "inventory.asgi.application"
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
-}
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+# }
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -144,8 +144,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -155,6 +155,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # settings.py
 
+PUSH_NOTIFICATIONS_SETTINGS = {
+    "APP_ID": "1668894",
+    "KEY": "bc5ccb3b5fa0e00f91e5",
+    "SECRET": "0b786bdf259ba3f60d73",
+    "CLUSTER": "ap2",
+    "USE_TLS": True,
+}
 
 
 # settings.py

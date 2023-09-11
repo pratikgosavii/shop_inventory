@@ -132,6 +132,7 @@ font-family: 'Montserrat', sans-serif;
 
 </style>
 
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 
 {% endblock head %}
 
@@ -294,6 +295,11 @@ font-family: 'Montserrat', sans-serif;
         <source src="static/audio/popup.mp3" type="audio/mpeg">
     </audio>
 
+    <button id="enable-sound-button">Enable Sound</button>
+<audio id="audio-element" muted autoplay>
+    <source src="static/audio/popup.mp3" type="audio/mpeg">
+</audio>
+
     
 {% endblock content %}
 
@@ -303,6 +309,24 @@ font-family: 'Montserrat', sans-serif;
 
     <script>
 
+
+        const enableSoundButton = document.getElementById('enable-sound-button');
+const audioElement = document.getElementById('audio-element');
+
+enableSoundButton.addEventListener('click', () => {
+    audioElement.play().then(() => {
+        // Autoplay is allowed, store user's preference
+        localStorage.setItem('soundEnabled', 'true');
+    }).catch((error) => {
+        // Autoplay was denied by the user
+        console.error('Autoplay permission denied:', error);
+    });
+});
+
+
+// In the 'enable-sound-button' click handler
+localStorage.setItem('soundEnabled', 'true');
+
         function playNotificationSound() {
             // Create an AudioContext and play the notification sound
            
@@ -311,13 +335,24 @@ font-family: 'Montserrat', sans-serif;
           }
           
           
-          
+          if ('Notification' in window) {
+            Notification.requestPermission().then(permission => {
+              if (permission === 'granted') {
+                // Permission granted, you can now send notifications (including sound) without asking again until revoked.
+              } else if (permission === 'denied') {
+                // Permission denied, handle accordingly.
+              } else {
+                // Permission dismissed or unavailable, handle accordingly.
+              }
+            });
+          }
+
           
           
 
-          
+{% comment %}           
         const notificationList = document.getElementById('notification-list');
-        const socket = new WebSocket('wss://shopinventory.pythonanywhere.com/ws/some_path/');
+        const socket = new WebSocket('ws://127.0.0.1:8000/ws/some_path/');
         
         socket.onopen = () => {
             console.log('WebSocket connection opened.');
@@ -378,18 +413,78 @@ font-family: 'Montserrat', sans-serif;
             } else {
                 console.error('WebSocket connection abruptly closed');
             }
-        };
-        if ('Notification' in window) {
-            Notification.requestPermission().then(permission => {
-              if (permission === 'granted') {
-                // Permission granted, you can now send notifications (including sound) without asking again until revoked.
-              } else if (permission === 'denied') {
-                // Permission denied, handle accordingly.
-              } else {
-                // Permission dismissed or unavailable, handle accordingly.
-              }
+        }; 
+        
+
+          
+        }); {% endcomment %}
+
+        
+       
+          const pusher = new Pusher('bc5ccb3b5fa0e00f91e5', {
+            cluster: 'ap2',
+            encrypted: true,
+        });
+    
+        const channel = pusher.subscribe('alerts');
+        channel.bind('new-alert', function (data) {
+            const message = data.message;
+            const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
+
+            if (soundEnabled) {
+                // Play the sound without asking for permission
+                const audio = new Audio('static/audio/popup.mp3');
+                audio.play();
+            }
+            
+            
+            var currentUser = "{{ request.user.is_reception }}";
+            var notificationDiv = document.getElementById('notificationDiv');
+            var closeNotificationButton = document.getElementById('closeNotification'); // Get the close button by its ID
+
+            var userStatusElement = document.getElementById('userStatus');
+            if (currentUser == "True") {
+                // Create a new div for the notification
+                var notificationDiv = document.getElementById('notificationDiv');
+
+            // Create a new div for the notification
+            var notificationItem = document.createElement('div');
+            notificationItem.className = 'box1';
+
+            // Add content to the notification div
+            var notificationContent = `
+                <div class="xmark-box">
+                    <i class="fa-solid fa-x" id="closeNotification"></i>
+                </div>
+                <div class="caption-box">
+                    <img src="https://www.pngall.com/wp-content/uploads/2/Approved-PNG-Download-Image.png" alt="approveimg">
+                    <div class="caption">
+                        <h5>HI,</h5>
+                        <p>${message}</p>
+                    </div>
+                </div>
+            `;
+            notificationItem.innerHTML = notificationContent;
+
+            notificationDiv.appendChild(notificationItem);
+
+            // Play the notification sound
+
+
+            }
+            // Add a click event listener to the close button
+            var closeButton = notificationItem.querySelector('#closeNotification');
+            closeButton.addEventListener('click', function () {
+                // Remove the notification item when the close button is clicked
+                notificationDiv.removeChild(notificationItem);
             });
-          }
+
+            // Append the notification item to the notificationDiv
+          
+        });
+
+          
+
         
     </script>
 

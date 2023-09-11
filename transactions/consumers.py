@@ -1,23 +1,23 @@
-import json
-from channels.generic.websocket import WebsocketConsumer
+# import json
+# from channels.generic.websocket import WebsocketConsumer
 
-class AlertConsumer(WebsocketConsumer):
+# class AlertConsumer(WebsocketConsumer):
 
-    groups = ['notification_group']
+#     groups = ['notification_group']
 
-    def connect(self):
-        self.accept()
+#     def connect(self):
+#         self.accept()
 
-    def disconnect(self, close_code):
-        pass
+#     def disconnect(self, close_code):
+#         pass
 
-    def send_alert(self, event):
-        print(event)
-        message = event['message']
+#     def send_alert(self, event):
+#         print(event)
+#         message = event['message']
 
-        # Send the alert message to the WebSocket client
-        self.send(text_data=message)
+#         # Send the alert message to the WebSocket client
+#         self.send(text_data=message)
 
 
-    def send_notification(self, message):
-        self.send(text_data=json.dumps({"message": message}))
+#     def send_notification(self, message):
+#         self.send(text_data=json.dumps({"message": message}))
