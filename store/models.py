@@ -114,7 +114,7 @@ class item_code(models.Model):
 
 class product(models.Model):
 
-    shelf = models.ForeignKey(godown, on_delete=models.CASCADE)
+    shelf = models.ForeignKey(godown, on_delete=models.CASCADE, null=True, blank=True)
     size = models.ForeignKey(size, on_delete=models.CASCADE)
     category = models.ForeignKey(category, on_delete=models.CASCADE)
     thickness = models.ForeignKey(thickness, on_delete=models.CASCADE)
