@@ -114,7 +114,6 @@ class item_code(models.Model):
 
 class product(models.Model):
 
-    shelf = models.ForeignKey(godown, on_delete=models.CASCADE, null=True, blank=True)
     size = models.ForeignKey(size, on_delete=models.CASCADE)
     category = models.ForeignKey(category, on_delete=models.CASCADE)
     thickness = models.ForeignKey(thickness, on_delete=models.CASCADE)
@@ -126,7 +125,6 @@ class product(models.Model):
 
 class product_qr(models.Model):
     
-    shelf = models.ForeignKey(godown, on_delete=models.CASCADE, null = True, blank = True)
     product = models.ForeignKey(product, on_delete=models.CASCADE, related_name = "project_material_re", null = True, blank = True)
     qr_code = models.ImageField(upload_to='static/qrcode/', height_field=None, width_field=None, max_length=None, null = True, blank = True)
     supplier = models.ForeignKey(dealer, on_delete=models.CASCADE, null = True, blank = True)

@@ -123,9 +123,7 @@ class product_qr_Form(forms.ModelForm):
         fields = '__all__'
         widgets = {
           
-            'shelf': forms.Select(attrs={
-                'class': 'form-control', 'id': 'thickness'
-            }),
+           
 
             'supplier': forms.Select(attrs={
                 'class': 'form-control', 'id': 'thickness'

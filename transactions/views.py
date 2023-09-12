@@ -2123,7 +2123,19 @@ def update_assign_matarial_qr(request, product_qr_id):
                 print('----------done----------------')
                 instance, created = left_over_stock.objects.get_or_create(product = product_instance_new)
             
-                stock_instance = stock.objects.get(product = product_instance)
+                print('----------------------here  -----------')
+
+                print(product_instance.id)
+              
+                print('----------------------here  -----------')
+
+                stock_all = stock.objects.all()
+                print('priting all')
+                for i in stock_all:
+                  
+                    print(i.product.id)
+
+                stock_instance = stock.objects.get(product__id = product_instance.id)
                 stock_instance.quantity = stock_instance.quantity - 1
                 stock_instance.save()
 
