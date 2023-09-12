@@ -2076,6 +2076,7 @@ def update_assign_matarial_qr(request, product_qr_id):
             if product_qr_instance.moved_to_left_over != True:
             
                 stock_instance = stock.objects.get(product = product_instance)
+                print('---pls run------')
                 print(product_instance.category)
                 print(product_instance.size)
                 print(product_instance.thickness)
