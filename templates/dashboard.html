@@ -292,12 +292,12 @@ font-family: 'Montserrat', sans-serif;
     <!-- /.orders -->
 
     <audio autoplay muted id="notificationSound">
-        <source src="static/audio/popup.mp3" type="audio/mpeg">
+        <source src="static/audio/popup.wav" type="audio/mpeg">
     </audio>
 
     <button id="enable-sound-button" style="background: orange; border: orange;" class="btn btn-success form-input">Enable Sound</button>
 <audio id="audio-element" muted autoplay>
-    <source src="static/audio/popup.mp3" type="audio/mpeg">
+    <source src="static/audio/popup.wav" type="audio/mpeg">
 </audio>
 
     
@@ -331,7 +331,7 @@ localStorage.setItem('soundEnabled', 'true');
         function playNotificationSound() {
             // Create an AudioContext and play the notification sound
            
-              let audio = new Audio("static/audio/popup.mp3");
+              let audio = new Audio("static/audio/popup.wav");
                 audio.play();
           }
           
@@ -434,7 +434,7 @@ localStorage.setItem('soundEnabled', 'true');
 
             if (soundEnabled) {
                 // Play the sound without asking for permission
-                const audio = new Audio('static/audio/popup.mp3');
+                const audio = new Audio('static/audio/popup.wav');
                 audio.play();
             }
             
