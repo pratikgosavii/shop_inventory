@@ -2057,15 +2057,9 @@ def update_assign_matarial_qr(request, product_qr_id):
         
         product_instance_new, product_created_new = product.objects.get_or_create(category = product_instance.category, thickness = product_instance.thickness, size = size_instance3, grade = product_instance.grade)
         
+       
         if product_instance_new == None:
-            product_qr_instance.product = product_created_new
             product_instance_new = product_created_new
-        else:
-            product_qr_instance.product = product_instance_new
-
-
-        product_qr_instance.save()
-
 
         if e == "true":
 
@@ -2076,10 +2070,6 @@ def update_assign_matarial_qr(request, product_qr_id):
             if product_qr_instance.moved_to_left_over != True:
             
                 stock_instance = stock.objects.get(product = product_instance)
-                print('---pls run------')
-                print(product_instance.category)
-                print(product_instance.size)
-                print(product_instance.thickness)
                 stock_instance.quantity = stock_instance.quantity - 1
                 
                 product_qr_instance.moved_to_scratch = True
@@ -2090,7 +2080,7 @@ def update_assign_matarial_qr(request, product_qr_id):
               
             else:
                 
-                left_over_instance =  left_over_stock.objects.get(product = product_instance)
+                left_over_instance =  left_over_stock.objects.get(product = product_qr_instance.product)
 
 
                 left_over_instance.quantity = left_over_instance.quantity - 1
@@ -2121,9 +2111,10 @@ def update_assign_matarial_qr(request, product_qr_id):
             if product_qr_instance.moved_to_left_over != True:
                 
                 print('----------done----------------')
+                print(product_qr_instance)
                 instance, created = left_over_stock.objects.get_or_create(product = product_instance_new)
             
-                stock_instance = stock.objects.get(product__id = product_instance.id)
+                stock_instance = stock.objects.get(product = product_instance)
                 stock_instance.quantity = stock_instance.quantity - 1
                 stock_instance.save()
 
@@ -2144,8 +2135,8 @@ def update_assign_matarial_qr(request, product_qr_id):
 
 
             else:
-
-                left_over_instance = left_over_stock.objects.get(product = product_instance_new)
+                print(product_instance.id)
+                left_over_instance = left_over_stock.objects.get(product = product_qr_instance.product)
                 left_over_instance.quantity = left_over_instance.quantity - 1
                 left_over_instance.save()
 
@@ -2162,8 +2153,15 @@ def update_assign_matarial_qr(request, product_qr_id):
                     created.quantity = 1
                     created.save()
         
-
         
+        print('---------------')
+        print(product_instance_new)
+        print('---------------')
+
+        product_qr_instance.product = product_instance_new
+        product_qr_instance.save()
+        
+
         # remove project for this qr
         return JsonResponse({'status' : 'done'})
 
