@@ -6,8 +6,18 @@
 
 {% block head %}
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
 <style>
 
+        .select2-container{
+
+            width: 164.75px
+        }
+
+        .select2-container .select2-selection--single {
+            height: 37px !important;
+        }
 
 </style>
 
@@ -136,6 +146,11 @@
 {% block js %}
     
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include Select2 JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<!-- Initialize Select2 -->
+
 <script>
     
    
@@ -177,7 +192,8 @@
             newRow.innerHTML = `
             <td> {{ data_form.category }} </td> <td>{{ data_form.size }} </td> <td> {{ data_form.grade }} </td> <td>{{ data_form.thickness }} </td> <td> <input type="number" class="form-control" name="quantity" placeholder="Qty"> </td> <td>  <span class="input-group-btn"><button type="button" class="btn btn-danger remove-textbox"> </td>
             `;
-
+            
+            $(newRow).find('.size').select2();
             
                 $(tableBody).append(newRow);
 
@@ -199,6 +215,9 @@ tableBody.addEventListener('click', function(event) {
     }
   });
 
+  $(document).ready(function () {
+    $('.size').select2();
+});
     
 </script>
 

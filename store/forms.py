@@ -160,7 +160,7 @@ class product_Form(forms.ModelForm):
             }),
           
             'size': forms.Select(attrs={
-                'class': 'form-control', 'id': 'size'
+                'class': 'form-control size', 'id': 'size'
             }),
           
             'thickness': forms.Select(attrs={
