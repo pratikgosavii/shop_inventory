@@ -7,3 +7,4 @@ class User(AbstractUser):
     is_admin = models.BooleanField(default=False)
     is_reception = models.BooleanField(default=False)
     is_designer = models.BooleanField(default=False)
+    is_cutter = models.BooleanField(default=False)

@@ -238,6 +238,14 @@
 
     function submitForm(e) {
         e.preventDefault();
+
+        var paymentButton = document.getElementById('payment-button');
+        paymentButton.disabled = true;
+
+        // Change the button color (you can change 'btn-info' to your desired class)
+        paymentButton.classList.remove('btn-info');
+        paymentButton.classList.add('btn-secondary'); // Change to the desired color class
+
     
         const rows = document.querySelectorAll('tbody tr');
         let size_arr = 0
