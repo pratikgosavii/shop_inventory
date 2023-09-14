@@ -62,7 +62,6 @@ function scanQRCode(canvas, videoElement) {
             clearInterval(scanInterval); // Stop scanning
             alert('Scanned QR Code: ' + code.data); // Display the scanned value in an alert
             console.log('Scanned:', code.data);
-                scanner.stop(); 
                 $.ajax({
                   type: "POST",
                   url: '{% url "assign_values_to_qr_page" %}',
