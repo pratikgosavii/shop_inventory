@@ -17,7 +17,10 @@
             text-align: center;
         }
         #scanner-video {
-            /* No need for any transform or mirroring in the CSS */
+            /* Apply the transform property to flip the video horizontally */
+            transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+            -moz-transform: scaleX(-1);
         }
     </style>
 </head>
