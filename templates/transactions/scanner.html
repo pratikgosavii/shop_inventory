@@ -17,12 +17,10 @@
             text-align: center;
         }
         #scanner-video {
-            transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
-  /* Safari and Chrome */
-  -moz-transform: rotateY(180deg);
-  /* Firefox */
-  transform: scale(1.0);
+            /* Add this CSS to rotate the video by 180 degrees */
+            transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            -moz-transform: rotate(180deg);
         }
     </style>
 </head>
@@ -41,6 +39,7 @@
     const scannerVideo = document.getElementById('scanner-video');
 
     Instascan.Camera.getCameras().then(function (cameras) {
+        alert('sdsdsdss')
         if (cameras.length > 0) {
             const scanner = new Instascan.Scanner({ video: scannerVideo });
             scanner.addListener('scan', function (content) {
