@@ -16,11 +16,10 @@
             max-width: 500px;
             text-align: center;
         }
-        #scanner-canvas {
-            /* Apply the transform property to mirror the video */
-            transform: scaleX(-1);
-            -webkit-transform: scaleX(-1);
-            -moz-transform: scaleX(-1);
+        #scanner-video {
+            width: 100%;
+            height: auto;
+            /* Remove any transformations */
         }
     </style>
 </head>
@@ -28,8 +27,7 @@
   <form method="post">
     {% csrf_token %}
     <div id="scanner-container">
-        <video id="scanner-video" playsinline></video>
-        <canvas id="scanner-canvas" style="display: none;"></canvas>
+        <video id="scanner-video"></video>
     </div>
   </form>
 
@@ -38,8 +36,6 @@
   <script>
     const scannerContainer = document.getElementById('scanner-container');
     const scannerVideo = document.getElementById('scanner-video');
-    const scannerCanvas = document.getElementById('scanner-canvas');
-    const scannerCanvasContext = scannerCanvas.getContext('2d');
 
     Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
@@ -69,29 +65,7 @@
             });
 
             const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
-            const constraints = {
-                video: {
-                    facingMode: { exact: 'environment' }, // Use the back camera
-                },
-            };
-
-            navigator.mediaDevices.getUserMedia(constraints)
-                .then(function (stream) {
-                    scannerVideo.srcObject = stream;
-                    scannerVideo.play();
-                    scanner.start(backCamera);
-
-                    // Mirror the video feed using canvas
-                    scannerCanvas.width = scannerVideo.videoWidth;
-                    scannerCanvas.height = scannerVideo.videoHeight;
-                    setInterval(() => {
-                        scannerCanvasContext.clearRect(0, 0, scannerCanvas.width, scannerCanvas.height);
-                        scannerCanvasContext.drawImage(scannerVideo, 0, 0, scannerCanvas.width, scannerCanvas.height);
-                    }, 100);
-                })
-                .catch(function (error) {
-                    console.error('Error accessing the camera:', error);
-                });
+            scanner.start(backCamera);
         } else {
             console.error('No cameras found.');
         }
