@@ -16,12 +16,11 @@
             max-width: 500px;
             text-align: center;
         }
-        #scanner-video {
-            width: 100%;
-            height: auto;
-        }
-        #canvas-container {
-            display: none; /* Hide the canvas container initially */
+        #scanner-canvas {
+            /* Apply the transform property to mirror the video */
+            transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+            -moz-transform: scaleX(-1);
         }
     </style>
 </head>
@@ -29,23 +28,18 @@
   <form method="post">
     {% csrf_token %}
     <div id="scanner-container">
-        <video id="scanner-video"></video>
+        <video id="scanner-video" playsinline></video>
+        <canvas id="scanner-canvas" style="display: none;"></canvas>
     </div>
   </form>
-  
-  <!-- Add a canvas element for rendering the flipped video feed -->
-  <div id="canvas-container">
-    <canvas id="video-canvas"></canvas>
-  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
   <script>
     const scannerContainer = document.getElementById('scanner-container');
     const scannerVideo = document.getElementById('scanner-video');
-    const canvasContainer = document.getElementById('canvas-container');
-    const videoCanvas = document.getElementById('video-canvas');
-    const ctx = videoCanvas.getContext('2d');
+    const scannerCanvas = document.getElementById('scanner-canvas');
+    const scannerCanvasContext = scannerCanvas.getContext('2d');
 
     Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
@@ -75,22 +69,29 @@
             });
 
             const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
-            scanner.start(backCamera);
+            const constraints = {
+                video: {
+                    facingMode: { exact: 'environment' }, // Use the back camera
+                },
+            };
 
-            // Flip the canvas horizontally
-            videoCanvas.width = scannerVideo.videoWidth;
-            videoCanvas.height = scannerVideo.videoHeight;
-            ctx.translate(videoCanvas.width, 0);
-            ctx.scale(-1, 1);
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(function (stream) {
+                    scannerVideo.srcObject = stream;
+                    scannerVideo.play();
+                    scanner.start(backCamera);
 
-            // Continuously draw the flipped video feed to the canvas
-            function drawVideoToCanvas() {
-              ctx.drawImage(scannerVideo, 0, 0, videoCanvas.width, videoCanvas.height);
-              requestAnimationFrame(drawVideoToCanvas);
-            }
-            
-            drawVideoToCanvas();
-            canvasContainer.style.display = 'block'; // Display the canvas container
+                    // Mirror the video feed using canvas
+                    scannerCanvas.width = scannerVideo.videoWidth;
+                    scannerCanvas.height = scannerVideo.videoHeight;
+                    setInterval(() => {
+                        scannerCanvasContext.clearRect(0, 0, scannerCanvas.width, scannerCanvas.height);
+                        scannerCanvasContext.drawImage(scannerVideo, 0, 0, scannerCanvas.width, scannerCanvas.height);
+                    }, 100);
+                })
+                .catch(function (error) {
+                    console.error('Error accessing the camera:', error);
+                });
         } else {
             console.error('No cameras found.');
         }
