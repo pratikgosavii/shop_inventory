@@ -17,10 +17,7 @@
             text-align: center;
         }
         #scanner-video {
-            /* Use the transform property to flip the video horizontally */
-            transform: scaleY(-1);
-            -webkit-transform: scaleY(-1);
-            -moz-transform: scaleY(-1);
+            /* No need for any transform or mirroring in the CSS */
         }
     </style>
 </head>
@@ -28,7 +25,7 @@
   <form method="post">
     {% csrf_token %}
     <div id="scanner-container">
-        <video id="scanner-video"></video>
+        <video id="scanner-video" playsinline></video>
     </div>
   </form>
 
@@ -66,7 +63,21 @@
             });
 
             const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
-            scanner.start(backCamera);
+            const constraints = {
+                video: {
+                    facingMode: { exact: 'environment' }, // Use the back camera
+                },
+            };
+
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(function (stream) {
+                    scannerVideo.srcObject = stream;
+                    scannerVideo.play();
+                    scanner.start(backCamera);
+                })
+                .catch(function (error) {
+                    console.error('Error accessing the camera:', error);
+                });
         } else {
             console.error('No cameras found.');
         }
