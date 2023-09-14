@@ -71,6 +71,7 @@ function scanQRCode(canvas, videoElement) {
                       'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
                   },
                   success: function (data) {
+                    alert('done')
                       console.log(data.value)
                       if(data.status === "success"){ // Use === for comparison
                         const redirectUrl = data.redirect_url;
