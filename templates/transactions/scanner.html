@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Back Camera View</title>
+    <title>Scanning Barcode/QR Code</title>
     <style>
         /* Style the video element to make it full-screen */
         video {
@@ -13,53 +13,33 @@
     </style>
 </head>
 <body>
-    <!-- Create a container for the back camera view -->
+    <!-- Create a container for the camera view -->
     <div id="camera-container">
         <video id="camera-view" autoplay></video>
     </div>
 
+    <script src="https://cdn.rawgit.com/zxing-js/library/0.17.1/dist/zxing.js"></script>
     <script>
         // Access the back camera if available, or the default camera
         async function startCamera() {
             try {
-                alert('started')
                 const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
 
                 const videoElement = document.getElementById('camera-view');
                 videoElement.srcObject = stream;
 
-                // QR code scanning logic
-                const scanner = new Instascan.Scanner({ video: videoElement });
-                scanner.addListener('scan', function (content) {
-                    alert(content)
-                    console.log('Scanned:', content);
-                    scanner.stop();
-                    $.ajax({
-                        type: "POST",
-                        url: '{% url "assign_values_to_qr_page" %}',
-                        data: {
-                            'scanned_value': content,
-                            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                        },
-                        success: function (data) {
-                            console.log(data.value);
-                            if (data.status === "success") {
-                                const redirectUrl = data.redirect_url;
-                                console.log('Received redirect URL:', redirectUrl);
+                // Initialize the ZXing code reader
+                const codeReader = new ZXing.BrowserBarcodeReader();
 
-                                // Redirect the user to the received URL
-                                window.location.href = redirectUrl;
-                            }
-                        }
-                    });
-                });
-
-                // Start the QR code scanner
-                Instascan.Camera.getCameras().then(function (cameras) {
-                    if (cameras.length > 0) {
-                        scanner.start(cameras[0]);
-                    } else {
-                        console.error('No cameras found.');
+                // Start scanning when a frame is available
+                codeReader.decodeFromVideoElement(videoElement, (result, err) => {
+                    if (result) {
+                        alert(result.text)
+                        console.log('Scanned value:', result.text);
+                        // You can use the scanned value as needed
+                    }
+                    if (err && !(err instanceof ZXing.NotFoundException)) {
+                        console.error('Error scanning:', err);
                     }
                 });
             } catch (error) {
