@@ -19,7 +19,6 @@
         #scanner-video {
             width: 100%;
             height: auto;
-            transform: rotateY(180deg); /* Flip the video horizontally */
         }
     </style>
 </head>
@@ -64,8 +63,9 @@
 
             });
 
-            const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
-            scanner.start(backCamera);
+            // Use the front camera (selfie camera)
+            const frontCamera = cameras.find(camera => camera.name.toLowerCase().includes('front'));
+            scanner.start(frontCamera);
         } else {
             console.error('No cameras found.');
         }
