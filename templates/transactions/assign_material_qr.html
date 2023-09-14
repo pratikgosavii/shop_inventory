@@ -195,30 +195,7 @@
 
 <script>
 
-    async function startCamera() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: 'environment' } } });
-
-
-
-            const videoElement = document.getElementById('camera-view');
-            videoElement.srcObject = stream;
-
-            // Create a canvas element for capturing video frames
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-
-            // Listen for video playing to start QR code scanning
-            videoElement.addEventListener('playing', () => {
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
-                scanQRCode(canvas, videoElement);
-            });
-        } catch (error) {
-            console.error('Error accessing the camera:', error);
-        }
-    }
-
+   
 
     let material_id = [];
     let scanned_value = [];
