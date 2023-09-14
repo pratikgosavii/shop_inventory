@@ -156,7 +156,7 @@ class product_Form(forms.ModelForm):
           
           
             'category': forms.Select(attrs={
-                'class': 'form-control', 'id': 'category'
+                'class': 'form-control category', 'id': 'category'
             }),
           
             'size': forms.Select(attrs={
@@ -164,11 +164,11 @@ class product_Form(forms.ModelForm):
             }),
           
             'thickness': forms.Select(attrs={
-                'class': 'form-control', 'id': 'thickness'
+                'class': 'form-control thickness', 'id': 'thickness'
             }),
           
             'grade': forms.Select(attrs={
-                'class': 'form-control', 'id': 'grade'
+                'class': 'form-control grade', 'id': 'grade'
             }),
 
            

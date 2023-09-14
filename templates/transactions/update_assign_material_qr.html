@@ -115,7 +115,7 @@
                                         <td> Thickness </td>
                                         <td> Used Size </td>
                                         <td> Left Size </td>
-                                        <td> Scratch </td>
+                                        <td> Scrap </td>
                                         
                                     </tr>
                                 </thead>
@@ -131,12 +131,12 @@
                                         <td>{{ data.product.grade }}</td>
                                         <td>{{ data.product.thickness }}</td>
                                         <td>
-                                            <input type="text" class="form-control used-length-input" placeholder="Length">
+                                            <input type="text" class="form-control used-length-input" placeholder="Length" inputmode="numeric">
                                             X
-                                            <input type="text" class="form-control used-width-input" placeholder="Width">
+                                            <input type="text" class="form-control used-width-input" placeholder="Width" inputmode="numeric">
 
                                             <br>
-                                            <input type="text" class="form-control used-sq-inch-input" id="used-sq-inch-input" placeholder="Used Square Inches">
+                                            <input type="text" class="form-control used-sq-inch-input" id="used-sq-inch-input" placeholder="Used Square Inches" inputmode="numeric">
 
                                         </td>
                                         <td>
@@ -285,7 +285,7 @@
               console.log(data)
     
               if(data.status == "done"){
-                window.location.href = "{% url 'list_project' %}"
+                window.location.href = "{% url 'dashboard' %}"
               }
             }
         });

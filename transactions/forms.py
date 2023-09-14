@@ -38,7 +38,7 @@ class request_material_Form(forms.ModelForm):
                 'class': 'form-control', 'id': 'total_bag'
             }),
 
-            'DC_date': DateInput(attrs={ 'class': 'form-control', 'type': 'date'}, format = '%Y-%m-%d'),
+            'DC_date': DateInput(attrs={ 'class': 'form-control dateclas', 'type': 'date'}, format = '%Y-%m-%d'),
             
         }
 
@@ -68,7 +68,7 @@ class project_Form(forms.ModelForm):
            
           
 
-            'DC_date': DateInput(attrs={ 'class': 'form-control', 'type': 'date'}, format = '%Y-%m-%d'),
+            'DC_date': DateInput(attrs={ 'class': 'form-control dateclas', 'type': 'date'}, format = '%Y-%m-%d'),
             
         }
 

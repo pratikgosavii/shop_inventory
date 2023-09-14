@@ -74,7 +74,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="name" class="control-label mb-1">Order ID </label>
+                                <label for="name" class="control-label mb-1">Purchase Order No </label>
                                 {{ form.order_id }}
                                
                             </div>
@@ -89,6 +89,7 @@
                             <div class="form-group">
                                 <label for="name" class="control-label mb-1">Date</label>
                                 {{ form.DC_date }}
+                                
                             </div>
 
                             <hr>
@@ -107,7 +108,7 @@
         <td> Size </td>
         <td> Grade </td>
         <td> Thickness </td>
-        <td> Qty </td>
+        <td> Sheet </td>
         <td>  <button type="button" class="btn btn-success add-textbox" > <i class="fa fa-plus" aria-hidden="true"></i></button>  </td>
     </tr>
 
@@ -116,8 +117,8 @@
         <td> {{ data_form.size }} </td>
         <td> {{ data_form.grade }} </td>
         <td> {{ data_form.thickness }} </td>
-        <td> <input type="number" class="form-control" name="quantity" placeholder="Qty"> </td>
-        <td>  </td>
+        <td> <input type="number" class="form-control sheet-no" name="sheet_no" placeholder="Sheet No"> </td>
+        <td> <button type="button" class="btn btn-info submit-button">Submit</button> </td>
     </tr>
 
     <tbody>
@@ -154,6 +155,45 @@
 <script>
     
    
+    $(document).ready(function() {
+        // Attach an event listener to the "Sheet No" input field in each row
+        $('.sheet-no').on('blur', function() {
+            const sheetNo = $(this).val();
+            alert(sheetNo)
+            const row = $(this).closest('tr'); // Get the parent row
+    
+            // Trigger an AJAX request with the entered value
+            $.ajax({
+                url: "{% url 'get_sheet_details' %}",  // Replace with your actual API endpoint
+                method: 'POST',  // Change the HTTP method as needed
+                data: { 'sheet_no' : sheetNo,
+                        'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+                        
+                        },  // Pass data to the server
+                success: function(response) {
+                    const data = response.data;
+
+                    // Update the other fields in the same row with the response data
+                    console.log(data)
+                    console.log(data.size)
+                    console.log(data.grade)
+                    console.log(data.thickness)
+                    console.log(data.category)
+
+
+                    row.find('.size').val(data.size);
+                    row.find('.grade').val(data.grade);
+                    row.find('.thickness').val(data.thickness);
+                    row.find('.category').val(data.category);
+                },
+                error: function(error) {
+                    console.log(error);
+                    // Handle errors here
+                }
+            });
+        });
+    });
+
 
 
     $("#company_goods").change(function () {
@@ -190,10 +230,9 @@
 
             // Create your input elements here using Django template variables
             newRow.innerHTML = `
-            <td> {{ data_form.category }} </td> <td>{{ data_form.size }} </td> <td> {{ data_form.grade }} </td> <td>{{ data_form.thickness }} </td> <td> <input type="number" class="form-control" name="quantity" placeholder="Qty"> </td> <td>  <span class="input-group-btn"><button type="button" class="btn btn-danger remove-textbox"> </td>
+            <td> {{ data_form.category }} </td> <td>{{ data_form.size }} </td> <td> {{ data_form.grade }} </td> <td>{{ data_form.thickness }} </td>   <td> <input type="number" class="form-control" name="sheet_no" placeholder="Sheet No"> </td>  <button type="button" style="margin-right:10px;" class="btn btn-info submit-button" data-sheet-no="">Submit</button> </tr><td>  <span class="input-group-btn"><button type="button" class="btn btn-danger remove-textbox"> <i class="fa fa-minus" aria-hidden="true"></i>  </td> </td>
             `;
             
-            $(newRow).find('.size').select2();
             
                 $(tableBody).append(newRow);
 
@@ -215,9 +254,15 @@ tableBody.addEventListener('click', function(event) {
     }
   });
 
-  $(document).ready(function () {
-    $('.size').select2();
+
+  // Select all dropdowns on the page
+const selectElements = document.querySelectorAll('select');
+
+// Iterate through each select element and make it readonly
+selectElements.forEach((select) => {
+    select.disabled = true;
 });
+
     
 </script>
 

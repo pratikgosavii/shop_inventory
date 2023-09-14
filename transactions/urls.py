@@ -21,6 +21,7 @@ urlpatterns = [
     path('update-product/', update_product, name='update_product'),
     
     path('add-project/', add_project, name='add_project'),
+    path('get-sheet-details/', get_sheet_details, name='get_sheet_details'),
     path('list-project/', list_project, name='list_project'),
     path('report-project/', project_report, name='project_report'),
     path('download-report-project/', download_project_report, name='download_project_report'),

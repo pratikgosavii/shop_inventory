@@ -878,7 +878,7 @@ def list_stock(request):
 def list_left_over_stock(request):
 
    
-    data = left_over_stock.objects.all()
+    data = left_over_stock.objects.prefetch_related('product__project_material_re').all()
    
     context = {
         'data': data,
@@ -1935,6 +1935,27 @@ def add_project(request):
         return render(request, 'transactions/add_project.html', context)
 
 @login_required(login_url='login')
+def get_sheet_details(request):
+
+    sheet_no = request.POST.get('sheet_no')
+    print(sheet_no)
+    instance = product_qr.objects.get(id = sheet_no)
+
+    data = {
+            'size': instance.product.size.id,
+            'grade': instance.product.grade.id,
+            'thickness': instance.product.thickness.id,
+            'category': instance.product.category.id,
+            # Add more fields as needed
+        }
+
+    print(data)
+
+    return JsonResponse({'data' : data})
+
+
+
+@login_required(login_url='login')
 def assign_matarial_qr(request, project_id):
 
     print('hereeeeeeeeeeeeee')
@@ -2111,7 +2132,7 @@ def update_assign_matarial_qr(request, product_qr_id):
             if product_qr_instance.moved_to_left_over != True:
                 
                 print('----------done----------------')
-                print(product_qr_instance)
+                print(product_instance)
                 instance, created = left_over_stock.objects.get_or_create(product = product_instance_new)
             
                 stock_instance = stock.objects.get(product = product_instance)
@@ -2189,6 +2210,7 @@ def add_production(request, project_id):
         item_code_id = request.POST.getlist('item_code[]')
         material = request.POST.getlist('materialsId[]')
         production_id = request.POST.getlist('production_id[]')
+        completed = request.POST.get('completed')
 
         print('-----------------------------------')
         print('-----------------------------------')
@@ -2210,6 +2232,7 @@ def add_production(request, project_id):
 
                 project_material_instnace.item_code = item_code_instance
                 project_material_instnace.production_quantity = c
+                
                 project_material_instnace.save()
 
                 print('here')
@@ -2218,7 +2241,11 @@ def add_production(request, project_id):
                     
                 item_code_instance = item_code.objects.get(id = b)
                 instance = project_matarial_production.objects.create(project_matarial_qr = material_instance, item_code = item_code_instance, production_quantity = c)
-       
+
+        if completed == "true":
+            project_instance.completed = True
+            project_instance.save()
+
         return JsonResponse({'status' : 'done'})
         
     else:
@@ -2326,7 +2353,7 @@ def generate_product_qr(request):
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
             box_size=box_size,
-            border=4,
+            border=0,
         )
         qr.add_data(a.id)
         qr.make(fit=True)
@@ -2495,7 +2522,7 @@ def assign_values_to_qr(request, product_qr_id):
             product_qr_instance.is_fix = True
             product_qr_instance.save()
 
-            redirect_url = reverse('assign_values_to_qr', args=[product_qr_id])
+            redirect_url = reverse('list_generated_product_qr')
 
             return redirect(redirect_url)
 

@@ -333,7 +333,7 @@ tableBody.addEventListener('click', function(event) {
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
         },
         success: function (data) {   // `data` is from `get_topics_ajax` view function
-            window.location.href = data.url
+            window.location.href = "{% url 'list_project'%}"
         }
     });
 

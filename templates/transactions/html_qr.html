@@ -10,15 +10,24 @@
 
     <div style="display:flex">
     {% for i in data %}
-        <div>
+        <div style="text-align: center;
+        border: 2px solid black;
+        padding: 6px;">
+        <p style="margin: 0px;
+        padding: 0px;
+        font-weight: 800;
+        font-size: 14px;
+        font-family: inherit;
+        margin-bottom: 7px;"> Date no: {{ i.date }} </p>
+
         <p style="margin: 0px;
         padding: 0px;
         font-weight: 800;
         font-size: 18px;
-        font-family: math;
-        margin-left: 30px;"> Sheet no:- {{ i.id }} </p>
+        font-family: inherit;
+        margin-bottom: 7px;"> Sheet no: {{ i.id }} </p>
 
-        <img class="form-control" height="200" width="200" src="{{ i.qr_code.url }}">
+        <img class="form-control" height="150" width="150" src="{{ i.qr_code.url }}">
         </div>
         
         {% endfor %}

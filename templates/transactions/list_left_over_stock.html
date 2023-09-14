@@ -53,13 +53,22 @@
                         <tbody>
                             {% if data %}
                             {% for i in data %}
-                            <tr>
+                            <tr class="stock-row">
                                 <td class="serial">{{ forloop.counter }}</td>
                                 <td>{{ i.product.category }}</td>
                                 <td>{{ i.product.size }}</td>
                                 <td>{{ i.product.grade }}</td>
                                 <td>{{ i.product.thickness }}</td>
                                 <td>{{ i.quantity }}</td>
+                            </tr><tr class="sheet-numbers">
+                                <td colspan="6">
+                                    <!-- Insert your sheet numbers here -->
+                                    <ul>
+                                        {% for product_qr in i.product.project_material_re.all %}
+                                            <li>{{ product_qr.id }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
                             </tr>
                             {% endfor %}
                             {% else %}
@@ -74,4 +83,20 @@
 
     
 </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function () {
+    // Hide all sheet number rows initially
+    $(".sheet-numbers").hide();
+
+    // Add click event handler to each stock row
+    $(".stock-row").click(function () {
+        // Toggle the visibility of sheet numbers for the clicked row
+        $(this).next(".sheet-numbers").toggle();
+    });
+});
+</script>
+
 {% endblock content %}

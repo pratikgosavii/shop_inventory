@@ -121,6 +121,10 @@
                             <div class="form-group">
                                 <label for="name" class="control-label mb-1">Date</label>
                                 {{ form.DC_date }}
+
+                                <input type="checkbox" id="completed" name="completed">
+                                <label for="completed">Completed</label>
+
                             </div>
 
                             <hr>
@@ -385,6 +389,9 @@ function submitForm(e) {
         }
     });
 
+    const completed_checkbox = document.getElementById('completed');
+    const completed = completed_checkbox.checked;
+
 
     console.log('-------------------')
     console.log(materialsId_arr)
@@ -401,6 +408,7 @@ function submitForm(e) {
             'item_code': [...item_code_arr],       // add the country id to the POST parameters
             'quantity': [...production_quantity_arr],     
             'production_id': [...production_id_arr],     
+            'completed': completed,     
             'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
               // add the country id to the POST parameters
         },
