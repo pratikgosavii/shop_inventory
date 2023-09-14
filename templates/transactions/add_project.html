@@ -159,7 +159,6 @@
         // Attach an event listener to the "Sheet No" input field in each row
         $('.sheet-no').on('blur', function() {
             const sheetNo = $(this).val();
-            alert(sheetNo)
             const row = $(this).closest('tr'); // Get the parent row
     
             // Trigger an AJAX request with the entered value
