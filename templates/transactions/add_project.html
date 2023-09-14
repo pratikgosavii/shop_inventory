@@ -104,21 +104,21 @@
  <table id="my-table">
 
     <tr>
+        <td> Sheet </td>
         <td> Category </td>
         <td> Size </td>
         <td> Grade </td>
         <td> Thickness </td>
-        <td> Sheet </td>
         <td>  <button type="button" class="btn btn-success add-textbox" > <i class="fa fa-plus" aria-hidden="true"></i></button>  </td>
     </tr>
 
     <tr>
+        <td> <input type="number" class="form-control sheet-no" name="sheet_no" placeholder="Sheet No"> </td>
         <td> {{ data_form.category }} </td>
         <td> {{ data_form.size }} </td>
         <td> {{ data_form.grade }} </td>
         <td> {{ data_form.thickness }} </td>
-        <td> <input type="number" class="form-control sheet-no" name="sheet_no" placeholder="Sheet No"> </td>
-        <td> <button type="button" class="btn btn-info submit-button">Submit</button> </td>
+        <td> <button type="button" class="btn btn-info submit-button" data-sheet-no="">Submit</button> </td>
     </tr>
 
     <tbody>
@@ -156,30 +156,32 @@
     
    
     $(document).ready(function() {
-        // Attach an event listener to the "Sheet No" input field in each row
-        $('.sheet-no').on('blur', function() {
-            const sheetNo = $(this).val();
-            const row = $(this).closest('tr'); // Get the parent row
-    
-            // Trigger an AJAX request with the entered value
+        // Attach an event listener to the table
+        $('#my-table').on('click', '.submit-button', function() {
+            // Find the closest row to the clicked submit button
+            const row = $(this).closest('tr');
+            
+            // Get the value of the "Sheet No" input in the same row
+            const sheetNo = row.find('.sheet-no').val();
+
+            // Trigger an AJAX request with the captured "Sheet No" value
             $.ajax({
                 url: "{% url 'get_sheet_details' %}",  // Replace with your actual API endpoint
                 method: 'POST',  // Change the HTTP method as needed
-                data: { 'sheet_no' : sheetNo,
-                        'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
-                        
-                        },  // Pass data to the server
+                data: {
+                    'sheet_no' : sheetNo,
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                },
                 success: function(response) {
                     const data = response.data;
-
+    
                     // Update the other fields in the same row with the response data
                     console.log(data)
                     console.log(data.size)
                     console.log(data.grade)
                     console.log(data.thickness)
                     console.log(data.category)
-
-
+    
                     row.find('.size').val(data.size);
                     row.find('.grade').val(data.grade);
                     row.find('.thickness').val(data.thickness);
@@ -192,8 +194,9 @@
             });
         });
     });
+    
 
-
+   
 
     $("#company_goods").change(function () {
         const company_goodsID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
@@ -229,12 +232,13 @@
 
             // Create your input elements here using Django template variables
             newRow.innerHTML = `
-            <td> {{ data_form.category }} </td> <td>{{ data_form.size }} </td> <td> {{ data_form.grade }} </td> <td>{{ data_form.thickness }} </td>   <td> <input type="number" class="form-control" name="sheet_no" placeholder="Sheet No"> </td>  <button type="button" style="margin-right:10px;" class="btn btn-info submit-button" data-sheet-no="">Submit</button> </tr><td>  <span class="input-group-btn"><button type="button" class="btn btn-danger remove-textbox"> <i class="fa fa-minus" aria-hidden="true"></i>  </td> </td>
+            <td> <input type="number" class="form-control sheet-no" name="sheet_no" placeholder="Sheet No"> </td> <td> {{ data_form.category }} </td> <td>{{ data_form.size }} </td> <td> {{ data_form.grade }} </td> <td>{{ data_form.thickness }} </td> <td> <button type="button" class="btn btn-info submit-button" data-sheet-no="">Submit</button> </td> </tr><td>  <span class="input-group-btn"><button type="button" class="btn btn-danger remove-textbox"> <i class="fa fa-minus" aria-hidden="true"></i>  </td> </td>
             `;
             
             
                 $(tableBody).append(newRow);
-
+                
+                disableDropdownsInTable('my-table');
 
         }
     });
@@ -254,14 +258,28 @@ tableBody.addEventListener('click', function(event) {
   });
 
 
-  // Select all dropdowns on the page
-const selectElements = document.querySelectorAll('select');
 
-// Iterate through each select element and make it readonly
-selectElements.forEach((select) => {
-    select.disabled = true;
-});
 
+
+function disableDropdownsInTable(tableId) {
+    // Select the table by its ID
+    const table = document.getElementById(tableId);
+    
+    // Check if the table exists
+    if (table) {
+        // Select all <select> elements within the table
+        const selectElements = table.querySelectorAll('select');
+
+        // Iterate through each <select> element and disable it
+        selectElements.forEach((select) => {
+            select.disabled = true;
+        });
+    }
+}
+
+// Example usage: Call this function after dynamically adding a new table
+// Replace 'my-table' with the actual ID of the newly added table
+disableDropdownsInTable('my-table');
     
 </script>
 
