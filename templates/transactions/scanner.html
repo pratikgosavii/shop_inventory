@@ -26,6 +26,40 @@
 
                 const videoElement = document.getElementById('camera-view');
                 videoElement.srcObject = stream;
+
+                // QR code scanning logic
+                const scanner = new Instascan.Scanner({ video: videoElement });
+                scanner.addListener('scan', function (content) {
+                    console.log('Scanned:', content);
+                    scanner.stop();
+                    $.ajax({
+                        type: "POST",
+                        url: '{% url "assign_values_to_qr_page" %}',
+                        data: {
+                            'scanned_value': content,
+                            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                        },
+                        success: function (data) {
+                            console.log(data.value);
+                            if (data.status === "success") {
+                                const redirectUrl = data.redirect_url;
+                                console.log('Received redirect URL:', redirectUrl);
+
+                                // Redirect the user to the received URL
+                                window.location.href = redirectUrl;
+                            }
+                        }
+                    });
+                });
+
+                // Start the QR code scanner
+                Instascan.Camera.getCameras().then(function (cameras) {
+                    if (cameras.length > 0) {
+                        scanner.start(cameras[0]);
+                    } else {
+                        console.error('No cameras found.');
+                    }
+                });
             } catch (error) {
                 console.error('Error accessing the camera:', error);
             }
