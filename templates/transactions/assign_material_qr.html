@@ -131,7 +131,7 @@
                            
                              
 
-                            <table class="table">
+                            <table class="my-table">
                                 <thead class="thead-light" style="background: #e3e3e3;">
                                     <tr>
                                         <td> Sheet No </td>
@@ -158,7 +158,7 @@
                                         <td> {{ z.project_material.product.grade }} </td>
                                         <td> {{ z.project_material.product.thickness }} </td>
                                         <td> {{ z.product_qr.id }} </td>
-                                        <td>  <video id="video" width="320" height="240" autoplay></video>
+                                        <td>  <video id="camera-view" width="320" height="240" autoplay></video>
                                                 <button type="button" class="btn btn-success startButton" id="{{ z.id }}">Start Scanning</button>
                                                 <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
                                         </td>
@@ -195,23 +195,70 @@
 
 <script>
 
+    async function startCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+
+            const videoElement = document.getElementById('camera-view');
+            videoElement.srcObject = stream;
+
+            // Create a canvas element for capturing video frames
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+
+            // Listen for video playing to start QR code scanning
+            videoElement.addEventListener('playing', () => {
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                scanQRCode(canvas, videoElement);
+            });
+        } catch (error) {
+            console.error('Error accessing the camera:', error);
+        }
+    }
+
+
     let material_id = [];
     let scanned_value = [];
+
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const video = document.getElementById("video");
     const startButtons = document.querySelectorAll(".startButton");
     let scanner = null;
 
-    function startVideo(buttonId, camera) {
-        if (navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: { deviceId: camera.id } })
-                .then((stream) => {
-                    video.style.display = "block";
-                    video.srcObject = stream;
-                    scanner = new Instascan.Scanner({ video: video });
-                    scanner.addListener("scan", function (content) {
-                        const scannedValue = content;
+    async function startCamera(buttonId) {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+
+            const videoElement = document.getElementById('camera-view');
+            videoElement.srcObject = stream;
+
+            // Create a canvas element for capturing video frames
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+
+            // Listen for video playing to start QR code scanning
+            videoElement.addEventListener('playing', () => {
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                canvas, videoElement
+
+                const scanInterval = setInterval(() => {
+                    canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+            
+                    // Get the pixel data from the canvas
+                    const imageData = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+            
+                    // Use the jsQR library to scan for QR codes
+                    const code = jsQR(imageData.data, imageData.width, imageData.height);
+            
+                    if (code) {
+                        clearInterval(scanInterval); // Stop scanning
+                        alert('Scanned QR Code: ' + code.data); // Display the scanned value in an alert
+                        const scannedValue = code.data;
                         stopVideo(buttonId);
                         console.log("Button ID: ", buttonId, ", Scanned Value: ", scannedValue);
 
@@ -228,49 +275,23 @@ document.addEventListener("DOMContentLoaded", function () {
                         scanned_value.push(scannedValue);
                         console.log(material_id);
                         console.log(scanned_value);
-                    });
-                    scanner.start(camera);
-                })
-                .catch((err) => {
-                    console.error("Error accessing camera:", err);
-                });
-        } else {
-            console.error("getUserMedia not supported.");
+                    }
+                }, 100);
+
+            });
+        } catch (error) {
+            console.error('Error accessing the camera:', error);
         }
     }
+                  
 
-    function stopVideo(buttonId) {
-        if (scanner) {
-            scanner.stop();
-            scanner = null;
-        }
-
-        const stream = video.srcObject;
-        const tracks = stream.getTracks();
-        tracks.forEach(track => track.stop());
-        video.srcObject = null;
-
-        video.style.display = "none";
-        startButtons.forEach((button) => {
-            if (button.id === buttonId) {
-                button.disabled = false;
-            }
-        });
-    }
-
+   
     startButtons.forEach((button) => {
         button.addEventListener("click", function () {
             const buttonId = this.id;
-            Instascan.Camera.getCameras().then(function (cameras) {
-                const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
-
-                if (backCamera) {
-                    startVideo(buttonId, backCamera);
+            
+                    startCamera(buttonId);
                     this.disabled = true;
-                } else {
-                    console.error("Desired camera not found.");
-                }
-            });
         });
     });
 });
