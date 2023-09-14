@@ -17,7 +17,6 @@
             text-align: center;
         }
         .can {
-            -webkit-transform: scale(-1, 1); 
         }
     </style>
 </head>
@@ -25,7 +24,7 @@
   <form method="post">
     {% csrf_token %}
     <div id="scanner-container">
-        <video id="scanner-video" class="can" playsinline></video>
+        <video id="scanner-video" class="can"></video>
     </div>
   </form>
 
