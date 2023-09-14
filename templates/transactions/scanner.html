@@ -71,7 +71,7 @@
             const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
             const constraints = {
                 video: {
-                    facingMode: { exact: 'environment' }, // Use the back camera
+                    deviceId: { exact: backCamera.id }, // Use the back camera
                 },
             };
 
