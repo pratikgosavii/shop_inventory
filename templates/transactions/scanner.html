@@ -17,10 +17,14 @@
             text-align: center;
         }
         #scanner-video {
-            /* Add this CSS to rotate the video by 180 degrees */
-            transform: rotate(180deg);
-            -webkit-transform: rotate(180deg);
-            -moz-transform: rotate(180deg);
+            width: 500px;
+    height: 375px;
+    background-color: #666;
+    /*Mirror code starts*/
+    transform: rotateY(180deg);
+    -webkit-transform:rotateY(180deg); /* Safari and Chrome */
+    -moz-transform:rotateY(180deg); /* Firefox */
+    /*Mirror code ends*/
         }
     </style>
 </head>
