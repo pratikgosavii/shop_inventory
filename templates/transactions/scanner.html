@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scanning Barcode/QR Code</title>
+    <title>Scanning QR Code</title>
     <style>
         /* Style the video element to make it full-screen */
         video {
@@ -50,8 +50,9 @@
                     }
                     Quagga.start();
                     Quagga.onDetected((result) => {
-                        console.log('Scanned value:', result.codeResult.code);
-                        // You can use the scanned value as needed
+                        const scannedValue = result.codeResult.code;
+                        alert('Scanned value: ' + scannedValue);
+                        // You can also use the scannedValue as needed in your application
                     });
                 });
             } catch (error) {
