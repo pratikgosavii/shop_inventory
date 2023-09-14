@@ -20,6 +20,10 @@
 </head>
 <body>
     <!-- Create a container for the back camera view -->
+
+    {% csrf_token %}
+
+    
     <div id="camera-container">
         <video id="camera-view" autoplay></video>
     </div>
