@@ -121,6 +121,7 @@ class product(models.Model):
 
 
     
+from django.utils import timezone
 
 
 class product_qr(models.Model):
