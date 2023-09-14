@@ -22,6 +22,7 @@
         // Access the back camera if available, or the default camera
         async function startCamera() {
             try {
+                alert('started')
                 const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
 
                 const videoElement = document.getElementById('camera-view');
@@ -30,6 +31,7 @@
                 // QR code scanning logic
                 const scanner = new Instascan.Scanner({ video: videoElement });
                 scanner.addListener('scan', function (content) {
+                    alert(content)
                     console.log('Scanned:', content);
                     scanner.stop();
                     $.ajax({
