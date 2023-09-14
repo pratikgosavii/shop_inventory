@@ -61,6 +61,26 @@ function scanQRCode(canvas, videoElement) {
         if (code) {
             clearInterval(scanInterval); // Stop scanning
             alert('Scanned QR Code: ' + code.data); // Display the scanned value in an alert
+            console.log('Scanned:', code.data);
+                scanner.stop(); 
+                $.ajax({
+                  type: "POST",
+                  url: '{% url "assign_values_to_qr_page" %}',
+                  data: {
+                      'scanned_value': code.data,
+                      'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+                  },
+                  success: function (data) {
+                      console.log(data.value)
+                      if(data.status === "success"){ // Use === for comparison
+                        const redirectUrl = data.redirect_url;
+                        console.log('Received redirect URL:', redirectUrl);
+                        
+                        // Redirect the user to the received URL
+                        window.location.href = redirectUrl;
+                      }
+                  }
+              });
         }
     }, 100);
 }
