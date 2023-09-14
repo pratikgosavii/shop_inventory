@@ -18,7 +18,6 @@
         <video id="camera-view" autoplay></video>
     </div>
 
-    <script src="https://cdn.rawgit.com/zxing-js/library/0.17.1/dist/zxing.js"></script>
     <script>
         // Access the back camera if available, or the default camera
         async function startCamera() {
@@ -28,20 +27,25 @@
                 const videoElement = document.getElementById('camera-view');
                 videoElement.srcObject = stream;
 
-                // Initialize the ZXing code reader
-                const codeReader = new ZXing.BrowserBarcodeReader();
+                // Wait for the ZXing library to load
+                const script = document.createElement('script');
+                script.src = 'https://cdn.rawgit.com/zxing-js/library/0.17.1/dist/zxing.js';
+                script.onload = () => {
+                    // Initialize the ZXing code reader
+                    const codeReader = new ZXing.BrowserBarcodeReader();
 
-                // Start scanning when a frame is available
-                codeReader.decodeFromVideoElement(videoElement, (result, err) => {
-                    if (result) {
-                        alert(result.text)
-                        console.log('Scanned value:', result.text);
-                        // You can use the scanned value as needed
-                    }
-                    if (err && !(err instanceof ZXing.NotFoundException)) {
-                        console.error('Error scanning:', err);
-                    }
-                });
+                    // Start scanning when a frame is available
+                    codeReader.decodeFromVideoElement(videoElement, (result, err) => {
+                        if (result) {
+                            console.log('Scanned value:', result.text);
+                            // You can use the scanned value as needed
+                        }
+                        if (err && !(err instanceof ZXing.NotFoundException)) {
+                            console.error('Error scanning:', err);
+                        }
+                    });
+                };
+                document.head.appendChild(script);
             } catch (error) {
                 console.error('Error accessing the camera:', error);
             }
