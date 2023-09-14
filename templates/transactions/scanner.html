@@ -19,7 +19,7 @@
         #scanner-video {
             width: 100%;
             height: auto;
-            transform: scaleX(-1); /* Flip the video horizontally to remove mirroring */
+            /* Remove the mirroring effect */
         }
     </style>
 </head>
@@ -29,56 +29,47 @@
     <div id="scanner-container">
         <video id="scanner-video"></video>
     </div>
-    </form>
+  </form>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-    <script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+  <script>
+    const scannerContainer = document.getElementById('scanner-container');
+    const scannerVideo = document.getElementById('scanner-video');
 
-        const scannerContainer = document.getElementById('scanner-container');
-        const scannerVideo = document.getElementById('scanner-video');
-    
-        Instascan.Camera.getCameras().then(function (cameras) {
-            if (cameras.length > 0) {
-                const scanner = new Instascan.Scanner({ video: scannerVideo });
-                scanner.addListener('scan', function (content) {
-                    console.log('Scanned:', content);
-                    scanner.stop(); 
-                    $.ajax({                       // initialize an AJAX request
-                      type: "POST",
-                      url: '{% url "assign_values_to_qr_page" %}',
-                      data: {
-                          'scanned_value': content,       // add the country id to the POST parameters
-                          'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
-                      },
-                      success: function (data) {   // `data` is from `get_topics_ajax` view function
-                          console.log(data.value)
-                          if(data.status = "success"){
-                            const redirectUrl = data.redirect_url;
-                            console.log('Received redirect URL:', redirectUrl);
-                            
-                            // Redirect the user to the received URL
-                            window.location.href = redirectUrl;
-                          }
+    Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+            const scanner = new Instascan.Scanner({ video: scannerVideo });
+            scanner.addListener('scan', function (content) {
+                console.log('Scanned:', content);
+                scanner.stop(); 
+                $.ajax({
+                  type: "POST",
+                  url: '{% url "assign_values_to_qr_page" %}',
+                  data: {
+                      'scanned_value': content,
+                      'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+                  },
+                  success: function (data) {
+                      console.log(data.value)
+                      if(data.status === "success"){ // Use === for comparison
+                        const redirectUrl = data.redirect_url;
+                        console.log('Received redirect URL:', redirectUrl);
+                        
+                        // Redirect the user to the received URL
+                        window.location.href = redirectUrl;
                       }
-                  });
+                  }
+              });
 
-                });
+            });
 
-                const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
-                scanner.start(backCamera);
-            } else {
-                console.error('No cameras found.');
-            }
-        });
-
-
-
-
-
-
-
-
-    </script>
+            const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
+            scanner.start(backCamera);
+        } else {
+            console.error('No cameras found.');
+        }
+    });
+  </script>
 </body>
 </html>
