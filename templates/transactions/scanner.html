@@ -16,11 +16,8 @@
             max-width: 500px;
             text-align: center;
         }
-        #scanner-canvas {
-            /* Apply the transform property to mirror the video */
-            transform: scaleX(-1);
-            -webkit-transform: scaleX(-1);
-            -moz-transform: scaleX(-1);
+        #scanner-video {
+            /* No need for transformations */
         }
     </style>
 </head>
@@ -29,73 +26,21 @@
     {% csrf_token %}
     <div id="scanner-container">
         <video id="scanner-video" playsinline></video>
-        <canvas id="scanner-canvas" style="display: none;"></canvas>
     </div>
   </form>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdn.rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
   <script>
     const scannerContainer = document.getElementById('scanner-container');
     const scannerVideo = document.getElementById('scanner-video');
-    const scannerCanvas = document.getElementById('scanner-canvas');
-    const scannerCanvasContext = scannerCanvas.getContext('2d');
 
-    Instascan.Camera.getCameras().then(function (cameras) {
-        if (cameras.length > 0) {
-            const scanner = new Instascan.Scanner({ video: scannerVideo });
-            scanner.addListener('scan', function (content) {
-                console.log('Scanned:', content);
-                scanner.stop(); 
-                $.ajax({
-                  type: "POST",
-                  url: '{% url "assign_values_to_qr_page" %}',
-                  data: {
-                      'scanned_value': content,
-                      'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
-                  },
-                  success: function (data) {
-                      console.log(data.value)
-                      if(data.status === "success"){ // Use === for comparison
-                        const redirectUrl = data.redirect_url;
-                        console.log('Received redirect URL:', redirectUrl);
-                        
-                        // Redirect the user to the received URL
-                        window.location.href = redirectUrl;
-                      }
-                  }
-              });
-
-            });
-
-            const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
-            const constraints = {
-                video: {
-                    deviceId: { exact: backCamera.id }, // Use the back camera
-                },
-            };
-
-            navigator.mediaDevices.getUserMedia(constraints)
-                .then(function (stream) {
-                    scannerVideo.srcObject = stream;
-                    scannerVideo.play();
-                    scanner.start(backCamera);
-
-                    // Mirror the video feed using canvas
-                    scannerCanvas.width = scannerVideo.videoWidth;
-                    scannerCanvas.height = scannerVideo.videoHeight;
-                    setInterval(() => {
-                        scannerCanvasContext.clearRect(0, 0, scannerCanvas.width, scannerCanvas.height);
-                        scannerCanvasContext.drawImage(scannerVideo, 0, 0, scannerCanvas.width, scannerCanvas.height);
-                    }, 100);
-                })
-                .catch(function (error) {
-                    console.error('Error accessing the camera:', error);
-                });
-        } else {
-            console.error('No cameras found.');
-        }
-    });
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function (stream) {
+            scannerVideo.srcObject = stream;
+            scannerVideo.play();
+        })
+        .catch(function (error) {
+            console.error('Error accessing the camera:', error);
+        });
   </script>
 </body>
 </html>
