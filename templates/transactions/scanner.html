@@ -3,40 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scanning QR Code</title>
+    <title>QR Code Scanner</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <style>
+        /* Style the video element to make it full-screen */
+        video {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
     <!-- Create a container for the camera view -->
     <div id="camera-container">
         <video id="camera-view"></video>
     </div>
+    <button id="start-scan">Start Scanning</button>
+    <div id="result"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/instascan/1.0.0/instascan.min.js"></script>
     <script>
-        // Create a new Instascan scanner instance
         const scanner = new Instascan.Scanner({ video: document.getElementById('camera-view') });
 
-        // Add a listener for when a QR code is scanned
-        scanner.addListener('scan', function (content) {
-            alert('Scanned value: ' + content);
-            // You can also use the scanned value as needed in your application
+        // Handle scan results
+        scanner.addListener('scan', function(content) {
+            document.getElementById('result').textContent = content;
         });
 
-        // Start the scanner
-        Instascan.Camera.getCameras()
-            .then(function (cameras) {
+        // Start scanning when the "Start Scanning" button is clicked
+        document.getElementById('start-scan').addEventListener('click', function() {
+            Instascan.Camera.getCameras().then(function(cameras) {
                 if (cameras.length > 0) {
-                    // Use the first available camera
                     scanner.start(cameras[0]);
                 } else {
                     console.error('No cameras found.');
-                    alert('No cameras found.');
                 }
-            })
-            .catch(function (error) {
-                console.error('Error accessing the camera:', error);
-                alert('Error accessing the camera: ' + error);
+            }).catch(function(error) {
+                console.error('Error accessing cameras:', error);
             });
+        });
     </script>
 </body>
 </html>
