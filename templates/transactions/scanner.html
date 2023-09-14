@@ -19,7 +19,6 @@
         #scanner-video {
             width: 100%;
             height: auto;
-            /* Remove any transformations */
         }
     </style>
 </head>
@@ -39,7 +38,10 @@
 
     Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
-            const scanner = new Instascan.Scanner({ video: scannerVideo });
+            // Use the facingMode option to specify the camera's facing mode
+            const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
+            const scanner = new Instascan.Scanner({ video: scannerVideo, facingMode: backCamera.id });
+
             scanner.addListener('scan', function (content) {
                 console.log('Scanned:', content);
                 scanner.stop(); 
@@ -64,7 +66,6 @@
 
             });
 
-            const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
             scanner.start(backCamera);
         } else {
             console.error('No cameras found.');
