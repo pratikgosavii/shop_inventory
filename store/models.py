@@ -121,7 +121,6 @@ class product(models.Model):
 
 
     
-from django.utils import timezone
 
 
 class product_qr(models.Model):
@@ -134,5 +133,8 @@ class product_qr(models.Model):
     moved_to_left_over = models.BooleanField(default=False)
     date_of_pur = models.DateField(auto_now_add=False, null = True, blank = True)
     uploaded_file = models.FileField(upload_to='media/uploads/', null = True, blank = True) 
-    date = models.DateTimeField(auto_now_add=True, default=timezone.now)
+    date = models.DateTimeField(auto_now_add=True)
      
+    
+    def __str__(self):
+        return self.supplier
