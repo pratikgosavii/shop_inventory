@@ -16,8 +16,11 @@
             max-width: 500px;
             text-align: center;
         }
-        #scanner-video {
-            /* No need for any transform or mirroring in the CSS */
+        #scanner-canvas {
+            /* Apply the transform property to mirror the video */
+            transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+            -moz-transform: scaleX(-1);
         }
     </style>
 </head>
@@ -26,6 +29,7 @@
     {% csrf_token %}
     <div id="scanner-container">
         <video id="scanner-video" playsinline></video>
+        <canvas id="scanner-canvas" style="display: none;"></canvas>
     </div>
   </form>
 
@@ -34,6 +38,8 @@
   <script>
     const scannerContainer = document.getElementById('scanner-container');
     const scannerVideo = document.getElementById('scanner-video');
+    const scannerCanvas = document.getElementById('scanner-canvas');
+    const scannerCanvasContext = scannerCanvas.getContext('2d');
 
     Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
@@ -74,6 +80,14 @@
                     scannerVideo.srcObject = stream;
                     scannerVideo.play();
                     scanner.start(backCamera);
+
+                    // Mirror the video feed using canvas
+                    scannerCanvas.width = scannerVideo.videoWidth;
+                    scannerCanvas.height = scannerVideo.videoHeight;
+                    setInterval(() => {
+                        scannerCanvasContext.clearRect(0, 0, scannerCanvas.width, scannerCanvas.height);
+                        scannerCanvasContext.drawImage(scannerVideo, 0, 0, scannerCanvas.width, scannerCanvas.height);
+                    }, 100);
                 })
                 .catch(function (error) {
                     console.error('Error accessing the camera:', error);
