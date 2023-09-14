@@ -17,9 +17,12 @@
             text-align: center;
         }
         #scanner-video {
-            width: 100%;
-            height: auto;
-            transform: scaleX(-1); /* Flip the video horizontally */
+            transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  /* Safari and Chrome */
+  -moz-transform: rotateY(180deg);
+  /* Firefox */
+  transform: scale(1.0);
         }
     </style>
 </head>
