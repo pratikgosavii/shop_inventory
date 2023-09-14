@@ -17,13 +17,7 @@
             text-align: center;
         }
         .can {
-            /* Apply the transform property to flip the video horizontally */
-            -moz-transform: scaleX(-1);
-            -o-transform: scaleX(-1);
-            -webkit-transform: scaleX(-1);
-            transform: scaleX(-1);
-            filter: FlipH;
-            -ms-filter: "FlipH";
+            -webkit-transform: scale(-1, 1); 
         }
     </style>
 </head>
@@ -42,6 +36,7 @@
     const scannerVideo = document.getElementById('scanner-video');
 
     Instascan.Camera.getCameras().then(function (cameras) {
+        alert('a')
         if (cameras.length > 0) {
             const scanner = new Instascan.Scanner({ video: scannerVideo });
             scanner.addListener('scan', function (content) {
