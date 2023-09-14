@@ -19,6 +19,7 @@
         #scanner-video {
             width: 100%;
             height: auto;
+            /* Remove any transformations */
         }
     </style>
 </head>
@@ -63,9 +64,8 @@
 
             });
 
-            // Use the front camera (selfie camera)
-            const frontCamera = cameras.find(camera => camera.name.toLowerCase().includes('front'));
-            scanner.start(frontCamera);
+            const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
+            scanner.start(backCamera);
         } else {
             console.error('No cameras found.');
         }
