@@ -227,6 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
         
                 // Get the pixel data from the canvas
+                const imageData = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
         
                 // Use the jsQR library to scan for QR codes
                 const code = jsQR(imageData.data, imageData.width, imageData.height);
