@@ -2,23 +2,19 @@
 <html>
 <head>
     <title>QR Code Scanner</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.0.0/dist/jsQR.js"></script>
+
+
+
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        #scanner-container {
+        
+        /* Style the video element to make it full-screen */
+        video {
             width: 100%;
-            max-width: 500px;
-            text-align: center;
-        }
-        #scanner-video {
-            width: 100%;
-            height: auto;
+            height: 100%;
         }
     </style>
 </head>
@@ -26,7 +22,8 @@
   <form method="post">
     {% csrf_token %}
     <div id="scanner-container">
-        <video id="scanner-video"></video>
+        <video id="camera-view" autoplay></video>
+
     </div>
     </form>
 
@@ -59,7 +56,56 @@
 
 
 
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
 
+                const videoElement = document.getElementById('camera-view');
+                videoElement.srcObject = stream;
+
+                // Create a canvas element for capturing video frames
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+
+                // Listen for video playing to start QR code scanning
+                videoElement.addEventListener('playing', () => {
+                    canvas.width = videoElement.videoWidth;
+                    canvas.height = videoElement.videoHeight;
+                    scanQRCode(canvas, videoElement);
+                });
+            } catch (error) {
+                console.error('Error accessing the camera:', error);
+            }
+        }
+
+        // Scan QR codes from the camera feed
+        // Scan QR codes from the camera feed
+function scanQRCode(canvas, videoElement) {
+    const scanInterval = setInterval(() => {
+        canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+        // Get the pixel data from the canvas
+        const imageData = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+
+        // Use the jsQR library to scan for QR codes
+        const code = jsQR(imageData.data, imageData.width, imageData.height);
+
+        if (code) {
+            clearInterval(scanInterval); // Stop scanning
+            alert('Scanned QR Code: ' + code.data); // Display the scanned value in an alert
+            console.log('Scanned:', code.data);
+            nst parameterValue = code.data ? code.data : 1;
+                
+                    
+            window.location.href = '/transactions/update-assign-matarial-qr/' + parameterValue;
+
+        }
+    }, 100);
+}
+
+
+        // Call the startCamera function to begin streaming from the camera
+        startCamera();
 
 
 
