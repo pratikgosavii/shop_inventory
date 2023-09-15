@@ -1878,22 +1878,22 @@ def add_project(request):
                 print('in for')
                 try:
 
-                    a = product_qr.objects.get(id = a)
+                    aa = product_qr.objects.get(id = a)
                     
                     print('printing a------------------')
                     print(a)
 
                     print('printing a------------------')
-                    obj, created = product.objects.get_or_create(category_id = a.product.category.id, size_id = a.product.size.id, grade_id = a.product.grade.id, thickness_id = a.product.thickness.id)
+                    obj, created = product.objects.get_or_create(category_id = aa.product.category.id, size_id = aa.product.size.id, grade_id = aa.product.grade.id, thickness_id = aa.product.thickness.id)
                     product_id = obj
 
                 except product.DoesNotExist:
 
                     product_id = created
 
-                project_material_instance = project_material.objects.create(product = product_id, project = project_instance, quantity = 1)
+                project_material_instance = project_material.objects.create(product = product_id, project = project_instance, quantity = 1, sheet_no = a)
 
-                aaaas = project_matarial_qr.objects.create(project_material = project_material_instance, sheet_no = a)
+                aaaas = project_matarial_qr.objects.create(project_material = project_material_instance)
                 print('-----------------')
                 print(aaaas)
                 print('-----------------')
