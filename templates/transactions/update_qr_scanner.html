@@ -29,30 +29,6 @@
 
     <script>
 
-        const scannerContainer = document.getElementById('scanner-container');
-        const scannerVideo = document.getElementById('scanner-video');
-    
-        Instascan.Camera.getCameras().then(function (cameras) {
-            if (cameras.length > 0) {
-                const scanner = new Instascan.Scanner({ video: scannerVideo });
-                scanner.addListener('scan', function (content) {
-                    console.log('Scanned:', content);
-                    scanner.stop(); 
-
-                    const parameterValue = content ? content : 1;
-                
-                    
-                      window.location.href = '/transactions/update-assign-matarial-qr/' + parameterValue;
-                });
-                const backCamera = cameras.find(camera => camera.name.toLowerCase().includes('back'));
-                scanner.start(backCamera);
-            } else {
-                console.error('No cameras found.');
-            }
-        });
-
-
-
 
         async function startCamera() {
             try {
