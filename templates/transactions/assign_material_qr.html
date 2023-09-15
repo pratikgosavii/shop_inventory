@@ -236,7 +236,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     alert('Scanned QR Code: ' + code.data); // Display the scanned value in an alert
                     console.log('Scanned:', code.data);
                     const scannedValue =  code.data;
-                    stopVideo(buttonId);
                     console.log("Button ID: ", buttonId, ", Scanned Value: ", scannedValue);
 
                     const scannedButton = document.getElementById(buttonId);
