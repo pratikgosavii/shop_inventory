@@ -68,7 +68,7 @@ function scanQRCode(canvas, videoElement) {
             clearInterval(scanInterval); // Stop scanning
             alert('Scanned QR Code: ' + code.data); // Display the scanned value in an alert
             console.log('Scanned:', code.data);
-            nst parameterValue = code.data ? code.data : 1;
+            const parameterValue = code.data ? code.data : 1;
                 
                     
             window.location.href = '/transactions/update-assign-matarial-qr/' + parameterValue;
