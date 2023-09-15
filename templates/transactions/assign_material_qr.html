@@ -15,11 +15,7 @@
 <style>
 
 
-    #video {
-        display: none;
-    }
-
-
+   
     .table {
         width: 100%;
         max-width: 100%;
@@ -220,7 +216,6 @@ document.addEventListener("DOMContentLoaded", function () {
             videoElement.addEventListener('playing', () => {
                 canvas.width = videoElement.videoWidth;
                 canvas.height = videoElement.videoHeight;
-                scanQRCode(canvas, videoElement);
 
                 const scanInterval = setInterval(() => {
                     canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
