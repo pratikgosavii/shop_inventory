@@ -136,3 +136,15 @@ class product_qr(models.Model):
     date = models.DateTimeField(auto_now_add=True)
      
     
+class shelf(models.Model):
+    name = models.CharField(max_length=120, unique=True)
+    
+    
+    def __str__(self):
+        return self.name
+    
+class product_qr_shelf(models.Model):
+    product_qr = models.ForeignKey(product_qr, on_delete=models.CASCADE)
+    shelf = models.ForeignKey(shelf, on_delete=models.CASCADE, null=True, blank=True)
+    
+    

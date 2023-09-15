@@ -17,4 +17,6 @@ admin.site.register(customer)
 admin.site.register(product_qr)
 admin.site.register(product)
 admin.site.register(employee)
+admin.site.register(shelf)
+admin.site.register(product_qr_shelf)
 

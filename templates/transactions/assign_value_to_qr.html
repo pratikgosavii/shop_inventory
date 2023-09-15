@@ -29,8 +29,20 @@
                             {% csrf_token %}
 
                         
-                           
-                         
+                            <div class="form-group">
+                                <label for="shelf" class="control-label mb-1">Shelf</label>
+                            <select name="shelf" class="form-control" id="shelf" required="true">
+                                                                                        
+                                {% for shelf_choice in product_qr_shelf_form.fields.shelf.choices %}
+                                <option value="{{ shelf_choice.0 }}" {% if shelf_choice.0 == product_qr_shelf_form.instance.shelf.id %}selected{% endif %}>
+                                    {{ shelf_choice.1 }}
+                                </option>
+                            {% endfor %}
+
+
+                                          </select> 
+                            </div>
+
                             <div class="form-group">
                                 <label for="name" class="control-label mb-1">Supplier</label>
                                 {{ form_qr.supplier }}

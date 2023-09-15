@@ -130,6 +130,20 @@ class cutter_Form(forms.ModelForm):
 
 
 
+class product_qr_shelf_Form(forms.ModelForm):
+    class Meta:
+        model = product_qr_shelf
+        fields = '__all__'
+        widgets = {
+           
+            'shelf': forms.Select(attrs={
+                'class': 'form-control', 'id': 'shelf'
+            }),
+            'product_Qr': forms.Select(attrs={
+                'class': 'form-control', 'id': 'product_Qr'
+            }),
+
+        }
 
 class size_Form(forms.ModelForm):
     class Meta:

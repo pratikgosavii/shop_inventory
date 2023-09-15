@@ -2346,6 +2346,7 @@ def generate_product_qr(request):
     for i in range(int(quantity)):
         
         a = product_qr.objects.create()
+        product_qr_shelf.objects.create(product_qr = a)
 
         # Adjust the box_size based on the desired size
         box_size = qr_size // 4  # You can experiment with different values
@@ -2476,7 +2477,16 @@ def assign_values_to_qr(request, product_qr_id):
 
                 # Save the file to a specific location using FileSystemStorage or another storage backend.
                 form2.save()
+                shelf_id = request.POST.get('shelf')
+                print('----------')
+                print(shelf_id)
+                print('----------')
 
+
+                shelf_instance = shelf.objects.get(id = shelf_id)
+                product_qr_shelf_instance = product_qr_shelf.objects.get(product_qr = product_qr_instance)
+                product_qr_shelf_instance.shelf = shelf_instance
+                product_qr_shelf_instance.save()
             
 
             if book:
@@ -2536,13 +2546,17 @@ def assign_values_to_qr(request, product_qr_id):
         print(product_qr_id)
         data = material_history.objects.filter(product_qr__id = product_qr_id)
 
-         
-        
+        product_qr_shelf_instance = product_qr_shelf.objects.get(product_qr = product_qr_instance)
+
+        product_qr_shelf_form = product_qr_shelf_Form(instance = product_qr_shelf_instance)
+
+
         context = {
             'form': form,
             'form_qr': form_qr,
             'data': data,
             'product_qr_id': product_qr_id,
+            'product_qr_shelf_form': product_qr_shelf_form,
         }
 
         return render(request, 'transactions/assign_value_to_qr.html', context)
