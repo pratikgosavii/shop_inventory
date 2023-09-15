@@ -129,11 +129,11 @@
                             <table class="table">
                                 <thead class="thead-light" style="background: #e3e3e3;">
                                     <tr>
-                                        <td> Sheet No </td>
                                         <td> Category </td>
                                         <td> Size </td>
                                         <td> Grade </td>
                                         <td> Thickness </td>
+                                        <td> Requested Sheet No </td>
                                         <td> Scanned Sheet </td>
                                         <td> Action </td>
                                         
@@ -147,11 +147,11 @@
                                         {% for z in i.project_material_re.all %}
 
                                     <tr>
-                                        <td> {{ z.product_qr.id }} </td>
                                         <td> {{ z.project_material.product.category }} </td>
                                         <td> {{ z.project_material.product.size }} </td>
                                         <td> {{ z.project_material.product.grade }} </td>
                                         <td> {{ z.project_material.product.thickness }} </td>
+                                        <td> {{ z.product_qr.sheet_no }} </td>
                                         <td> {{ z.product_qr.id }} </td>
                                         <td>  
                                             <video id="camera-view" width="320" height="240"  autoplay></video>

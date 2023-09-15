@@ -1893,7 +1893,7 @@ def add_project(request):
 
                 project_material_instance = project_material.objects.create(product = product_id, project = project_instance, quantity = 1)
 
-                aaaas = project_matarial_qr.objects.create(project_material = project_material_instance)
+                aaaas = project_matarial_qr.objects.create(project_material = project_material_instance, sheet_no = a)
                 print('-----------------')
                 print(aaaas)
                 print('-----------------')
