@@ -5,7 +5,7 @@ from .forms import CustomUserCreationForm  # Import your custom form
 
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm  # Use the custom form for user creation
-    list_display = ('username', 'email', 'is_staff', 'is_superuser', 'is_accounts', 'is_admin', 'is_reception', 'is_designer')
+    list_display = ('username', 'email', 'is_staff', 'is_superuser', 'is_accounts', 'is_admin', 'is_reception', 'is_designer', 'is_cutter')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
