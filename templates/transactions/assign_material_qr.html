@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function startCamera(buttonId) {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: 'environment' } } });
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
 
             const videoElement = document.getElementById('camera-view');
             videoElement.srcObject = stream;
@@ -216,40 +216,45 @@ document.addEventListener("DOMContentLoaded", function () {
             videoElement.addEventListener('playing', () => {
                 canvas.width = videoElement.videoWidth;
                 canvas.height = videoElement.videoHeight;
-
-                const scanInterval = setInterval(() => {
-                    canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-            
-                    // Get the pixel data from the canvas
-                    const imageData = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
-            
-                    // Use the jsQR library to scan for QR codes
-                    const code = jsQR(imageData.data, imageData.width, imageData.height);
-            
-                    if (code) {
-                        const scannedValue = content;
-                        stopVideo(buttonId);
-                        console.log("Button ID: ", buttonId, ", Scanned Value: ", scannedValue);
-
-                        const scannedButton = document.getElementById(buttonId);
-                        scannedButton.style.backgroundColor = "orange"; // Change to your desired color
-                    
-
-                     
-            
-
-
-
-                        material_id.push(buttonId);
-                        scanned_value.push(scannedValue);
-                        console.log(material_id);
-                        console.log(scanned_value);
-                    }
-                }, 100);
-
+                scanQRCode(canvas, videoElement);
             });
         } catch (error) {
             console.error('Error accessing the camera:', error);
+        }
+
+        function scanQRCode(canvas, videoElement) {
+            const scanInterval = setInterval(() => {
+                canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        
+                // Get the pixel data from the canvas
+                const imageData = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+        
+                // Use the jsQR library to scan for QR codes
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+        
+                if (code) {
+                    clearInterval(scanInterval); // Stop scanning
+                    alert('Scanned QR Code: ' + code.data); // Display the scanned value in an alert
+                    console.log('Scanned:', code.data);
+                    const scannedValue =  code.data;
+                    stopVideo(buttonId);
+                    console.log("Button ID: ", buttonId, ", Scanned Value: ", scannedValue);
+
+                    const scannedButton = document.getElementById(buttonId);
+                    scannedButton.style.backgroundColor = "orange"; // Change to your desired color
+                
+
+                 
+        
+
+
+
+                    material_id.push(buttonId);
+                    scanned_value.push(scannedValue);
+                    console.log(material_id);
+                    console.log(scanned_value);
+                }
+            }, 100);
         }
     }
     
