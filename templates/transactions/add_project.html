@@ -6,7 +6,6 @@
 
 {% block head %}
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
 <style>
 
@@ -147,9 +146,7 @@
 {% block js %}
     
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Include Select2 JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <!-- Initialize Select2 -->
 
 <script>
@@ -280,7 +277,8 @@ function disableDropdownsInTable(tableId) {
 // Example usage: Call this function after dynamically adding a new table
 // Replace 'my-table' with the actual ID of the newly added table
 disableDropdownsInTable('my-table');
-    
+
+
 </script>
 
 {% endblock js %}

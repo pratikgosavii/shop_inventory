@@ -1857,45 +1857,46 @@ def add_project(request):
 
         print(request.POST)
 
+        # Deserialize the JSON data into a Python object
         forms = project_Form(request.POST)
         
 
 
-        category_id = request.POST.getlist("category")
-        size_id = request.POST.getlist("size")
-        thickness_id = request.POST.getlist("thickness")
-        grade_id = request.POST.getlist("grade")
-        quantity = request.POST.getlist("quantity")
+        sheet_no_id = request.POST.getlist("sheet_no")
         order_id = request.POST.get("order_id")
-
-
-        print(category_id)
-        print(size_id)
-        print(thickness_id )
-        print(grade_id )
-        print(quantity )
-
+       
+        print(sheet_no_id)
 
         if forms.is_valid():
+
+            print('is valid')
 
             project_instance = forms.save()
 
             
-            for a, b, c, d, i in zip(category_id, size_id, grade_id, thickness_id ,quantity):
-
+            for a in sheet_no_id:
+                print('in for')
                 try:
 
-                    obj, created = product.objects.get_or_create(category_id = a, size_id = b, grade_id = c, thickness_id = d)
+                    a = product_qr.objects.get(id = a)
+                    
+                    print('printing a------------------')
+                    print(a)
+
+                    print('printing a------------------')
+                    obj, created = product.objects.get_or_create(category_id = a.product.category.id, size_id = a.product.size.id, grade_id = a.product.grade.id, thickness_id = a.product.thickness.id)
                     product_id = obj
 
                 except product.DoesNotExist:
 
                     product_id = created
 
-                project_material_instance = project_material.objects.create(product = product_id, project = project_instance, quantity = i)
+                project_material_instance = project_material.objects.create(product = product_id, project = project_instance, quantity = 1)
 
-                for z in range(int(i)): 
-                    project_matarial_qr.objects.create(project_material = project_material_instance)
+                aaaas = project_matarial_qr.objects.create(project_material = project_material_instance)
+                print('-----------------')
+                print(aaaas)
+                print('-----------------')
 
             a1212 = alert.objects.create(message = "new project created id" + order_id)
             pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
