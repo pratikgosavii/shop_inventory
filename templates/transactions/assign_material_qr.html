@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     async function startCamera(buttonId) {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: 'environment' } } });
 
             const videoElement = document.getElementById('camera-view');
             videoElement.srcObject = stream;
@@ -252,41 +252,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error('Error accessing the camera:', error);
         }
     }
-    function startVideo(buttonId, camera) {
-        if (navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: { deviceId: camera.id } })
-                .then((stream) => {
-                    video.style.display = "block";
-                    video.srcObject = stream;
-                    scanner = new Instascan.Scanner({ video: video });
-                    scanner.addListener("scan", function (content) {
-                        const scannedValue = content;
-                        stopVideo(buttonId);
-                        console.log("Button ID: ", buttonId, ", Scanned Value: ", scannedValue);
-
-                        const scannedButton = document.getElementById(buttonId);
-                        scannedButton.style.backgroundColor = "orange"; // Change to your desired color
-                    
-
-                     
-            
-
-
-
-                        material_id.push(buttonId);
-                        scanned_value.push(scannedValue);
-                        console.log(material_id);
-                        console.log(scanned_value);
-                    });
-                    scanner.start(camera);
-                })
-                .catch((err) => {
-                    console.error("Error accessing camera:", err);
-                });
-        } else {
-            console.error("getUserMedia not supported.");
-        }
-    }
+    
 
     function stopVideo(buttonId) {
         if (scanner) {
