@@ -134,6 +134,7 @@ class product_qr(models.Model):
     date_of_pur = models.DateField(auto_now_add=False, null = True, blank = True)
     uploaded_file = models.FileField(upload_to='media/uploads/', null = True, blank = True) 
     date = models.DateTimeField(auto_now_add=True)
+    finish = models.CharField(max_length=50, null=True, blank=True)
      
     
 class shelf(models.Model):

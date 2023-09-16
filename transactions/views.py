@@ -2461,8 +2461,14 @@ def assign_values_to_qr(request, product_qr_id):
     print('hereeeeeeee')
     product_id = product_qr_id
 
-    
-    product_qr_instance = product_qr.objects.get(id = product_id)
+    try:
+        product_qr_instance = ProductQR.objects.get(id=product_id)
+    except ProductQR.DoesNotExist as e:
+        # Handle the error and construct an error response
+        error_message = str(e)
+        return JsonResponse({'status': 'error', 'message': error_message}, status=400)
+
+
 
     if request.method == 'POST':
 

@@ -69,6 +69,11 @@
                                 {{ form.grade }}
                             </div>
 
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Finish</label>
+                                {{ form.finish }}
+                            </div>
+
 
                             <div class="form-group">
                                 <label for="name" class="control-label mb-1">Date of Purchase</label>
@@ -106,7 +111,7 @@
 
                                     {% for i in data %}
 
-                                                                                    
+
                                     <tr>
                                         <td> {{ i.product_qr.product_qr_pro.all.0.project_material.project.customer.name }}</td>
                                         <td> {{ i.previous_size }} </td>
@@ -161,6 +166,13 @@
       
         // Remove the "required" attribute
         fileInput.removeAttribute("required");
+
+          // Disable the submit button when clicked
+          form.addEventListener("submit", function() {
+            submitButton.disabled = true;
+        });
+
+
     });
 
 </script>
