@@ -739,11 +739,11 @@ def add_size(request):
         return render(request, 'store/add_size.html', context)
 
 @login_required(login_url='login')
-def update_size(request, company_goods_id):
+def update_size(request, update_size_id):
 
     if request.method == 'POST':
 
-        instance = size.objects.get(id=company_goods_id)
+        instance = size.objects.get(id=update_size_id)
 
         forms = size_Form(request.POST, instance = instance)
 
@@ -767,9 +767,9 @@ def update_size(request, company_goods_id):
 
 
 @login_required(login_url='login')
-def delete_size(request, company_goods_id):
+def delete_size(request, thickness_id):
     
-    size.objects.get(id=company_goods_id).delete()
+    size.objects.get(id=thickness_id).delete()
 
     return HttpResponseRedirect(reverse('list_size'))
 
@@ -895,11 +895,11 @@ def add_thickness(request):
         return render(request, 'store/add_thickness.html', context)
 
 @login_required(login_url='login')
-def update_thickness(request, company_goods_id):
+def update_thickness(request, thickness_id):
 
     if request.method == 'POST':
 
-        instance = thickness.objects.get(id=company_goods_id)
+        instance = thickness.objects.get(id=thickness_id)
 
         forms = thickness_Form(request.POST, instance = instance)
 

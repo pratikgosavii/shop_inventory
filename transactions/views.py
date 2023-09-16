@@ -2384,31 +2384,31 @@ from reportlab.platypus import SimpleDocTemplate, Image
 
 def print_single_qr(request, product_qr_id):
 
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="images.pdf"'
+    # response = HttpResponse(content_type='application/pdf')
+    # response['Content-Disposition'] = 'attachment; filename="images.pdf"'
 
-    pdf_buffer = response
-    doc = SimpleDocTemplate(pdf_buffer, pagesize=letter)
-    elements = []
+    # pdf_buffer = response
+    # doc = SimpleDocTemplate(pdf_buffer, pagesize=letter)
+    # elements = []
 
     product_qr_instance = product_qr.objects.get(id = product_qr_id)
-    image_path = product_qr_instance.qr_code.path
+    # image_path = product_qr_instance.qr_code.path
 
-    # Adjust image size as needed
-    image = Image(image_path, width=30, height=30)
+    # # Adjust image size as needed
+    # image = Image(image_path, width=30, height=30)
 
-    # Add a border and adjust the box size
-    image.drawHeight = 200  # Set image height
-    image.drawWidth = 300   # Set image width
-    image.boxSize = [image.drawWidth + 20, image.drawHeight + 20]  # Adjust box size
-    image.borderSize = 4    # Set border size
-    image.borderColor = colors.black  # Set border color
+    # # Add a border and adjust the box size
+    # image.drawHeight = 200  # Set image height
+    # image.drawWidth = 300   # Set image width
+    # image.boxSize = [image.drawWidth + 20, image.drawHeight + 20]  # Adjust box size
+    # image.borderSize = 4    # Set border size
+    # image.borderColor = colors.black  # Set border color
 
-    elements.append(image)
+    # elements.append(image)
 
-    doc.build(elements)
+    # doc.build(elements)
 
-    return response
+    return render(request, 'transactions/html_qr_single.html', {'data' : product_qr_instance})
 
 def list_generated_product_qr(request):
 

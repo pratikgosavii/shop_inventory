@@ -59,8 +59,8 @@ urlpatterns = [
     path('list-thickness/', list_thickness, name='list_thickness'),
     
     path('add-size/', add_size, name='add_size'),
-    path('update-size/<company_goods_id>', update_size, name='update_size'),
-    path('delete-size/<company_goods_id>', delete_size, name='delete_size'),
+    path('update-size/<update_size_id>', update_size, name='update_size'),
+    path('delete-size/<update_size_id>', delete_size, name='delete_size'),
     path('list-size/', list_size, name='list_size'),
 
     #delete urls 
