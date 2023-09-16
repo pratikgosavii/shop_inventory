@@ -159,24 +159,21 @@
         var formElements = form.elements;
     
         for (var i = 0; i < formElements.length; i++) {
-            var field = formElements[i];
-            if (field.id !== "finish") {
-                field.setAttribute("required", "true");
-            }
+            formElements[i].setAttribute("required", "true");
         }
-    
+
         const fileInput = document.getElementById("id_uploaded_file");
-    
-        // Remove the "required" attribute from the finish field
-        var finishField = document.getElementById("finish");
-        finishField.removeAttribute("required");
-    
-        // Disable the submit button when clicked
-        form.addEventListener("submit", function() {
+      
+        // Remove the "required" attribute
+        fileInput.removeAttribute("required");
+
+          // Disable the submit button when clicked
+          form.addEventListener("submit", function() {
             submitButton.disabled = true;
         });
+
+
     });
-    
 
 </script>
 
