@@ -132,6 +132,10 @@ class product_qr_Form(forms.ModelForm):
                 'class': 'form-control', 'id': 'thickness'
             }),
 
+            'finish': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'finish'
+            }),
+
 
             'date_of_pur' : DateInput(attrs={ 'class': 'form-control', 'type': 'date'}, format = '%Y-%m-%d'),
           
