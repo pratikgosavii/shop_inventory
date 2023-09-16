@@ -6,7 +6,7 @@ from django.contrib.admin.widgets import  AdminDateWidget, AdminTimeWidget, Admi
         
 class godown_Form(forms.ModelForm):
     class Meta:
-        model = godown
+        model = shelf
         
         fields = ['name']
         widgets = {
@@ -104,6 +104,18 @@ class employee_Form(forms.ModelForm):
             
            
      
+            
+        }
+
+class shelf_Form(forms.ModelForm):
+    class Meta:
+        model = shelf
+        fields = '__all__'
+        widgets = {
+           
+            'name': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'name'
+            }),
             
         }
 

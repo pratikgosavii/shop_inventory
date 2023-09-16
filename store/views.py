@@ -146,7 +146,7 @@ def update_godown(request, godown_id):
 
     if request.method == 'POST':
 
-        instance = godown.objects.get(id=godown_id)
+        instance = shelf.objects.get(id=godown_id)
 
         forms = godown_Form(request.POST, instance=instance)
 
@@ -158,7 +158,7 @@ def update_godown(request, godown_id):
     
     else:
 
-        instance = godown.objects.get(id=godown_id)
+        instance = shelf.objects.get(id=godown_id)
         forms = godown_Form(instance=instance)
 
         context = {
@@ -171,7 +171,7 @@ def update_godown(request, godown_id):
 @login_required(login_url='login')
 def delete_godown(request, godown_id):
 
-    godown.objects.get(id=godown_id).delete()
+    shelf.objects.get(id=godown_id).delete()
 
     return HttpResponseRedirect(reverse('list_godown'))
 
@@ -471,7 +471,7 @@ def list_cutter(request):
 @login_required(login_url='login')
 def list_godown(request):
 
-    data = godown.objects.all()
+    data = shelf.objects.all()
 
     context = {
         'data': data
@@ -977,7 +977,7 @@ def list_company_delete(request):
 @login_required(login_url='login')
 def list_godown_delete(request):
     
-    data = godown.objects.all()
+    data = shelf.objects.all()
     context = {
             'data': data
         }

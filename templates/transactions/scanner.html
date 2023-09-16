@@ -13,8 +13,8 @@
     <style>
         /* Style the video element to make it full-screen */
         video {
-            width: 100%;
-            height: 100%;
+            width: 50%;
+            height: 50%;
         }
     </style>
 </head>
@@ -24,7 +24,8 @@
     {% csrf_token %}
 
     
-    <div id="camera-container">
+    <div id="camera-container" style="justify-content: center;
+    display: flex;">
         <video id="camera-view" autoplay></video>
     </div>
 
