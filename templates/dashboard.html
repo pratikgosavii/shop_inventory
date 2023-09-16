@@ -157,6 +157,7 @@ font-family: 'Montserrat', sans-serif;
     
     
     
+        {% if request.user.is_reception or request.user.is_superuser %}
     
     
     <div class="row">
@@ -197,21 +198,27 @@ font-family: 'Montserrat', sans-serif;
       
     </div>
 
+    {% endif %}
     
-    <div class="form-group" style="display: flex">
+
+
+    <div class="form-group" style="display: flex;">
+
+        {% if request.user.is_reception or request.user.is_superuser %}
 
         <form action="{% url 'generate_product_qr' %}" method="post" style="display: flex; gap: 40px;">
 
             {% csrf_token %}
 
-            <input type="text" class="form-control" style="width : 263px;" name="quantity" placeholder="Enter Material Quantity">
+            <input type="number" class="form-control" style="width : 263px;" name="quantity" placeholder="Enter Material Quantity" inputmode="numeric">
             <button type="submit" class="btn btn-success form-input"> Generate QR </button>
 
         </form>
 
-        {% if request.user.is_reception or request.user.is_superuser %}
+        
          <a style="margin-left : 20px;" href="{% url 'scanner_page' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan QR </button> </a>
-        {% endif %}
+       
+         {% endif %}
 
         {% if request.user.is_cutter or request.user.is_superuser %}
 

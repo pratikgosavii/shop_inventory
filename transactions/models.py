@@ -48,7 +48,7 @@ class project_material(models.Model):
 class project_matarial_qr(models.Model):
     
     project_material = models.ForeignKey(project_material, on_delete=models.CASCADE, related_name = "project_material_re", null = True, blank = True)
-    product_qr =  models.ForeignKey(product_qr, on_delete=models.CASCADE, null = True, blank = True)
+    product_qr =  models.ForeignKey(product_qr, on_delete=models.CASCADE, null = True, blank = True, related_name = "product_qr_pro")
     cutter =  models.ForeignKey(cutter, on_delete=models.CASCADE, null = True, blank = True)
 
     

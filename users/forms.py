@@ -20,4 +20,4 @@ from .models import User  # Import your User model
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('username', 'password1', 'password2', 'is_accounts', 'is_admin', 'is_reception', 'is_designer')
+        fields = ('username', 'password1', 'password2', 'is_accounts', 'is_admin', 'is_reception', 'is_designer', 'is_cutter')

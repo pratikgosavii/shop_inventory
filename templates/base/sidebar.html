@@ -146,14 +146,6 @@
                 <li class="menu-title">Transactions</li><!-- /.menu-title -->
 
                 <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Request Material</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_request_material' %}">Add</a></li>
-                        <li><i class="fa fa-th"></i><a href="{% url 'list_request_material' %}">View</a></li>
-                    </ul>
-                </li>
-
-                <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Project</a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_project' %}">Add</a></li>
@@ -163,7 +155,8 @@
 
                 {% endif %}
 
-                {% if not request.user.is_accounts %}
+                {% if request.user.is_reception or request.user.is_superuser or request.user.is_designer %}
+                
 
                 <li class="menu-title">Stock</li><!-- /.menu-title -->
                 <li class="menu-item-has-children dropdown">
