@@ -13,15 +13,16 @@
         
         /* Style the video element to make it full-screen */
         video {
-            width: 100%;
-            height: 100%;
+            width: 50%;
+            height: 50%;
         }
     </style>
 </head>
 <body>
   <form method="post">
     {% csrf_token %}
-    <div id="scanner-container">
+    <div id="scanner-container" style="justify-content: center;
+    display: flex;">
         <video id="camera-view" autoplay></video>
 
     </div>
