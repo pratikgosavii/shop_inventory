@@ -149,10 +149,10 @@ class product_qr_shelf_Form(forms.ModelForm):
         widgets = {
            
             'shelf': forms.Select(attrs={
-                'class': 'form-control', 'id': 'shelf'
+                'class': 'form-control disable-me', 'id': 'shelf'
             }),
             'product_Qr': forms.Select(attrs={
-                'class': 'form-control', 'id': 'product_Qr'
+                'class': 'form-control disable-me', 'id': 'product_Qr'
             }),
 
         }
@@ -182,19 +182,19 @@ class product_Form(forms.ModelForm):
           
           
             'category': forms.Select(attrs={
-                'class': 'form-control category', 'id': 'category'
+                'class': 'form-control category disable-me', 'id': 'category'
             }),
           
             'size': forms.Select(attrs={
-                'class': 'form-control size', 'id': 'size'
+                'class': 'form-control size disable-me', 'id': 'size'
             }),
           
             'thickness': forms.Select(attrs={
-                'class': 'form-control thickness', 'id': 'thickness'
+                'class': 'form-control thickness disable-me', 'id': 'thickness'
             }),
           
             'grade': forms.Select(attrs={
-                'class': 'form-control grade', 'id': 'grade'
+                'class': 'form-control grade disable-me', 'id': 'grade'
             }),
 
            

@@ -159,21 +159,50 @@
         var formElements = form.elements;
     
         for (var i = 0; i < formElements.length; i++) {
-            formElements[i].setAttribute("required", "true");
+            var element = formElements[i];
+    
+            // Check if the element's id is "id_uploaded_file"
+            if (element.id === "id_uploaded_file") {
+                // Remove the "required" attribute for the file input
+                element.removeAttribute("required");
+            } else {
+                // Set the "required" attribute for other form elements
+                element.setAttribute("required", "true");
+            }
         }
-
-        const fileInput = document.getElementById("id_uploaded_file");
-      
-        // Remove the "required" attribute
-        fileInput.removeAttribute("required");
-
-          // Disable the submit button when clicked
-          form.addEventListener("submit", function() {
-            submitButton.disabled = true;
-        });
-
-
+    
+        // Check if the user is a designer using Django template tag
+        
     });
+    
+
+
+
+    {% if request.user.is_designer %}
+document.addEventListener("DOMContentLoaded", function() {
+    // Function to make fields readonly
+    function makeFieldsReadonly() {
+        const fileInput = document.getElementById('id_uploaded_file');
+        const disableMeInputs = document.querySelectorAll('.disable-me');
+        
+        // Make the file input readonly
+        fileInput.readOnly = true;
+    
+        // Make other fields readonly
+        for (const input of disableMeInputs) {
+            input.readOnly = true;
+        }
+    }
+    
+    // Call the function to make fields readonly
+    makeFieldsReadonly();
+});
+{% endif %}
+
+
+
+
+
 
 </script>
 

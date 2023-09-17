@@ -133,7 +133,7 @@ class product_qr_Form(forms.ModelForm):
             }),
 
             'finish': forms.TextInput(attrs={
-                'class': 'form-control', 'id': 'finish'
+                'class': 'form-control', 'id': 'finish',
             }),
 
 
