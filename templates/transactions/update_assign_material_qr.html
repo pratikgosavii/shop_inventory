@@ -187,13 +187,14 @@
     
             var totalUsedSqInch = 0;
     
-            // Calculate the total used size in square inches based on length and width inputs
+            // Calculate the total used size in square millimeters based on length and width inputs
             for (var i = 0; i < usedLengthInputs.length; i++) {
                 var usedLengthInput = parseFloat(usedLengthInputs[i].value);
                 var usedWidthInput = parseFloat(usedWidthInputs[i].value);
     
                 if (!isNaN(usedLengthInput) && !isNaN(usedWidthInput)) {
-                    totalUsedSqInch += usedLengthInput * usedWidthInput;
+                    var usedSizeInSqMillimeters = usedLengthInput * usedWidthInput;
+                    totalUsedSqInch += usedSizeInSqMillimeters / (25.4 * 25.4); // Convert to square inches
                 }
             }
     
@@ -222,16 +223,17 @@
                 usedSqInchInput.value = totalUsedSqInch.toFixed(2); // Display as two decimal places
             }
     
-            // Retrieve the product size in square inches from the second <td> (replace with your actual variable)
-            var productSizeInSqInch = parseFloat(row.querySelectorAll("td")[1].textContent);
+            // Retrieve the product size in square millimeters from the second <td> (replace with your actual variable)
+            var productSizeInSqMillimeters = parseFloat(row.querySelectorAll("td")[1].textContent);
     
-            // Calculate the remaining size in square inches
-            var remainingSizeInSqInch = productSizeInSqInch - totalUsedSqInch;
+            // Calculate the remaining size in square millimeters
+            var remainingSizeInSqMillimeters = productSizeInSqMillimeters - totalUsedSqInch; // Convert to square millimeters
     
             // Update the "Remaining Length" input with the calculated value
-            remainingLengthInput.value = remainingSizeInSqInch.toFixed(2); // Display as two decimal places
+            remainingLengthInput.value = remainingSizeInSqMillimeters.toFixed(2); // Display as two decimal places
         }
     });
+    
     
     
 

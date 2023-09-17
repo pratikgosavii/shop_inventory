@@ -161,23 +161,7 @@ font-family: 'Montserrat', sans-serif;
     
     
     <div class="row">
-        <div class="col-lg-3 col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="stat-widget-five">
-                        <div class="stat-icon dib flat-color-1">
-                            <i class="fa fa-home"></i>
-                        </div>
-                        <div class="stat-content">
-                            <div class="text-left dib">
-                                <div class="stat-text"><span class="count">{{ godown }}</span></div>
-                                <div class="stat-heading">Godown</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+       
         <div class="col-lg-3 col-md-6">
             <div class="card">
                 <div class="card-body">
@@ -210,7 +194,7 @@ font-family: 'Montserrat', sans-serif;
 
             {% csrf_token %}
 
-            <input type="number" class="form-control" style="width : 263px;" name="quantity" placeholder="Enter Material Quantity" inputmode="numeric">
+            <input type="number" max="16" class="form-control" style="width : 263px;" name="quantity" placeholder="Enter Material Quantity" inputmode="numeric">
             <button type="submit" class="btn btn-success form-input"> Generate QR </button>
 
         </form>
