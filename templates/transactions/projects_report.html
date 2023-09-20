@@ -107,10 +107,10 @@
 
                 <input type="hidden" value="{{ i.id }}" />
                 <td class="serial">{{ forloop.counter }}</td>
-                <td>{{ i.project_material_re_1.all.0.project_material_re.all.0.project_matarial_qr_production.all.0.item_code }}</td>
-                <td>{{ i.project_material_re_1.all.0.project_material_re.all.0.project_matarial_qr_production.all.0.production_quantity }}</td>
-                <td>{{ i.customer }}</td>
-                <td>{{ i.DC_date }}</td>
+                <td>{{ i.item_code }}</td>
+                <td>{{ i.production_quantity }}</td>
+                <td>{{ i.project.customer }}</td>
+                <td>{{ i.project.DC_date }}</td>
 
               </tr>
               
@@ -178,10 +178,34 @@
   <!-- /.col-lg-8 -->
 </div>
 
+{% endblock content %}
+
+{% block js %}
+
 <script>
  
+  function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
 
+// Get the attribute value from the URL
+var attributeValue = getUrlParameter('attribute');
+
+// Get the dropdown element
+var dropdown = document.getElementById('myDropdown');
+
+// Loop through the options and select the one that matches the attribute value
+for (var i = 0; i < dropdown.options.length; i++) {
+    if (dropdown.options[i].value === attributeValue) {
+        dropdown.options[i].selected = true;
+        break; // Stop looping once found
+    }
+}
     
 </script>
 
-{% endblock content %}
+{% endblock js %}
+

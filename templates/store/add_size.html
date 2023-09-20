@@ -33,8 +33,18 @@
                         <form action="#" method="post" >
                             {% csrf_token %}
 
+                           
+                            <div class="form-group" style="width : 50%">
+                                <div style="border: 1px solid black;
+                                padding: 17px;">
+                                <label for="lengthMm">Length (mm):</label>
+                                <input type="number" class="form-control" id="lengthMm" placeholder="Enter length in mm">
+                                
+                                <label for="widthMm">Width (mm):</label>
+                                <input type="number" class="form-control" id="widthMm" placeholder="Enter width in mm">
+                                </div>
+                                <br>
 
-                            <div class="form-group">
                                 <label for="name" class="control-label mb-1">Size</label>
                                 {{ form.name }}
                             </div>
@@ -78,6 +88,39 @@
         });
     });
 
+    function calculateSqIn() {
+        // Get the length and width in mm from the input fields
+        const lengthMm = parseFloat(document.getElementById('lengthMm').value);
+        const widthMm = parseFloat(document.getElementById('widthMm').value);
+        
+        // Check if the inputs are valid numbers
+        if (!isNaN(lengthMm) && !isNaN(widthMm)) {
+            // Convert mm to inches (1 inch = 25.4 mm)
+            const lengthIn = lengthMm / 25.4;
+            const widthIn = widthMm / 25.4;
+            
+            // Calculate square inches
+            const sqIn = lengthIn * widthIn;
+            
+            // Display the result in the "size" input field
+            document.getElementById('name').value = sqIn.toFixed(2);
+        } else {
+            // Display an error message if inputs are not valid numbers
+            document.getElementById('name').value = 'Enter both length and width';
+        }
+    }
+    
+    // Add event listeners to the input fields to trigger the calculation
+    document.getElementById('lengthMm').addEventListener('input', calculateSqIn);
+    document.getElementById('widthMm').addEventListener('input', calculateSqIn);
+    
+    document.getElementById('name').addEventListener('input', function() {
+        document.getElementById('lengthMm').value = '';
+        document.getElementById('widthMm').value = '';
+    });
+
+    // Calculate initially when the page loads
+    calculateSqIn();
 
 </script>
   

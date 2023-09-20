@@ -99,7 +99,11 @@
                             {% csrf_token %}
 
                             
-                           
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Order ID</label>
+                                <input type="number" class="form-control" name="order_id" id="order_id" required>
+                               
+                            </div>
                             
                             <label for="name" class="control-label mb-1"> Raw Material Details</label>
 
@@ -140,7 +144,7 @@
 
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control remaining-sq-inch-input" id="remaining-sq-inch-input" placeholder="Remaining Length" required>
+                                            <input type="text" class="form-control remaining-sq-inch-input" id="remaining-sq-inch-input" placeholder="Remaining Length" required readonly>
                                         </td>
                                         <td><input type="checkbox" class="form-control" name="move_to_scratch"></td>
                                     </tr>
@@ -172,6 +176,31 @@
     
 
 <script>
+
+
+    function updateSubmitButtonState() {
+        const leftSizeInput = document.querySelector('.remaining-sq-inch-input');
+        const paymentButton = document.getElementById('payment-button');
+
+        // Check if the value in the "Left Size" input is negative
+        const leftSizeValue = parseFloat(leftSizeInput.value);
+        const isLeftSizeNegative = isNaN(leftSizeValue) || leftSizeValue < 0;
+
+        // Disable or enable the submit button based on the condition
+        paymentButton.disabled = isLeftSizeNegative;
+    }
+
+    // Add an event listener to the "Left Size" input to check for changes
+    document.querySelector("table").addEventListener("input", function (event) {
+        if (event.target.classList.contains("remaining-sq-inch-input")) {
+            // Update the submit button state whenever "Left Size" input changes
+            updateSubmitButtonState();
+        }
+    });
+
+    // Initial check to set the submit button state when the page loads
+    updateSubmitButtonState();
+
     
     document.querySelector("table").addEventListener("input", function (event) {
         if (
@@ -232,6 +261,9 @@
             // Update the "Remaining Length" input with the calculated value
             remainingLengthInput.value = remainingSizeInSqMillimeters.toFixed(2); // Display as two decimal places
         }
+
+        updateSubmitButtonState();
+
     });
     
     
@@ -270,6 +302,8 @@
             move_to_scratch_arr = move_to_scratch
                
         });
+
+        let order_id = document.getElementById("order_id").value;
     
         $.ajax({                       // initialize an AJAX request
             type: "POST",
@@ -280,6 +314,7 @@
                 'left_size': left_size_arr,       // add the country id to the POST parameters
                 'materialsId': materialsId_arr,       // add the country id to the POST parameters
                 'move_to_scratch': move_to_scratch_arr,       // add the country id to the POST parameters
+                'order_id': order_id,       // add the country id to the POST parameters
                 'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
             },
             success: function (data) {   // `data` is from `get_topics_ajax` view function
@@ -289,7 +324,17 @@
               if(data.status == "done"){
                 window.location.href = "{% url 'dashboard' %}"
               }
+              else{
+                console.log(data)
+                var errorMessage = data.msg;
+                console.log(errorMessage)
+                paymentButton.disabled = false;
+
+                alert(errorMessage)
+
+              }
             }
+           
         });
         }
 

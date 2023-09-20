@@ -1741,20 +1741,33 @@ def list_project(request):
 @login_required(login_url='login')
 def project_report(request):
 
-    
-    data = project.objects.all()
-    
-    project_filters = project_filter(request.GET, queryset=data)
-    print('-------------------------')
-    
-    data = project_filters
+    code = request.GET.get('item_code')
+    customer_id = request.GET.get('customer')
+    dc_date_from = request.GET.get('from_DC_date')
+    dc_date_to = request.GET.get('to_DC_date')
 
-    print(data.qs)
+    if not dc_date_from:
+        dc_date_from = None
+
+    if not dc_date_to:
+        dc_date_to = None
+        
+    item_code_instance = item_code.objects.get(code = code)
+    
+    if customer_id:
+        customer_instance = customer.objects.get(id = customer_id)
+        data = project_matarial_production.objects.filter(item_code = item_code_instance, project_matarial_qr__project_material__project__customer = customer_instance, project_matarial_qr__project_material__project__DC_date__gte = dc_date_from, project_matarial_qr__project_material__project__DC_date__lte = dc_date_to)
+
+    else:
+        data = project_matarial_production.objects.filter(item_code = item_code_instance, project_matarial_qr__project_material__project__DC_date__gte = dc_date_from, project_matarial_qr__project_material__project__DC_date__lte = dc_date_to)
+
+
+
    
 
     context = {
-        'data': data.qs,
-        'project_filter': project_filters,
+        'data': data,
+        'project_filter': project_filter(),
        
     }
 
@@ -2047,6 +2060,13 @@ def update_assign_matarial_qr(request, product_qr_id):
         b = request.POST.get('used_size')
         c = request.POST.get('left_size')
         e = request.POST.get('move_to_scratch')
+        order_id = request.POST.get('order_id')
+
+        try:
+            project_instance = project.objects.get(order_id = order_id)
+        except project.DoesNotExist as e:
+            msg = "Project with order id:" + order_id + " does not exsisit"
+            return JsonResponse({'status' : 'error', 'msg' : msg})
 
         size_instance1, new_generated_size1 = size.objects.get_or_create(name = a)
 
@@ -2074,8 +2094,7 @@ def update_assign_matarial_qr(request, product_qr_id):
         product_instance = project_matarial_qr_instance.project_material.product
 
         # Now, retrieve the related project_qr instance
-    
-        material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = size_instance3)
+        material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = size_instance3, project = project_instance)
         
         product_instance_new, product_created_new = product.objects.get_or_create(category = product_instance.category, thickness = product_instance.thickness, size = size_instance3, grade = product_instance.grade)
         
@@ -2241,7 +2260,7 @@ def add_production(request, project_id):
             else:
                     
                 item_code_instance = item_code.objects.get(id = b)
-                instance = project_matarial_production.objects.create(project_matarial_qr = material_instance, item_code = item_code_instance, production_quantity = c)
+                instance = project_matarial_production.objects.create(project_matarial_qr = material_instance, item_code = item_code_instance, production_quantity = c, project = project_instance)
 
         if completed == "true":
             project_instance.completed = True
