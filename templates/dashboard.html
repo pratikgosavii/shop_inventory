@@ -212,6 +212,35 @@ font-family: 'Montserrat', sans-serif;
 
     </div>
 
+    <div>
+{% comment %} 
+        {% if request.user.is_designer %}
+
+        {% endif %} {% endcomment %}
+
+
+        <div class="form-group" style="width : 50%">
+            <div style="border: 1px solid black;
+            padding: 17px;">
+
+            <label for="name" class="control-label mb-1">Size</label>
+            <input type="text" name="name" value="0" class="form-control" id="name" required="">
+
+
+            <label for="lengthMm">Length (mm):</label>
+            <input type="number" class="form-control" id="lengthMm" placeholder="Enter length in mm">
+            
+            <label for="widthMm">Width (mm):</label>
+            <input type="number" class="form-control" id="widthMm" placeholder="Enter width in mm">
+            </div>
+            <br>
+
+            
+        </div>
+
+
+    </div>
+
 
     <!-- /Widgets -->
     
@@ -479,6 +508,40 @@ localStorage.setItem('soundEnabled', 'true');
             // Append the notification item to the notificationDiv
           
         });
+
+
+        function calculateSqIn() {
+            // Get the length and width in mm from the input fields
+            const sizesqinch = parseFloat(document.getElementById('size').value);
+            const lengthMm = parseFloat(document.getElementById('lengthMm').value);
+            const widthMm = parseFloat(document.getElementById('widthMm').value);
+            
+            // Check if the inputs are valid numbers
+            if (!isNaN(sizesqinch)) {
+                // Convert mm to inches (1 inch = 25.4 mm)
+                const lengthIn = lengthMm / 25.4;
+                const widthIn = widthMm / 25.4;
+                
+                // Calculate square inches
+                const sqIn = lengthIn * widthIn;
+                
+                // Display the result in the "size" input field
+                document.getElementById('name').value = sqIn.toFixed(2);
+            } else {
+                // Display an error message if inputs are not valid numbers
+                document.getElementById('name').value = 'Enter both length and width';
+            }
+        }
+        
+        // Add event listeners to the input fields to trigger the calculation
+        document.getElementById('lengthMm').addEventListener('input', calculateSqIn);
+        document.getElementById('widthMm').addEventListener('input', calculateSqIn);
+        
+
+    
+        // Calculate initially when the page loads
+        calculateSqIn();
+
 
           
 

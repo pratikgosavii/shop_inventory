@@ -154,7 +154,7 @@
                                         <td> {{ z.product_qr.project_material.sheet_no }} </td>
                                         <td> {{ z.product_qr.id }} </td>
                                         <td>  
-                                            <video id="camera-view" width="320" height="240"  autoplay></video>
+                                            <video id="camera{{ z.id }}" style="display:none" width="320" height="240"  autoplay></video>
 
                                                 <button type="button" class="btn btn-success startButton" id="{{ z.id }}">Start Scanning</button>
                                         </td>
@@ -204,9 +204,38 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
 
-            const videoElement = document.getElementById('camera-view');
+            camera_id = 'camera' + buttonId
+            let videoElement = document.getElementById(camera_id);
             videoElement.srcObject = stream;
 
+            videoElement.style.display ="block";
+
+            // Get a reference to the video element you want to keep visible
+var videoToKeepVisible = videoElement
+// Get a NodeList of all video elements on the page
+var allVideoElements = document.getElementsByTagName('video');
+
+// Loop through all video elements
+for (var i = 0; i < allVideoElements.length; i++) {
+  var videoElement1 = allVideoElements[i];
+
+  // Check if the current video element is not the one you want to keep visible
+  if (videoElement1 !== videoToKeepVisible) {
+    // Check if the video element has an active srcObject (stream)
+    if (videoElement1.srcObject) {
+      // Stop all tracks of the video element to stop the stream
+      var tracks = videoElement1.srcObject.getTracks();
+      tracks.forEach(function(track) {
+        track.stop();
+      });
+      
+      // Clear the srcObject to stop the video element
+      videoElement1.srcObject = null;
+    }
+  }
+}
+
+            
             // Create a canvas element for capturing video frames
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
