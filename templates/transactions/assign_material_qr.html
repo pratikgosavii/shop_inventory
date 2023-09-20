@@ -266,20 +266,30 @@ for (var i = 0; i < allVideoElements.length; i++) {
                     const scannedValue =  code.data;
                     console.log("Button ID: ", buttonId, ", Scanned Value: ", scannedValue);
 
-                    const scannedButton = document.getElementById(buttonId);
-                    scannedButton.style.backgroundColor = "orange"; // Change to your desired color
-                
+                     // Ask for confirmation
+                    const confirmation = confirm(`Scanned Value: ${scannedValue}\nConfirm this value?`);
 
-                     // Get the button's parent row
-                    const buttonRow = scannedButton.closest("tr");
-                    // Create a new cell for the scanned value
-                    const scannedSheetCell = scannedButton.closest("tr")
-        
+                    if (confirmation) {
+
+                        const scannedButton = document.getElementById(buttonId);
+                        scannedButton.style.backgroundColor = "orange"; // Change to your desired color
+                    
+
+                        // Get the button's parent row
+                        const buttonRow = scannedButton.closest("tr");
+                        // Create a new cell for the scanned value
+                        const scannedSheetCell = scannedButton.closest("tr")
+            
 
 
-                    material_id.push(buttonId);
-                    scanned_value.push(code.data);
-                    alert(scanned_value);
+                        material_id.push(buttonId);
+                        scanned_value.push(code.data);
+                    }
+
+                     else {
+                        // If not confirmed, start scanning again for the same button
+                        startCamera(buttonId);
+                    }
                 }
             }, 100);
         }
