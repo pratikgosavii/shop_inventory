@@ -335,7 +335,11 @@ for (var i = 0; i < allVideoElements.length; i++) {
   
   function submitForm(event) {
 
-    alert(scanned_value)
+    const confirmation = confirm(`All Scanned Value: ${scannedValue}\nConfirm this value?`);
+
+    if (confirmation) {
+
+
 
     event.preventDefault(); // Prevent form submission to avoid page reload
 
@@ -352,6 +356,11 @@ for (var i = 0; i < allVideoElements.length; i++) {
             window.location.href = "{% url 'list_project'%}"
         }
     });
+}
+else{
+    window.location.reload();
+
+}
 
     
 }
