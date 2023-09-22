@@ -123,55 +123,22 @@
                 <td>{{ i.order_id }}</td>
                 <td>{{ i.description }}</td>
                 <td>{{ i.DC_date }}</td>
-                <td style="display:flex; gap:10px;" > <a href="{% url 'assign_matarial_qr' i.id %}"> <i class="fa fa-qrcode" style="font-size: 1.5em;" aria-hidden="true"></i> </a>  <a> <i class="fa fa-trash" style="font-size: 1.5em;" aria-hidden="true"></i> </a>   <a href="{% url 'add_production' i.id %}"> <i class="fa fa-industry" style="font-size: 1.5em;" aria-hidden="true"></i> </a> </td>
+                <td style="display:flex; gap:10px;" > <a href="{% url 'update_project' i.id %}"><i class="fa fa-info-circle" style="font-size: 1.5em;" aria-hidden="true"> </i> </a> <a href="{% url 'assign_matarial_qr' i.id %}"> <i class="fa fa-qrcode" style="font-size: 1.5em;" aria-hidden="true"></i> </a>   <a href="{% url 'add_production' i.id %}"> <i class="fa fa-industry" style="font-size: 1.5em;" aria-hidden="true"></i> </a> 
+
+                  {% if request.user.is_superuser %}
+
+                    <a href="#" onclick="confirmDelete({{ i.id }})">
+                      <i class="fa fa-trash" style="font-size: 1.5em;" aria-hidden="true"></i>
+                    </a>
+
+                  {% endif %}
+
+                </td>
 
               </tr>
               
               {% comment %} <a href="{% url 'close_project' i.id %}">   <i class="fa fa-info-circle" style="font-size: 1.5em;" aria-hidden="true"> </i> </a> {% endcomment %}
 
-              <tr>
-                <td colspan="12" class="hiddenRow">
-                  <div class="accordian-body collapse" id="demo{{ forloop.counter }}">
-                    <table class="table table-striped">
-                      <thead>
-                        <tr class="info">
-
-                          <th>#</th>
-                          <th>Matrial Name</th>
-                          <th>Size</th>
-                          <th>Grade</th>
-                          <th>Thickness</th>
-                          <th>Quantity</th>
-                        </tr>
-                      </thead>
-
-                      <tbody>
-                        {% for z in i.project_material_re.all %}
-
-                     
-
-                        <tr
-                          data-toggle="collapse"
-                          class="accordion-toggle"
-                          data-target="#demo{{ forloop.parentloop.counter }}"
-                        >
-                          <td><a href="#">{{ forloop.counter }}</a></td>
-                          <td>{{ z.product.category.name }}</td>
-                          <td>{{ z.product.size.name }}</td>
-                          <td>{{ z.product.grade.name }}</td>
-                          <td>{{ z.product.thickness.name }}</td>
-                          <td>{{ z.quantity }}</td>
-                         
-                          
-                        </tr>
-
-                        {% endfor %}
-                        
-                      </tbody>
-                    </table>
-                  </div>
-                </td>
-              </tr>
 
               {% endfor %}
 
@@ -310,6 +277,21 @@
     location.href = url;
   });
 
+
+
+
+  function confirmDelete(projectId) {
+    // Show a confirmation dialog
+    if (confirm("Are you sure you want to delete this project?")) {
+        // If the user confirms, construct the delete URL
+        const deleteUrl = "{% url 'delete_project' 0 %}".replace("0", projectId);
+        // Redirect to the delete URL
+        window.location.href = deleteUrl;
+    } else {
+        // If the user cancels, do nothing
+        // You can optionally provide feedback to the user here
+    }
+}
   
     
 </script>

@@ -1737,6 +1737,8 @@ def list_project(request):
     return render(request, 'transactions/list_projects.html', context)
 
 
+from django.db.models import Q
+
 
 @login_required(login_url='login')
 def project_report(request):
@@ -1746,23 +1748,29 @@ def project_report(request):
     dc_date_from = request.GET.get('from_DC_date')
     dc_date_to = request.GET.get('to_DC_date')
 
-    if not dc_date_from:
-        dc_date_from = None
+    print(code)
+    print(customer_id)
+    print(dc_date_from)
+    print(dc_date_to)
 
-    if not dc_date_to:
-        dc_date_to = None
-        
     item_code_instance = item_code.objects.get(code = code)
-    
+
+    # Initialize a base queryset
+    base_query = project_matarial_production.objects.filter(item_code=item_code_instance)
+
     if customer_id:
-        customer_instance = customer.objects.get(id = customer_id)
-        data = project_matarial_production.objects.filter(item_code = item_code_instance, project_matarial_qr__project_material__project__customer = customer_instance, project_matarial_qr__project_material__project__DC_date__gte = dc_date_from, project_matarial_qr__project_material__project__DC_date__lte = dc_date_to)
+        customer_instance = customer.objects.get(id=customer_id)
+        base_query = base_query.filter(project_matarial_qr__project_material__project__customer=customer_instance)
 
-    else:
-        data = project_matarial_production.objects.filter(item_code = item_code_instance, project_matarial_qr__project_material__project__DC_date__gte = dc_date_from, project_matarial_qr__project_material__project__DC_date__lte = dc_date_to)
+    # Check if dc_date_from and dc_date_to are not None before adding date filters
+    if dc_date_from:
+        base_query = base_query.filter(project_matarial_qr__project_material__project__DC_date__gte=dc_date_from)
+
+    if dc_date_to:
+        base_query = base_query.filter(project_matarial_qr__project_material__project__DC_date__lte=dc_date_to)
 
 
-
+    data = base_query.all()
    
 
     context = {
@@ -1856,7 +1864,13 @@ def close_project(request, project_id):
         return render(request, 'transactions/close_project.html', context)
 
 
+def delete_project(request, project_id):
 
+    project_instance = project.objects.get(id = project_id)
+
+    project_instance.delete()
+
+    return redirect('list_project')
 
 import pusher
 
@@ -1947,6 +1961,59 @@ def add_project(request):
             'data_form': data_form,
         }
         return render(request, 'transactions/add_project.html', context)
+
+@login_required(login_url='login')
+def update_project(request, project_id):
+
+    project_instance = project.objects.get(id = project_id)
+
+    if request.method == 'POST':
+
+        print(request.POST)
+
+        # Deserialize the JSON data into a Python object
+        forms = project_Form(request.POST, instance=project_instance)
+        
+
+
+        sheet_no_id = request.POST.getlist("sheet_no")
+        order_id = request.POST.get("order_id")
+       
+        print(sheet_no_id)
+
+        if forms.is_valid():
+
+            print('is valid')
+
+            project_instance = forms.save()
+
+            
+            return redirect('list_project')
+
+
+        else:
+                
+            print(forms.errors)
+            
+
+            context = {
+                'form': forms,
+                'data_form': data_form,
+            }
+            return render(request, 'transactions/update_project.html', context)
+
+
+    else:
+
+        forms = project_Form(instance=project_instance)
+
+        data_form = product_Form()
+
+        context = {
+            'form': forms,
+            'data_form': data_form,
+        }
+        return render(request, 'transactions/update_project.html', context)
 
 @login_required(login_url='login')
 def get_sheet_details(request):
@@ -2501,7 +2568,8 @@ def assign_values_to_qr(request, product_qr_id):
             if form2.is_valid():
 
                 # Save the file to a specific location using FileSystemStorage or another storage backend.
-                form2.save()
+                product_qr_ins = form2.save()
+                product_qr_ins.is_updated = True
                 shelf_id = request.POST.get('shelf')
                 print('----------')
                 print(shelf_id)
@@ -2526,33 +2594,31 @@ def assign_values_to_qr(request, product_qr_id):
 
             instance, created = stock.objects.get_or_create(product = product_instance)
 
-            if product_qr_instance.is_fix:
 
-                instance_previous_stock = stock.objects.get(product = product_qr_instance.product)
-                instance_previous_stock.quantity = instance_previous_stock.quantity - 1
-                instance_previous_stock.save()
-                
-                if instance:
+            instance_previous_stock = stock.objects.get(product = product_qr_instance.product)
+            instance_previous_stock.quantity = instance_previous_stock.quantity - 1
+            instance_previous_stock.save()
+            
+            if instance:
 
-                    instance.quantity = instance.quantity + 1
-                    instance.save()
-
-                else:
-
-                    created.quantity = 1
-                    created.save()
+                instance.quantity = instance.quantity + 1
+                instance.save()
 
             else:
 
-                if instance:
+                created.quantity = 1
+                created.save()
 
-                    instance.quantity = instance.quantity + 1
-                    instance.save()
 
-                else:
+            if instance:
 
-                    created.quantity = 1
-                    created.save()
+                instance.quantity = instance.quantity + 1
+                instance.save()
+
+            else:
+
+                created.quantity = 1
+                created.save()
             
             product_qr_instance.product = product_instance
             product_qr_instance.is_fix = True

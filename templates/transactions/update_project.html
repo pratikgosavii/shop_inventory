@@ -1,0 +1,284 @@
+{% extends 'base/base.html' %}
+
+
+
+{% block title %}Create Product{% endblock title %}
+
+{% block head %}
+
+
+<style>
+
+        .select2-container{
+
+            width: 164.75px
+        }
+
+        .select2-container .select2-selection--single {
+            height: 37px !important;
+        }
+
+</style>
+
+{% endblock head %}
+
+{% block content %}
+
+
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="icon-box">
+					<i class="material-icons">&#xE876;</i>
+				</div>				
+				<h4 class="modal-title w-100">Awesome!</h4>	
+			</div>
+			<div class="modal-body">
+				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>     
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Add Project Plan</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="#" id="submitform" method="post">
+                            {% csrf_token %}
+
+                            
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Designer Name</label>
+                                {{ form.employee_name }}
+                               
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Customer Name</label>
+                                {{ form.customer }}
+                               
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Purchase Order No </label>
+                                {{ form.order_id }}
+                               
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Description </label>
+                                {{ form.description }}
+                               
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Date</label>
+                                {{ form.DC_date }}
+                                
+                            </div>
+
+                            <hr>
+
+                            
+                            <label for="name" class="control-label mb-1"> Raw Material Details</label>
+
+                           
+                             
+
+
+ <table id="my-table">
+
+    <tr>
+        <td> Sheet </td>
+        <td> Category </td>
+        <td> Size </td>
+        <td> Grade </td>
+        <td> Thickness </td>
+        <td>  <button type="button" class="btn btn-success add-textbox" > <i class="fa fa-plus" aria-hidden="true"></i></button>  </td>
+    </tr>
+
+    <tr>
+        <td> <input type="number" class="form-control sheet-no" name="sheet_no" placeholder="Sheet No"> </td>
+        <td> {{ data_form.category }} </td>
+        <td> {{ data_form.size }} </td>
+        <td> {{ data_form.grade }} </td>
+        <td> {{ data_form.thickness }} </td>
+        <td> <button type="button" class="btn btn-info submit-button" data-sheet-no="">Submit</button> </td>
+    </tr>
+
+    <tbody>
+    </tbody>
+
+</table>  
+ <br>
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="payment-button-amount">Add Project</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- .card -->
+
+    </div><!--/.col-->
+</div>
+
+
+{% endblock content %}
+
+{% block js %}
+    
+
+<!-- Include Select2 JS -->
+<!-- Initialize Select2 -->
+
+<script>
+    
+   
+    $(document).ready(function() {
+        // Attach an event listener to the table
+        $('#my-table').on('click', '.submit-button', function() {
+            // Find the closest row to the clicked submit button
+            const row = $(this).closest('tr');
+            
+            // Get the value of the "Sheet No" input in the same row
+            const sheetNo = row.find('.sheet-no').val();
+
+            // Trigger an AJAX request with the captured "Sheet No" value
+            $.ajax({
+                url: "{% url 'get_sheet_details' %}",  // Replace with your actual API endpoint
+                method: 'POST',  // Change the HTTP method as needed
+                data: {
+                    'sheet_no' : sheetNo,
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function(response) {
+                    const data = response.data;
+    
+                    // Update the other fields in the same row with the response data
+                    console.log(data)
+                    console.log(data.size)
+                    console.log(data.grade)
+                    console.log(data.thickness)
+                    console.log(data.category)
+    
+                    row.find('.size').val(data.size);
+                    row.find('.grade').val(data.grade);
+                    row.find('.thickness').val(data.thickness);
+                    row.find('.category').val(data.category);
+                },
+                error: function(error) {
+                    console.log(error);
+                    // Handle errors here
+                }
+            });
+        });
+    });
+    
+
+   
+
+    $("#company_goods").change(function () {
+        const company_goodsID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
+        $.ajax({                       // initialize an AJAX request
+            type: "POST",
+            url: '{% url "get_category_ajax" %}',
+            data: {
+                'company_goods_id': company_goodsID,       // add the country id to the POST parameters
+                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {   // `data` is from `get_topics_ajax` view function
+                let html_data = '<option value="" selected disabled>------------</option>';
+                data.forEach(function (data) {
+            
+                    html_data += `<option value="${data.id}" >${data.goods_company_name}</option>` 
+                });
+                $("#category").html(html_data); // replace the contents of the topic input with the data that came from the server
+            }
+        });
+    });
+
+
+   $(document).ready(function() {
+    var max = 10;
+    var cnt = 1;
+    $(".add-textbox").on("click", function(e){
+        e.preventDefault();
+        if(cnt < max){
+            cnt++;
+
+            const newRow = document.createElement('tr');
+            const tableBody = document.querySelector('#my-table tbody');
+
+            // Create your input elements here using Django template variables
+            newRow.innerHTML = `
+            <td> <input type="number" class="form-control sheet-no" name="sheet_no" placeholder="Sheet No"> </td> <td> {{ data_form.category }} </td> <td>{{ data_form.size }} </td> <td> {{ data_form.grade }} </td> <td>{{ data_form.thickness }} </td> <td> <button type="button" class="btn btn-info submit-button" data-sheet-no="">Submit</button> </td> </tr><td>  <span class="input-group-btn"><button type="button" class="btn btn-danger remove-textbox"> <i class="fa fa-minus" aria-hidden="true"></i>  </td> </td>
+            `;
+            
+            
+                $(tableBody).append(newRow);
+                
+                disableDropdownsInTable('my-table');
+
+        }
+    });
+});
+
+const tableBody = document.querySelector('#my-table tbody');
+
+tableBody.addEventListener('click', function(event) {
+
+    const target = event.target;
+    if (target.classList.contains('remove-textbox')) {
+      const row = target.closest('tr'); // Find the parent row
+      if (row.parentNode.children.length > 1) {
+        row.remove(); // Remove the row from the table if there are more than one rows
+      }
+    }
+  });
+
+
+
+
+
+function disableDropdownsInTable(tableId) {
+    // Select the table by its ID
+    const table = document.getElementById(tableId);
+    
+    // Check if the table exists
+    if (table) {
+        // Select all <select> elements within the table
+        const selectElements = table.querySelectorAll('select');
+
+        // Iterate through each <select> element and disable it
+        selectElements.forEach((select) => {
+            select.disabled = true;
+        });
+    }
+}
+
+// Example usage: Call this function after dynamically adding a new table
+// Replace 'my-table' with the actual ID of the newly added table
+disableDropdownsInTable('my-table');
+
+
+</script>
+
+{% endblock js %}

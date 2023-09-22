@@ -135,7 +135,7 @@ class product_qr(models.Model):
     uploaded_file = models.FileField(upload_to='media/uploads/', null = True, blank = True) 
     date = models.DateTimeField(auto_now_add=True)
     finish = models.CharField(max_length=50, null=True, blank=True)
-     
+    is_updated = models.BooleanField(default=False)
     
 class shelf(models.Model):
     name = models.CharField(max_length=120, unique=True)
