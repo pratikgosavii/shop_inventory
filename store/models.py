@@ -71,6 +71,8 @@ class category(models.Model):
 class size(models.Model):
     
     name = models.FloatField(default=0)
+    mm1 = models.FloatField(default=0)
+    mm2 = models.FloatField(default=0)
 
     def __str__(self):
         return str(self.name)

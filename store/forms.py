@@ -167,6 +167,12 @@ class size_Form(forms.ModelForm):
             'name': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'name'
             }),
+            'mm1': forms.NumberInput(attrs={
+                'class': 'form-control', 'id': 'mm1'
+            }),
+            'mm2': forms.NumberInput(attrs={
+                'class': 'form-control', 'id': 'mm2'
+            }),
            
             
         }

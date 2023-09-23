@@ -36,6 +36,8 @@
                         <thead>
                             <tr>
                                 <th class="serial">#</th>
+                                <th>Length MM</th>
+                                <th>Width MM</th>
                                 <th>Size</th>
                                 <th>Actions</th>
                                 
@@ -46,6 +48,8 @@
                             {% for i in data %}
                             <tr>
                                 <td class="serial">{{ forloop.counter }}</td>
+                                <td>{{ i.mm1 }}</td>
+                                <td>{{ i.mm2 }}</td>
                                 <td>{{ i.name }}</td>
                                 <td>  
                                    <a href="{% url 'update_size' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
