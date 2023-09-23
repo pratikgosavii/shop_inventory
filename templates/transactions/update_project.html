@@ -112,12 +112,18 @@
     </tr>
 
     <tr>
-        <td> <input type="number" class="form-control sheet-no" name="sheet_no" placeholder="Sheet No"> </td>
-        <td> {{ data_form.category }} </td>
-        <td> {{ data_form.size }} </td>
-        <td> {{ data_form.grade }} </td>
-        <td> {{ data_form.thickness }} </td>
-        <td> <button type="button" class="btn btn-info submit-button" data-sheet-no="">Submit</button> </td>
+
+        {% for i in material_data %}
+
+        <td> <input type="number" class="form-control sheet-no" name="no_need" value="{{ i.product_qr.id }}" placeholder="Sheet No" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="no_need" value="{{ i.product_qr.product.category.name }}" placeholder="Sheet No" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="no_need" value="{{ i.product_qr.product.size.name }}" placeholder="Sheet No" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="no_need" value="{{ i.product_qr.product.grade.name }}" placeholder="Sheet No" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="no_need" value="{{ i.product_qr.product.thickness.name }}" placeholder="Sheet No" readonly> </td>
+        <td> <a href="{% url 'delete_assign_material' i.id %}" ><button type="button" class="btn btn-danger submit-button" data-sheet-no="">Delete</button> </a> </td>
+
+        {% endfor %}
+        
     </tr>
 
     <tbody>

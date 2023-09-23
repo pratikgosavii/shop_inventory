@@ -1973,11 +1973,33 @@ def update_project(request, project_id):
 
         # Deserialize the JSON data into a Python object
         forms = project_Form(request.POST, instance=project_instance)
-        
-
-
         sheet_no_id = request.POST.getlist("sheet_no")
-        order_id = request.POST.get("order_id")
+        
+        for a in sheet_no_id:
+            print('in for')
+            try:
+
+                aa = product_qr.objects.get(id = a)
+                
+                print('printing a------------------')
+                print(a)
+
+                print('printing a------------------')
+                obj, created = product.objects.get_or_create(category_id = aa.product.category.id, size_id = aa.product.size.id, grade_id = aa.product.grade.id, thickness_id = aa.product.thickness.id)
+                product_id = obj
+
+            except product.DoesNotExist:
+
+                product_id = created
+
+            project_material_instance = project_material.objects.create(product = product_id, project = project_instance, quantity = 1, sheet_no = a)
+
+            aaaas = project_matarial_qr.objects.create(project_material = project_material_instance)
+            print('-----------------')
+            print(aaaas)
+            print('-----------------')
+
+
        
         print(sheet_no_id)
 
@@ -2008,12 +2030,13 @@ def update_project(request, project_id):
         forms = project_Form(instance=project_instance)
 
         data_form = product_Form()
-
-        material_data = project_matarial_qr.objects.filter(project = project_instance)
+        project_material_data = project_material.objects.filter(project = project_instance)
+        material_data = project_matarial_qr.objects.filter(project_material__in = project_material_data)
 
         context = {
             'form': forms,
             'data_form': data_form,
+            'material_data': material_data,
         }
         return render(request, 'transactions/update_project.html', context)
 
@@ -2108,6 +2131,16 @@ def assign_matarial_qr(request, project_id):
             'project_id': project_id,
         }
         return render(request, 'transactions/assign_material_qr.html', context)
+
+
+def delete_assign_material(request, assign_material_qr_id):
+
+
+    project_material_instance = project_matarial_qr.objects.get(id=assign_material_qr_id)
+    project_material_instance.delete()
+
+    # Assuming 'project_id' is the correct keyword argument for your 'update_project' view.
+    return redirect('update_project', project_id=project_material_instance.project_material.project.id)
 
 
 def show_scanner_assign_matarial_qr(request):
