@@ -16,6 +16,8 @@
                             <tr>
                                 <th class="serial">#</th>
                                 <th>Material Name</th>
+                                <th>Length MM</th>
+                                <th>Width MM</th>
                                 <th>Size</th>
                                 <th>Grade</th>
                                 <th>Thickness</th>
@@ -32,6 +34,8 @@
                                     <tr class="stock-row">
                                         <td class="serial">{{ forloop.counter }}</td>
                                         <td>{{ stock.product.category }}</td>
+                                        <td>{{ stock.product.size.mm1 }}</td>
+                                        <td>{{ stock.product.size.mm2 }}</td>
                                         <td>{{ stock.product.size }}</td>
                                         <td>{{ stock.product.grade }}</td>
                                         <td>{{ stock.product.thickness }}</td>
