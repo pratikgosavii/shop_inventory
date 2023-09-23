@@ -2009,6 +2009,8 @@ def update_project(request, project_id):
 
         data_form = product_Form()
 
+        material_data = project_matarial_qr.objects.filter(project = project_instance)
+
         context = {
             'form': forms,
             'data_form': data_form,
@@ -2595,9 +2597,9 @@ def assign_values_to_qr(request, product_qr_id):
             instance, created = stock.objects.get_or_create(product = product_instance)
 
 
-            instance_previous_stock = stock.objects.get(product = product_qr_instance.product)
-            instance_previous_stock.quantity = instance_previous_stock.quantity - 1
-            instance_previous_stock.save()
+            # instance_previous_stock = stock.objects.get(product = product_qr_instance.product)
+            # instance_previous_stock.quantity = instance_previous_stock.quantity - 1
+            # instance_previous_stock.save()
             
             if instance:
 
