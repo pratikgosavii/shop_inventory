@@ -47,6 +47,9 @@
                         <tbody>
                             {% if data %}
                             {% for i in data %}
+
+                            {% if i.quantity != 0 %}
+
                             <tr class="stock-row">
                                 <td class="serial">{{ forloop.counter }}</td>
                                 <td>{{ i.product.category }}</td>
@@ -66,6 +69,7 @@
                                     </ul>
                                 </td>
                             </tr>
+                            {% endif %}
                             {% endfor %}
                             {% else %}
                                 <tr><td>No Product Data</td></tr>
