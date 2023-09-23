@@ -59,7 +59,9 @@
                                     <!-- Insert your sheet numbers here -->
                                     <ul>
                                         {% for product_qr in i.product.project_material_re.all %}
-                                            <li>{{ product_qr.id }}</li>
+                                            {% if product_qr.moved_to_scratch != True %}
+                                                <li>{{ product_qr.id }}</li>
+                                            {% endif %}
                                         {% endfor %}
                                     </ul>
                                 </td>
