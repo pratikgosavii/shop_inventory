@@ -117,7 +117,7 @@
               {% endif %}
                 
                 <input type="hidden" value="{{ i.id }}" />
-                <td class="serial">{{ i.id }}</td>
+                <td class="serial">{{ forloop.counter }}</td>
                 <td>{{ i.employee_name }}</td>
                 <td>{{ i.customer }}</td>
                 <td>{{ i.order_id }}</td>
