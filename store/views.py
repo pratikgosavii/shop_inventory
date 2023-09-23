@@ -753,7 +753,7 @@ def update_size(request, update_size_id):
     
     else:
 
-        instance = size.objects.get(id=company_goods_id)
+        instance = size.objects.get(id=update_size_id)
 
         
 
