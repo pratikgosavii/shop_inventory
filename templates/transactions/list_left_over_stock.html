@@ -6,8 +6,8 @@
 <div class="breadcrumbs">
     <div class="breadcrumbs-inner">
         <div class="row m-0">
-            
-            {% comment %} <div class="col-sm-8">
+            {% comment %}
+            <div class="col-sm-8">
                 <div class="page-header float-right">
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
@@ -17,7 +17,8 @@
                         </ol>
                     </div>
                 </div>
-            </div> {% endcomment %}
+            </div>
+            {% endcomment %}
         </div>
     </div>
 </div>
@@ -32,24 +33,21 @@
             </div>
             <div class="card-body--">
                 <div class="table-stats order-table ov-h">
-                    <table class="table ">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th class="serial">#</th>
-                                <th>Matrial Name</th>
-                                <th>Size</th>
-                                <th>Grade</th>
-                                <th>Thickness</th>
-                                <th>Quantity</th>
-                                
+                                <th>Matrial Name <input type="text" style="widht:124px;" id="filter-material"></th>
+                                <th>Size <input type="text" style="widht:124px;" id="filter-size"></th>
+                                <th>Grade <input type="text" style="widht:124px;" id="filter-grade"></th>
+                                <th>Thickness <input type="text" style="widht:124px;" id="filter-thickness"></th>
+                                <th> </th>
                             </tr>
                         </thead>
                         <tbody>
                             {% if data %}
                             {% for i in data %}
-
                             {% if i.quantity != 0 %}
-
                             <tr class="stock-row">
                                 <td class="serial">{{ forloop.counter }}</td>
                                 <td>{{ i.product.category }}</td>
@@ -57,12 +55,13 @@
                                 <td>{{ i.product.grade }}</td>
                                 <td>{{ i.product.thickness }}</td>
                                 <td>{{ i.quantity }}</td>
-                            </tr><tr class="sheet-numbers">
+                            </tr>
+                            <tr class="sheet-numbers">
                                 <td colspan="6">
                                     <!-- Insert your sheet numbers here -->
                                     <ul>
                                         {% for product_qr in i.product.project_material_re.all %}
-                                            {% if product_qr.moved_to_scratch != True %}
+                                            {% if not product_qr.moved_to_scratch %}
                                                 <li>{{ product_qr.id }}</li>
                                             {% endif %}
                                         {% endfor %}
@@ -72,7 +71,7 @@
                             {% endif %}
                             {% endfor %}
                             {% else %}
-                                <tr><td>No Product Data</td></tr>
+                                <tr><td colspan="6">No Product Data</td></tr>
                             {% endif %}
                         </tbody>
                     </table>
@@ -80,10 +79,7 @@
             </div>
         </div> <!-- /.card -->
     </div>  <!-- /.col-lg-8 -->
-
-    
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -95,6 +91,32 @@ $(document).ready(function () {
     $(".stock-row").click(function () {
         // Toggle the visibility of sheet numbers for the clicked row
         $(this).next(".sheet-numbers").toggle();
+    });
+
+    // Filter table rows based on user input
+    $("input").on("keyup", function () {
+        var filterMaterial = $("#filter-material").val().toLowerCase();
+        var filterSize = $("#filter-size").val().toLowerCase();
+        var filterGrade = $("#filter-grade").val().toLowerCase();
+        var filterThickness = $("#filter-thickness").val().toLowerCase();
+
+        $(".stock-row").each(function () {
+            var material = $(this).find("td:nth-child(2)").text().toLowerCase();
+            var size = $(this).find("td:nth-child(3)").text().toLowerCase();
+            var grade = $(this).find("td:nth-child(4)").text().toLowerCase();
+            var thickness = $(this).find("td:nth-child(5)").text().toLowerCase();
+
+            if (
+                material.includes(filterMaterial) &&
+                size.includes(filterSize) &&
+                grade.includes(filterGrade) &&
+                thickness.includes(filterThickness) 
+            ) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
     });
 });
 </script>

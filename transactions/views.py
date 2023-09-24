@@ -2603,8 +2603,7 @@ def assign_values_to_qr(request, product_qr_id):
             if form2.is_valid():
 
                 # Save the file to a specific location using FileSystemStorage or another storage backend.
-                product_qr_ins = form2.save()
-                product_qr_ins.is_updated = True
+                form2.save()
                 shelf_id = request.POST.get('shelf')
                 print('----------')
                 print(shelf_id)
@@ -2629,10 +2628,11 @@ def assign_values_to_qr(request, product_qr_id):
 
             instance, created = stock.objects.get_or_create(product = product_instance)
 
-
-            # instance_previous_stock = stock.objects.get(product = product_qr_instance.product)
-            # instance_previous_stock.quantity = instance_previous_stock.quantity - 1
-            # instance_previous_stock.save()
+            if product_qr_instance.is_fix == True:
+            
+                instance_previous_stock = stock.objects.get(product = product_qr_instance.product)
+                instance_previous_stock.quantity = instance_previous_stock.quantity - 1
+                instance_previous_stock.save()
             
             if instance:
 
