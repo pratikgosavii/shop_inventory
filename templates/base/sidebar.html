@@ -160,7 +160,7 @@
                 {% endif %}
 
 
-                {% if request.user.is_superuser or request.user.is_reception or request.user.is_designer %}
+                {% if request.user.is_superuser or request.user.is_designer %}
                 
                 <li class="menu-title">Transactions</li><!-- /.menu-title -->
 
@@ -174,8 +174,23 @@
 
                 {% endif %}
 
-                {% if request.user.is_superuser or request.user.is_designer %}
+                {% if request.user.is_reception %}
+
+                <li class="menu-title">Transactions</li><!-- /.menu-title -->
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Project</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_project' %}">View</a></li>
+                    </ul>
+                </li>
+
+                {% endif %}
                 
+
+                {% if request.user.is_superuser %}
+                
+                {% if request.user.is_superuser or request.user.is_designer %}
 
                 <li class="menu-title">Stock</li><!-- /.menu-title -->
                 <li class="menu-item-has-children dropdown">
@@ -191,6 +206,8 @@
                         <li><i class="fa fa-th"></i><a href="{% url 'list_left_over_stock' %}">View</a></li>
                     </ul>
                 </li>
+
+                {% endif %}
 
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-archive"></i> Dead Stock</a>
