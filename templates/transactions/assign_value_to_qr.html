@@ -162,7 +162,7 @@
             var element = formElements[i];
     
             // Check if the element's id is "id_uploaded_file"
-            if (element.id === "id_uploaded_file") {
+            if (element.id === "id_uploaded_file" or element.id === "uploaded_file") {
                 // Remove the "required" attribute for the file input
                 element.removeAttribute("required");
             } else {
