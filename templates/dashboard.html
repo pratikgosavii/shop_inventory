@@ -295,10 +295,6 @@ font-family: 'Montserrat', sans-serif;
     </div> {% endcomment %}
     <!-- /.orders -->
 
-    <audio autoplay muted id="notificationSound">
-        <source src="static/audio/popup.wav" type="audio/mpeg">
-    </audio>
-
     <button id="enable-sound-button" style="background: orange; border: orange;" class="btn btn-success form-input">Enable Sound</button>
 <audio id="audio-element" muted autoplay>
     <source src="static/audio/popup.wav" type="audio/mpeg">
@@ -332,14 +328,6 @@ enableSoundButton.addEventListener('click', () => {
 // In the 'enable-sound-button' click handler
 localStorage.setItem('soundEnabled', 'true');
 
-        function playNotificationSound() {
-            // Create an AudioContext and play the notification sound
-           
-              let audio = new Audio("static/audio/popup.wav");
-                audio.play();
-          }
-          
-          
           if ('Notification' in window) {
             Notification.requestPermission().then(permission => {
               if (permission === 'granted') {
@@ -352,80 +340,6 @@ localStorage.setItem('soundEnabled', 'true');
             });
           }
 
-          
-          
-
-{% comment %}           
-        const notificationList = document.getElementById('notification-list');
-        const socket = new WebSocket('ws://127.0.0.1:8000/ws/some_path/');
-        
-        socket.onopen = () => {
-            console.log('WebSocket connection opened.');
-        };
-
-        socket.onmessage = (event) => {
-            console.log('something');
-
-
-            var currentUser = "{{ request.user.is_reception }}";
-            var notificationDiv = document.getElementById('notificationDiv');
-            var closeNotificationButton = document.getElementById('closeNotification'); // Get the close button by its ID
-
-            var userStatusElement = document.getElementById('userStatus');
-            if (currentUser == "True") {
-                const notification = JSON.parse(event.data);
-                console.log(notification)
-                // Create a new div for the notification
-                var notificationDiv = document.getElementById('notificationDiv');
-
-            // Create a new div for the notification
-            var notificationItem = document.createElement('div');
-            notificationItem.className = 'box1';
-
-            // Add content to the notification div
-            var notificationContent = `
-                <div class="xmark-box">
-                    <i class="fa-solid fa-x" id="closeNotification"></i>
-                </div>
-                <div class="caption-box">
-                    <img src="https://www.pngall.com/wp-content/uploads/2/Approved-PNG-Download-Image.png" alt="approveimg">
-                    <div class="caption">
-                        <h5>HI,</h5>
-                        <p>${notification.message.entry}</p>
-                    </div>
-                </div>
-            `;
-            notificationItem.innerHTML = notificationContent;
-
-            // Add a click event listener to the close button
-            var closeButton = notificationItem.querySelector('#closeNotification');
-            closeButton.addEventListener('click', function () {
-                // Remove the notification item when the close button is clicked
-                notificationDiv.removeChild(notificationItem);
-            });
-
-            // Append the notification item to the notificationDiv
-            notificationDiv.appendChild(notificationItem);
-
-            // Play the notification sound
-            playNotificationSound();
-        }
-        };
-
-        socket.onclose = (event) => {
-            if (event.wasClean) {
-                console.log(`WebSocket connection closed, code=${event.code}, reason=${event.reason}`);
-            } else {
-                console.error('WebSocket connection abruptly closed');
-            }
-        }; 
-        
-
-          
-        }); {% endcomment %}
-
-        
-       
           const pusher = new Pusher('bc5ccb3b5fa0e00f91e5', {
             cluster: 'ap2',
             encrypted: true,
@@ -436,11 +350,7 @@ localStorage.setItem('soundEnabled', 'true');
             const message = data.message;
             const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
 
-            if (soundEnabled) {
-                // Play the sound without asking for permission
-                const audio = new Audio('static/audio/popup.wav');
-                audio.play();
-            }
+            
             
             
             var currentUser = "{{ request.user.is_reception }}";
@@ -472,8 +382,16 @@ localStorage.setItem('soundEnabled', 'true');
             notificationItem.innerHTML = notificationContent;
 
             notificationDiv.appendChild(notificationItem);
+            
+            if (soundEnabled) {
+                // Play the sound without asking for permission
+                const audio = new Audio('static/audio/popup.wav');
+                audio.play();
+            }
 
-            // Play the notification sound
+            else{
+                alert('please enable sound')
+            }
 
 
             }
@@ -489,38 +407,7 @@ localStorage.setItem('soundEnabled', 'true');
         });
 
 
-        function calculateSqIn() {
-            // Get the length and width in mm from the input fields
-            const sizesqinch = parseFloat(document.getElementById('size').value);
-            const lengthMm = parseFloat(document.getElementById('lengthMm').value);
-            const widthMm = parseFloat(document.getElementById('widthMm').value);
-            
-            // Check if the inputs are valid numbers
-            if (!isNaN(sizesqinch)) {
-                // Convert mm to inches (1 inch = 25.4 mm)
-                const lengthIn = lengthMm / 25.4;
-                const widthIn = widthMm / 25.4;
-                
-                // Calculate square inches
-                const sqIn = lengthIn * widthIn;
-                
-                // Display the result in the "size" input field
-                document.getElementById('name').value = sqIn.toFixed(2);
-            } else {
-                // Display an error message if inputs are not valid numbers
-                document.getElementById('name').value = 'Enter both length and width';
-            }
-        }
         
-        // Add event listeners to the input fields to trigger the calculation
-        document.getElementById('lengthMm').addEventListener('input', calculateSqIn);
-        document.getElementById('widthMm').addEventListener('input', calculateSqIn);
-        
-
-    
-        // Calculate initially when the page loads
-        calculateSqIn();
-
 
           
 
