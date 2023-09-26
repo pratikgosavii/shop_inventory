@@ -44,7 +44,7 @@
                                                 <!-- Insert your sheet numbers here -->
                                                 <ul>
                                                     {% for product_qr in stock.product.project_material_re.all %}
-                                                        <li>{{ product_qr.id }}</li>
+                                                        <li>Sheet no: {{ product_qr.id }}</li>
                                                     {% endfor %}
                                                 </ul>
                                             </td>

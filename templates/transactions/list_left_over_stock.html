@@ -62,7 +62,7 @@
                                     <ul>
                                         {% for product_qr in i.product.project_material_re.all %}
                                             {% if not product_qr.moved_to_scratch %}
-                                                <li>{{ product_qr.id }}</li>
+                                                <li>Sheet no: {{ product_qr.id }}</li>
                                             {% endif %}
                                         {% endfor %}
                                     </ul>
