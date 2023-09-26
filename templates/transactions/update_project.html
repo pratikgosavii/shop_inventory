@@ -111,9 +111,18 @@
         <td>  <button type="button" class="btn btn-success add-textbox" > <i class="fa fa-plus" aria-hidden="true"></i></button>  </td>
     </tr>
 
+    {% for i in material_data %}
+
+    {% if i.is_cutting_done == True %}
+
+    <tr style="background: #ffd890;">
+
+        {% else %}
+
     <tr>
 
-        {% for i in material_data %}
+        {% endif %}
+
 
         <td> <input type="number" class="form-control sheet-no" name="no_need" value="{{ i.product_qr.id }}" placeholder="Sheet No" readonly> </td>
         <td>   <input type="text" class="form-control sheet-no" name="no_need" value="{{ i.product_qr.product.category.name }}" placeholder="Sheet No" readonly> </td>
@@ -122,9 +131,9 @@
         <td>   <input type="text" class="form-control sheet-no" name="no_need" value="{{ i.product_qr.product.thickness.name }}" placeholder="Sheet No" readonly> </td>
         <td> <a href="{% url 'delete_assign_material' i.id %}" ><button type="button" class="btn btn-danger submit-button" data-sheet-no="">Delete</button> </a> </td>
 
-        {% endfor %}
         
     </tr>
+    {% endfor %}
 
     <tbody>
     </tbody>

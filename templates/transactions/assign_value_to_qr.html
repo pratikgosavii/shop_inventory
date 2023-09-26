@@ -100,6 +100,7 @@
                                 <thead class="thead-light" style="background: #e3e3e3;">
                                     <tr>
                                         <td> Cutter Name </td>
+                                        <td> Updated At </td>
                                         <td> Customer Name </td>
                                         <td> Size Before </td>
                                         <td> Used Size </td>
@@ -115,6 +116,7 @@
 
                                     <tr>
                                         <td> {{ i.cutter }}</td>
+                                        <td> {{ i.updated_at }}</td>
                                         <td> {{ i.project.customer.name }}</td>
                                         <td> {{ i.previous_size }} </td>
                                         <td> {{ i.used_size }} </td>
