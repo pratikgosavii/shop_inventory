@@ -2200,15 +2200,16 @@ def update_assign_matarial_qr(request, product_qr_id):
 
         product_instance = project_matarial_qr_instance.project_material.product
 
+        cutter_intance = cutter.objects.get(id = cutter_id)
+
         # Now, retrieve the related project_qr instance
-        material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = size_instance3, project = project_instance)
+        material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = size_instance3, project = project_instance, cutter = cutter_intance)
         
         product_instance_new, product_created_new = product.objects.get_or_create(category = product_instance.category, thickness = product_instance.thickness, size = size_instance3, grade = product_instance.grade)
         
         project_material_qr_instance = project_matarial_qr.objects.get(product_qr = product_qr_instance)
 
-        cutter_intance = cutter.objects.get(id = cutter_id)
-        project_material_qr_instance.cutter = cutter_intance
+        project_material_qr_instance.is_cutting_done = True
         project_material_qr_instance.save()
 
         if product_instance_new == None:

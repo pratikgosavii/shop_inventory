@@ -49,8 +49,7 @@ class project_matarial_qr(models.Model):
     
     project_material = models.ForeignKey(project_material, on_delete=models.CASCADE, related_name = "project_material_re", null = True, blank = True)
     product_qr =  models.ForeignKey(product_qr, on_delete=models.CASCADE, null = True, blank = True, related_name = "product_qr_pro")
-    cutter =  models.ForeignKey(cutter, on_delete=models.CASCADE, null = True, blank = True)
-
+    is_cutting_done = models.BooleanField(default=False)
     
     def __str__(self):
         return self.project_material.product.category.name
@@ -74,6 +73,7 @@ class material_history(models.Model):
     left_size =  models.ForeignKey(size, on_delete=models.CASCADE, related_name = "fdsfcsfcscthfh")
     updated_at = models.DateTimeField(auto_now=True)
     project = models.ForeignKey(project, on_delete=models.CASCADE, related_name = "project_n")
+    cutter =  models.ForeignKey(cutter, on_delete=models.CASCADE, null = True, blank = True)
 
 
 
