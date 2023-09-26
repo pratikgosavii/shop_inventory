@@ -2163,6 +2163,11 @@ def update_assign_matarial_qr(request, product_qr_id):
         c = request.POST.get('left_size')
         e = request.POST.get('move_to_scratch')
         order_id = request.POST.get('order_id')
+        cutter_id = request.POST.get('cutter')
+
+        print('------------------------')
+
+        print(cutter_id)
 
         try:
             project_instance = project.objects.get(order_id = order_id)
@@ -2200,7 +2205,12 @@ def update_assign_matarial_qr(request, product_qr_id):
         
         product_instance_new, product_created_new = product.objects.get_or_create(category = product_instance.category, thickness = product_instance.thickness, size = size_instance3, grade = product_instance.grade)
         
-       
+        project_material_qr_instance = project_matarial_qr.objects.get(product_qr = product_qr_instance)
+
+        cutter_intance = cutter.objects.get(id = cutter_id)
+        project_material_qr_instance.cutter = cutter_intance
+        project_material_qr_instance.save()
+
         if product_instance_new == None:
             product_instance_new = product_created_new
 
@@ -2311,9 +2321,11 @@ def update_assign_matarial_qr(request, product_qr_id):
 
     else:
 
-      
+        cutter_data = cutter.objects.all()
+
         context = {
             'data': product_qr_instance,
+            'cutter_data': cutter_data,
             'product_qr_id' : product_qr_id
         }
 
