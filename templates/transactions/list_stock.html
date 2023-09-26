@@ -26,39 +26,32 @@
                         </thead>
                         <tbody>
                             {% if data %}
-                                {% with serial_counter=0 %}
-                                    {% for stock in data %}
-                                        {% if stock.quantity != 0 %}
-                                            {% with serial_counter=serial_counter+1 %}
-                                                <tr class="stock-row">
-                                                    <td class="serial">{{ serial_counter }}</td>
-                                                    <td>{{ stock.product.category }}</td>
-                                                    <td>{{ stock.product.size.mm1 }}</td>
-                                                    <td>{{ stock.product.size.mm2 }}</td>
-                                                    <td>{{ stock.product.size }}</td>
-                                                    <td>{{ stock.product.grade }}</td>
-                                                    <td>{{ stock.product.thickness }}</td>
-                                                    <td>{{ stock.quantity }}</td>
-                                                </tr>
-                                                <!-- Add an accordion row for sheet numbers -->
-                                                <tr class="sheet-numbers">
-                                                    <td colspan="6">
-                                                        <!-- Insert your sheet numbers here -->
-                                                        <ul>
-                                                            {% for product_qr in stock.product.project_material_re.all %}
-                                                                <li>Sheet no: {{ product_qr.id }}</li>
-                                                            {% endfor %}
-                                                        </ul>
-                                                    </td>
-                                                </tr>
-                                            {% endwith %}
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endwith %}
+                                {% for stock in data %}
+                                        <tr class="stock-row">
+                                            <td class="serial">{{ forloop.counter }}</td>
+                                            <td>{{ stock.product.category }}</td>
+                                            <td>{{ stock.product.size.mm1 }}</td>
+                                            <td>{{ stock.product.size.mm2 }}</td>
+                                            <td>{{ stock.product.size }}</td>
+                                            <td>{{ stock.product.grade }}</td>
+                                            <td>{{ stock.product.thickness }}</td>
+                                            <td>{{ stock.quantity }}</td>
+                                        </tr>
+                                        <!-- Add an accordion row for sheet numbers -->
+                                        <tr class="sheet-numbers">
+                                            <td colspan="6">
+                                                <!-- Insert your sheet numbers here -->
+                                                <ul>
+                                                    {% for product_qr in stock.product.project_material_re.all %}
+                                                        <li>Sheet no: {{ product_qr.id }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                {% endfor %}
                             {% else %}
                                 <tr><td colspan="6">No Product Data</td></tr>
                             {% endif %}
-
                         </tbody>
                     </table>
                 </div> <!-- /.table-stats -->
