@@ -88,6 +88,7 @@
                 <th>Employee name</th>
                 <th>Customer Name</th>
                 <th>Order ID</th>
+                <th>Project ID</th>
                 <th>Description</th>
                 <th>Date</th>
                 <th>Actions</th>
@@ -121,6 +122,7 @@
                 <td>{{ i.employee_name }}</td>
                 <td>{{ i.customer }}</td>
                 <td>{{ i.order_id }}</td>
+                <td>{{ i.id }}</td>
                 <td>{{ i.description }}</td>
                 <td>{{ i.DC_date }}</td>
                 <td style="display:flex; gap:10px;" > <a href="{% url 'update_project' i.id %}"><i class="fa fa-info-circle" style="font-size: 1.5em;" aria-hidden="true"> </i> </a> <a href="{% url 'assign_matarial_qr' i.id %}"> <i class="fa fa-qrcode" style="font-size: 1.5em;" aria-hidden="true"></i> </a>   <a href="{% url 'add_production' i.id %}"> <i class="fa fa-industry" style="font-size: 1.5em;" aria-hidden="true"></i> </a> 

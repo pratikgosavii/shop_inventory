@@ -2162,7 +2162,7 @@ def update_assign_matarial_qr(request, product_qr_id):
         b = request.POST.get('used_size')
         c = request.POST.get('left_size')
         e = request.POST.get('move_to_scratch')
-        order_id = request.POST.get('order_id')
+        project_id = request.POST.get('order_id')
         cutter_id = request.POST.get('cutter')
 
         print('------------------------')
@@ -2170,9 +2170,9 @@ def update_assign_matarial_qr(request, product_qr_id):
         print(cutter_id)
 
         try:
-            project_instance = project.objects.get(order_id = order_id)
+            project_instance = project.objects.get(id = project_id)
         except project.DoesNotExist as e:
-            msg = "Project with order id:" + order_id + " does not exsisit"
+            msg = "Project with project id:" + project_id + " does not exsisit"
             return JsonResponse({'status' : 'error', 'msg' : msg})
 
         size_instance1, new_generated_size1 = size.objects.get_or_create(name = a)
