@@ -901,6 +901,24 @@ def list_dead_stock(request):
     return render(request, 'transactions/list_dead_stock.html', context)
 
 
+@login_required(login_url='login')
+def delete_images(request):
+
+   
+    data = product_qr.objects.filter(qr_code__isnull=False)
+
+    for i in data:
+
+        i.qr_code.delete()
+   
+    context = {
+        'data': data,
+        
+    }
+
+    return redirect('list_generated_product_qr')
+
+
 from django.http import HttpResponse
 from twilio.rest import Client
 from django.conf import settings
@@ -2518,31 +2536,33 @@ from reportlab.platypus import SimpleDocTemplate, Image
 
 def print_single_qr(request, product_qr_id):
 
-    # response = HttpResponse(content_type='application/pdf')
-    # response['Content-Disposition'] = 'attachment; filename="images.pdf"'
+    a = product_qr.objects.get(id = product_qr_id)
 
-    # pdf_buffer = response
-    # doc = SimpleDocTemplate(pdf_buffer, pagesize=letter)
-    # elements = []
 
-    product_qr_instance = product_qr.objects.get(id = product_qr_id)
-    # image_path = product_qr_instance.qr_code.path
+    qr_size = 600
 
-    # # Adjust image size as needed
-    # image = Image(image_path, width=30, height=30)
+    box_size = qr_size // 4  # You can experiment with different values
 
-    # # Add a border and adjust the box size
-    # image.drawHeight = 200  # Set image height
-    # image.drawWidth = 300   # Set image width
-    # image.boxSize = [image.drawWidth + 20, image.drawHeight + 20]  # Adjust box size
-    # image.borderSize = 4    # Set border size
-    # image.borderColor = colors.black  # Set border color
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=box_size,
+        border=0,
+    )
+    qr.add_data(a.id)
+    qr.make(fit=True)
 
-    # elements.append(image)
+    img = qr.make_image(fill_color="black", back_color="white", size=(qr_size, qr_size))
+    buffer = BytesIO()
+    img.save(buffer, format="PNG")
 
-    # doc.build(elements)
+    qr_code_image = ContentFile(buffer.getvalue())
 
-    return render(request, 'transactions/html_qr_single.html', {'data' : product_qr_instance})
+    a.qr_code.save(f"qr_code_{a.id}.png", qr_code_image)
+
+    
+
+    return render(request, 'transactions/html_qr_single.html', {'data' : a})
 
 def list_generated_product_qr(request):
 
