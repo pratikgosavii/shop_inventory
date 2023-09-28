@@ -26,9 +26,20 @@
 {% block content %}
 <div class="row">
     <div class="col-xl-12">
+        <div class="card" style="width: 34%; padding: 4px 1.25em; ">
+            <div class="card-body">
+                <h4 class="box-title">Legend</h4>
+                <ul>
+                    <li style="background: #b0ffb0;">Fresh Sheet</li>
+                    <li style="background: #ffd890;">Left Over Sheet</li>
+                    <li style="background: #ffc5c5;">Scratch Sheet</li>
+                    <!-- Add more legend items as needed -->
+                </ul>
+            </div>
+        </div>
         <div class="card">
             <div class="card-body">
-                <h4 class="box-title">Category List </h4>
+                <h4 class="box-title">All Sheet List </h4>
             </div>
             <div class="card-body--">
                 <div class="table-stats order-table ov-h">
@@ -61,7 +72,7 @@
                             
                                 {% else %}
 
-                            <tr>
+                            <tr style="background: #b0ffb0">
 
                                 {% endif %}
 
