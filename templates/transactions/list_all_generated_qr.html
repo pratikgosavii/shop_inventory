@@ -50,8 +50,21 @@
                         <tbody>
                             {% if data %}
                             {% for i in data %}
+                            
+                            {% if i.moved_to_scratch %}
+
+                            <tr style="background: #ffc5c5;">
+
+                            {% elif i.moved_to_left_over %}
+
+                            <tr style="background: #ffd890;">
+                            
+                                {% else %}
 
                             <tr>
+
+                                {% endif %}
+
                                 <td class="serial">{{ forloop.counter }}</td>
                                 <td>{{ i.id }}</td>
                                 <td>{{ i.product.category }}</td>

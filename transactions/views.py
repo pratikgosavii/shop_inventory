@@ -891,7 +891,7 @@ def list_left_over_stock(request):
 def list_dead_stock(request):
 
    
-    data = scratch_stock.objects.all()
+    data = scratch_stock.objects.prefetch_related('product__project_material_re').filter(quantity__gt=0)
    
     context = {
         'data': data,
