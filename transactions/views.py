@@ -2190,8 +2190,20 @@ def update_assign_matarial_qr(request, product_qr_id):
         try:
             project_instance = project.objects.get(id = project_id)
         except project.DoesNotExist as e:
-            msg = "Project with project id:" + project_id + " does not exsisit"
+            msg = "Project with project id:" + project_id
             return JsonResponse({'status' : 'error', 'msg' : msg})
+
+
+        
+        try:
+            
+            project_material.objects.get(project = project_instance, sheet_no = product_qr_instance.id)
+
+        except project_material.DoesNotExist:
+            msg = "Sheet is not assign to project with order id " + project_id + " does not exsisit"
+            return JsonResponse({'status' : 'error', 'msg' : msg})
+
+
 
         size_instance1, new_generated_size1 = size.objects.get_or_create(name = a)
 
