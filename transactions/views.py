@@ -2193,6 +2193,19 @@ def update_assign_matarial_qr(request, product_qr_id):
             msg = "Project with project id:" + project_id + " does not exsisit"
             return JsonResponse({'status' : 'error', 'msg' : msg})
 
+
+        project_material_instances = project_material.objects.filter(project = project_instance)
+
+        project_matarial_qr_instance = project_matarial_qr.objects.filter(project_material__in = project_material_instances)
+        
+        try:
+            found = project_matarial_qr_instance.get(product_qr = project_matarial_qr_instance)
+        except:
+            msg = "Sheet is not assign to project with order id " + project_id + " does not exsisit"
+            return JsonResponse({'status' : 'error', 'msg' : msg})
+
+
+
         size_instance1, new_generated_size1 = size.objects.get_or_create(name = a)
 
         if size_instance1 == None:
