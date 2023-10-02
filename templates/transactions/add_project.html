@@ -170,19 +170,32 @@
                     'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
                 },
                 success: function(response) {
-                    const data = response.data;
-    
-                    // Update the other fields in the same row with the response data
-                    console.log(data)
-                    console.log(data.size)
-                    console.log(data.grade)
-                    console.log(data.thickness)
-                    console.log(data.category)
-    
-                    row.find('.size').val(data.size);
-                    row.find('.grade').val(data.grade);
-                    row.find('.thickness').val(data.thickness);
-                    row.find('.category').val(data.category);
+
+                    if(response.status == "done"){
+                        const data = response.data;
+        
+                        // Update the other fields in the same row with the response data
+                        console.log(data)
+                        console.log(data.size)
+                        console.log(data.grade)
+                        console.log(data.thickness)
+                        console.log(data.category)
+        
+                        row.find('.size').val(data.size);
+                        row.find('.grade').val(data.grade);
+                        row.find('.thickness').val(data.thickness);
+                        row.find('.category').val(data.category);
+                    }
+
+                    else{
+
+                        var errorMessage = response.msg;
+
+                        console.log(errorMessage)
+                        
+                        alert(errorMessage)
+
+                    }
                 },
                 error: function(error) {
                     console.log(error);
@@ -193,27 +206,6 @@
     });
     
 
-   
-
-    $("#company_goods").change(function () {
-        const company_goodsID = $(this).val();  // get the selected subject ID from the HTML dropdown list 
-        $.ajax({                       // initialize an AJAX request
-            type: "POST",
-            url: '{% url "get_category_ajax" %}',
-            data: {
-                'company_goods_id': company_goodsID,       // add the country id to the POST parameters
-                'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val(),
-            },
-            success: function (data) {   // `data` is from `get_topics_ajax` view function
-                let html_data = '<option value="" selected disabled>------------</option>';
-                data.forEach(function (data) {
-            
-                    html_data += `<option value="${data.id}" >${data.goods_company_name}</option>` 
-                });
-                $("#category").html(html_data); // replace the contents of the topic input with the data that came from the server
-            }
-        });
-    });
 
 
    $(document).ready(function() {

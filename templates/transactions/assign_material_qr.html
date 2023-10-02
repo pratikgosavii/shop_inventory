@@ -211,29 +211,29 @@ document.addEventListener("DOMContentLoaded", function () {
             videoElement.style.display ="block";
 
             // Get a reference to the video element you want to keep visible
-var videoToKeepVisible = videoElement
-// Get a NodeList of all video elements on the page
-var allVideoElements = document.getElementsByTagName('video');
+            var videoToKeepVisible = videoElement
+            // Get a NodeList of all video elements on the page
+            var allVideoElements = document.getElementsByTagName('video');
 
-// Loop through all video elements
-for (var i = 0; i < allVideoElements.length; i++) {
-  var videoElement1 = allVideoElements[i];
+            // Loop through all video elements
+            for (var i = 0; i < allVideoElements.length; i++) {
+                var videoElement1 = allVideoElements[i];
 
-  // Check if the current video element is not the one you want to keep visible
-  if (videoElement1 !== videoToKeepVisible) {
-    // Check if the video element has an active srcObject (stream)
-    if (videoElement1.srcObject) {
-      // Stop all tracks of the video element to stop the stream
-      var tracks = videoElement1.srcObject.getTracks();
-      tracks.forEach(function(track) {
-        track.stop();
-      });
-      
-      // Clear the srcObject to stop the video element
-      videoElement1.srcObject = null;
-    }
-  }
-}
+                // Check if the current video element is not the one you want to keep visible
+                if (videoElement1 !== videoToKeepVisible) {
+                    // Check if the video element has an active srcObject (stream)
+                    if (videoElement1.srcObject) {
+                    // Stop all tracks of the video element to stop the stream
+                    var tracks = videoElement1.srcObject.getTracks();
+                    tracks.forEach(function(track) {
+                        track.stop();
+                    });
+                    
+                    // Clear the srcObject to stop the video element
+                    videoElement1.srcObject = null;
+                    }
+                }
+            }
 
             
             // Create a canvas element for capturing video frames
@@ -262,7 +262,7 @@ for (var i = 0; i < allVideoElements.length; i++) {
         
                 if (code) {
                     clearInterval(scanInterval); // Stop scanning
-                    console.log('Scanned:', code.data);
+                   console.log('Scanned:', code.data);
                     const scannedValue =  code.data;
                     console.log("Button ID: ", buttonId, ", Scanned Value: ", scannedValue);
 
@@ -281,9 +281,16 @@ for (var i = 0; i < allVideoElements.length; i++) {
                         const scannedSheetCell = scannedButton.closest("tr")
             
 
+                        const index = material_id.indexOf(buttonId);
 
-                        material_id.push(buttonId);
-                        scanned_value.push(code.data);
+                        if (index !== -1) {
+                            // Update the existing value in scanned_value array
+                            scanned_value[index] = code.data;
+                        } else {
+                            // Push the new values to both arrays
+                            material_id.push(buttonId);
+                            scanned_value.push(code.data);
+                        } 
                     }
 
                      else {

@@ -2063,8 +2063,15 @@ def get_sheet_details(request):
 
     sheet_no = request.POST.get('sheet_no')
     print(sheet_no)
-    instance = product_qr.objects.get(id = sheet_no)
 
+    try:
+
+        instance = product_qr.objects.get(id = sheet_no)
+    except product_qr.DoesNotExist:
+
+        return JsonResponse({'status' : 'error', 'msg' : 'Sheet No : ' + sheet_no + ' Does not exsist'})
+    
+    
     data = {
             'size': instance.product.size.id,
             'grade': instance.product.grade.id,
@@ -2075,7 +2082,7 @@ def get_sheet_details(request):
 
     print(data)
 
-    return JsonResponse({'data' : data})
+    return JsonResponse({"status" : 'done', 'data' : data})
 
 
 
