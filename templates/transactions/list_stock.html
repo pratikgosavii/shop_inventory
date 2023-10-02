@@ -43,6 +43,7 @@
                                                 <!-- Insert your sheet numbers here -->
                                                 <ul>
                                                     {% for product_qr in stock.product.project_material_re.all %}
+                                                        <li>Finish : {{ product_qr.finish }}</li>
                                                         <li>Sheet no: {{ product_qr.id }}</li>
                                                     {% endfor %}
                                                 </ul>

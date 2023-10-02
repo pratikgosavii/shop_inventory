@@ -54,7 +54,7 @@ class project_Form(forms.ModelForm):
         widgets = {
            
             'employee_name': forms.Select(attrs={
-                'class': 'form-control', 'id': 'bag_size'
+                'class': 'form-control', 'id': 'employee_name'
             }),
             'customer': forms.Select(attrs={
                 'class': 'form-control', 'id': 'customer'

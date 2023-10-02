@@ -366,6 +366,16 @@ else{
     
 }
 
+$(document).ready(function() {
+    // Select the input fields you want to make read-only by their IDs or other selectors
+
+    $("#employee_name, #customer").prop("disabled", true);
+
+    $("#description, #id_DC_date").prop("readonly", true);
+    
+});
+
+
 
 
 </script>

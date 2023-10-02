@@ -256,6 +256,20 @@ tableBody.addEventListener('click', function(event) {
 
 
 
+  $("#submitform").on("submit", function(e) {
+    // Check if any required fields are empty or disabled
+    const invalidFields = $(this).find("select[required]:enabled").filter(function() {
+        return !$(this).val(); // Check for empty value
+    });
+
+    if (invalidFields.length > 0) {
+        // Prevent form submission
+        e.preventDefault();
+        
+        // Display an error message or take appropriate action
+        alert("Please fill in all required fields.");
+    }
+});
 
 
 function disableDropdownsInTable(tableId) {
