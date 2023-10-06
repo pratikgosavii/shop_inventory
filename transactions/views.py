@@ -2639,7 +2639,6 @@ import copy
 
 def assign_values_to_qr(request, product_qr_id):
     
-
     print('hereeeeeeee')
     print(product_qr_id)
     product_id = product_qr_id
@@ -2650,107 +2649,106 @@ def assign_values_to_qr(request, product_qr_id):
         # Handle the error and construct an error response
         error_message = str(e)
         return JsonResponse({'status': 'error', 'message': error_message}, status=400)
-
-    product_qr_old = product_qr_old = copy.copy(product_qr_instance)
-
-    print('here checking')
-    print(product_qr_old.is_fix)
-
-    if request.method == 'POST':
-
-        form = product_Form(request.POST)
-
-        if form.is_valid():
-            book, created = product.objects.get_or_create(**form.cleaned_data)
+    
+    if product_qr.moved_to_left_over == False and product_qr.moved_to_scratch:
 
 
-            form2 = product_qr_Form(request.POST, request.FILES, instance = product_qr_instance)
-            if form2.is_valid():
+        product_qr_old = product_qr_old = copy.copy(product_qr_instance)
 
-                # Save the file to a specific location using FileSystemStorage or another storage backend.
-                form2.save()
-                shelf_id = request.POST.get('shelf')
-                print('----------')
-                print(shelf_id)
-                print('----------')
+        print('here checking')
+        print(product_qr_old.is_fix)
+
+        if request.method == 'POST':
+
+            form = product_Form(request.POST)
+
+            if form.is_valid():
+                book, created = product.objects.get_or_create(**form.cleaned_data)
 
 
-                shelf_instance = shelf.objects.get(id = shelf_id)
-                product_qr_shelf_instance = product_qr_shelf.objects.get(product_qr = product_qr_instance)
-                product_qr_shelf_instance.shelf = shelf_instance
-                product_qr_shelf_instance.save()
-            
+                form2 = product_qr_Form(request.POST, request.FILES, instance = product_qr_instance)
+                if form2.is_valid():
 
-                if book:
+                    # Save the file to a specific location using FileSystemStorage or another storage backend.
+                    form2.save()
+                    shelf_id = request.POST.get('shelf')
+                    print('----------')
+                    print(shelf_id)
+                    print('----------')
 
-                    product_instance = book
+
+                    shelf_instance = shelf.objects.get(id = shelf_id)
+                    product_qr_shelf_instance = product_qr_shelf.objects.get(product_qr = product_qr_instance)
+                    product_qr_shelf_instance.shelf = shelf_instance
+                    product_qr_shelf_instance.save()
+                
+
+                    if book:
+
+                        product_instance = book
+
+                    else:
+
+                        product_instance = created
+
+                    messages.success(request, 'Values added successfully')
+
+                 
+                    if product_qr_old.is_fix:
+
+                        instance_previous_stock = stock.objects.get(product = product_qr_old.product)
+                        instance_previous_stock.quantity = instance_previous_stock.quantity - 1
+                        instance_previous_stock.save()
+                    
+                    instance, created = stock.objects.get_or_create(product = product_instance)
+                    
+                    if instance:
+
+                        instance.quantity = instance.quantity + 1
+                        instance.save()
+
+                    else:
+
+                        created.quantity = 1
+                        created.save()
+
+
+                    product_qr_instance.product = product_instance
+                    product_qr_instance.is_fix = True
+                    product_qr_instance.save()
+
+                    redirect_url = reverse('list_generated_product_qr')
+
+                    return redirect(redirect_url)
 
                 else:
 
-                    product_instance = created
 
-                messages.success(request, 'values added successfully')
 
-                instance, created = stock.objects.get_or_create(product = product_instance)
+                    print(product_qr_id)
+                    data = material_history.objects.filter(product_qr__id = product_qr_id)
 
-                print('-----------------------')
-                print('-----------------------')
-                print(product_qr_old.is_fix)
-                print('-----------------------')
-                print('-----------------------')
+                    product_qr_shelf_instance = product_qr_shelf.objects.get(product_qr = product_qr_instance)
+
+                    product_qr_shelf_form = product_qr_shelf_Form(instance = product_qr_shelf_instance)
+
+
+                    context = {
+                        'form': form,
+                        'form_qr': form2,
+                        'data': data,
+                        'product_qr_id': product_qr_id,
+                        'product_qr_shelf_form': product_qr_shelf_form,
+                    }
+
+                    return render(request, 'transactions/assign_value_to_qr.html', context)
                 
-                if product_qr_old.is_fix:
+        else:
 
-                    print('-----------------------')
-                    print('-----------------------')
-                    print('-----------------------')
-                    print('-----------------------')
-                    print('-----------------------')
-                
-                    instance_previous_stock = stock.objects.get(product = product_qr_old.product)
-                    instance_previous_stock.quantity = instance_previous_stock.quantity - 1
-                    instance_previous_stock.save()
-                
-                if instance:
+            messages.error(request, 'Material already been used please contact pratik')
 
-                    instance.quantity = instance.quantity + 1
-                    instance.save()
+            return redirect('assign_values_to_qr', args=[product_qr_id])
 
-                else:
-
-                    created.quantity = 1
-                    created.save()
-
-
-                product_qr_instance.product = product_instance
-                product_qr_instance.is_fix = True
-                product_qr_instance.save()
-
-                redirect_url = reverse('list_generated_product_qr')
-
-                return redirect(redirect_url)
-
-            else:
-
-
-
-                print(product_qr_id)
-                data = material_history.objects.filter(product_qr__id = product_qr_id)
-
-                product_qr_shelf_instance = product_qr_shelf.objects.get(product_qr = product_qr_instance)
-
-                product_qr_shelf_form = product_qr_shelf_Form(instance = product_qr_shelf_instance)
-
-
-                context = {
-                    'form': form,
-                    'form_qr': form2,
-                    'data': data,
-                    'product_qr_id': product_qr_id,
-                    'product_qr_shelf_form': product_qr_shelf_form,
-                }
-
-                return render(request, 'transactions/assign_value_to_qr.html', context)
     else:    
 
         form = product_Form(instance=product_qr_instance.product)
