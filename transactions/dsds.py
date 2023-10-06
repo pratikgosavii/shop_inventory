@@ -20,7 +20,7 @@ def assign_values_to_qr(request, product_qr_id):
 
     if request.method == 'POST':
 
-        form = product_Form(request.POST)
+        form = product_Form(request.POST)delete_matarial_history
 
         if form.is_valid():
             book, created = product.objects.get_or_create(**form.cleaned_data)

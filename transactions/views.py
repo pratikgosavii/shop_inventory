@@ -2369,6 +2369,11 @@ def update_assign_matarial_qr(request, product_qr_id):
 
         return render(request, 'transactions/update_assign_material_qr.html', context)
 
+
+def delete_matarial_history(request, history_id):
+
+    pass
+
     
 from django.forms import modelformset_factory
 
