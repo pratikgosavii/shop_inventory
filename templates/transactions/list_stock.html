@@ -43,7 +43,7 @@
                                                 <!-- Insert your sheet numbers here -->
                                                 <ul>
                                                     {% for product_qr in stock.product.project_material_re.all %}
-                                                        {% if product_qr!= None %}
+                                                        {% if product_qr != None %}
                                                             <li>Finish : {{ product_qr.finish }} &nbsp; &nbsp;  Sheet no: {{ product_qr.id }}</li>
                                                         {% endif %}    
                                                     {% endfor %}

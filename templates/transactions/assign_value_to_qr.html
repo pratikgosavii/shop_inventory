@@ -106,6 +106,7 @@
                                         <td> Size Before </td>
                                         <td> Used Size </td>
                                         <td> Left Size </td>
+                                        <td> Action </td>
                                         
                                     </tr>
                                 </thead>
@@ -114,6 +115,9 @@
 
                                     {% for i in data %}
 
+                                    
+
+                                    {% if forloop.last %}
 
                                     <tr>
                                         <td> {{ i.cutter }}</td>
@@ -123,8 +127,27 @@
                                         <td> {{ i.previous_size }} </td>
                                         <td> {{ i.used_size }} </td>
                                         <td> {{ i.left_size }} </td>
+                                        <td> <a href="{% url 'delete_history' i.id %}"> <button id="payment-button"  style="background-color: red; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+                                            <span id="payment-button-amount">Delete</span>
+                                        </button>  </a></td>
                                         
                                     </tr>
+
+                                    {% else %}
+                                    
+                                    <tr>
+                                        <td> {{ i.cutter }}</td>
+                                        <td> {{ i.updated_at }}</td>
+                                        <td> {{ i.project.order_id }}</td>
+                                        <td> {{ i.project.customer.name }}</td>
+                                        <td> {{ i.previous_size }} </td>
+                                        <td> {{ i.used_size }} </td>
+                                        <td> {{ i.left_size }} </td>
+                                        <td>  </td>
+                                        
+                                    </tr>
+
+                                    {% endif %}
 
                                     {% endfor %}
 

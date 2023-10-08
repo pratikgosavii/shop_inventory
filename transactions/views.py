@@ -2264,6 +2264,7 @@ def update_assign_matarial_qr(request, product_qr_id):
                 stock_instance.quantity = stock_instance.quantity - 1
                 
                 product_qr_instance.moved_to_scratch = True
+                product_qr_instance.moved_to_left_over = False
                 product_qr_instance.save()
 
                 stock_instance.save()
@@ -2650,15 +2651,15 @@ def assign_values_to_qr(request, product_qr_id):
         error_message = str(e)
         return JsonResponse({'status': 'error', 'message': error_message}, status=400)
     
-    if product_qr.moved_to_left_over == False and product_qr.moved_to_scratch:
-
+    if request.method == 'POST':
 
         product_qr_old = product_qr_old = copy.copy(product_qr_instance)
 
         print('here checking')
         print(product_qr_old.is_fix)
 
-        if request.method == 'POST':
+       
+        if product_qr_instance.moved_to_left_over == False and product_qr_instance.moved_to_scratch == False:
 
             form = product_Form(request.POST)
 
@@ -2747,7 +2748,7 @@ def assign_values_to_qr(request, product_qr_id):
 
             messages.error(request, 'Material already been used please contact pratik')
 
-            return redirect('assign_values_to_qr', args=[product_qr_id])
+            return redirect('assign_values_to_qr', product_qr_id=product_qr_id)
 
     else:    
 
@@ -2772,6 +2773,126 @@ def assign_values_to_qr(request, product_qr_id):
 
         return render(request, 'transactions/assign_value_to_qr.html', context)
     
+def delete_history(request, history_id):
+
+    material_history_instance = material_history.objects.get(id = history_id)
+
+    product_qr_instance = material_history_instance.product_qr
+
+    product_old = copy.copy(product_qr_instance.product)
+
+    obj, created = product.objects.get_or_create(category_id = product_qr_instance.product.category.id, size_id = material_history_instance.previous_size, grade_id = product_qr_instance.product.grade.id, thickness_id = product_qr_instance.product.thickness.id)
+
+    if obj:
+        product_qr_instance.product = obj
+        product_qr_instance.save()
+    else:
+        product_qr_instance.product = created
+        product_qr_instance.save()
+
+
+    if product_qr_instance.moved_to_scratch:
+
+        print('runung 1')
+
+        material_history_count = material_history.objects.filter(product_qr = product_qr_instance).count()
+        
+        instance_previous_stock = scratch_stock.objects.get(product = product_old)
+        instance_previous_stock.quantity = instance_previous_stock.quantity - 1
+        instance_previous_stock.save()
+        
+        if material_history_count == 1:
+
+            print('22')  
+
+            instance, created = stock.objects.get_or_create(product = product_qr_instance.product)
+
+            if instance:
+
+                instance.quantity = instance.quantity + 1
+                instance.save()
+
+            else:
+
+                created.quantity = 1
+                created.save()
+
+            product_qr_instance.moved_to_scratch = False
+            product_qr_instance.moved_to_left_over = False
+            product_qr_instance.save()
+
+        else:
+
+            print('11')  
+            
+
+            product_qr_instance.moved_to_scratch = False
+            product_qr_instance.moved_to_left_over = True
+            product_qr_instance.save()
+
+            instance, created = left_over_stock.objects.get_or_create(product = product_qr_instance.product)
+
+            if instance:
+
+                instance.quantity = instance.quantity + 1
+                instance.save()
+
+            else:
+
+                created.quantity = 1
+                created.save()
+
+    
+
+
+    elif product_qr_instance.moved_to_left_over:
+
+        print('runung 2')
+
+        material_history_count = material_history.objects.filter(product_qr = product_qr_instance).count()
+
+        instance_previous_stock = left_over_stock.objects.get(product = product_old)
+        instance_previous_stock.quantity = instance_previous_stock.quantity - 1
+        instance_previous_stock.save()
+
+        if material_history_count == 1:
+
+            instance, created = stock.objects.get_or_create(product = product_qr_instance.product)
+
+            if instance:
+
+                instance.quantity = instance.quantity + 1
+                instance.save()
+
+            else:
+
+                created.quantity = 1
+                created.save()
+
+            product_qr_instance.moved_to_scratch = False
+            product_qr_instance.moved_to_left_over = False
+            product_qr_instance.save()
+
+        else:
+            
+            instance, created = left_over_stock.objects.get_or_create(product = product_qr_instance.product)
+
+            if instance:
+
+                instance.quantity = instance.quantity + 1
+                instance.save()
+
+            else:
+
+                created.quantity = 1
+                created.save()
+
+
+
+    material_history_instance.delete()
+
+    return redirect('list_generated_product_qr')
+
 
 
 def assign_values_to_qr_page(request):

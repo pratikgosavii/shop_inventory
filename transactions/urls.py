@@ -51,6 +51,8 @@ urlpatterns = [
     path('assign-values-to-qr/<product_qr_id>', assign_values_to_qr, name='assign_values_to_qr'),
     path('assign-values-to-qr-page', assign_values_to_qr_page, name='assign_values_to_qr_page'),
 
+    path('delete-history/<history_id>', delete_history, name='delete_history'),
+
 
     path('list-stock/', list_stock, name='list_stock'),
     path('list-left-over-stock/', list_left_over_stock, name='list_left_over_stock'),
