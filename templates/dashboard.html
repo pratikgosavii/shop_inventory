@@ -212,6 +212,22 @@ font-family: 'Montserrat', sans-serif;
 
     </div>
 
+    <hr>
+    
+    <div class="col-6">
+
+        <h3 style="font-size: 18px; font-weight: 600;"> MM X MM to SQinch Calculator </h3> 
+
+        <br>
+
+    <input type="text" class="form-control used-length-input" id="used-length-input" placeholder="Length" inputmode="numeric">
+    X
+    <input type="text" class="form-control used-width-input" id="used-width-input" placeholder="Width" inputmode="numeric">
+
+    <br>
+    <input type="text" class="form-control used-sq-inch-input" id="used-sq-inch-input" placeholder="Used Square Inches" inputmode="numeric">
+
+    </div>
     <div>
 {% comment %} 
         {% if request.user.is_designer %}
@@ -407,9 +423,28 @@ localStorage.setItem('soundEnabled', 'true');
         });
 
 
-        
+        var usedLengthInput = document.getElementById("used-length-input");
+        var usedWidthInput = document.getElementById("used-width-input");
+        var usedSqInchInput = document.getElementById("used-sq-inch-input");
+        var totalUsedSqInch = 0; // Initialize the totalUsedSqInch variable
 
-          
+        document.querySelector(usedLengthInput, usedWidthInput).addEventListener("input", function (event) {
+            var usedLengthValue = parseFloat(usedLengthInput.value);
+            var usedWidthValue = parseFloat(usedWidthInput.value);
+
+            if (!isNaN(usedLengthValue) && !isNaN(usedWidthValue)) {
+                var usedSizeInSqMillimeters = usedLengthValue * usedWidthValue;
+                totalUsedSqInch += usedSizeInSqMillimeters / (25.4 * 25.4); // Convert to square inches
+                usedSqInchInput.value = totalUsedSqInch.toFixed(2); // Display the result in the "used-sq-inch-input" textbox
+            }
+        });
+
+
+        // Add a "change" event listener to the usedLengthInput element
+        usedLengthInput.addEventListener("blur", calculate_sq);
+        usedWidthInput.addEventListener("blur", calculate_sq);
+
+
 
         
     </script>
