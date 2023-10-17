@@ -1,0 +1,177 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Create Product{% endblock title %}
+
+{% block head %}
+<style>
+    .select2-container {
+        width: 164.75px
+    }
+
+    .select2-container .select2-selection--single {
+        height: 37px !important;
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="icon-box">
+                    <i class="material-icons">&#xE876;</i>
+                </div>
+                <h4 class="modal-title w-100">Awesome!</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-center">Your booking has been confirmed. Check your email for details.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Add Project Plan</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="#" id="submitform" method="post">
+                            {% csrf_token %}
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Customer Name</label>
+                                {{ form.customer }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for "name" class="control-label mb-1">Purchase Order No</label>
+                                {{ form.order_id }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Description</label>
+                                {{ form.description }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Date</label>
+                                {{ form.DC_date }}
+                            </div>
+
+                            <hr>
+
+                            <label for="name" class="control-label mb-1"> Item Code Details</label>
+                            <table id="my-table">
+                                <tr>
+                                    <td> Item Code </td>
+                                    <td> Quantity </td>
+                                    <td> <button type="button" class="btn btn-success add-textbox"><i class="fa fa-plus" aria-hidden="true"></i></button> </td>
+                                </tr>
+                                {% for i in production_data %}
+                                <tr>
+                                    <td>
+                                        <select name="item_code" class="form-control" id="bag_size" required>
+                                            <option value="{{  i.item_code.id }}" selected> {{ i.item_code }} </option>
+                                            <option value="">---------</option>
+                                            {% for y in item_code_data %}
+                                            <option value="{{ y.id }}">{{ y }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <input type="hidden" name="production_id" value="{{ i.id }}">
+                                    </td>
+                                    <td>
+                                        <input type="number" value="{{ i.production_quantity }}" name="production_quantity" class="form-control" id="bag_size" required>
+                                    </td>
+                                    <td>
+
+                                        <a href="{% url 'delete_production_entry' project_id i.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this entry?')"> Delete </a>
+
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <tbody></tbody>
+                            </table>
+                            <br>
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="payment-button-amount">Add Project</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- .card -->
+    </div><!--/.col-->
+</div>
+{% endblock content %}
+
+{% block js %}
+<script>
+    $(document).ready(function() {
+        var max = 10000;
+        var cnt = 1;
+        $(".add-textbox").on("click", function(e) {
+            e.preventDefault();
+            if (cnt < max) {
+                cnt++;
+
+                // Example JavaScript code to clone and insert the row dynamically
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>
+                        <select name="item_code" class="form-control" id="bag_size" required>
+                            <option value="">---------</option>
+                            {% for y in item_code_data %}
+                            <option value="{{ y.id }}">{{ y }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" value="" name="production_quantity" class="form-control" id="bag_size" required>
+                        <input type="hidden" name="production_id" value="0" class="form-control" id="bag_size">
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger remove-textbox">Remove</button>
+                    </td>
+                `;
+
+                // Append the new row to the table
+                const table = document.getElementById('my-table');
+                table.appendChild(newRow);
+            }
+        });
+
+        const tableBody = document.querySelector('#my-table tbody');
+
+        $('#my-table').on('click', '.remove-textbox', function() {
+            const row = this.closest('tr');
+            row.remove();
+        });
+
+        $("#submitform").on("submit", function(e) {
+            // Check if any required fields are empty or disabled
+            const invalidFields = $(this).find("select[required]:enabled").filter(function() {
+                return !$(this).val(); // Check for empty value
+            });
+    
+            if (invalidFields.length > 0) {
+                // Display an error message or take appropriate action
+                alert("Please fill in all required fields.");
+                return false; // Prevent form submission
+            }
+    
+        });
+    });
+</script>
+{% endblock js %}

@@ -72,793 +72,6 @@ def demo(request):
 
 
 
-# Create your views here.
-
-# @login_required(login_url='login')
-# def add_inward(request):
-
-
-
-#     godown_id = request.session.get('gowdown')
-     
-#     if godown_id == None:
-#         godown_instance = godown.objects.first()
-#         godown_id = godown_instance.id
-#         request.session["gowdown"] = godown_id
-
-#     else:
-
-#         godown_instance = godown.objects.get(id = godown_id)
-
-
-
-#     if request.method == 'POST':
-
-#         forms = inward_Form(request.POST)
-#         DC_date = request.POST.get('DC_date')
-
-
-#         if DC_date:
-
-#             date_time = DC_date
-#         else:
-#             date_time = datetime.now(IST)
-#         updated_request = request.POST.copy()
-#         updated_request.update({'DC_date': date_time})
-#         forms = inward_Form(updated_request)
-
-#         if forms.is_valid():
-#             forms.save()
-
-#             b = forms.cleaned_data['company_goods']
-#             c = forms.cleaned_data['goods_company']
-#             e = forms.cleaned_data['bags']
-#             g = forms.cleaned_data['godown']
-
-#             try:
-#                 test = stock.objects.get(godown = g, company_goods = b, goods_company = c)
-
-#                 test.total_bag = test.total_bag + e
-#                 test.save()
-
-#                 return redirect('add_inward')
-
-
-#             except stock.DoesNotExist:
-
-#                 test = stock.objects.create(godown = g, company_goods = b, goods_company = c, total_bag = e)
-#                 godown_instance = godown.objects.get(id = godown_id)
-#                 company_goods_data = company_goods.objects.filter(godown = godown_instance)
-
-#                 context = {
-#                     'form': forms,
-#                     'godown_instance' : godown_instance,
-#                     'company_goods_data' : company_goods_data
-
-
-#                 }
-               
-#                 return render(request, 'transactions/add_inward.html', context)
-
-
-#         else:
-
-#             godown_instance = godown.objects.get(id = godown_id)
-#             company_goods_data = company_goods.objects.filter(godown = godown_instance)
-
-#             context = {
-#                 'form': forms,
-#                 'godown_instance' : godown_instance,
-#                 'company_goods_data' : company_goods_data
-
-#             }
-            
-#             return render(request, 'transactions/add_inward.html', context)
-
-
-
-#     else:
-
-#         forms = inward_Form()
-
-#         godown_instance = godown.objects.get(id = godown_id)
-
-#         company_goods_data = company_goods.objects.filter(godown = godown_instance)
-             
-#         context = {
-#             'form': forms,
-#             'godown_instance' : godown_instance,
-#             'company_goods_data' : company_goods_data
-
-#         }
-        
-#         return render(request, 'transactions/add_inward.html', context)
-
-
-# @login_required(login_url='login')
-# def update_inward(request, inward_id ):
-
-
-#     if request.method == 'POST':
-
-#         instance_inward = inward.objects.get(id = inward_id)
-
-
-#         company_goods_id = request.POST.get('company_goods')
-#         goods_company_id = request.POST.get('goods_company')
-#         bags = request.POST.get('bags')
-
-#         DC_date = request.POST.get('DC_date')
-
-#         if DC_date:
-
-#             date_time = DC_date
-
-#         else:
-#             date_time = datetime.now(IST)
-
-
-#         updated_request = request.POST.copy()
-#         updated_request.update({'DC_date': date_time})
-#         forms = inward_Form(updated_request, instance=instance_inward)
-
-
-#         if forms.is_valid():
-
-#             instance_inward = inward.objects.get(id = inward_id)
-
-#             if int(instance_inward.company_goods.id) != int(company_goods_id) or int(instance_inward.goods_company.id) != int(goods_company_id):
-
-#                 try:
-
-#                     company_goods_instance = company_goods.objects.get(id = company_goods_id) 
-#                     goods_company_instance = goods_company.objects.get(id = goods_company_id) 
-
-#                     test = stock.objects.get(company_goods = company_goods_instance, goods_company = goods_company_instance)
-#                     test.total_bag = test.total_bag + int(bags)
-#                     test.save()
-
-#                 except stock.DoesNotExist:
-#                     stock.objects.create(company_goods = company_goods_instance, goods_company = goods_company_instance, total_bag =  int(bags))
-
-
-#                 company_goods_instance = company_goods.objects.get(id = instance_inward.company_goods.id)
-#                 goods_company_instance = goods_company.objects.get(id = instance_inward.goods_company.id)
-
-#                 stock_before = stock.objects.get(company_goods = company_goods_instance, goods_company = goods_company_instance)
-#                 stock_before.total_bag = stock_before.total_bag - instance_inward.bags
-#                 stock_before.save()
-
-               
-                    
-               
-                    
-#                 forms.save()
-
-#                 return HttpResponseRedirect(reverse('list_inward'))
-            
-#             else:
-
-#                 minus_stock = None
-
-#                 if instance_inward.bags != int(bags):
-
-#                     test = stock.objects.get(company_goods = company_goods_id, goods_company = goods_company_id)
-
-#                     if instance_inward.bags > int(bags):
-#                         minus_stock = instance_inward.bags - int(bags)
-
-#                     else:
-#                         add_stock = int(bags) - instance_inward.bags
-
-#                     if minus_stock:
-
-#                         if test.total_bag >= minus_stock:
-
-#                             test.total_bag = test.total_bag - minus_stock
-#                             test.save()
-#                             forms.save()
-#                             return redirect('list_inward')
-
-#                         else:
-                        
-#                             messages.error(request, "Outward is more than Stock")
-#                             return redirect('list_inward')
-
-#                     else:
-
-#                         test.total_bag = test.total_bag + add_stock
-#                         test.save()
-
-#                         forms.save()
-
-#                         return redirect('list_inward')
-
-#                 else:
-
-#                     forms.save()
-#                     return HttpResponseRedirect(reverse('list_inward'))
-
-#         else:
-        
-#             instance = inward.objects.get(id = inward_id)
-#             company_goods_id = forms.instance.company_goods.id
-#             category_id = forms.instance.goods_company.id
-#             print('company_goods_id')
-#             print(company_goods_id)
-#             context = {
-#                 'form': forms,
-#                 'company_goods_ID' : company_goods_id,
-#                 'category_ID' : category_id,
-#             }
-            
-
-#             return render(request, 'transactions/update_inward.html', context)
-
-            
-
-        
-
-#     else:
-
-#         instance = inward.objects.get(id = inward_id)
-#         forms = inward_Form(instance = instance)
-#         company_goods_id = forms.instance.company_goods.id
-#         category_id = forms.instance.goods_company.id
-#         print('company_goods_id')
-#         print(company_goods_id)
-#         context = {
-#             'form': forms,
-#             'company_goods_ID' : company_goods_id,
-#             'category_ID' : category_id,
-#         }
-#         return render(request, 'transactions/update_inward.html', context)
-
-
-# @login_required(login_url='login')
-# def delete_inward(request, inward_id):
-
-#     try:
-#         con = inward.objects.filter(id = inward_id).first()
-
-#         test = stock.objects.get(godown = con.godown, company_goods = con.company_goods, goods_company = con.goods_company)
-#         if test.total_bag >= con.bags:
-#             test.total_bag = test.total_bag - con.bags
-#             test.save()
-#             con.delete()
-
-#         else:
-
-#             messages.error(request, 'cant delete stock is less')
-
-#             return HttpResponseRedirect(reverse('list_inward_delete'))
-
-
-
-#         return HttpResponseRedirect(reverse('list_inward_delete'))
-
-
-#     except:
-#         return HttpResponseRedirect(reverse('list_inward_delete'))
-
-
-
-
-# @login_required(login_url='login')
-# def list_inward(request):
-
-#     year = request.GET.get('year')
-#     godown_id = request.session['gowdown']
-
-#     if godown_id == None:
-#         godown_instance = godown.objects.first()
-#         godown_id = godown_instance.id
-#         request.session["gowdown"] = godown_id
-
-
-#     if year:
-
-#         date1 = str(int(year) - 1) + '-04-01'
-#         date2 = year + '-03-31'
-    
-#         data = inward.objects.filter(DC_date__range=[date1, date2], godown__id = godown_id).order_by("-id")
-    
-#     else:
-
-#         data = inward.objects.filter(godown__id = godown_id).order_by("-id")
-
-#     outward_filter_data = outward_filter(request.GET, queryset = data)
-    
-#     data1 = []
-#     data2 = []
-
-
-#     data1.append('Godown')
-#     data1.append('Category')
-#     data1.append('Size')
-#     data1.append('DC number')
-#     data1.append('Quantity')
-#     data1.append('Date')
-#     data2.append(data1)
-
-
-#     if outward_filter_data.qs:
-
-#         for i in outward_filter_data.qs:
-
-#             data1 = []
-
-#             data1.append(i.godown.name)
-#             data1.append(i.company_goods.name)
-#             data1.append(i.goods_company.goods_company_name)
-#             data1.append(i.DC_number)
-#             data1.append(i.bags)
-#             data1.append(i.DC_date) 
-
-#             data2.append(data1)
-
-
-#             data1 = []
-
-
-
-#     time =  str(datetime.now(ist))
-#     time = time.split('.')
-#     time = time[0].replace(':', '-')
-
-#     name = "Report.csv"
-#     path = os.path.join(BASE_DIR) + '\static\csv\\' + name
-#     with open(path,  'w', newline="") as f:
-#         writer = csv.writer(f)
-#         writer.writerows(data2)
-
-#     link = os.path.join(BASE_DIR) + '\static\csv\\' + name
-
-#     page = request.GET.get('page', 1)
-#     paginator = Paginator(data, 50)
-
-#     try:
-#         data = paginator.page(page)
-#     except PageNotAnInteger:
-#         data = paginator.page(1)
-#     except EmptyPage:
-#         data = paginator.page(paginator.num_pages)
-    
-#     company_goods_data = company_goods.objects.filter(godown__id = godown_id)
-
-#     context = {
-#         'data': outward_filter_data.qs,
-#         'year' : year,
-#         'company_goods_data' : company_goods_data,
-#         'outward_filter' : outward_filter(),
-#         'link' : link,
-        
-#     }
-
-#     return render(request, 'transactions/list_inward.html', context)
-
-
-# import json
-
-# @login_required(login_url='login')
-# def add_outward(request):
-
-
-#     godown_id = request.session.get('gowdown')
-     
-#     if godown_id == None:
-#         godown_instance = godown.objects.first()
-#         godown_id = godown_instance.id
-#         request.session["gowdown"] = godown_id
-    
-#     else:
-#         godown_instance = godown.objects.get(id = godown_id)
-
-
-#     if request.method == 'POST':
-
-#         forms = outward_Form(request.POST)
-#         DC_date = request.POST.get('DC_date')
-
-
-#         if DC_date:
-
-#             date_time = DC_date
-#         else:
-#             date_time = datetime.now(IST)
-
-
-#         updated_request = request.POST.copy()
-#         updated_request.update({'DC_date': date_time})
-#         forms = outward_Form(updated_request)
-
-#         if forms.is_valid():
-
-#             b = forms.cleaned_data['company_goods']
-#             c = forms.cleaned_data['goods_company']
-#             e = forms.cleaned_data['bags']
-#             g = forms.cleaned_data['godown']
-
-#             try:
-#                 test = stock.objects.get(godown = g, company_goods = b, goods_company = c)
-
-#                 if test.total_bag >= e:
-
-#                     test.total_bag = test.total_bag - e
-#                     test.save()
-#                     forms.save()
-
-                    
-#                     return redirect('add_outward')
-
-
-#                 else:
-#                     print('I am here')
-#                     messages.error(request, 'Outward is more than stock')
-#                     godown_instance = godown.objects.get(id = godown_id)
-#                     company_goods_data = company_goods.objects.filter(godown = godown_instance)
-#                     print(company_goods_data)
-#                     context = {
-#                         'form': forms,
-#                         'godown_instance': godown_instance,
-#                         'company_goods_data': company_goods_data
-
-#                     }
-#                     return render(request, 'transactions/add_outward.html', context)
-
-
-
-#             except stock.DoesNotExist:
-               
-#                 messages.error(request,"no stock in inverntory")
-#                 godown_instance = godown.objects.get(id = godown_id)
-#                 company_goods_data = company_goods.objects.filter(godown = godown_instance)
-
-#                 context = {
-#                     'form': forms,
-#                     'godown_instance': godown_instance,
-#                     'company_goods_data': company_goods_data
-
-#                 }
-               
-#                 return render(request, 'transactions/add_outward.html', context)
-
-
-#         else:
-
-            
-#             godown_instance = godown.objects.get(id = godown_id)
-#             company_goods_data = company_goods.objects.filter(godown = godown_instance)
-
-
-#             context = {
-#                 'form': forms,
-#                 'godown_instance': godown_instance,
-#                 'company_goods_data': company_goods_data
-
-#             }
-#             return render(request, 'transactions/add_outward.html', context)
-
-
-
-
-#     else:
-
-#         forms = outward_Form()
-
-#         godown_instance = godown.objects.get(id = godown_id)
-#         company_goods_data = company_goods.objects.filter(godown = godown_instance)
-
-
-#         context = {
-#             'form': forms,
-#             'godown_instance': godown_instance,
-#             'company_goods_data': company_goods_data
-
-#         }
-#         return render(request, 'transactions/add_outward.html', context)
-
-
-# @login_required(login_url='login')
-# def report_dashbord(request):
-
-#     inward_filter_data = inward_filter()
-#     outward_filter_data = outward_filter()
-
-
-
-#     context = {
-#             'filter_inward': inward_filter_data,
-#             'filter_outward': outward_filter_data,
-#         }
-
-#     return render(request, 'transactions/report_dashbord.html', context)
-
-
-
-# from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-# @login_required(login_url='login')
-# def list_outward(request):
-
-
-#     year = request.GET.get('year')
-#     godown_id = request.session['gowdown']
-
-#     if godown_id == None:
-#         godown_instance = godown.objects.first()
-#         godown_id = godown_instance.id
-#         request.session["gowdown"] = godown_id
-
-
-#     if year:
-
-#         date1 = str(int(year) - 1) + '-04-01'
-#         date2 = year + '-03-31'
-
-#         data = outward.objects.filter(DC_date__range=[date1, date2], godown__id = godown_id).order_by("-id")
-    
-#     else:
-
-#         data = outward.objects.filter(godown__id = godown_id).order_by('-id')
-
-
-#     outward_filter_data = outward_filter(request.GET, queryset = data)
-    
-#     data1 = []
-#     data2 = []
-
-
-#     data1.append('Godown')
-#     data1.append('Category')
-#     data1.append('Size')
-#     data1.append('Dealer')
-#     data1.append('DC number')
-#     data1.append('Quantity')
-#     data1.append('Employee name')
-#     data1.append('Buyer name')
-#     data1.append('Date')
-#     data2.append(data1)
-
-
-#     if outward_filter_data.qs:
-
-#         for i in outward_filter_data.qs:
-
-#             data1 = []
-
-#             data1.append(i.godown.name)
-#             data1.append(i.company_goods.name)
-#             data1.append(i.goods_company.goods_company_name)
-#             data1.append(i.dealer)
-#             data1.append(i.DC_number)
-#             data1.append(i.bags)
-#             data1.append(i.employee_name) 
-#             data1.append(i.gate_pass_name) 
-#             data1.append(i.DC_date) 
-
-#             data2.append(data1)
-
-
-#             data1 = []
-
-
-
-#     time =  str(datetime.now(ist))
-#     time = time.split('.')
-#     time = time[0].replace(':', '-')
-
-#     name = "Report.csv"
-#     path = os.path.join(BASE_DIR) + '\static\csv\\' + name
-#     with open(path,  'w', newline="") as f:
-#         writer = csv.writer(f)
-#         writer.writerows(data2)
-
-#     link = os.path.join(BASE_DIR) + '\static\csv\\' + name
-
-#     agent_name = request.GET.get('agent_name')
-
-#     if agent_name:
-
-#         data = data.filter(agent__name__icontains=agent_name)
-
-#     page = request.GET.get('page', 1)
-#     paginator = Paginator(data, 50)
-#     company_goods_data = company_goods.objects.filter(godown__id = godown_id)
-
-#     try:
-#         data = paginator.page(page)
-#     except PageNotAnInteger:
-#         data = paginator.page(1)
-#     except EmptyPage:
-#         data = paginator.page(paginator.num_pages)
-
-#     context = {
-#         'data': outward_filter_data.qs,
-#         'year' : year,
-#         'link' : link,
-#         'company_goods_data' : company_goods_data,
-#         'outward_filter' : outward_filter
-
-
-#     }
-
-#     return render(request, 'transactions/list_outward.html', context)
-
-# @login_required(login_url='login')
-# def update_outward(request, outward_id):
-
-
-#     if request.method == 'POST':
-
-#         instance = outward.objects.get(id = outward_id)
-      
-        
-#         company_goods_id = request.POST.get('company_goods')
-#         goods_company_id = request.POST.get('goods_company')
-
-#         company_goods_instance = company_goods.objects.get(id = company_goods_id) 
-#         goods_company_instance = goods_company.objects.get(id = goods_company_id) 
-
-#         bags = request.POST.get('bags')
-
-#         DC_date = request.POST.get('DC_date')
-
-#         print(DC_date)
-
-        
-
-#         if DC_date:
-
-#             date_time = DC_date
-
-#         else:
-#             date_time = datetime.now(IST)
-
-
-#         updated_request = request.POST.copy()
-#         updated_request.update({'DC_date': date_time})
-#         forms = outward_Form(updated_request, instance=instance)
-
-#         if forms.is_valid():
-
-#             instance = outward.objects.get(id = outward_id)
-
-#             try:
-                
-#                 if int(instance.company_goods.id) != int(company_goods_id) or int(instance.goods_company.id) != int(goods_company_id):
-
-
-                    
-#                     try:
-                      
-#                         test = stock.objects.get(company_goods = company_goods_instance, goods_company = goods_company_instance)
-                      
-
-#                     except stock.DoesNotExist:
-#                         test = None
-#                         stock.objects.create(company_goods = company_goods_instance, goods_company = goods_company_instance, total_bag =  int(bags))
-
-
-#                     if test.total_bag >= int(bags):
-                        
-#                         test.total_bag = test.total_bag - int(bags)
-#                         test.save()
-
-#                         stock_before = stock.objects.get(company_goods = instance.company_goods.id, goods_company = instance.goods_company.id)
-                        
-#                         stock_before.total_bag = stock_before.total_bag + instance.bags
-#                         stock_before.save()
-#                         forms.save()
-
-                     
-#                         return redirect('list_outward')
-
-#                     else:
-#                         messages.error(request, "Outward is more than Stock")
-#                         return redirect('list_outward')
-                    
-#                 else:
-
-#                     if instance.bags != int(bags):
-                        
-#                         test = stock.objects.get(company_goods = company_goods_instance, goods_company = goods_company_instance)
-                        
-#                         add_stock = None
-#                         minus_stock = None
-
-#                         if instance.bags > int(bags):
-#                             add_stock = instance.bags - int(bags)
-#                         else:
-#                             minus_stock = int(bags) - instance.bags
-
-#                         if minus_stock:
-
-#                             if test.total_bag >= minus_stock:
-
-#                                 test.total_bag = test.total_bag - minus_stock
-#                                 test.save()
-
-#                                 forms.save()
-#                             else:
-
-#                                 messages.error(request, "Outward is more than Stock")
-#                                 return redirect('list_outward')
-
-                        
-#                         else:
-
-#                             test.total_bag = test.total_bag + add_stock
-#                             test.save()
-
-#                             forms.save()
-
-#                         return redirect('list_outward')
-
-#                     else:
-#                         forms.save()
-#                         return HttpResponseRedirect(reverse('list_outward'))
-
-                    
-
-#             except stock.DoesNotExist:
-
-#                 messages.error(request, 'no stock in inventory for outward')
-#                 return redirect('list_outward')
-
-           
-
-#         else:
-           
-#             comapny_goods_ID = forms.instance.company_goods.id
-#             category_id = forms.instance.goods_company.id
-          
-#             context = {
-#                 'form':  forms,
-#                 'comapny_goods_ID' : comapny_goods_ID,
-#                 'category_ID' : category_id,
-#             }
-
-#             return render(request, 'transactions/update_outward.html', context)
-
-
-
-#     else:
-
-#         instance = outward.objects.get(id = outward_id)
-#         forms = outward_Form(instance = instance)
-#         comapny_goods_ID = forms.instance.company_goods.id
-#         category_id = forms.instance.goods_company.id
-          
-#         context = {
-#             'form':  forms,
-#             'comapny_goods_ID' : comapny_goods_ID,
-#             'category_ID' : category_id,
-#         }
-
-#         return render(request, 'transactions/update_outward.html', context)
-
-
-# @login_required(login_url='login')
-# def delete_outward(request, outward_id):
-
-#     a = stock.objects.all()
-
-#     try:
-#         con = outward.objects.get(id = outward_id)
-
-#         test = stock.objects.get(godown = con.godown, company_goods = con.company_goods, goods_company = con.goods_company)
-#         test.total_bag = test.total_bag + con.bags
-#         test.save()
-#         con.delete()
-
-#         return HttpResponseRedirect(reverse('list_outward_delete'))
-
-
-#     except Exception as e:
-#         return HttpResponseRedirect(reverse('list_outward_delete'))
-
-
 from .filters import *
 
 @login_required(login_url='login')
@@ -937,558 +150,6 @@ def send_whatsapp_message(request, category, size, thickness, grade):
     )
 
     return 0
-
-@login_required(login_url='login')
-def report_inward(request):
-
-    counteer = 1
-
-
-    data = inward.objects.all().order_by("DC_number")
-
-    filterd_data = inward_filter(request.GET, data)
-    filtered_data = filterd_data.qs
-
-
-
-    vals = []
-
-    filterd_data = inward_filter(request.GET, data)
-    filtered_data = filterd_data.qs
-    # print(out)
-
-
-    
-    filtered_data = list(filtered_data.values_list('DC_number', 'company', 'company_goods__name', 'goods_company__goods_company_name', 'bags', 'DC_date'))
-
-    vals1 = []
-    vals1.append('Serial')
-    vals1.append("DC Number")
-    vals1.append("Company")
-    vals1.append("Category")
-    vals1.append("Size")
-    vals1.append('Quantity')
-    vals1.append('Date')
-
-    vals.append(vals1)
-
-
-    for i in filtered_data:
-        vals1 = []
-        vals1.append(counteer)
-        counteer = counteer + 1
-        vals1.append(i[0])
-        vals1.append(i[1])
-        vals1.append(i[2])
-        vals1.append(i[3])
-        vals1.append(i[4])
-        vals1.append(i[5])
-
-        vals.append(vals1)
-
-
-
-       
-
-    time =  str(datetime.now(ist))
-    time = time.split('.')
-    time = time[0].replace(':', '-')
-
-    name = "Report.csv"
-    path = os.path.join(BASE_DIR) + '\static\csv\\' + name
-    with open(path,  'w', newline="") as f:
-        writer = csv.writer(f)
-        writer.writerows(vals)
-
-
-    link = os.path.join(BASE_DIR) + '\static\csv\\' + name
-
-    vals_list = vals
-    vals_list.pop(0)
-
-
-    print(vals_list)
-
-    context = {
-        'data': vals_list,
-        'link' : link
-
-
-    }
-
-    return render(request, 'report/inward_report.html', context)
-
-
-
-@login_required(login_url='login')
-def report_outward(request):
-
-
-    counteer = 1
-
-   
-
-    vals = []
-
-    outward_data = outward.objects.all().order_by("DC_number")
-    outward_filterd_data = outward_filter(request.GET, outward_data)
-    outward_filterd_data = outward_filterd_data.qs
-
-    outward_filterd_data = list(outward_filterd_data.values_list('DC_number', 'company', 'company_goods__name', 'goods_company__goods_company_name', 'dealer__bane', 'bags', 'DC_date'))
-    # print(out)
-
-    outward_filterd_data = list(map(list, outward_filterd_data))
-
-
-    vals1 = []
-    vals1.append('Serial')
-    vals1.append("DC Number")
-    vals1.append("Company")
-    vals1.append("Category")
-    vals1.append("Size")
-    vals1.append("Dealer")
-    vals1.append('Quantity')
-    vals1.append('Date')
-    vals.append(vals1)
-
-
-    for i in outward_filterd_data:
-        vals1 = []
-        vals1.append(counteer)
-        counteer = counteer + 1
-        vals1.append(i[0])
-        vals1.append(i[1])
-        vals1.append(i[2])
-        vals1.append(i[3])
-        vals1.append(i[4])
-        vals1.append(i[5])
-        vals1.append(i[6])
-        vals.append(vals1)
-
-   
-
-    time =  str(datetime.now(ist))
-    time = time.split('.')
-    time = time[0].replace(':', '-')
-
-    print(vals)
-
-
-    name = "Report.csv"
-    path = os.path.join(BASE_DIR) + '\static\csv\\' + name
-    with open(path,  'w', newline="") as f:
-        writer = csv.writer(f)
-        writer.writerows(vals)
-
-    link = os.path.join(BASE_DIR) + '\static\csv\\' + name
-
-    vals_list = vals
-    vals_list.pop(0)
-
-
-    context = {
-        'data': vals_list,
-        'link' : link
-
-
-    }
-
-    return render(request, 'report/outward_report.html', context)
-
-
-
-
-@login_required(login_url='login')
-def report_supply_return(request):
-
-    data = supply_return.objects.all().order_by("DC_number")
-
-    filterd_data = supply_return_filter(request.GET, data)
-    data = filterd_data.qs
-
-    vals = []
-
-
-    filtered_data = list(data.values_list('DC_number', 'agent__name', 'agent__place', 'agent__taluka', 'agent__district', 'company_goods__name', 'goods_company__goods_company_name', 'bags', 'DC_date', 'transport__name', 'LR_number', 'freight'))
-
-
-    vals1 = []
-    vals1.append('Serial')
-    vals1.append("DC Number")
-    vals1.append("Party Name")
-    vals1.append("Party Place")
-    vals1.append("Party Taluka")
-    vals1.append("Party District")
-    vals1.append("Crop")
-    vals1.append("Variety")
-    vals1.append('Packet')
-    vals1.append('Date')
-    vals1.append('Transport')
-    vals1.append('LR Number')
-    vals1.append('Freight')
-    vals.append(vals1)
-
-    counteer = 1
-
-    
-    for i in filtered_data:
-        vals1 = []
-        vals1.append(counteer)
-        counteer = counteer + 1
-        vals1.append(i[0])
-        vals1.append(i[1])
-        vals1.append(i[2])
-        vals1.append(i[3])
-        vals1.append(i[4])
-        vals1.append(i[5])
-        vals1.append(i[6])
-        vals1.append(i[7])
-        vals1.append(i[8])
-        vals1.append(i[9])
-        vals1.append(i[10])
-        vals1.append(i[11])
-        vals.append(vals1)
-
-
-    time =  str(datetime.now(ist))
-    time = time.split('.')
-    time = time[0].replace(':', '-')
-
-
-    name = "Report.csv"
-    path = os.path.join(BASE_DIR) + '\static\csv\\' + name
-    with open(path,  'w', newline="") as f:
-        writer = csv.writer(f)
-        writer.writerows(vals)
-
-    link = os.path.join(BASE_DIR) + '\static\csv\\' + name
-
-    vals_list = vals
-    vals_list.pop(0)
-
-
-    context = {
-        'data': vals_list,
-        'link' : link,
-
-    }
-
-    return render(request, 'report/outward_report.html', context)
-
-
-@login_required(login_url='login')
-def generate_report_stock(request):
-
-    godown_id = request.session.get('gowdown')
-     
-    if godown_id == None:
-        godown_instance = godown.objects.first()
-        godown_id = godown_instance.id
-        request.session["gowdown"] = godown_id
-
-
-    data_stock = stock.objects.filter(godown__id = godown_id).order_by('updated_at')
-
-    stock_filter_data = stock_filter(request.GET, queryset = data_stock)
-    
-    data1 = []
-    data2 = []
-
-
-    data1.append('Godown')
-    data1.append('Category')
-    data1.append('Size')
-    data1.append('Quantity')
-    data2.append(data1)
-
-
-    if stock_filter_data.qs:
-
-        for i in stock_filter_data.qs:
-
-            data1 = []
-
-            data1.append(i.godown)
-            data1.append(i.company_goods)
-            data1.append(i.goods_company)
-            data1.append(i.total_bag)
-
-            data2.append(data1)
-
-            data1 = []
-
-
-
-    time =  str(datetime.now(ist))
-    time = time.split('.')
-    time = time[0].replace(':', '-')
-
-    name = "Report.csv"
-    path = os.path.join(BASE_DIR) + '\static\csv\\' + name
-    with open(path,  'w', newline="") as f:
-        writer = csv.writer(f)
-        writer.writerows(data2)
-
-    link = os.path.join(BASE_DIR) + '\static\csv\\' + name
-    company_goods_data = company_goods.objects.filter(godown__id = godown_id)
-
-    context = {
-        'data': stock_filter_data.qs,
-        'stock_filter_data' : stock_filter_data,
-        'company_goods_data' : company_goods_data,
-        'link' : link
-    }
-
-    return render(request, 'report/stock_report.html', context)
-
-
-@login_required(login_url='login')
-def generate_report_main(request):
-
-    company_data = pd.DataFrame(list(company.objects.all().values('id', 'company_name')))
-    company_data = dict(company_data.values)
-
-    company_goods_data = pd.DataFrame(list(company_goods.objects.all().values('id', 'name')))
-    company_goods_data = dict(company_goods_data.values)
-
-    goods_company_data = pd.DataFrame(list(goods_company.objects.all().values('id', 'goods_company_name')))
-    goods_company_data = dict(goods_company_data.values)
-
-    agent_data = pd.DataFrame(list(agent.objects.all().values('id', 'name')))
-    agent_data = dict(agent_data.values)
-    
-    agent_data2 = pd.DataFrame(list(agent.objects.all().values('id', 'name', 'place', 'taluka', 'district')))
-
-    # return_data = supply_return.objects.all()
-
-    outward_data = outward.objects.all()
-    supply_return_data = supply_return.objects.all()
-    outward_filterd_data = outward_filter(request.GET, outward_data)
-    supply_return_filterd_data = outward_filter(request.GET, supply_return_data)
-
-    if outward_data and not supply_return_data:
-        
-        # outward sum
-        df2 = pd.DataFrame(list(outward_filterd_data.qs.values()))
-        sum__ = df2.groupby(['company_id', 'company_goods_id', 'goods_company_id', 'agent_id']).sum().reset_index()
-
-        sum__['bags_x'] = sum__['bags']
-        sum__['bags_y'] = None
-        sum__['bags_z'] = sum__['bags']
-        sum__['company_id'] = sum__['company_id'].map(company_data)
-        sum__['company_goods_id'] = sum__['company_goods_id'].map(company_goods_data)
-        sum__['goods_company_id'] = sum__['goods_company_id'].map(goods_company_data)
-        sum__['agent_id'] = sum__['agent_id'].map(agent_data)
-        
-
-        out = (sum__.merge(agent_data2, left_on='agent_id', right_on='name').reindex(columns=['agent_id', 'place', 'taluka', 'district', 'company_id', 'company_goods_id', 'goods_company_id', 'bags_x', 'bags_y', 'bags_z']))
-
-
-
-    elif supply_return_data and not outward_data:
-        #return sum
-        df3 = pd.DataFrame(list(supply_return_filterd_data.qs.values()))
-
-        sum__2 = df3.groupby(['company_id', 'company_goods_id', 'goods_company_id', 'agent_id']).sum().reset_index()
-
-        sum__2['bags_x'] = None
-        sum__2['bags_y'] = sum__2['bags']
-        sum__2['bags_z'] = sum__2['bags']
-        sum__2['company_id'] = sum__2['company_id'].map(company_data)
-        sum__2['company_goods_id'] = sum__2['company_goods_id'].map(company_goods_data)
-        sum__2['goods_company_id'] = sum__2['goods_company_id'].map(goods_company_data)
-        sum__2['agent_id'] = sum__2['agent_id'].map(agent_data)
-        
-
-        out = (sum__2.merge(agent_data2, left_on='agent_id', right_on='name').reindex(columns=['agent_id', 'place', 'taluka', 'district', 'company_id', 'company_goods_id', 'goods_company_id', 'bags_x', 'bags_y', 'bags_z']))
-
-
-
-
-    else:
-
-        df2 = pd.DataFrame(list(outward_filterd_data.qs.values()))
-
-        df3 = pd.DataFrame(list(supply_return_filterd_data.qs.values()))
-
-
-        sum__ = df2.groupby(['company_id', 'company_goods_id', 'goods_company_id', 'agent_id']).sum().reset_index()
-        sum__2 = df3.groupby(['company_id', 'company_goods_id', 'goods_company_id', 'agent_id']).sum().reset_index()
-
-
-        final_ou = pd.merge(sum__, sum__2, on=['company_id', 'company_goods_id', 'goods_company_id', 'agent_id'], how="outer")[['company_id', 'company_goods_id', 'goods_company_id', 'agent_id', 'bags_x', 'bags_y']]
-        final_ou['bags_z'] = final_ou.fillna(0)['bags_x'] - final_ou.fillna(0)['bags_y']
-
-        
-        final_ou['company_id'] = final_ou['company_id'].map(company_data)
-        final_ou['company_goods_id'] = final_ou['company_goods_id'].map(company_goods_data)
-        final_ou['goods_company_id'] = final_ou['goods_company_id'].map(goods_company_data)
-        final_ou['agent_id'] = final_ou['agent_id'].map(agent_data)
-
-        out = (final_ou.merge(agent_data2, left_on='agent_id', right_on='name').reindex(columns=['company_id', 'agent_id', 'place', 'taluka', 'district', 'company_goods_id', 'goods_company_id', 'bags_x', 'bags_y', 'bags_z']))
-
-        print(out)
-
-        # print(out)
-
-    vals = out.values
-
-    time =  str(datetime.now(ist))
-    time = time.split('.')
-    time = time[0].replace(':', '-')
-        
-
-
-    
-    vals_list = (vals.tolist())
-    vals1 = []
-    vals1.append("Party Name")
-    vals1.append("Party Place")
-    vals1.append("Party Taluka")
-    vals1.append("Party District")
-    vals1.append("Company")
-    vals1.append("Crop")
-    vals1.append("Variety")
-    vals1.append('Supply Packet')
-    vals1.append('Return Packet')
-    vals1.append('Net Packet')
-
-    vals_list.insert(0, vals1)
-
-    time =  str(datetime.now(ist))
-    time = time.split('.')
-    time = time[0].replace(':', '-')
-
-
-    name = "Report.csv"
-    path = os.path.join(BASE_DIR) + '\static\csv\\' + name
-    with open(path,  'w', newline="") as f:
-        writer = csv.writer(f)
-        writer.writerows(vals_list)
-
-
-    link = os.path.join(BASE_DIR) + '\static\csv\\' + name
-
-
-    outward_filter_data = outward_filter()
-
-    vals_list = (vals.tolist())
-
-    company_data = company.objects.all()
-
-    context = {
-        'data' : vals_list,
-        'filter_outward' : outward_filter_data,
-        'link' : link,
-        'company_data' : company_data
-
-    }
-
-    return render(request, 'report/main_report.html', context)
-    
-
-@login_required(login_url='login')
-def generate_report_daily(request):
-
-    pd.set_option('display.float_format', '{:.2f}'.format)
-
-    #DC_date_start__date=2022-02-28&DC_date_end__date=2022-02-28
-
-    company_data = pd.DataFrame(list(company.objects.all().values('id', 'company_name')))
-    company_data = dict(company_data.values)
-
-    company_goods_data = pd.DataFrame(list(company_goods.objects.all().values('id', 'name')))
-    company_goods_data = dict(company_goods_data.values)
-
-    goods_company_data = pd.DataFrame(list(goods_company.objects.all().values('id', 'goods_company_name')))
-    goods_company_data = dict(goods_company_data.values)
-
-    inward_data = inward.objects.filter(DC_date = datetime.now())
-    outward_data = outward.objects.filter(DC_date = datetime.now())
-    supply_return_data = outward.objects.filter(DC_date = datetime.now())
-    inward_filterd_data = inward_filter(request.GET, inward_data)
-    outward_data_filterd_data = outward_filter(request.GET, outward_data)
-    if inward_data:
-        # inward sum
-        df = pd.DataFrame(list(inward_filterd_data.qs.values()))
-        sum__ = df.groupby(['company_id', 'company_goods_id', 'goods_company_id']).sum().reset_index()
-    else:
-        sum__ = pd.DataFrame(columns=['company_id', 'company_goods_id', 'goods_company_id', 'id', 'agent_id', 'bags', 'DC_number'])
-
-    if outward_data:
-        # outward sum
-        df2 = pd.DataFrame(list(outward_data_filterd_data.qs.values()))
-        sum__2 = df2.groupby(['company_id', 'company_goods_id', 'goods_company_id']).sum().reset_index()
-        
-    else:
-        sum__2 = pd.DataFrame(columns=['company_id', 'company_goods_id', 'goods_company_id', 'id', 'agent_id', 'bags', 'DC_number'])
-
-    if supply_return_data:
-        
-        #return sum
-        df3 = pd.DataFrame(list(supply_return_data.values()))
-        sum__3 = df3.groupby(['company_id', 'company_goods_id', 'goods_company_id']).sum().reset_index()
-
-    else:
-        sum__3 = pd.DataFrame(columns=['company_id', 'company_goods_id', 'goods_company_id', 'id', 'agent_id', 'bags', 'DC_number'])
-
-    #stock
-    sum__4 = pd.DataFrame(list(stock.objects.all().values()))
-
-    data_frames = [sum__, sum__2, sum__3, sum__4]
-
-    ada = reduce(lambda  left,right: pd.merge(left,right,on=['company_id', 'company_goods_id', 'goods_company_id'], how='outer'), data_frames)[['company_id', 'company_goods_id', 'goods_company_id', 'bags_x', 'bags_y', 'bags', 'total_bag']]
-    print('final')
-
-   
-
-    # m = pd.merge(sum__, sum__2, on=['company_id', 'company_goods_id', 'goods_company_id'], how="outer")[['company_id', 'company_goods_id', 'goods_company_id',  'bags_x', 'bags_y']]
-    
-    # print('m')
-    # print(m)
-    # m1 = pd.merge(m, sum__3, on=['company_id', 'company_goods_id', 'goods_company_id'], how="outer")[['company_id', 'company_goods_id', 'goods_company_id',  'bags_x', 'bags_y', 'bags']]
-   
-    # print('m1')
-    # print(m1)
-    # m2 = pd.merge(m1, sum__4, on=['company_id', 'company_goods_id', 'goods_company_id'], how="outer")[['company_id', 'company_goods_id', 'goods_company_id',  'bags_x', 'bags_y', 'bags', 'total_bag']]
-
-    # print('m2')
-    # print(m2)
-
-    final_out = ada
-
-    final_out['company_id'] = final_out['company_id'].map(company_data)
-    final_out['company_goods_id'] = final_out['company_goods_id'].map(company_goods_data)
-    final_out['goods_company_id'] = final_out['goods_company_id'].map(goods_company_data)
-
-    vals = final_out.values
-    
-    time =  str(datetime.now(ist))
-    time = time.split('.')
-    time = time[0].replace(':', '-')
-
-    name = "Report.csv"
-    path = os.path.join(BASE_DIR) + '\static\csv\\' + name
-    with open(path,  'w', newline="") as f:
-        writer = csv.writer(f)
-        writer.writerows(vals)
-
-    outward_filter_data = outward_filter()
-
-    link = os.path.join(BASE_DIR) + '\static\csv\\' + name
-
-    vals_list = (vals.tolist())
-
-
-    context = {
-        'data': vals_list,
-        'filter_outward' : outward_filter_data,
-        'link' : link
-
-    }
-
-    return render(request, 'report/daily_report.html', context)
-
 
 
 
@@ -1733,7 +394,7 @@ def list_request_material(request):
 def list_project(request):
 
   
-    data = project.objects.all()
+    data = project.objects.all().order_by("-id")
 
     
     page = request.GET.get('page', 1)
@@ -1905,43 +566,49 @@ def add_project(request):
         # Deserialize the JSON data into a Python object
         forms = project_Form(request.POST)
         
-
-
-        sheet_no_id = request.POST.getlist("sheet_no")
         order_id = request.POST.get("order_id")
        
-        print(sheet_no_id)
+
+        quantity = request.POST.getlist('production_quantity')
+        item_code_id = request.POST.getlist('item_code')
+        production_id = request.POST.getlist('production_id')
+
+        print(quantity)
+        print(item_code_id)
+        print(production_id)
+
 
         if forms.is_valid():
 
-            print('is valid')
-
             project_instance = forms.save()
 
-            
-            for a in sheet_no_id:
-                print('in for')
-                try:
 
-                    aa = product_qr.objects.get(id = a)
+            for a, b, c in zip(production_id, item_code_id, quantity):
+
+                if a and a!= '0':
+
+                    print('here2')
+
+                    project_material_instnace = project_matarial_production.objects.get(id = a)
+
+
+                    item_code_instance = item_code.objects.get(id = b)
+
+                    project_material_instnace.item_code = item_code_instance
+                    project_material_instnace.production_quantity = c
                     
-                    print('printing a------------------')
-                    print(a)
+                    project_material_instnace.save()
 
-                    print('printing a------------------')
-                    obj, created = product.objects.get_or_create(category_id = aa.product.category.id, size_id = aa.product.size.id, grade_id = aa.product.grade.id, thickness_id = aa.product.thickness.id)
-                    product_id = obj
+                    print('here')
 
-                except product.DoesNotExist:
+                else:
 
-                    product_id = created
+                    print('here3')
 
-                project_material_instance = project_material.objects.create(product = product_id, project = project_instance, quantity = 1, sheet_no = a)
+                        
+                    item_code_instance = item_code.objects.get(id = b)
+                    instance = project_matarial_production.objects.create(item_code = item_code_instance, production_quantity = c, project = project_instance)
 
-                aaaas = project_matarial_qr.objects.create(project_material = project_material_instance)
-                print('-----------------')
-                print(aaaas)
-                print('-----------------')
 
             a1212 = alert.objects.create(message = "new project created id" + order_id)
             pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
@@ -1972,13 +639,296 @@ def add_project(request):
 
         forms = project_Form()
 
+        item_code_data = item_code.objects.all()
+
+        context = {
+            'form': forms,
+            'item_code_data': item_code_data,
+        }
+        return render(request, 'transactions/add_project.html', context)
+
+@login_required(login_url='login')
+def update_project_accountant(request, project_id):
+
+    project_instance = project.objects.get(id = project_id)
+
+    if request.method == 'POST':
+
+        print(request.POST)
+
+        # Deserialize the JSON data into a Python object
+        forms = project_Form(request.POST, instance = project_instance)
+        
+
+
+      
+        order_id = request.POST.get("order_id")
+       
+        quantity = request.POST.getlist('production_quantity')
+        item_code_id = request.POST.getlist('item_code')
+        production_id = request.POST.getlist('production_id')
+        print('-----------------------')
+        print(production_id)
+        print(quantity)
+        print(item_code_id)
+
+
+        if forms.is_valid():
+
+            print('is valid')
+
+            project_instance = forms.save()
+
+
+            for a, b, c in zip(production_id, item_code_id, quantity):
+                print('----------')
+                print(a)
+                if a and a != '0':
+
+                    project_material_instnace = project_matarial_production.objects.get(id = a)
+
+
+                    item_code_instance = item_code.objects.get(id = b)
+
+                    project_material_instnace.item_code = item_code_instance
+                    project_material_instnace.production_quantity = c
+                    
+                    project_material_instnace.save()
+
+                    print('here')
+
+                else:
+                        
+                    item_code_instance = item_code.objects.get(id = b)
+                    instance = project_matarial_production.objects.create(item_code = item_code_instance, production_quantity = c, project = project_instance)
+
+                
+
+            a1212 = alert.objects.create(message = "new project created id" + order_id)
+            pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
+                                      key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
+                                      secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
+                                      cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
+                                      ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
+
+            pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
+
+            return redirect('list_project')
+
+
+        else:
+                
+            print(forms.errors)
+            
+            data_form = product_Form()
+
+            context = {
+                'form': forms,
+                'data_form': data_form,
+            }
+            return render(request, 'transactions/update_project_accountant.html', context)
+
+
+    else:
+
+        forms = project_Form(instance=project_instance)
+
+        production_data = project_matarial_production.objects.filter(project = project_instance)
+
+        item_code_data = item_code.objects.all()
+
+        context = {
+            'form': forms,
+            'production_data': production_data,
+            'item_code_data': item_code_data,
+            'project_id': project_id,
+        }
+        return render(request, 'transactions/update_project_accountant.html', context)
+
+
+def add_project_designer(request, project_id):
+
+
+    project_instance = project.objects.get(id = project_id)
+
+    if request.method == 'POST':
+
+
+    
+
+        forms = project_Form(request.POST, instance=project_instance)
+        
+
+
+        sheet_no_id = request.POST.getlist("sheet_no")
+        order_id = request.POST.get("order_id")
+       
+        print(sheet_no_id)
+
+        if forms.is_valid():
+
+            print('is valid')
+
+            project_instance = forms.save()
+
+            if sheet_no_id != ['']:
+
+                print('in')
+                for a in sheet_no_id:
+                    print('in for')
+                    try:
+
+                        aa = product_qr.objects.get(id = a)
+                        
+                        print('printing a------------------')
+                        print(a)
+
+                        print('printing a------------------')
+                        obj, created = product.objects.get_or_create(category_id = aa.product.category.id, size_id = aa.product.size.id, grade_id = aa.product.grade.id, thickness_id = aa.product.thickness.id)
+                        product_id = obj
+
+                    except product.DoesNotExist:
+
+                        product_id = created
+
+                    project_material_instance = project_material.objects.create(product = product_id, project = project_instance, quantity = 1, sheet_no = a)
+
+                    aaaas = project_matarial_qr.objects.create(project_material = project_material_instance)
+                    print('-----------------')
+                    print(aaaas)
+                    print('-----------------')
+
+            a1212 = alert.objects.create(message = "new project created id" + order_id)
+            pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
+                                      key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
+                                      secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
+                                      cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
+                                      ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
+
+            pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
+
+            return redirect('list_project')
+
+        else:
+
+            print(forms.errors)
+
+            data_form = product_Form()
+
+            project_material_data = project_material.objects.filter(project = project_instance)
+           
+            production_data = project_matarial_production.objects.filter(project = project_instance)
+
+
+
+            context = {
+                'form': forms,
+                'production_data': production_data,
+                'project_material_data': project_material_data,
+                'data_form': data_form,
+            }
+            return render(request, 'transactions/add_project_designer.html', context)
+    
+    else:
+
+        forms = project_Form(instance=project_instance)
+
         data_form = product_Form()
+
+        project_material_data = project_material.objects.filter(project = project_instance)
+
+        production_data = project_matarial_production.objects.filter(project = project_instance)
+        
+        project_material_data = project_material.objects.filter(project = project_instance)
+
+
+        context = {
+            'form': forms,
+            'production_data': production_data,
+            'project_material_data': project_material_data,
+            'data_form': data_form,
+        }
+        return render(request, 'transactions/add_project_designer.html', context)
+
+
+def update_project_designer(request, project_id):
+
+
+    project_instance = project.objects.get(id = project_id)
+
+    if request.method == 'POST':
+
+        print(request.POST)
+
+        # Deserialize the JSON data into a Python object
+        forms = project_Form(request.POST, instance=project_instance)
+        sheet_no_id = request.POST.getlist("sheet_no")
+        
+        for a in sheet_no_id:
+            print('in for')
+            try:
+
+                aa = product_qr.objects.get(id = a)
+                
+                print('printing a------------------')
+                print(a)
+
+                print('printing a------------------')
+                obj, created = product.objects.get_or_create(category_id = aa.product.category.id, size_id = aa.product.size.id, grade_id = aa.product.grade.id, thickness_id = aa.product.thickness.id)
+                product_id = obj
+
+            except product.DoesNotExist:
+
+                product_id = created
+
+            project_material_instance = project_material.objects.create(product = product_id, project = project_instance, quantity = 1, sheet_no = a)
+
+            aaaas = project_matarial_qr.objects.create(project_material = project_material_instance)
+            print('-----------------')
+            print(aaaas)
+            print('-----------------')
+
+
+       
+        print(sheet_no_id)
+
+        if forms.is_valid():
+
+            print('is valid')
+
+            project_instance = forms.save()
+
+            
+            return redirect('list_project')
+
+
+        else:
+                
+            print(forms.errors)
+            
+
+            context = {
+                'form': forms,
+                'data_form': data_form,
+            }
+            return render(request, 'transactions/update_project.html', context)
+
+
+    else:
+
+        forms = project_Form(instance=project_instance)
+
+        data_form = product_Form()
+        project_material_data = project_material.objects.filter(project = project_instance)
+        material_data = project_matarial_qr.objects.filter(project_material__in = project_material_data)
 
         context = {
             'form': forms,
             'data_form': data_form,
+            'material_data': material_data,
         }
-        return render(request, 'transactions/add_project.html', context)
+        return render(request, 'transactions/update_project.html', context)
+
 
 @login_required(login_url='login')
 def update_project(request, project_id):
@@ -2390,14 +1340,6 @@ def add_production(request, project_id):
         production_id = request.POST.getlist('production_id[]')
         completed = request.POST.get('completed')
 
-        print('-----------------------------------')
-        print('-----------------------------------')
-        print('-----------------------------------')
-        print('-----------------------------------')
-        print('-----------------------------------')
-        print(material)
-        print(production_id)
-
 
         for a, b, c, d in zip(production_id, item_code_id, quantity, material):
 
@@ -2453,7 +1395,7 @@ def delete_production_entry(request, project_id, production_id):
 
     project_matarial_production.objects.get(id = production_id).delete()
 
-    url = reverse('add_production', args=[project_id])
+    url = reverse('update_project_accountant', args=[project_id])
     return redirect(url)
 
 
@@ -2909,5 +1851,19 @@ def update_product(request, product_id):
 
     pass
 
+def verify_password(request):
 
     
+    emplpyee_id = request.POST.get("employee")
+    password = request.POST.get("password")
+
+    employee_instance = employee.objects.get(id = emplpyee_id)
+
+    if employee_instance.password == password:
+
+        return JsonResponse({'status' : "done"})
+    
+    else:
+
+        return JsonResponse({'status' : "wrong"})
+

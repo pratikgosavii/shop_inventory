@@ -428,7 +428,8 @@ localStorage.setItem('soundEnabled', 'true');
         var usedSqInchInput = document.getElementById("used-sq-inch-input");
         var totalUsedSqInch = 0; // Initialize the totalUsedSqInch variable
 
-        document.querySelector(usedLengthInput, usedWidthInput).addEventListener("input", function (event) {
+      
+        usedLengthInput.addEventListener("input", function (event) {
             var usedLengthValue = parseFloat(usedLengthInput.value);
             var usedWidthValue = parseFloat(usedWidthInput.value);
 
@@ -437,13 +438,22 @@ localStorage.setItem('soundEnabled', 'true');
                 totalUsedSqInch += usedSizeInSqMillimeters / (25.4 * 25.4); // Convert to square inches
                 usedSqInchInput.value = totalUsedSqInch.toFixed(2); // Display the result in the "used-sq-inch-input" textbox
             }
-        });
+          });
+          
+          usedWidthInput.addEventListener("input", function (event) {
+            var usedLengthValue = parseFloat(usedLengthInput.value);
+            var usedWidthValue = parseFloat(usedWidthInput.value);
+
+            if (!isNaN(usedLengthValue) && !isNaN(usedWidthValue)) {
+                var usedSizeInSqMillimeters = usedLengthValue * usedWidthValue;
+                totalUsedSqInch += usedSizeInSqMillimeters / (25.4 * 25.4); // Convert to square inches
+                usedSqInchInput.value = totalUsedSqInch.toFixed(2); // Display the result in the "used-sq-inch-input" textbox
+            }
+          });
+          
 
 
-        // Add a "change" event listener to the usedLengthInput element
-        usedLengthInput.addEventListener("blur", calculate_sq);
-        usedWidthInput.addEventListener("blur", calculate_sq);
-
+       
 
 
         

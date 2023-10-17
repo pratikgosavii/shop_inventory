@@ -5,12 +5,7 @@ from store import views
 
 urlpatterns = [
 
-    path('get-company_goods-ajax/', get_company_goods_ajax, name="get_company_goods_ajax"),
-    path('get-goods_company-ajax/', get_goods_company_ajax, name="get_goods_company_ajax"),
-    path('get-agent_company-ajax/', get_agent_company_ajax, name="get_agent_company_ajax"),
-
-    path('get-category_ajax-ajax/', get_category_ajax, name="get_category_ajax"),
-
+   
     path('add-godown/', add_godown, name='add_godown'),
     path('update-godown/<godown_id>', update_godown, name='update_godown'),
     path('delete-godown/<godown_id>', delete_godown, name='delete_godown'),

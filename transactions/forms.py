@@ -117,6 +117,23 @@ class project_matarial_qr_Form(forms.ModelForm):
         }
 
 
+
+
+class project_matarial_production_Form(forms.ModelForm):
+    class Meta:
+        model = project_matarial_production
+        fields = '__all__'
+        widgets = {
+           
+            'item_code': forms.Select(attrs={
+                'class': 'form-control', 'name' : 'item_code'
+            }),
+            
+
+        }
+
+
+
 class product_qr_Form(forms.ModelForm):
 
     uploaded_file = forms.FileField(label='Select a file', required=False)

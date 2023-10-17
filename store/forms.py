@@ -95,6 +95,9 @@ class employee_Form(forms.ModelForm):
             'name': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'name'
             }),
+            'password': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'name'
+            }),
             'address': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'name'
             }),

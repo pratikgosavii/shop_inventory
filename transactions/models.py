@@ -27,7 +27,7 @@ class request_material(models.Model):
 class project(models.Model):
 
     customer = models.ForeignKey(customer , on_delete=models.CASCADE, related_name='hfghjgjvhj')
-    employee_name = models.ForeignKey(employee , on_delete=models.CASCADE, related_name='dfsdds')
+    employee_name = models.ForeignKey(employee , on_delete=models.CASCADE, null=True, blank=True, related_name='dfsdds')
     DC_date = models.DateField(auto_now_add=False)
     description = models.CharField( max_length=50)
     order_id = models.CharField(unique=True, max_length=50)
@@ -56,7 +56,6 @@ class project_matarial_qr(models.Model):
 
 class project_matarial_production(models.Model):
 
-    project_matarial_qr = models.ForeignKey(project_matarial_qr, on_delete=models.CASCADE, related_name = "project_matarial_qr_production", null = True, blank = True)
     item_code = models.ForeignKey(item_code, on_delete=models.CASCADE, related_name = "item_code_re_1", null = True, blank = True)
     production_quantity = models.IntegerField(null = True, blank = True)
     project = models.ForeignKey(project, on_delete=models.CASCADE, related_name = "project_production_n")

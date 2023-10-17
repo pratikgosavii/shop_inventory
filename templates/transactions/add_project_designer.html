@@ -1,0 +1,454 @@
+{% extends 'base/base.html' %}
+
+
+
+{% block title %}Create Product{% endblock title %}
+
+{% block head %}
+
+
+<style>
+
+        .select2-container{
+
+            width: 164.75px
+        }
+
+        .select2-container .select2-selection--single {
+            height: 37px !important;
+        }
+
+</style>
+
+{% endblock head %}
+
+{% block content %}
+
+
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="icon-box">
+					<i class="material-icons">&#xE876;</i>
+				</div>				
+				<h4 class="modal-title w-100">Awesome!</h4>	
+			</div>
+			<div class="modal-body">
+				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>     
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Add Project Plan</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="#" id="submitform" method="post">
+                            {% csrf_token %}
+
+                            
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Designer Name</label>
+                                {{ form.employee_name }}
+                               
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Password</label>
+                                <div style="display: flex;
+                                gap: 10px;">
+
+                                <input type="password" style="width:50%" class="form-control" id="password" maxlength="50" required="">
+                                <input type="button" class="btn btn-primary" value="submit" onclick="password_verify()">
+                               
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Customer Name</label>
+                                {{ form.customer }}
+                               
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Purchase Order No </label>
+                                {{ form.order_id }}
+                               
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Description </label>
+                                {{ form.description }}
+                               
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Date</label>
+                                {{ form.DC_date }}
+                                
+                            </div>
+
+
+   <hr>
+
+                            
+                            <label for="name" class="control-label mb-1"> Item Code Details</label>
+
+                           
+                             
+
+
+
+                            <table>
+
+                                <tr>
+                                    <td> Item Code </td>
+                                    <td> Quantity </td>
+                                </tr>
+                            
+                                {% for i in production_data %}
+                            
+                                    <tr>
+                                        <td> <input type="text" value="{{ i.item_code }}" class="form-control" readonly> </td>
+                                        <td> <input type="number" value="{{ i.production_quantity }}" class="form-control" readonly> </td>
+                                    </tr>
+                            
+                                {% endfor %}
+                            
+
+                                <tbody>
+                                </tbody>
+                            
+                            </table>  
+ <br>
+
+
+                            <hr>
+
+                            
+                            <label for="name" class="control-label mb-1"> Raw Material Details</label>
+
+                           
+                             
+
+
+ <table id="my-table">
+
+    <p style="font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    line-height: 24px;
+    color: black;
+    background: yellow;"> Note* :- The Category, Size, Grade, Thickness which is showing below is of when the sheet was assign to this project now maybe attributes is changed as sheet gets cut or updated</p>
+
+    <tr>
+        <td> Sheet </td>
+        <td> Category </td>
+        <td> Size </td>
+        <td> Grade </td>
+        <td> Thickness </td>
+        <td>  <button type="button" class="btn btn-success add-textbox" > <i class="fa fa-plus" aria-hidden="true"></i></button>  </td>
+    </tr>
+
+    {% for i in project_material_data %}
+
+
+    <tr>
+
+
+        <td> <input type="number" class="form-control sheet-no" name="no_need" value="{{ i.sheet_no }}" placeholder="Sheet No" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="no_need" value="{{ i.product.category.name }}" placeholder="Sheet No" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="no_need" value="{{ i.product.size.name }}" placeholder="Sheet No" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="no_need" value="{{ i.product.grade.name }}" placeholder="Sheet No" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="no_need" value="{{ i.product.thickness.name }}" placeholder="Sheet No" readonly> </td>
+        <td> <a href="{% url 'delete_assign_material' i.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this entry?')"> Delete </a> </td>
+        
+
+        
+    </tr>
+
+    {% endfor %}
+
+    <tbody>
+    </tbody>
+
+</table>  
+ <br>
+ <div>
+    <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+        <span id="payment-button-amount">Add Sheets To Project</span>
+    </button>
+</div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- .card -->
+
+    </div><!--/.col-->
+</div>
+
+                            
+                           
+
+
+{% endblock content %}
+
+{% block js %}
+    
+
+<!-- Include Select2 JS -->
+<!-- Initialize Select2 -->
+
+<script>
+
+
+    $(document).ready(function() {
+
+       
+    
+    
+    
+   
+        // Make the dropdown readonly using jQuery
+        $("#customer").prop("disabled", true);
+        $("#order_id").prop("disabled", true);
+    
+    
+        
+    
+    
+    
+        // Attach an event listener to the table
+        $('#my-table').on('click', '.submit-button', function() {
+
+
+            
+            // Find the closest row to the clicked submit button
+            const row = $(this).closest('tr');
+            
+            // Get the value of the "Sheet No" input in the same row
+            const sheetNo = row.find('.sheet-no').val();
+
+            // Trigger an AJAX request with the captured "Sheet No" value
+            $.ajax({
+                url: "{% url 'get_sheet_details' %}",  // Replace with your actual API endpoint
+                method: 'POST',  // Change the HTTP method as needed
+                data: {
+                    'sheet_no' : sheetNo,
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function(response) {
+
+                    if(response.status == "done"){
+                        const data = response.data;
+        
+                        // Update the other fields in the same row with the response data
+                        console.log(data)
+                        console.log(data.size)
+                        console.log(data.grade)
+                        console.log(data.thickness)
+                        console.log(data.category)
+        
+                        row.find('.size').val(data.size);
+                        row.find('.grade').val(data.grade);
+                        row.find('.thickness').val(data.thickness);
+                        row.find('.category').val(data.category);
+                    }
+
+                    else{
+
+                        var errorMessage = response.msg;
+
+                        console.log(errorMessage)
+                        
+                        alert(errorMessage)
+
+                        row.find('.size').prop('selectedIndex', 0);
+                        row.find('.grade').prop('selectedIndex', 0);
+                        row.find('.thickness').prop('selectedIndex', 0);
+                        row.find('.category').prop('selectedIndex', 0);
+
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                    // Handle errors here
+                }
+            });
+        });
+    });
+    
+
+    function password_verify(){
+
+        password = document.getElementById('password').value;
+        employee_name = document.getElementById('employee_name').value;
+    
+    
+        $.ajax({
+            url: "{% url 'verify_password' %}",  // Replace with your actual API endpoint
+            method: 'POST',  // Change the HTTP method as needed
+            data: {
+                'employee' : employee_name,
+                'password' : password,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function(response) {
+    
+                if(response.status == "done"){
+                    
+                    password_verification = 1
+    
+                    document.getElementById('password').disabled = true;
+                    document.getElementById('employee_name').disabled = true;
+                    
+                    alert('Password verification done')
+                   
+                }
+    
+                else{
+    
+                    alert('Wrong password')
+    
+                }
+            },
+            error: function(error) {
+                console.log(error);
+                // Handle errors here
+            }
+        });
+    
+    }
+
+    
+    
+
+   $(document).ready(function() {
+    var max = 10000;
+    var cnt = 1;
+    $(".add-textbox").on("click", function(e){
+        e.preventDefault();
+        if(cnt < max){
+            cnt++;
+
+            const newRow = document.createElement('tr');
+            const tableBody = document.querySelector('#my-table tbody');
+
+            // Create your input elements here using Django template variables
+            newRow.innerHTML = `
+            <td> <input type="number" class="form-control sheet-no" name="sheet_no" placeholder="Sheet No"> </td> <td> {{ data_form.category }} </td> <td>{{ data_form.size }} </td> <td> {{ data_form.grade }} </td> <td>{{ data_form.thickness }} </td> <td> <button type="button" class="btn btn-info submit-button" data-sheet-no="">Submit</button> </td> </tr><td>  <span class="input-group-btn"><button type="button" class="btn btn-danger remove-textbox"> <i class="fa fa-minus" aria-hidden="true"></i>  </td> </td>
+            `;
+            
+            
+                $(tableBody).append(newRow);
+                
+                disableDropdownsInTable('my-table');
+
+        }
+    });
+});
+
+const tableBody = document.querySelector('#my-table tbody');
+
+tableBody.addEventListener('click', function(event) {
+
+    const target = event.target;
+    if (target.classList.contains('remove-textbox')) {
+      const row = target.closest('tr'); // Find the parent row
+      if (row.parentNode.children.length > 1) {
+        row.remove(); // Remove the row from the table if there are more than one rows
+      }
+    }
+  });
+
+
+
+  $("#submitform").on("submit", function(e) {
+    // Check if any required fields are empty or disabled
+    const invalidFields = $(this).find("select[required]:enabled").filter(function() {
+        return !$(this).val(); // Check for empty value
+    });
+
+    if (invalidFields.length > 0) {
+        // Prevent form submission
+        e.preventDefault();
+        
+        // Display an error message or take appropriate action
+        alert("Please fill in all required fields.");
+    }
+});
+
+
+function disableDropdownsInTable(tableId) {
+    // Select the table by its ID
+    const table = document.getElementById(tableId);
+    
+    // Check if the table exists
+    if (table) {
+        // Select all <select> elements within the table
+        const selectElements = table.querySelectorAll('select');
+
+        // Iterate through each <select> element and disable it
+        selectElements.forEach((select) => {
+            select.disabled = true;
+        });
+    }
+}
+
+// Example usage: Call this function after dynamically adding a new table
+// Replace 'my-table' with the actual ID of the newly added table
+disableDropdownsInTable('my-table');
+
+
+
+    
+    let password_verification = 0
+   
+    
+
+  $("#submitform").on("submit", function(e) {
+
+    
+    // Check if any required fields are empty or disabled
+    const invalidFields = $(this).find("select[required]:enabled").filter(function() {
+        return !$(this).val(); // Check for empty value
+    });
+
+    if (invalidFields.length > 0) {
+        // Prevent form submission
+        e.preventDefault();
+        
+        // Display an error message or take appropriate action
+        alert("Please fill in all required fields.");
+    }
+
+   
+    $("#customer").prop("disabled", false);
+    $("#order_id").prop("disabled", false);
+   
+
+
+});
+
+
+
+
+</script>
+
+{% endblock js %}

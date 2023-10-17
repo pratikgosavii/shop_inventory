@@ -34,6 +34,7 @@ class customer(models.Model):
 class employee(models.Model):
 
     name = models.CharField(max_length=120, unique=False)
+    password = models.CharField(max_length=120, unique=False, blank=False, null = False)
     address = models.CharField(max_length=120, unique=False)
     mobile_no = models.IntegerField()
     

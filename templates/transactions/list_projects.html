@@ -125,7 +125,22 @@
                 <td>{{ i.id }}</td>
                 <td>{{ i.description }}</td>
                 <td>{{ i.DC_date }}</td>
-                <td style="display:flex; gap:10px;" > <a href="{% url 'update_project' i.id %}"><i class="fa fa-info-circle" style="font-size: 1.5em;" aria-hidden="true"> </i> </a> <a href="{% url 'assign_matarial_qr' i.id %}"> <i class="fa fa-qrcode" style="font-size: 1.5em;" aria-hidden="true"></i> </a>   <a href="{% url 'add_production' i.id %}"> <i class="fa fa-industry" style="font-size: 1.5em;" aria-hidden="true"></i> </a> 
+                <td style="display:flex; gap:10px;" >  {% if request.user.is_superuser %} 
+
+                  <a href="{% url 'update_project' i.id %}">
+
+                    {% elif request.user.is_designer %}
+
+                  <a href="{% url 'add_project_designer' i.id %}">
+                    
+                    {% elif request.user.is_accounts %}
+
+                  <a href="{% url 'update_project_accountant' i.id %}">
+
+                    {% endif %}
+                    
+                    
+                    <i class="fa fa-info-circle" style="font-size: 1.5em;" aria-hidden="true"> </i> </a> <a href="{% url 'assign_matarial_qr' i.id %}"> <i class="fa fa-qrcode" style="font-size: 1.5em;" aria-hidden="true"></i> </a>   <a href="{% url 'add_production' i.id %}"> <i class="fa fa-industry" style="font-size: 1.5em;" aria-hidden="true"></i> </a> 
 
                   {% if request.user.is_superuser %}
 
@@ -203,74 +218,11 @@
 </div>
 
 <script>
-  $("#company").change(function () {
-    const comapnyID = $(this).val(); // get the selected subject ID from the HTML dropdown list
-    $.ajax({
-      // initialize an AJAX request
-      type: "POST",
-      url: '{% url "get_company_goods_ajax" %}',
-      data: {
-        company_id: comapnyID, // add the country id to the POST parameters
-        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-      },
-      success: function (data) {
-        // `data` is from `get_topics_ajax` view function
-        let html_data =
-          '<option value="" selected disabled>------------</option>';
-        data.forEach(function (data) {
-          html_data += `<option value="${data.id}" >${data.name}</option>`;
-        });
-        $("#company_goods").html(html_data); // replace the contents of the topic input with the data that came from the server
-      },
-    });
-  });
+  
 
-  $("#company_goods").change(function () {
-    const comapny_goods_ID = $(this).val(); // get the selected subject ID from the HTML dropdown list
-    var e = document.getElementById("company");
-    var comapnyID = e.value;
-    $.ajax({
-      // initialize an AJAX request
-      type: "POST",
-      url: '{% url "get_goods_company_ajax" %}',
-      data: {
-        company_id: comapnyID,
-        company_goods: comapny_goods_ID, // add the country id to the POST parameters
-        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-      },
-      success: function (data) {
-        // `data` is from `get_topics_ajax` view function
-        let html_data =
-          '<option value="" selected disabled>------------</option>';
-        data.forEach(function (data) {
-          html_data += `<option value="${data.id}" >${data.goods_company_name}</option>`;
-        });
-        $("#goods_company").html(html_data); // replace the contents of the topic input with the data that came from the server
-      },
-    });
-  });
+  
 
-  $("#company").change(function () {
-    const comapnyID = $(this).val(); // get the selected subject ID from the HTML dropdown list
-    $.ajax({
-      // initialize an AJAX request
-      type: "POST",
-      url: '{% url "get_agent_company_ajax" %}',
-      data: {
-        company_id: comapnyID, // add the country id to the POST parameters
-        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-      },
-      success: function (data) {
-        // `data` is from `get_topics_ajax` view function
-        let html_data =
-          '<option value="" selected disabled>------------</option>';
-        data.forEach(function (data) {
-          html_data += `<option value="${data.id}" >${data.name}</option>`;
-        });
-        $("#agent").html(html_data); // replace the contents of the topic input with the data that came from the server
-      },
-    });
-  });
+  
 
   $("#year").change(function () {
     url = window.location.href;

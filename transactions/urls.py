@@ -20,7 +20,12 @@ urlpatterns = [
     # path('add-product/', add_product, name='add_product'),
     path('update-product/', update_product, name='update_product'),
     
+    path('verify_password/', verify_password, name='verify_password'),
+    
     path('add-project/', add_project, name='add_project'),
+    path('update-project-accountant/<project_id>', update_project_accountant, name='update_project_accountant'),
+    path('add-project-designer/<project_id>', add_project_designer, name='add_project_designer'),
+    path('update-project-designer/<project_id>', update_project_designer, name='update_project_designer'),
     path('update-project/<project_id>', update_project, name='update_project'),
     path('get-sheet-details/', get_sheet_details, name='get_sheet_details'),
     path('list-project/', list_project, name='list_project'),
@@ -62,13 +67,6 @@ urlpatterns = [
 
     path('send-whatsapp-message/', send_whatsapp_message, name='send_whatsapp_message'),
 
-    path('report-daily/', generate_report_daily, name='report_daily'),
-    path('report-inward/', report_inward, name='report_inward'),
-    path('report-outward/', report_outward, name='report_outward'),
-    path('report-supply-return/', report_supply_return, name='report_supply_return'),
-    path('report-stock/', generate_report_stock, name='generate_report'),
-
-    path('report-main/', generate_report_main, name='generate_report_main'),
 
     path('download', download, name='download'),
 

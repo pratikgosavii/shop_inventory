@@ -60,12 +60,7 @@
                             {% csrf_token %}
 
                             
-                            <div class="form-group">
-                                <label for="name" class="control-label mb-1">Designer Name</label>
-                                {{ form.employee_name }}
-                               
-                            </div>
-
+                         
                             <div class="form-group">
                                 <label for="name" class="control-label mb-1">Customer Name</label>
                                 {{ form.customer }}
@@ -94,7 +89,7 @@
                             <hr>
 
                             
-                            <label for="name" class="control-label mb-1"> Raw Material Details</label>
+                            <label for="name" class="control-label mb-1"> Item Code Details</label>
 
                            
                              
@@ -103,21 +98,24 @@
  <table id="my-table">
 
     <tr>
-        <td> Sheet </td>
-        <td> Category </td>
-        <td> Size </td>
-        <td> Grade </td>
-        <td> Thickness </td>
+        <td> Item Code </td>
+        <td> </td>
+        <td> Quantity </td>
         <td>  <button type="button" class="btn btn-success add-textbox" > <i class="fa fa-plus" aria-hidden="true"></i></button>  </td>
     </tr>
 
-    <tr>
-        <td> <input type="number" class="form-control sheet-no" name="sheet_no" placeholder="Sheet No"> </td>
-        <td> {{ data_form.category }} </td>
-        <td> {{ data_form.size }} </td>
-        <td> {{ data_form.grade }} </td>
-        <td> {{ data_form.thickness }} </td>
-        <td> <button type="button" class="btn btn-info submit-button" data-sheet-no="">Submit</button> </td>
+    <tr id="newRow">
+        <td>  <select name="item_code" class="form-control" id="bag_size">
+                                            
+
+            <option value="">---------</option>
+            {% for y in item_code_data %}
+                
+                <option value="{{ y.id }}">{{ y }}</option>
+                
+            {% endfor %}
+          </select>  <input type="hidden" name="production_id" value=""> </td>
+        <td> <input type="number" value="" name="production_quantity" class="form-control" id="bag_size"> </td>
     </tr>
 
     <tbody>
@@ -152,59 +150,6 @@
 <script>
     
    
-    $(document).ready(function() {
-        // Attach an event listener to the table
-        $('#my-table').on('click', '.submit-button', function() {
-            // Find the closest row to the clicked submit button
-            const row = $(this).closest('tr');
-            
-            // Get the value of the "Sheet No" input in the same row
-            const sheetNo = row.find('.sheet-no').val();
-
-            // Trigger an AJAX request with the captured "Sheet No" value
-            $.ajax({
-                url: "{% url 'get_sheet_details' %}",  // Replace with your actual API endpoint
-                method: 'POST',  // Change the HTTP method as needed
-                data: {
-                    'sheet_no' : sheetNo,
-                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-                },
-                success: function(response) {
-
-                    if(response.status == "done"){
-                        const data = response.data;
-        
-                        // Update the other fields in the same row with the response data
-                        console.log(data)
-                        console.log(data.size)
-                        console.log(data.grade)
-                        console.log(data.thickness)
-                        console.log(data.category)
-        
-                        row.find('.size').val(data.size);
-                        row.find('.grade').val(data.grade);
-                        row.find('.thickness').val(data.thickness);
-                        row.find('.category').val(data.category);
-                    }
-
-                    else{
-
-                        var errorMessage = response.msg;
-
-                        console.log(errorMessage)
-                        
-                        alert(errorMessage)
-
-                    }
-                },
-                error: function(error) {
-                    console.log(error);
-                    // Handle errors here
-                }
-            });
-        });
-    });
-    
 
 
 
@@ -216,22 +161,30 @@
         if(cnt < max){
             cnt++;
 
-            const newRow = document.createElement('tr');
-            const tableBody = document.querySelector('#my-table tbody');
+           // Example JavaScript code to clone and insert the row dynamically
+           const newRow = document.createElement('tr');
+           newRow.innerHTML = `
+               <td>
+                   <select name="item_code" class="form-control" id="bag_size">
+                       <option value="">---------</option>
+                       {% for y in item_code_data %}
+                           <option value="{{ y.id }}">{{ y }}</option>
+                       {% endfor %}
+                   </select> <input type="hidden" name="production_id" value=""> </td>
+               </td>
+               <td>
+                   <input type="number" value="" name="production_quantity" class="form-control" id="bag_size">
+               </td>
+              
+           `;
 
-            // Create your input elements here using Django template variables
-            newRow.innerHTML = `
-            <td> <input type="number" class="form-control sheet-no" name="sheet_no" placeholder="Sheet No"> </td> <td> {{ data_form.category }} </td> <td>{{ data_form.size }} </td> <td> {{ data_form.grade }} </td> <td>{{ data_form.thickness }} </td> <td> <button type="button" class="btn btn-info submit-button" data-sheet-no="">Submit</button> </td> </tr><td>  <span class="input-group-btn"><button type="button" class="btn btn-danger remove-textbox"> <i class="fa fa-minus" aria-hidden="true"></i>  </td> </td>
-            `;
-            
-            
-                $(tableBody).append(newRow);
-                
-                disableDropdownsInTable('my-table');
+           // Append the new row to the table
+           const table = document.getElementById('my-table');
+           table.appendChild(newRow);
 
-        }
-    });
-});
+                }
+            });
+        });
 
 const tableBody = document.querySelector('#my-table tbody');
 
@@ -255,34 +208,56 @@ tableBody.addEventListener('click', function(event) {
     });
 
     if (invalidFields.length > 0) {
-        // Prevent form submission
-        e.preventDefault();
-        
         // Display an error message or take appropriate action
         alert("Please fill in all required fields.");
+        return false; // Prevent form submission
     }
+
 });
 
+function password_verify(){
 
-function disableDropdownsInTable(tableId) {
-    // Select the table by its ID
-    const table = document.getElementById(tableId);
-    
-    // Check if the table exists
-    if (table) {
-        // Select all <select> elements within the table
-        const selectElements = table.querySelectorAll('select');
+    password = document.getElementById('password').value;
+    employee_name = document.getElementById('employee_name').value;
 
-        // Iterate through each <select> element and disable it
-        selectElements.forEach((select) => {
-            select.disabled = true;
-        });
-    }
+
+    $.ajax({
+        url: "{% url 'verify_password' %}",  // Replace with your actual API endpoint
+        method: 'POST',  // Change the HTTP method as needed
+        data: {
+            'employee' : employee_name,
+            'password' : password,
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success: function(response) {
+
+            if(response.status == "done"){
+                
+                password_verification = 1
+
+                document.getElementById('password').disabled = true;
+                document.getElementById('employee_name').disabled = true;
+                
+                alert('Password verification done')
+               
+            }
+
+            else{
+
+                alert('Wrong password')
+
+            }
+        },
+        error: function(error) {
+            console.log(error);
+            // Handle errors here
+        }
+    });
+
 }
 
 // Example usage: Call this function after dynamically adding a new table
 // Replace 'my-table' with the actual ID of the newly added table
-disableDropdownsInTable('my-table');
 
 
 </script>
