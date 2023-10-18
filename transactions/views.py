@@ -760,21 +760,31 @@ def add_project_designer(request, project_id):
         
 
 
-        sheet_no_id = request.POST.getlist("sheet_no")
+        sheet_no_id = request.POST.getlist("no_need")
         order_id = request.POST.get("order_id")
-       
+
+        filtered_values = project_material.objects.filter(project = project_instance).values_list('sheet_no', flat=True)
+
+        existing_values = [int(value) for value in filtered_values]
+
+        # Find values that are unique to value_list
+        sheet_no_id = [int(value) for value in sheet_no_id]
+
+        unique_values = [value for value in sheet_no_id if value not in existing_values]
+
+        print(existing_values)
         print(sheet_no_id)
+        print(unique_values)
 
         if forms.is_valid():
 
-            print('is valid')
-
+          
             project_instance = forms.save()
 
-            if sheet_no_id != ['']:
+            if unique_values != ['']:
 
                 print('in')
-                for a in sheet_no_id:
+                for a in unique_values:
                     print('in for')
                     try:
 
@@ -826,6 +836,8 @@ def add_project_designer(request, project_id):
                 'production_data': production_data,
                 'project_material_data': project_material_data,
                 'data_form': data_form,
+                'project_id': project_id,
+
             }
             return render(request, 'transactions/add_project_designer.html', context)
     
@@ -835,99 +847,20 @@ def add_project_designer(request, project_id):
 
         data_form = product_Form()
 
-        project_material_data = project_material.objects.filter(project = project_instance)
-
         production_data = project_matarial_production.objects.filter(project = project_instance)
         
         project_material_data = project_material.objects.filter(project = project_instance)
-
+        # project_material_qr = 
 
         context = {
             'form': forms,
             'production_data': production_data,
             'project_material_data': project_material_data,
             'data_form': data_form,
+            'project_id': project_id,
         }
         return render(request, 'transactions/add_project_designer.html', context)
 
-
-def update_project_designer(request, project_id):
-
-
-    project_instance = project.objects.get(id = project_id)
-
-    if request.method == 'POST':
-
-        print(request.POST)
-
-        # Deserialize the JSON data into a Python object
-        forms = project_Form(request.POST, instance=project_instance)
-        sheet_no_id = request.POST.getlist("sheet_no")
-        
-        for a in sheet_no_id:
-            print('in for')
-            try:
-
-                aa = product_qr.objects.get(id = a)
-                
-                print('printing a------------------')
-                print(a)
-
-                print('printing a------------------')
-                obj, created = product.objects.get_or_create(category_id = aa.product.category.id, size_id = aa.product.size.id, grade_id = aa.product.grade.id, thickness_id = aa.product.thickness.id)
-                product_id = obj
-
-            except product.DoesNotExist:
-
-                product_id = created
-
-            project_material_instance = project_material.objects.create(product = product_id, project = project_instance, quantity = 1, sheet_no = a)
-
-            aaaas = project_matarial_qr.objects.create(project_material = project_material_instance)
-            print('-----------------')
-            print(aaaas)
-            print('-----------------')
-
-
-       
-        print(sheet_no_id)
-
-        if forms.is_valid():
-
-            print('is valid')
-
-            project_instance = forms.save()
-
-            
-            return redirect('list_project')
-
-
-        else:
-                
-            print(forms.errors)
-            
-
-            context = {
-                'form': forms,
-                'data_form': data_form,
-            }
-            return render(request, 'transactions/update_project.html', context)
-
-
-    else:
-
-        forms = project_Form(instance=project_instance)
-
-        data_form = product_Form()
-        project_material_data = project_material.objects.filter(project = project_instance)
-        material_data = project_matarial_qr.objects.filter(project_material__in = project_material_data)
-
-        context = {
-            'form': forms,
-            'data_form': data_form,
-            'material_data': material_data,
-        }
-        return render(request, 'transactions/update_project.html', context)
 
 
 @login_required(login_url='login')
@@ -1108,14 +1041,16 @@ def assign_matarial_qr(request, project_id):
         return render(request, 'transactions/assign_material_qr.html', context)
 
 
-def delete_assign_material(request, assign_material_qr_id):
+def delete_assign_material(request, assign_material_id, project_id):
 
-
-    project_material_instance = project_matarial_qr.objects.get(id=assign_material_qr_id)
+    project_instance = project.objects.get(id = project_id)
+    project_material_instance = project_material.objects.get(id=assign_material_id)
+    project_material_qr_instance = project_matarial_qr.objects.get(project_material = project_material_instance, project_material__project = project_instance)
     project_material_instance.delete()
+    project_material_qr_instance.delete()
 
     # Assuming 'project_id' is the correct keyword argument for your 'update_project' view.
-    return redirect('update_project', project_id=project_material_instance.project_material.project.id)
+    return redirect('add_project_designer', project_id=project_material_instance.project.id)
 
 
 def show_scanner_assign_matarial_qr(request):

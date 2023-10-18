@@ -29,11 +29,25 @@
     <div class="top-right">
         <div class="header-menu">
             
+            {% if request.user.is_designer %}
+
+            <p style="margin-top: 16px;"> Designer </p>
+
+            {% elif request.user.is_superuser %}
+
+            <p style="margin-top: 16px;"> Superuser </p>
+
+            {% elif request.user.is_accounts %}
+
+            <p style="margin-top: 16px;"> Accounts </p>
+
+            {% endif %}
 
             <div class="user-area dropdown float-right">
                 <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="user-avatar rounded-circle" src="{% static 'images/admin.jpg' %}" alt="User Avatar">
                 </a>
+
 
                 <div class="user-menu dropdown-menu">
 

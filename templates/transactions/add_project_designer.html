@@ -171,11 +171,11 @@
 
 
         <td> <input type="number" class="form-control sheet-no" name="no_need" value="{{ i.sheet_no }}" placeholder="Sheet No" readonly> </td>
-        <td>   <input type="text" class="form-control sheet-no" name="no_need" value="{{ i.product.category.name }}" placeholder="Sheet No" readonly> </td>
-        <td>   <input type="text" class="form-control sheet-no" name="no_need" value="{{ i.product.size.name }}" placeholder="Sheet No" readonly> </td>
-        <td>   <input type="text" class="form-control sheet-no" name="no_need" value="{{ i.product.grade.name }}" placeholder="Sheet No" readonly> </td>
-        <td>   <input type="text" class="form-control sheet-no" name="no_need" value="{{ i.product.thickness.name }}" placeholder="Sheet No" readonly> </td>
-        <td> <a href="{% url 'delete_assign_material' i.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this entry?')"> Delete </a> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.product.category.name }}" placeholder="Sheet No" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.product.size.name }}" placeholder="Sheet No" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.product.grade.name }}" placeholder="Sheet No" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.product.thickness.name }}" placeholder="Sheet No" readonly> </td>
+        <td> <a href="{% url 'delete_assign_material' i.id project_id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this entry?')"> Delete </a> </td>
         
 
         
@@ -352,7 +352,7 @@
 
             // Create your input elements here using Django template variables
             newRow.innerHTML = `
-            <td> <input type="number" class="form-control sheet-no" name="sheet_no" placeholder="Sheet No"> </td> <td> {{ data_form.category }} </td> <td>{{ data_form.size }} </td> <td> {{ data_form.grade }} </td> <td>{{ data_form.thickness }} </td> <td> <button type="button" class="btn btn-info submit-button" data-sheet-no="">Submit</button> </td> </tr><td>  <span class="input-group-btn"><button type="button" class="btn btn-danger remove-textbox"> <i class="fa fa-minus" aria-hidden="true"></i>  </td> </td>
+            <td> <input type="number" class="form-control sheet-no" name="no_need" placeholder="Sheet No"><div id="warning" style="color: red;"></div> </td> <td> {{ data_form.category }} </td> <td>{{ data_form.size }} </td> <td> {{ data_form.grade }} </td> <td>{{ data_form.thickness }} </td> <td> <button type="button" class="btn btn-info submit-button" data-sheet-no="">Submit</button> </td> </tr><td>  <span class="input-group-btn"><button type="button" class="btn btn-danger remove-textbox"> <i class="fa fa-minus" aria-hidden="true"></i>  </td> </td>
             `;
             
             
@@ -447,6 +447,70 @@ disableDropdownsInTable('my-table');
 });
 
 
+
+
+let enteredNames = [];
+
+// Event listener for changes in the "no_need" input fields
+$(document).ready(function () {
+    // Function to update warnings and check for duplicates
+    function updateWarnings() {
+        let hasDuplicates = false; // Flag to check if there are any duplicates
+        const nameInputs = $('input[name="no_need"]');
+        const rowIndexes = []; // Store the row indexes of duplicates
+
+        nameInputs.each(function (i) {
+            const enteredName = $(this).val();
+            const rowIndex = $(this).closest('tr').index();
+
+            if (enteredName !== "") {
+                const duplicateIndexes = nameInputs.map(function (j) {
+                    return j !== i && $(this).val() === enteredName ? j : -1;
+                });
+
+                if (duplicateIndexes.get().some((index) => index !== -1)) {
+                    hasDuplicates = true;
+                    rowIndexes.push(rowIndex);
+                }
+            }
+
+            // Clear the warning if the value is different
+            if (!hasDuplicates || rowIndexes.indexOf(rowIndex) !== -1) {
+                $(this).closest('td').find('.warning').remove();
+            }
+        });
+
+        if (hasDuplicates) {
+            // Display warnings for all duplicates
+            rowIndexes.forEach(function (index) {
+                const warningElement = $('<div class="warning" style="color: red;">Warning: Duplicate Sheet!</div>');
+                $('input[name="no_need"]').eq(index).closest('td').append(warningElement);
+            });
+        }
+        
+
+        // Enable or disable the submit button based on duplicates (optional)
+        $('#payment-button').prop('disabled', hasDuplicates);
+    }
+    
+    $('#my-table').on('input', 'input[name="no_need"]', updateWarnings);
+
+
+    // Event listener for form submission (optional)
+    $('#submitform').on('submit', function (e) {
+        // You can add additional validation here if needed
+        if (enteredNames.length > 0 && enteredNames.includes("")) {
+            e.preventDefault(); // Prevent form submission
+            alert("Please enter unique names in the 'no_need' fields.");
+        }
+    });
+
+    $('input[name="no_need"]').each(function (index) {
+        enteredNames[index] = $(this).val();
+    });
+
+    // Add your code for dynamically adding rows here
+});
 
 
 </script>
