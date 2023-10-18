@@ -725,6 +725,7 @@ def update_project_accountant(request, project_id):
             context = {
                 'form': forms,
                 'data_form': data_form,
+                'project_id': project_id,
             }
             return render(request, 'transactions/update_project_accountant.html', context)
 
@@ -938,6 +939,7 @@ def update_project(request, project_id):
             'form': forms,
             'data_form': data_form,
             'material_data': material_data,
+            'project_id': project_id,
         }
         return render(request, 'transactions/update_project.html', context)
 

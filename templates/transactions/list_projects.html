@@ -127,7 +127,7 @@
                 <td>{{ i.DC_date }}</td>
                 <td style="display:flex; gap:10px;" >  {% if request.user.is_superuser %} 
 
-                  <a href="{% url 'update_project' i.id %}">
+                  <a href="{% url 'add_project_designer' i.id %}">
 
                     {% elif request.user.is_designer %}
 
@@ -147,7 +147,7 @@
                       <a href="{% url 'assign_matarial_qr' i.id %}"> <i class="fa fa-qrcode" style="font-size: 1.5em;" aria-hidden="true"></i> 
                     
                         {% endif %}
-                        
+
                   {% if request.user.is_superuser %}
 
                     <a href="#" onclick="confirmDelete({{ i.id }})">
