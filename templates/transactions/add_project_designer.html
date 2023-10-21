@@ -228,6 +228,8 @@
         // Make the dropdown readonly using jQuery
         $("#customer").prop("disabled", true);
         $("#order_id").prop("disabled", true);
+        document.getElementById("id_DC_date").disabled = true;
+
     
     
         
@@ -392,6 +394,17 @@ tableBody.addEventListener('click', function(event) {
         // Display an error message or take appropriate action
         alert("Please fill in all required fields.");
     }
+
+
+    $("#customer").prop("disabled", false);
+    $("#order_id").prop("disabled", false);
+    $("#employee_name").prop("disabled", false);
+    // Disable an input field by its ID
+    document.getElementById("id_DC_date").disabled = false;
+
+
+
+    
 });
 
 
@@ -422,29 +435,6 @@ disableDropdownsInTable('my-table');
    
     
 
-  $("#submitform").on("submit", function(e) {
-
-    
-    // Check if any required fields are empty or disabled
-    const invalidFields = $(this).find("select[required]:enabled").filter(function() {
-        return !$(this).val(); // Check for empty value
-    });
-
-    if (invalidFields.length > 0) {
-        // Prevent form submission
-        e.preventDefault();
-        
-        // Display an error message or take appropriate action
-        alert("Please fill in all required fields.");
-    }
-
-   
-    $("#customer").prop("disabled", false);
-    $("#order_id").prop("disabled", false);
-   
-
-
-});
 
 
 

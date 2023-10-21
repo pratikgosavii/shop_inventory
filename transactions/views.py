@@ -755,7 +755,7 @@ def add_project_designer(request, project_id):
     if request.method == 'POST':
 
 
-    
+        print(request.POST)
 
         forms = project_Form(request.POST, instance=project_instance)
         
