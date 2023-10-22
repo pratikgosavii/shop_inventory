@@ -763,6 +763,7 @@ def add_project_designer(request, project_id):
 
         sheet_no_id = request.POST.getlist("no_need")
         order_id = request.POST.get("order_id")
+        employee_name = request.POST.get("employee_name")
 
         filtered_values = project_material.objects.filter(project = project_instance).values_list('sheet_no', flat=True)
 
@@ -778,6 +779,22 @@ def add_project_designer(request, project_id):
         print(unique_values)
 
         if forms.is_valid():
+            
+
+            for field in forms.fields:
+                old_value = getattr(project_instance, field)
+                new_value = forms.cleaned_data[field]
+                
+                # Compare the old and new values
+                if old_value != new_value:
+                    # Create a ProjectLog entry to record the change
+                    project_logs.objects.create(
+                        project=project_instance,
+                        field_name=field,
+                        old_value=old_value,
+                        new_value=new_value
+                    )
+
 
           
             project_instance = forms.save()
@@ -788,6 +805,11 @@ def add_project_designer(request, project_id):
                 for a in unique_values:
                     print('in for')
                     try:
+
+                        project_sheets_logs.objects.create(
+                        project=project_instance,
+                        description='Designer ' + desginer_name + 'new sheet add sheet no: ' + a,
+                        )
 
                         aa = product_qr.objects.get(id = a)
                         
@@ -1050,6 +1072,14 @@ def delete_assign_material(request, assign_material_id, project_id):
     project_material_qr_instance = project_matarial_qr.objects.get(project_material = project_material_instance, project_material__project = project_instance)
     project_material_instance.delete()
     project_material_qr_instance.delete()
+
+    desginer_name = project_instance.employee_name
+
+    project_sheets_logs.objects.create(
+                        project=project_instance,
+                        description='Designer ' + desginer_name + 'new sheet add sheet no: ' + a,
+                        )
+    
 
     # Assuming 'project_id' is the correct keyword argument for your 'update_project' view.
     return redirect('add_project_designer', project_id=project_material_instance.project.id)

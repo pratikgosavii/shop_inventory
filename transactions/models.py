@@ -36,6 +36,27 @@ class project(models.Model):
     def __str__(self):
         return self.description
 
+class project_logs(models.Model):
+
+    project = models.ForeignKey(project , on_delete=models.CASCADE, related_name='project_logs')
+    timestamp = models.DateTimeField(auto_now_add=True)
+    field_name = models.CharField(max_length=255)
+    old_value = models.TextField()
+    new_value = models.TextField()
+
+    def __str__(self):
+        return self.project
+
+
+class project_sheets_logs(models.Model):
+
+    project = models.ForeignKey(project , on_delete=models.CASCADE, related_name='sdcdcsx')
+    description = models.CharField( max_length=50)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.project
+
    
 class project_material(models.Model):
 

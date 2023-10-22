@@ -71,7 +71,7 @@ class category(models.Model):
 
 class size(models.Model):
     
-    name = models.FloatField(default=0)
+    name = models.FloatField(default=0, unique=True)
     mm1 = models.FloatField(default=0)
     mm2 = models.FloatField(default=0)
 
