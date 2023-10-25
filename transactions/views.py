@@ -811,7 +811,7 @@ def add_project_designer(request, project_id):
 
                         project_sheets_logs.objects.create(
                         project=project_instance,
-                        description='Designer ' + str(desginer_name) + 'new sheet add sheet no: ' + a,
+                        description='Designer ' + str(desginer_name) + 'new sheet add sheet no: ' + str(a),
                         )
 
                         aa = product_qr.objects.get(id = a)
@@ -1073,16 +1073,16 @@ def delete_assign_material(request, assign_material_id, project_id):
     project_instance = project.objects.get(id = project_id)
     project_material_instance = project_material.objects.get(id=assign_material_id)
     project_material_qr_instance = project_matarial_qr.objects.get(project_material = project_material_instance, project_material__project = project_instance)
-    project_material_instance.delete()
     project_material_qr_instance.delete()
 
     desginer_name = project_instance.employee_name
 
     project_sheets_logs.objects.create(
                         project=project_instance,
-                        description='Designer ' + str(desginer_name) + 'new sheet add sheet no: ' + a,
+                        description='Designer ' + str(desginer_name) + 'new sheet add sheet no: ' + str(project_material_instance.sheet_no),
                         )
     
+    project_material_instance.delete()
 
     # Assuming 'project_id' is the correct keyword argument for your 'update_project' view.
     return redirect('add_project_designer', project_id=project_material_instance.project.id)
