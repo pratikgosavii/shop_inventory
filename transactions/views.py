@@ -765,6 +765,9 @@ def add_project_designer(request, project_id):
         order_id = request.POST.get("order_id")
         employee_name = request.POST.get("employee_name")
 
+        desginer_name = project_instance.employee_name
+
+
         filtered_values = project_material.objects.filter(project = project_instance).values_list('sheet_no', flat=True)
 
         existing_values = [int(value) for value in filtered_values]
