@@ -811,7 +811,7 @@ def add_project_designer(request, project_id):
 
                         project_sheets_logs.objects.create(
                         project=project_instance,
-                        description='Designer ' + desginer_name + 'new sheet add sheet no: ' + a,
+                        description='Designer ' + str(desginer_name) + 'new sheet add sheet no: ' + a,
                         )
 
                         aa = product_qr.objects.get(id = a)
@@ -1080,7 +1080,7 @@ def delete_assign_material(request, assign_material_id, project_id):
 
     project_sheets_logs.objects.create(
                         project=project_instance,
-                        description='Designer ' + desginer_name + 'new sheet add sheet no: ' + a,
+                        description='Designer ' + str(desginer_name) + 'new sheet add sheet no: ' + a,
                         )
     
 
