@@ -123,8 +123,10 @@ class product(models.Model):
     grade = models.ForeignKey(grade, on_delete=models.CASCADE)
 
 
-    
+    class Meta:
+        unique_together = ('size', 'category', 'thickness', 'grade')
 
+        
 
 class product_qr(models.Model):
     
