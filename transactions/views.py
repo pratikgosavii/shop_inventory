@@ -1478,7 +1478,7 @@ def from_to_generate_product_qr(request):
     # Specify the desired size in pixels (e.g., 600x600)
     qr_size = 600
 
-    for i in range(161, 172):
+    for i in range(161, 178):
         
         a = product_qr.objects.get(id = i)
 
@@ -1620,90 +1620,85 @@ def assign_values_to_qr(request, product_qr_id):
 
        
         if product_qr_instance.moved_to_left_over == False and product_qr_instance.moved_to_scratch == False:
-
-            form = product_Form(request.POST)
-
-            if form.is_valid():
-                book, created = product.objects.get_or_create(**form.cleaned_data)
+            print('1111')
 
 
-                form2 = product_qr_Form(request.POST, request.FILES, instance = product_qr_instance)
-                if form2.is_valid():
-
-                    # Save the file to a specific location using FileSystemStorage or another storage backend.
-                    form2.save()
-                    shelf_id = request.POST.get('shelf')
-                    print('----------')
-                    print(shelf_id)
-                    print('----------')
+            category = request.POST.get('category')
+            size = request.POST.get('size')
+            thickness = request.POST.get('thickness')
+            grade = request.POST.get('grade')
 
 
-                    shelf_instance = shelf.objects.get(id = shelf_id)
-                    product_qr_shelf_instance = product_qr_shelf.objects.get(product_qr = product_qr_instance)
-                    product_qr_shelf_instance.shelf = shelf_instance
-                    product_qr_shelf_instance.save()
-                
+            book, created = product.objects.get_or_create(category__id = category, size__id =  size, thickness__id = thickness, grade__id = grade)
 
-                    if book:
+            print('2222')
 
-                        product_instance = book
-
-                    else:
-
-                        product_instance = created
-
-                    messages.success(request, 'Values added successfully')
-
-                 
-                    if product_qr_old.is_fix:
-
-                        instance_previous_stock = stock.objects.get(product = product_qr_old.product)
-                        instance_previous_stock.quantity = instance_previous_stock.quantity - 1
-                        instance_previous_stock.save()
-                    
-                    instance, created = stock.objects.get_or_create(product = product_instance)
-                    
-                    if instance:
-
-                        instance.quantity = instance.quantity + 1
-                        instance.save()
-
-                    else:
-
-                        created.quantity = 1
-                        created.save()
+            form2 = product_qr_Form(request.POST, request.FILES, instance = product_qr_instance)
+            if form2.is_valid():
 
 
-                    product_qr_instance.product = product_instance
-                    product_qr_instance.is_fix = True
-                    product_qr_instance.save()
+                print('valid')
 
-                    redirect_url = reverse('list_generated_product_qr')
 
-                    return redirect(redirect_url)
+                # Save the file to a specific location using FileSystemStorage or another storage backend.
+                form2.save()
+                shelf_id = request.POST.get('shelf')
+                print('----------')
+                print(shelf_id)
+                print('----------')
+
+
+                shelf_instance = shelf.objects.get(id = shelf_id)
+                product_qr_shelf_instance = product_qr_shelf.objects.get(product_qr = product_qr_instance)
+                product_qr_shelf_instance.shelf = shelf_instance
+                product_qr_shelf_instance.save()
+            
+                print('valid2')
+
+                if book:
+
+                    product_instance = book
 
                 else:
 
+                    product_instance = created
 
+                messages.success(request, 'Values added successfully')
+                print('valid3')
 
-                    print(product_qr_id)
-                    data = material_history.objects.filter(product_qr__id = product_qr_id)
-
-                    product_qr_shelf_instance = product_qr_shelf.objects.get(product_qr = product_qr_instance)
-
-                    product_qr_shelf_form = product_qr_shelf_Form(instance = product_qr_shelf_instance)
-
-
-                    context = {
-                        'form': form,
-                        'form_qr': form2,
-                        'data': data,
-                        'product_qr_id': product_qr_id,
-                        'product_qr_shelf_form': product_qr_shelf_form,
-                    }
-
-                    return render(request, 'transactions/assign_value_to_qr.html', context)
                 
+                if product_qr_old.is_fix:
+
+                    instance_previous_stock = stock.objects.get(product = product_qr_old.product)
+                    instance_previous_stock.quantity = instance_previous_stock.quantity - 1
+                    instance_previous_stock.save()
+                
+                instance, created = stock.objects.get_or_create(product = product_instance)
+                
+                if instance:
+
+                    instance.quantity = instance.quantity + 1
+                    instance.save()
+                    print('valid4')
+
+                else:
+
+                    created.quantity = 1
+                    created.save()
+
+
+                product_qr_instance.product = product_instance
+                product_qr_instance.is_fix = True
+                product_qr_instance.save()
+
+                redirect_url = reverse('list_generated_product_qr')
+
+                return redirect(redirect_url)
+
+                
+            else:
+
+                print(form.errors) 
         else:
 
             messages.error(request, 'Material already been used please contact pratik')
