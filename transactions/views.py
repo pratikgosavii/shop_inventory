@@ -1478,7 +1478,7 @@ def from_to_generate_product_qr(request):
     # Specify the desired size in pixels (e.g., 600x600)
     qr_size = 600
 
-    for i in range(from_no, to_no):
+    for i in range(161, 172):
         
         a = product_qr.objects.get(id = i)
 
