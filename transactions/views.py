@@ -78,7 +78,7 @@ from .filters import *
 def list_stock(request):
 
    
-    data = stock.objects.prefetch_related('product__project_material_re').filter(quantity__gt=0)
+    data = stock.objects.prefetch_related('product__project_material_re')
    
     context = {
         'data': data,
@@ -1465,6 +1465,54 @@ def generate_product_qr(request):
 
     return render(request, 'transactions/html_qr.html', context)
    
+
+
+def from_to_generate_product_qr(request):
+
+
+    from_no = request.POST.get('from')
+    to_no = request.POST.get('to')
+
+    qr_codes = []
+
+    # Specify the desired size in pixels (e.g., 600x600)
+    qr_size = 600
+
+    for i in range(4, 11):
+        
+        a = product_qr.objects.get(id = i)
+
+        # Adjust the box_size based on the desired size
+        box_size = qr_size // 4  # You can experiment with different values
+
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=box_size,
+            border=0,
+        )
+        qr.add_data(a.id)
+        qr.make(fit=True)
+
+        img = qr.make_image(fill_color="black", back_color="white", size=(qr_size, qr_size))
+        buffer = BytesIO()
+        img.save(buffer, format="PNG")
+
+        qr_code_image = ContentFile(buffer.getvalue())
+
+        a.qr_code.save(f"qr_code_{a.id}.png", qr_code_image)
+
+        qr_codes.append(a)
+
+    context ={
+        'data' : qr_codes
+    }
+
+    return render(request, 'transactions/html_qr.html', context)
+  
+
+
+
 
 from django.http import HttpResponse
 from reportlab.lib.pagesizes import letter
