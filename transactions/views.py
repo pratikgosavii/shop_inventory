@@ -1478,31 +1478,35 @@ def from_to_generate_product_qr(request):
     # Specify the desired size in pixels (e.g., 600x600)
     qr_size = 600
 
-    for i in range(161, 178):
+    for i in range(int(from_no), int(to_no) + 1):
         
-        a = product_qr.objects.get(id = i)
+        try:
+            a = product_qr.objects.get(id = i)
+        except product_qr.DoesNotExist:
+            a = None
+        
+        if a:
+            # Adjust the box_size based on the desired size
+            box_size = qr_size // 4  # You can experiment with different values
 
-        # Adjust the box_size based on the desired size
-        box_size = qr_size // 4  # You can experiment with different values
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=box_size,
+                border=0,
+            )
+            qr.add_data(a.id)
+            qr.make(fit=True)
 
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=box_size,
-            border=0,
-        )
-        qr.add_data(a.id)
-        qr.make(fit=True)
+            img = qr.make_image(fill_color="black", back_color="white", size=(qr_size, qr_size))
+            buffer = BytesIO()
+            img.save(buffer, format="PNG")
 
-        img = qr.make_image(fill_color="black", back_color="white", size=(qr_size, qr_size))
-        buffer = BytesIO()
-        img.save(buffer, format="PNG")
+            qr_code_image = ContentFile(buffer.getvalue())
 
-        qr_code_image = ContentFile(buffer.getvalue())
+            a.qr_code.save(f"qr_code_{a.id}.png", qr_code_image)
 
-        a.qr_code.save(f"qr_code_{a.id}.png", qr_code_image)
-
-        qr_codes.append(a)
+            qr_codes.append(a)
 
     context ={
         'data' : qr_codes
@@ -1723,6 +1727,8 @@ def assign_values_to_qr(request, product_qr_id):
             'form_qr': form_qr,
             'data': data,
             'product_qr_id': product_qr_id,
+            'project_filter': project_filter(),
+
             'product_qr_shelf_form': product_qr_shelf_form,
         }
 

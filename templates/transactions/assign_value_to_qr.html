@@ -1,13 +1,42 @@
-{% extends 'base/base.html' %}
+{% extends 'base/base.html' %} {% block title %}Product List{% endblock title %}
+{% block head %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    <!-- imp -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script> 
 
 
 
-{% block title %}Submit{% endblock title %}
+<style>
+  tr.hide-table-padding td {
+    padding: 0;
+  }
 
-{% block breadcrumbs %}
-{% endblock breadcrumbs %}
+  .expand-button {
+    position: relative;
+  }
 
-{% block content %}
+  .accordion-toggle .expand-button:after {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translate(0, -50%);
+    content: "-";
+  }
+  .accordion-toggle.collapsed .expand-button:after {
+    content: "+";
+  }
+</style>
+
+
+
+  </style>
+
+
+
+{% endblock head %} {% block content %}  
+
+
 {% if form.errors %}
     {% for field in form %}
         {% for error in field.errors %}
@@ -52,6 +81,11 @@
                                 <label for="name" class="control-label mb-1">Category</label>
                                 {{ form.category }}
                             </div>
+
+        
+      <label for="name" class="control-label mb-1" style="margin-left : 0px;">try Code</label>
+      {{ project_filter.form.item_code }}
+
 
                             <div class="form-group">
                                 <label for="name" class="control-label mb-1">Size</label>
@@ -183,6 +217,8 @@
 <script>
 
 
+
+
     document.addEventListener("DOMContentLoaded", function() {
         var form = document.getElementById("myForm");
         var formElements = form.elements;
@@ -191,7 +227,7 @@
             var element = formElements[i];
     
             // Check if the element's id is "id_uploaded_file"
-            if (element.id === "id_uploaded_file" or element.id === "uploaded_file") {
+            if (element.id === "id_uploaded_file" || element.id === "uploaded_file") {
                 // Remove the "required" attribute for the file input
                 element.removeAttribute("required");
             } else {
