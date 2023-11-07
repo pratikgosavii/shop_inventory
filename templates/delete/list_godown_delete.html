@@ -51,9 +51,9 @@
                                    <a href="{% url 'update_godown' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
                                         <span id="payment-button-amount">View</span>
                                     </button>  </a>
-                                    <a href="{% url 'delete_godown' i.id %}"> <button id="payment-button" style="background-color: red; border: red; padding: 10px;border-radius: 12px;" type="submit" class="btn-info">
+                                    {% comment %} <a href="{% url 'delete_godown' i.id %}"> <button id="payment-button" style="background-color: red; border: red; padding: 10px;border-radius: 12px;" type="submit" class="btn-info">
                                         <span id="payment-button-amount">Delete</span>
-                                    </button> </a>
+                                    </button> </a> {% endcomment %}
                                 </td>
                                
                                
