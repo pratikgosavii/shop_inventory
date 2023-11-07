@@ -1627,13 +1627,21 @@ def assign_values_to_qr(request, product_qr_id):
             print('1111')
 
 
-            category = request.POST.get('category')
-            size = request.POST.get('size')
-            thickness = request.POST.get('thickness')
-            grade = request.POST.get('grade')
+            category_id = request.POST.get('category')
+            size_id = request.POST.get('size')
+            thickness_id = request.POST.get('thickness')
+            grade_id = request.POST.get('grade')
 
+            print('printing data ------------------')
+           
+            print('printing data ------------------')
 
-            book, created = product.objects.get_or_create(category__id = category, size__id =  size, thickness__id = thickness, grade__id = grade)
+            category_instance = category.objects.get(id = category_id)
+            size_instance = size.objects.get(id = size_id)
+            thickness_instance = thickness.objects.get(id = thickness_id)
+            grade_instance = grade.objects.get(id = grade_id)
+            
+            book, created = product.objects.get_or_create(category = category_instance, size =  size_instance, thickness = thickness_instance, grade = grade_instance)
 
             print('2222')
 
