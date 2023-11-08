@@ -1640,7 +1640,7 @@ def assign_values_to_qr(request, product_qr_id):
             size_instance = size.objects.get(id = size_id)
             thickness_instance = thickness.objects.get(id = thickness_id)
             grade_instance = grade.objects.get(id = grade_id)
-            
+
             book, created = product.objects.get_or_create(category = category_instance, size =  size_instance, thickness = thickness_instance, grade = grade_instance)
 
             print('2222')
@@ -1734,6 +1734,7 @@ def assign_values_to_qr(request, product_qr_id):
             'form': form,
             'form_qr': form_qr,
             'data': data,
+            'sheet_no': product_qr_id,
             'product_qr_id': product_qr_id,
             'project_filter': project_filter(),
 

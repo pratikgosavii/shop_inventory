@@ -57,7 +57,8 @@
                         <form action="#" id="myForm" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
 
-                        
+                            <strong class="card-title">Sheet No {{ sheet_no }} </strong>
+                            
                             <div class="form-group">
                                 <label for="shelf" class="control-label mb-1">Shelf</label>
                             <select name="shelf" class="form-control" id="shelf" required="true">
