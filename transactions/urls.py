@@ -78,7 +78,6 @@ urlpatterns = [
     path('list-outward-delete/', list_outward_delete, name='list_outward_delete'),
     path('list-return-delete/', list_return_delete, name='list_return_delete'),
 
-    path("download-gate-pass/<outward_id>", ResultList, name="list"),
 
 
 

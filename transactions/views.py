@@ -241,33 +241,6 @@ def list_return_delete(request):
 
 
 
-from django.http import HttpResponse
-from django.template.loader import get_template
-from xhtml2pdf import pisa
-
-
-def render_to_pdf(template_src, context_dict={}):
-    template = get_template(template_src)
-    html = template.render(context_dict)
-    response = HttpResponse(content_type='application/pdf')
-    pdf_status = pisa.CreatePDF(html, dest=response)
-
-    if pdf_status.err:
-        return HttpResponse('Some errors were encountered <pre>' + html + '</pre>')
-
-    return response
-
-
-def ResultList(request, outward_id):
-    template_name = "transactions/gate_pass.html"
-    records = outward.objects.get(id = outward_id)
-
-    return render_to_pdf(
-        template_name,
-        {
-            "record": records,
-        },
-    )
 
 
 
