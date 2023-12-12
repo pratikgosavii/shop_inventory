@@ -142,7 +142,7 @@ def send_whatsapp_message(request, category, size, thickness, grade):
     account_sid = 'AC99a2212d49d4b1349fc702d1227c0e00'
     auth_token = '3971ae05dd33a4bf02eca219c54ec84d'
     client = Client(account_sid, auth_token)
-    msg = 'Category: ' + str(category) + 'Thickness: ' +  str(thickness) + 'Grade: ' + str(grade) + 'Size : 98 X 48 Inch'+ 'Quantity is less than 10'
+    msg = 'Category: ' + str(category) + 'Thickness: ' +  str(thickness) + 'Grade: ' + str(grade) + 'Size :' + str(size) + 'Quantity is less than 10'
     message = client.messages.create(
     from_='whatsapp:+14155238886',
     body=msg,
@@ -1438,6 +1438,109 @@ def generate_product_qr(request):
 
     return render(request, 'transactions/html_qr.html', context)
    
+
+def generate_product_qr_with_values(request):
+
+    if request.method == "POST":
+
+        quantity = request.POST.get('quantity')
+        shelf_id = request.POST.get('shelf')
+        supplier_id = request.POST.get('supplier')
+        category_id = request.POST.get('category')
+        size_id = request.POST.get('size')
+        thickness_id = request.POST.get('thickness')
+        grade_id = request.POST.get('grade')
+        finish_id = request.POST.get('finish')
+        date_of_pur_id = request.POST.get('date_of_pur')
+
+
+        category_instance = category.objects.get(id = category_id)
+        size_instance = size.objects.get(id = size_id)
+        thickness_instance = thickness.objects.get(id = thickness_id)
+        grade_instance = grade.objects.get(id = grade_id)
+
+        book, created = product.objects.get_or_create(category = category_instance, size =  size_instance, thickness = thickness_instance, grade = grade_instance)
+        
+        if book:
+
+            product_instance = book
+
+        else:
+
+            product_instance = created
+
+        qr_codes = []
+
+        # Specify the desired size in pixels (e.g., 600x600)
+        qr_size = 600
+
+        for i in range(int(quantity)):
+            
+            instance, created = stock.objects.get_or_create(product = product_instance)
+                
+            if instance:
+
+                instance.quantity = instance.quantity + 1
+                instance.save()
+                print('valid4')
+
+            else:
+
+                created.quantity = 1
+                created.save()
+
+
+            a = product_qr.objects.create(product = product_instance, date_of_pur = date_of_pur_id, finish = finish_id)
+            product_qr_shelf.objects.create(product_qr = a)
+
+            # Adjust the box_size based on the desired size
+            box_size = qr_size // 4  # You can experiment with different values
+
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=box_size,
+                border=0,
+            )
+            qr.add_data(a.id)
+            qr.make(fit=True)
+
+            img = qr.make_image(fill_color="black", back_color="white", size=(qr_size, qr_size))
+            buffer = BytesIO()
+            img.save(buffer, format="PNG")
+
+            qr_code_image = ContentFile(buffer.getvalue())
+
+            a.qr_code.save(f"qr_code_{a.id}.png", qr_code_image)
+
+            qr_codes.append(a)
+
+        context ={
+            'data' : qr_codes
+        }
+
+        return render(request, 'transactions/html_qr.html', context)
+    else:
+
+        print('-----------------')
+        print('-----------------')
+        print('-----------------')
+        print('-----------------')
+        print('-----------------')
+
+        form = product_Form()
+        form_qr = product_qr_Form()
+        product_qr_shelf_form = product_qr_shelf_Form()
+
+
+        context ={
+            'form' : form,
+            'form_qr': form_qr,
+            'product_qr_shelf_form': product_qr_shelf_form,
+
+        }
+
+        return render(request, 'transactions/generate_product_qr_with_values.html', context)
 
 
 def from_to_generate_product_qr(request):

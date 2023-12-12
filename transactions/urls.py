@@ -47,6 +47,7 @@ urlpatterns = [
 
 
     path('generate-product-qr/', generate_product_qr, name='generate_product_qr'),
+    path('generate-product-qr-with-values/', generate_product_qr_with_values, name='generate_product_qr_with_values'),
     path('from-to-generate-product-qr/', from_to_generate_product_qr, name='from_to_generate_product_qr'),
     path('list-generated-product-qr/', list_generated_product_qr, name='list_generated_product_qr'),
     path('print-single-qr/<product_qr_id>', print_single_qr, name='print_single_qr'),

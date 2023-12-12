@@ -1,0 +1,284 @@
+{% extends 'base/base.html' %} {% block title %}Product List{% endblock title %}
+{% block head %}
+
+
+
+<style>
+  tr.hide-table-padding td {
+    padding: 0;
+  }
+
+  .expand-button {
+    position: relative;
+  }
+
+  .accordion-toggle .expand-button:after {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translate(0, -50%);
+    content: "-";
+  }
+  .accordion-toggle.collapsed .expand-button:after {
+    content: "+";
+  }
+
+  .select2-container .select2-selection--single {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: block;
+    height: 38px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+
+</style>
+
+
+
+  </style>
+
+
+
+{% endblock head %} {% block content %}  
+
+
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <p> {{ error }} </p>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Product Details</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="#" id="myForm" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Quantity</label>
+                                <input type="number" name="quantity" class="form-control" id="quantity"  required="true">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="shelf" class="control-label mb-1">Shelf</label>
+                            <select name="shelf" class="form-control" id="shelf" required="true">
+                                                                                        
+                                {% for shelf_choice in product_qr_shelf_form.fields.shelf.choices %}
+                                <option value="{{ shelf_choice.0 }}" {% if shelf_choice.0 == product_qr_shelf_form.instance.shelf.id %}selected{% endif %}>
+                                    {{ shelf_choice.1 }}
+                                </option>
+                            {% endfor %}
+
+
+                                          </select> 
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Supplier</label>
+                                {{ form_qr.supplier }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Category</label>
+                                {{ form.category }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Size</label>
+                                {{ form.size }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Thickness</label>
+                                {{ form.thickness }}
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Grade</label>
+                                {{ form.grade }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Finish</label>
+                                {{ form_qr.finish }}
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Date of Purchase</label>
+                                {{ form_qr.date_of_pur }}
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">File Upload</label>
+                                {{ form_qr.uploaded_file }}
+                            </div>
+
+
+
+                            <hr>
+
+                            
+                            <label for="name" class="control-label mb-1"> Product Used History </label>
+
+                           
+                             
+
+                            <table class="table">
+                                <thead class="thead-light" style="background: #e3e3e3;">
+                                    <tr>
+                                        <td> Cutter Name </td>
+                                        <td> Updated At </td>
+                                        <td> Purchase No </td>
+                                        <td> Customer Name </td>
+                                        <td> Size Before </td>
+                                        <td> Used Size </td>
+                                        <td> Left Size </td>
+                                        <td> Action </td>
+                                        
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {% for i in data %}
+
+                                    
+
+                                    {% if forloop.last %}
+
+                                    <tr>
+                                        <td> {{ i.cutter }}</td>
+                                        <td> {{ i.updated_at }}</td>
+                                        <td> {{ i.project.order_id }}</td>
+                                        <td> {{ i.project.customer.name }}</td>
+                                        <td> {{ i.previous_size }} </td>
+                                        <td> {{ i.used_size }} </td>
+                                        <td> {{ i.left_size }} </td>
+                                        <td> <a href="{% url 'delete_history' i.id %}"> <button id="payment-button"  style="background-color: red; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+                                            <span id="payment-button-amount">Delete</span>
+                                        </button>  </a></td>
+                                        
+                                    </tr>
+
+                                    {% else %}
+                                    
+                                    <tr>
+                                        <td> {{ i.cutter }}</td>
+                                        <td> {{ i.updated_at }}</td>
+                                        <td> {{ i.project.order_id }}</td>
+                                        <td> {{ i.project.customer.name }}</td>
+                                        <td> {{ i.previous_size }} </td>
+                                        <td> {{ i.used_size }} </td>
+                                        <td> {{ i.left_size }} </td>
+                                        <td>  </td>
+                                        
+                                    </tr>
+
+                                    {% endif %}
+
+                                    {% endfor %}
+
+                                
+                                    </tbody>
+
+                                </table>  
+
+                             
+
+ <br>
+                            
+
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="payment-button-amount">Submit</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- .card -->
+
+    </div><!--/.col-->
+</div>
+{% endblock content %}
+
+
+{% block js %}
+
+<script>
+
+
+    $(document).ready(function() {
+        $('#size').select2();
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var form = document.getElementById("myForm");
+        var formElements = form.elements;
+    
+        for (var i = 0; i < formElements.length; i++) {
+            var element = formElements[i];
+    
+            // Check if the element's id is "id_uploaded_file"
+            if (element.id === "id_uploaded_file" || element.id === "uploaded_file") {
+                // Remove the "required" attribute for the file input
+                element.removeAttribute("required");
+            } else {
+                // Set the "required" attribute for other form elements
+                element.setAttribute("required", "true");
+            }
+        }
+    
+        // Check if the user is a designer using Django template tag
+        
+    });
+    
+
+
+
+    {% if request.user.is_designer %}
+document.addEventListener("DOMContentLoaded", function() {
+    // Function to make fields readonly
+    function makeFieldsReadonly() {
+        const fileInput = document.getElementById('id_uploaded_file');
+        const disableMeInputs = document.querySelectorAll('.disable-me');
+        
+        // Make the file input readonly
+        fileInput.readOnly = true;
+    
+        // Make other fields readonly
+        for (const input of disableMeInputs) {
+            input.readOnly = true;
+        }
+    }
+    
+    // Call the function to make fields readonly
+    makeFieldsReadonly();
+});
+{% endif %}
+
+
+
+
+
+
+</script>
+
+
+{% endblock js %}
