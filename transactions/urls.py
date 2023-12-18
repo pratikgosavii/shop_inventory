@@ -66,7 +66,10 @@ urlpatterns = [
 
     path('delete-images/', delete_images, name='delete_images'),
 
-    path('send-whatsapp-message/', send_whatsapp_message, name='send_whatsapp_message'),
+    path('list-notifications/', list_notifications, name='list_notifications'),
+    path('llow_stock_report/<notification_id>', low_stock_report, name='low_stock_report'),
+
+    # path('send-whatsapp-message/', send_whatsapp_message, name='send_whatsapp_message'),
 
 
     path('download', download, name='download'),

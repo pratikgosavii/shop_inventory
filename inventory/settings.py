@@ -83,6 +83,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },
@@ -164,9 +165,10 @@ PUSH_NOTIFICATIONS_SETTINGS = {
 }
 
 
+
 # settings.py
 
-TWILIO_ACCOUNT_SID = 'AC99a2212d49d4b1349fc702d1227c0e00'
-TWILIO_AUTH_TOKEN = '3971ae05dd33a4bf02eca219c54ec84d'
-TWILIO_PHONE_NUMBER = '+12568183318'  # Twilio phone number
-WHATSAPP_PHONE_NUMBER = 'whatsapp:+8237377298'  # WhatsApp phone number (include 'whatsapp:')
+# TWILIO_ACCOUNT_SID = 'AC99a2212d49d4b1349fc702d1227c0e00'
+# TWILIO_AUTH_TOKEN = '3971ae05dd33a4bf02eca219c54ec84d'
+# TWILIO_PHONE_NUMBER = '+12568183318'  # Twilio phone number
+# WHATSAPP_PHONE_NUMBER = 'whatsapp:+8237377298'  # WhatsApp phone number (include 'whatsapp:')

@@ -1,0 +1,120 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Product List{% endblock title %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <div class="breadcrumbs-inner">
+        <div class="row m-0">
+            
+            {% comment %} <div class="col-sm-8">
+                <div class="page-header float-right">
+                    <div class="page-title">
+                        <ol class="breadcrumb text-right">
+                            <li><a href="#">Dashboard</a></li>
+                            <li><a href="#">Product</a></li>
+                            <li class="active">List</li>
+                        </ol>
+                    </div>
+                </div>
+            </div> {% endcomment %}
+        </div>
+    </div>
+</div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card" style="width: 34%; padding: 4px 1.25em; ">
+            <div class="card-body">
+                <h4 class="box-title">Legend</h4>
+                <ul>
+                    <li style="background: #b0ffb0;">Fresh Sheet</li>
+                    <li style="background: #ffd890;">Left Over Sheet</li>
+                    <li style="background: #ffc5c5;">Scratch Sheet</li>
+                    <!-- Add more legend items as needed -->
+                </ul>
+
+                <a href="{% url 'delete_images' %}"> <button class="btn btn-danger"> Delete QR Images </button> </a>
+            </div>
+        </div>
+
+        <form action="{% url 'from_to_generate_product_qr' %}" method="post" style="display: flex; gap: 40px;">
+
+            {% csrf_token %}
+
+            <input type="number" min="0" class="form-control" style="width : 263px;" name="from" placeholder="Enter Sheet no from" inputmode="numeric">
+            <input type="number" min="0" class="form-control" style="width : 263px;" name="to" placeholder="Sheet no to" inputmode="numeric">
+            <button type="submit" class="btn btn-success form-input"> Print QR's </button>
+
+        </form>
+
+
+        <br>
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="box-title">All Notification List </h4>
+            </div>
+            <div class="card-body--">
+                <div class="table-stats order-table ov-h">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th class="serial">#</th>
+                                <th>Message</th>
+                                <th>Date Time</th>
+                                <th>Reported</th>
+                                
+                                <th>Actions</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if data %}
+                            {% for i in data %}
+                            
+                           
+                            <tr>
+
+
+                                <td class="serial">{{ forloop.counter }}</td>
+                                <td>{{ i.message }}</td>
+                                <td>{{ i.timestamp }}</td>
+                                <td>{{ i.is_reported }}</td>
+                                
+                                <td>  
+                                  
+                                    {% if i.is_reported == True %}
+
+                                    <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+                                        <span id="payment-button-amount">Reported</span>
+                                    </button> 
+
+                                    {% else %}
+
+                                    <a href="{% url 'low_stock_report' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+                                        <span id="payment-button-amount">Reported</span>
+                                    </button>  </a>
+
+                                    {% endif %}
+                                    
+                                </td>
+                               
+                               
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                                <tr><td>No Notification Data</td></tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div> <!-- /.table-stats -->
+            </div>
+        </div> <!-- /.card -->
+    </div>  <!-- /.col-lg-8 -->
+
+    
+</div>
+{% endblock content %}

@@ -319,6 +319,8 @@ font-family: 'Montserrat', sans-serif;
     <source src="static/audio/popup.wav" type="audio/mpeg">
 </audio>
 
+
+
     
 {% endblock content %}
 
@@ -329,40 +331,9 @@ font-family: 'Montserrat', sans-serif;
     <script>
 
 
-        const enableSoundButton = document.getElementById('enable-sound-button');
-const audioElement = document.getElementById('audio-element');
-
-enableSoundButton.addEventListener('click', () => {
-    audioElement.play().then(() => {
-        // Autoplay is allowed, store user's preference
-        localStorage.setItem('soundEnabled', 'true');
-        enableSoundButton.style.display = 'none';
-    }).catch((error) => {
-        // Autoplay was denied by the user
-        console.error('Autoplay permission denied:', error);
-    });
-});
 
 
-// In the 'enable-sound-button' click handler
-localStorage.setItem('soundEnabled', 'true');
 
-          if ('Notification' in window) {
-            Notification.requestPermission().then(permission => {
-              if (permission === 'granted') {
-                enableSoundButton.style.display = 'none';// Permission granted, you can now send notifications (including sound) without asking again until revoked.
-              } else if (permission === 'denied') {
-                // Permission denied, handle accordingly.
-              } else {
-                // Permission dismissed or unavailable, handle accordingly.
-              }
-            });
-          }
-
-          const pusher = new Pusher('bc5ccb3b5fa0e00f91e5', {
-            cluster: 'ap2',
-            encrypted: true,
-        });
     
         const channel = pusher.subscribe('alerts');
         channel.bind('new-alert', function (data) {
@@ -424,6 +395,10 @@ localStorage.setItem('soundEnabled', 'true');
             // Append the notification item to the notificationDiv
           
         });
+
+
+    
+
 
 
         var usedLengthInput = document.getElementById("used-length-input");

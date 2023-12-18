@@ -382,6 +382,8 @@ tableBody.addEventListener('click', function(event) {
 
 
   $("#submitform").on("submit", function(e) {
+
+    if (password_verification == 1){
     // Check if any required fields are empty or disabled
     const invalidFields = $(this).find("select[required]:enabled").filter(function() {
         return !$(this).val(); // Check for empty value
@@ -402,8 +404,11 @@ tableBody.addEventListener('click', function(event) {
     // Disable an input field by its ID
     document.getElementById("id_DC_date").disabled = false;
 
-
-
+    }
+    else{
+        alert('Verify password first')
+        return false;
+    }
     
 });
 
@@ -489,15 +494,26 @@ $(document).ready(function () {
     // Event listener for form submission (optional)
     $('#submitform').on('submit', function (e) {
         // You can add additional validation here if needed
-        if (enteredNames.length > 0 && enteredNames.includes("")) {
-            e.preventDefault(); // Prevent form submission
-            alert("Please enter unique names in the 'no_need' fields.");
-        }
-    });
 
-    $('input[name="no_need"]').each(function (index) {
-        enteredNames[index] = $(this).val();
-    });
+    if (password_verification == 1){
+
+            if (enteredNames.length > 0 && enteredNames.includes("")) {
+                e.preventDefault(); // Prevent form submission
+                alert("Please enter unique names in the 'no_need' fields.");
+            }
+        }
+
+        else{
+            alert('Verifty password first')
+        }
+        
+        });
+
+        $('input[name="no_need"]').each(function (index) {
+            enteredNames[index] = $(this).val();
+        });
+
+    
 
     // Add your code for dynamically adding rows here
 });

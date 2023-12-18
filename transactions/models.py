@@ -135,18 +135,9 @@ class alert(models.Model):
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
-# @receiver(post_save, sender=alert)
-# def send_alert_notification(sender, instance, created, **kwargs):
 
-#     print('yes')
-#     if created:
-#         print('yes2')
+class notification_table(models.Model):
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_reported = models.BooleanField(default=False)
 
-#         channel_layer = get_channel_layer()
-#         async_to_sync(channel_layer.group_send)(
-#             'notification_group',  # You can define a group name
-#             {
-#                 'type': 'send_notification',
-#                 'entry': instance.message  # Serialize your entry as needed
-#             }
-#         )

@@ -14,7 +14,6 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from datetime import date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from functools import reduce
 
 from django.urls import reverse
 import csv
@@ -113,6 +112,32 @@ def list_dead_stock(request):
 
     return render(request, 'transactions/list_dead_stock.html', context)
 
+@login_required(login_url='login')
+def list_notifications(request):
+
+   
+    data = notification_table.objects.all()
+    
+    context = {
+        'data': data,
+        
+    }
+
+    return render(request, 'transactions/list_notifications.html', context)
+
+
+@login_required(login_url='login')
+def low_stock_report(request, notification_id):
+
+   
+    data = notification_table.objects.get(id = notification_id)
+    
+    data.is_reported = True
+    data.save()
+
+    return redirect('list_notifications')
+
+
 
 @login_required(login_url='login')
 def delete_images(request):
@@ -140,16 +165,16 @@ def send_whatsapp_message(request, category, size, thickness, grade):
 
     # Your message content
     account_sid = 'AC99a2212d49d4b1349fc702d1227c0e00'
-    auth_token = '3971ae05dd33a4bf02eca219c54ec84d'
+    auth_token = '560bf0fc1c4e1ab09c32ca9bda22226c'
     client = Client(account_sid, auth_token)
-    msg = 'Category: ' + str(category) + 'Thickness: ' +  str(thickness) + 'Grade: ' + str(grade) + 'Size :' + str(size) + 'Quantity is less than 10'
+    msg = 'Category: ' + str(category) + 'Thickness: ' +  str(thickness) + 'Grade: ' + str(grade) + 'Size :' + str(size) + 'Quantity is less than 5'
     message = client.messages.create(
     from_='whatsapp:+14155238886',
     body=msg,
     to='whatsapp:+918237377298'
     )
 
-    return 0
+    return True
 
 
 
@@ -1162,6 +1187,16 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                 stock_instance.save()
 
+                if stock_instance.quantity < 4:
+                    
+                    a1212 = notification_table.objects.create(message =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade))
+                    pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
+                                            key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
+                                            secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
+                                            cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
+                                            ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
+
+                    pusher_client.trigger('alerts', 'new-notificatin', {'message': a1212.message})
               
             else:
                 
@@ -1202,6 +1237,17 @@ def update_assign_matarial_qr(request, product_qr_id):
                 stock_instance = stock.objects.get(product = product_instance)
                 stock_instance.quantity = stock_instance.quantity - 1
                 stock_instance.save()
+
+                if stock_instance.quantity < 4:
+                    
+                    a1212 = notification_table.objects.create(message =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade))
+                    pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
+                                            key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
+                                            secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
+                                            cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
+                                            ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
+
+                    pusher_client.trigger('alerts', 'new-notificatin', {'message': a1212.message})
 
 
                 product_qr_instance.moved_to_left_over = True
@@ -1489,9 +1535,13 @@ def generate_product_qr_with_values(request):
                 created.quantity = 1
                 created.save()
 
+            supplier_instance= dealer.objects.get(id = supplier_id)
 
-            a = product_qr.objects.create(product = product_instance, date_of_pur = date_of_pur_id, finish = finish_id)
-            product_qr_shelf.objects.create(product_qr = a)
+            a = product_qr.objects.create(product = product_instance, date_of_pur = date_of_pur_id, finish = finish_id, supplier = supplier_instance)
+            
+            shelf_instance = shelf.objects.get(id = shelf_id)
+            
+            product_qr_shelf.objects.create(product_qr = a, shelf = shelf_instance)
 
             # Adjust the box_size based on the desired size
             box_size = qr_size // 4  # You can experiment with different values
@@ -1761,6 +1811,17 @@ def assign_values_to_qr(request, product_qr_id):
                     instance_previous_stock.quantity = instance_previous_stock.quantity - 1
                     instance_previous_stock.save()
                 
+                if instance_previous_stock.quantity < 4:
+                    
+                    a1212 = notification_table.objects.create(message =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade))
+                    pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
+                                            key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
+                                            secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
+                                            cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
+                                            ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
+
+                    pusher_client.trigger('alerts', 'new-notificatin', {'message': a1212.message})
+
                 instance, created = stock.objects.get_or_create(product = product_instance)
                 
                 if instance:

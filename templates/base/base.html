@@ -392,6 +392,72 @@
             window.location.replace(temp1);
         } {% endcomment %}
        
+
+        
+        
+        const enableSoundButton = document.getElementById('enable-sound-button');
+const audioElement = document.getElementById('audio-element');
+
+enableSoundButton.addEventListener('click', () => {
+    audioElement.play().then(() => {
+        // Autoplay is allowed, store user's preference
+        localStorage.setItem('soundEnabled', 'true');
+        enableSoundButton.style.display = 'none';
+    }).catch((error) => {
+        // Autoplay was denied by the user
+        console.error('Autoplay permission denied:', error);
+    });
+});
+
+
+// In the 'enable-sound-button' click handler
+localStorage.setItem('soundEnabled', 'true');
+
+          if ('Notification' in window) {
+            Notification.requestPermission().then(permission => {
+              if (permission === 'granted') {
+                enableSoundButton.style.display = 'none';// Permission granted, you can now send notifications (including sound) without asking again until revoked.
+              } else if (permission === 'denied') {
+                // Permission denied, handle accordingly.
+              } else {
+                // Permission dismissed or unavailable, handle accordingly.
+              }
+            });
+          }
+
+         
+          const pusher = new Pusher('bc5ccb3b5fa0e00f91e5', {
+            cluster: 'ap2',
+            encrypted: true,
+        });
+         
+          const channel2 = pusher.subscribe('alerts');
+        channel2.bind('new-notificatin', function (data) {
+            const message = data.message;
+
+            alert('here')
+            alert(message)
+
+            const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
+
+            if (soundEnabled) {
+                // Play the sound without asking for permission
+                const audio = new Audio('static/audio/notification.wav');
+                audio.play();
+            }
+
+            else{
+                alert('please enable sound')
+            }
+
+
+
+            // To show all elements with the class "notification-badge"
+            document.getElementById('notification-badge').style.display = 'flex';
+
+
+        });
+
     </script>
     {% block js %}
     

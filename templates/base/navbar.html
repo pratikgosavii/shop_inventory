@@ -1,5 +1,54 @@
 {% load static %}
 
+{% block head %}
+
+<style>
+
+    
+.icon-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    color: #333333;
+    background: #dddddd;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    margin-right: 18px;
+    margin-left: 18px;
+    margin-top: 7px;
+  }
+  
+  .icon-button:hover {
+    cursor: pointer;
+  }
+  
+  .icon-button:active {
+    background: #cccccc;
+  }
+  
+  .icon-button__badge {
+    position: absolute;
+    top: 0px;
+    right: -5px;
+    width: 17px;
+    height: 17px;
+    background: #bd70bd;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+  
+
+</style>
+
+{% endblock head %}
+
 <header id="header" class="header">
 
     {% if request.user.is_designer %}
@@ -27,8 +76,13 @@
     {% endif %}
 
     <div class="top-right">
+
+        
+
         <div class="header-menu">
             
+           
+
             {% if request.user.is_designer %}
 
             <p style="margin-top: 16px;"> Designer </p>
@@ -42,6 +96,14 @@
             <p style="margin-top: 16px;"> Accounts </p>
 
             {% endif %}
+
+            <a href="{% url 'list_notifications' %}"> <button type="button" class="icon-button">
+                <span class="material-icons">notifications</span>
+
+
+                <span class="icon-button__badge" style="display:none;" id="notification-badge">*</span>
+              </button>
+            </a>
 
             <div class="user-area dropdown float-right">
                 <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
