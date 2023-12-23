@@ -72,6 +72,14 @@ urlpatterns = [
     # path('send-whatsapp-message/', send_whatsapp_message, name='send_whatsapp_message'),
 
 
+
+    path('add-order/', add_order, name='add_order'),
+    path('update-order/<order_id>', update_order, name='update_order'),
+    path('delete-order/<order_id>', delete_order, name='delete_order'),
+    path('list-order/', list_order, name='list_order'),
+    
+
+
     path('download', download, name='download'),
 
     #delete urls 

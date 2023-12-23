@@ -1,0 +1,161 @@
+{% extends 'base/base.html' %}
+
+
+
+{% block title %}Create Product{% endblock title %}
+
+{% block head %}
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    
+<style>
+
+
+    #video {
+        display: none;
+    }
+
+
+    .table {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1rem;
+        background-color: transparent;
+    }
+    
+    
+    .table th, .table thead th {
+        font-weight: 500;
+    }
+    
+    
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+    }
+    
+    
+    .table th {
+        padding: 1rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+    
+    
+    .table th, .table thead th {
+        font-weight: 500;
+    }
+    
+    
+    th {
+        text-align: inherit;
+    }
+    
+    
+</style>
+
+{% endblock head %}
+
+{% block content %}
+
+
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="icon-box">
+					<i class="material-icons">&#xE876;</i>
+				</div>				
+				<h4 class="modal-title w-100">Awesome!</h4>	
+			</div>
+			<div class="modal-body">
+				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>     
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Add Order Details</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form onsubmit="submitForm(event)" id="submitform" method="post">
+                            {% csrf_token %}
+
+                            
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Customer Name</label>
+                                {{ form.customer }}
+                               
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Description </label>
+                                {{ form.description }}
+                               
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Urgency </label>
+                                {{ form.urgency }}
+                               
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Requirements</label>
+                                {{ form.requirements }}
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Invoice</label>
+                                {{ form.invoice }}
+
+                            </div>
+
+
+ <br>
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="payment-button-amount">Update Production</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- .card -->
+
+    </div><!--/.col-->
+</div>
+
+
+{% endblock content %}
+
+{% block js %}
+    
+
+<script>
+
+
+</script>
+
+{% endblock js %}

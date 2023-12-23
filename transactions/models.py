@@ -120,6 +120,18 @@ class scratch_stock(models.Model):
     
 
 
+class order(models.Model):
+    
+    customer = models.TextField()
+    description = models.TextField()
+    urgency = models.TextField()
+    requirements = models.TextField()
+    invoice = models.IntegerField()
+    date = models.DateTimeField(auto_now_add=True)
+    is_reported = models.BooleanField(default=False)
+
+
+
 # models.py
 from django.db import models
 from django.contrib.auth.models import User

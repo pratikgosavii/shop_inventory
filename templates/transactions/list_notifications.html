@@ -26,31 +26,7 @@
 {% block content %}
 <div class="row">
     <div class="col-xl-12">
-        <div class="card" style="width: 34%; padding: 4px 1.25em; ">
-            <div class="card-body">
-                <h4 class="box-title">Legend</h4>
-                <ul>
-                    <li style="background: #b0ffb0;">Fresh Sheet</li>
-                    <li style="background: #ffd890;">Left Over Sheet</li>
-                    <li style="background: #ffc5c5;">Scratch Sheet</li>
-                    <!-- Add more legend items as needed -->
-                </ul>
-
-                <a href="{% url 'delete_images' %}"> <button class="btn btn-danger"> Delete QR Images </button> </a>
-            </div>
-        </div>
-
-        <form action="{% url 'from_to_generate_product_qr' %}" method="post" style="display: flex; gap: 40px;">
-
-            {% csrf_token %}
-
-            <input type="number" min="0" class="form-control" style="width : 263px;" name="from" placeholder="Enter Sheet no from" inputmode="numeric">
-            <input type="number" min="0" class="form-control" style="width : 263px;" name="to" placeholder="Sheet no to" inputmode="numeric">
-            <button type="submit" class="btn btn-success form-input"> Print QR's </button>
-
-        </form>
-
-
+        
         <br>
 
         <div class="card">

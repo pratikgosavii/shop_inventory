@@ -161,6 +161,42 @@ class product_qr_Form(forms.ModelForm):
 
 
 
+class order_Form(forms.ModelForm):
+
+    class Meta:
+        model = order
+        fields = '__all__'
+        widgets = {
+          
+           
+            'customer': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'customer',
+            }),
+
+            'description': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'description',
+            }),
+
+            'urgency': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'urgency',
+            }),
+
+            'requirements': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'requirements',
+            }),
+
+            'invoice': forms.NumberInput(attrs={
+                'class': 'form-control', 'id': 'invoice',
+            }),
+
+
+            'date' : DateInput(attrs={ 'class': 'form-control', 'type': 'date'}, format = '%Y-%m-%d'),
+          
+            
+        }
+
+
+
 
 class goods_company_Form(forms.ModelForm):
     class Meta:

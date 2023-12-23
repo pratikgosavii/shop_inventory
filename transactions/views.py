@@ -157,6 +157,83 @@ def delete_images(request):
     return redirect('list_generated_product_qr')
 
 
+
+
+@login_required(login_url='login')
+def add_order(request):
+
+    if request.method == 'POST':
+
+        forms = order_Form(request.POST)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_order')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        forms = order_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'transactions/add_order.html', context)
+
+        
+
+@login_required(login_url='login')
+def update_order(request, order_id):
+
+    if request.method == 'POST':
+
+        instance = order.objects.get(id=order_id)
+
+        forms = order_Form(request.POST, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_order')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        instance = order.objects.get(id=order_id)
+        forms = order_Form(instance=instance)
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'transactions/add_order.html', context)
+
+        
+
+@login_required(login_url='login')
+def delete_order(request, order_id):
+
+    order.objects.get(id=order_id).delete()
+
+    return HttpResponseRedirect(reverse('list_order'))
+
+
+        
+
+@login_required(login_url='login')
+def list_order(request):
+
+    data = order.objects.all()
+
+    context = {
+        'data': data
+    }
+
+    return render(request, 'transactions/list_order.html', context)
+
+
+
+
 from django.http import HttpResponse
 from twilio.rest import Client
 from django.conf import settings
