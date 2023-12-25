@@ -111,6 +111,11 @@ class left_over_stock(models.Model):
     product = models.ForeignKey(product, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(auto_now=True)
 
+class demo(models.Model):
+
+    name = models.CharField(max_length=50)
+    
+
 class scratch_stock(models.Model):
 
     quantity = models.BigIntegerField(default = 0, null = True, blank = True)

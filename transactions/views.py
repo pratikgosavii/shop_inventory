@@ -254,6 +254,14 @@ def send_whatsapp_message(request, category, size, thickness, grade):
     return True
 
 
+def demo_api(request):
+
+
+
+    demo.objects.create(name="done")
+
+    
+
 
 @login_required(login_url='login')
 def download(request):

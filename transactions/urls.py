@@ -81,6 +81,11 @@ urlpatterns = [
 
 
     path('download', download, name='download'),
+    
+    path('demo-api', demo_api, name='demo_api'),
+
+    # path('productiom', download, name='download'),
+
 
     #delete urls 
 
