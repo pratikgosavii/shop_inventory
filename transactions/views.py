@@ -1896,17 +1896,7 @@ def assign_values_to_qr(request, product_qr_id):
                     instance_previous_stock.quantity = instance_previous_stock.quantity - 1
                     instance_previous_stock.save()
                 
-                if instance_previous_stock.quantity < 4:
-                    
-                    a1212 = notification_table.objects.create(message =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade))
-                    pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
-                                            key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
-                                            secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
-                                            cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
-                                            ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
-
-                    pusher_client.trigger('alerts', 'new-notificatin', {'message': a1212.message})
-
+                
                 instance, created = stock.objects.get_or_create(product = product_instance)
                 
                 if instance:
