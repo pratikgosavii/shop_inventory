@@ -254,11 +254,20 @@ def send_whatsapp_message(request, category, size, thickness, grade):
     return True
 
 
-def demo_api(request):
+def demo_api(request, rfid_value, rfid_reader):
+
+    context = {
+
+        'rfid_value' : rfid_value,
+        'rfid_reader' : rfid_reader,
+
+    }
+
+    return JsonResponse(context)
 
 
 
-    demo.objects.create(name="done")
+    
 
     
 
