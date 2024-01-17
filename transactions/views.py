@@ -266,6 +266,50 @@ def demo_api(request, rfid_value, rfid_reader):
     return JsonResponse(context)
 
 
+def demo_api(request):
+
+    context = {
+
+        'sheet_id' : 1,
+
+    }
+
+    return JsonResponse(context)
+
+
+
+    
+
+
+def sheet_status_active(request, sheet_id):
+
+    print('----------------')
+    product_qr_instance = product_qr.objects.get(id = sheet_id)
+    product_qr_instance.status = True
+    product_qr_instance.save()
+
+    print(product_qr_instance)
+
+    return redirect(list_generated_product_qr)
+
+
+
+
+
+def sheet_status_deactive(request, sheet_id):
+
+    
+    product_qr_instance = product_qr.objects.get(id = sheet_id)
+    product_qr_instance.status = False
+    product_qr_instance.save()
+
+    print(product_qr_instance)
+
+    return redirect(list_generated_product_qr)
+
+
+
+
 
     
 
@@ -1775,11 +1819,34 @@ def print_single_qr(request, product_qr_id):
 
 def list_generated_product_qr(request):
 
-    data = product_qr.objects.all()
+    data = product_qr.objects.all().order_by("-id")
+
+    status = request.GET.get('status')
+    sheet_id = request.GET.get('sheet_id')
+
+    if sheet_id:
+        data = data.filter(id = sheet_id)
+
+    
+    elif status:
+        data = data.filter(status = status)
+
+    
+    page = request.GET.get('page', 1)
+    paginator = Paginator(data, 50)
+
+    try:
+        data = paginator.page(page)
+    except PageNotAnInteger:
+        data = paginator.page(1)
+    except EmptyPage:
+        data = paginator.page(paginator.num_pages)
 
     context = {
         
         'data': data,
+        'status': status,
+        'sheet_id': sheet_id,
     }
 
     return render(request, 'transactions/list_all_generated_qr.html', context)

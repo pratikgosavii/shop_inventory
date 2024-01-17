@@ -83,8 +83,17 @@ urlpatterns = [
     path('download', download, name='download'),
     
     path('demo-api/<rfid_value>/<rfid_reader>', demo_api, name='demo_api'),
+    path('demo-api1', demo_api1, name='demo_api1'),
 
     # path('productiom', download, name='download'),
+
+
+
+    path('sheet-status-active/<sheet_id>', sheet_status_active, name='sheet_status_active'),
+    path('sheet-status-deactive/<sheet_id>', sheet_status_deactive, name='sheet_status_deactive'),
+    # path('data-api/<rfid_value>/<rfid_reader>', data_api, name='data_api'),
+
+
 
 
     #delete urls 
