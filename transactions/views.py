@@ -266,7 +266,7 @@ def demo_api(request, rfid_value, rfid_reader):
     return JsonResponse(context)
 
 
-def demo_api(request):
+def demo_api1(request):
 
     context = {
 
