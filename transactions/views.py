@@ -295,6 +295,21 @@ def sheet_status_active(request, sheet_id):
 
 
 
+def sheet_status_active_demo(request, sheet_id, rfid_value, rfid_reader):
+
+    context = {
+
+        'sheet_id' : sheet_id,
+        'rfid_value' : rfid_value,
+        'rfid_reader' : rfid_reader,
+
+    }
+
+    return JsonResponse(context)
+
+
+
+
 
 def sheet_status_deactive(request, sheet_id):
 

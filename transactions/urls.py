@@ -89,6 +89,7 @@ urlpatterns = [
 
 
 
+    path('sheet-status-active-demo/<sheet_id>/<rfid_value>/<rfid_reader>', sheet_status_active_demo, name='sheet_status_active'),
     path('sheet-status-active/<sheet_id>', sheet_status_active, name='sheet_status_active'),
     path('sheet-status-deactive/<sheet_id>', sheet_status_deactive, name='sheet_status_deactive'),
     # path('data-api/<rfid_value>/<rfid_reader>', data_api, name='data_api'),
