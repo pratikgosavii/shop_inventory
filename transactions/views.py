@@ -72,15 +72,17 @@ def demo(request):
 
 
 from .filters import *
+from django.db.models import Sum
 
 @login_required(login_url='login')
 def list_stock(request):
 
    
-    data = stock.objects.prefetch_related('product__project_material_re')
-   
+    data = stock.objects.filter(quantity__gt =  0).prefetch_related('product__project_material_re')
+    total_stock = data.aggregate(total_stock=Sum('quantity'))['total_stock']
     context = {
         'data': data,
+        'total_stock' : total_stock,
         
     }
 

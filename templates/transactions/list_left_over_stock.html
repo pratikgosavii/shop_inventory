@@ -48,7 +48,7 @@
                             {% if data %}
                             {% for i in data %}
                             <tr class="stock-row">
-                                <td class="serial">{{ forloop.counter }}</td>
+                                <td class="serial">{{ i.id }}</td>
                                 <td>{{ i.product.category }}</td>
                                 <td>{{ i.product.size }}</td>
                                 <td>{{ i.product.grade }}</td>
