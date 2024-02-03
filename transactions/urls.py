@@ -82,7 +82,7 @@ urlpatterns = [
 
     path('download', download, name='download'),
     
-    path('demo-api/<sheet_id>/<rfid_value>', demo_api, name='demo_api'),
+    path('demo-api/<sheet_id>/<rfid_value>', demo_api, name='demo_api'), #for assigining rfid to sheet
     path('demo-api1', demo_api1, name='demo_api1'),
 
     # path('productiom', download, name='download'),
