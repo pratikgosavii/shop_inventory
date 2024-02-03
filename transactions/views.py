@@ -254,12 +254,12 @@ def send_whatsapp_message(request, category, size, thickness, grade):
     return True
 
 
-def demo_api(request, rfid_value, rfid_reader):
+def demo_api(request, sheet_id, rfid_value):
 
     context = {
 
+        'sheet_id' : sheet_id,
         'rfid_value' : rfid_value,
-        'rfid_reader' : rfid_reader,
 
     }
 
@@ -296,6 +296,8 @@ def sheet_status_active(request, sheet_id):
 
 
 def sheet_status_active_demo(request, sheet_id, rfid_value, rfid_reader):
+
+    #check for if values are not equal to 0 
 
     context = {
 
