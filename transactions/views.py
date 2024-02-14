@@ -321,11 +321,11 @@ def values_to_assign_rfid_to_sheet(request, project_id, sheet_id):
                 else:
                     return JsonResponse({'status': 'Already active sheet exists'})
             else:
-                return JsonResponse({'status': response})
+                return JsonResponse({'status': 'response'})
         else:
-            return JsonResponse({'status': response})
+            return JsonResponse({'status': 'response'})
     except Exception as e:
-        return JsonResponse({'status': response, 'error': str(e)})
+        return JsonResponse({'status': 'response', 'error': str(e)})
 
 
 
