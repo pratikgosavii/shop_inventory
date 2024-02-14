@@ -305,7 +305,10 @@ import time
 @csrf_exempt
 def values_to_assign_rfid_to_sheet(request, project_id, sheet_id):
     node_endpoint = "http://192.168.23.98:80"
+    print('sdsdsdsd')
+
     try:
+        print('hereeeee')
         response = requests.get(f"{node_endpoint}/request_rfid")
         if response.status_code == 200:
             rfid_value = response.text
@@ -318,11 +321,11 @@ def values_to_assign_rfid_to_sheet(request, project_id, sheet_id):
                 else:
                     return JsonResponse({'status': 'Already active sheet exists'})
             else:
-                return JsonResponse({'status': 'Failed to get RFID value from NodeMCU'})
+                return JsonResponse({'status': response})
         else:
-            return JsonResponse({'status': 'Failed to get RFID value from NodeMCU'})
+            return JsonResponse({'status': response})
     except Exception as e:
-        return JsonResponse({'status': 'Failed to get RFID value from NodeMCU', 'error': str(e)})
+        return JsonResponse({'status': response, 'error': str(e)})
 
 
 
