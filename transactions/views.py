@@ -297,44 +297,33 @@ def assign_rfid_to_sheet_reception_page(request, project_id):
 
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from django.http import JsonResponse
+from .models import SheetsRIFD
+import requests
 
 @csrf_exempt
 def values_to_assign_rfid_to_sheet(request, project_id, sheet_id):
-
     node_endpoint = "http://192.168.121.98:80"
-
-    response = requests.get(f"{node_endpoint}/request_rfid")
-
-    if response.status_code == 200:
-        rfid_value = response.text
-        # Now you have the RFID value, you can use it as needed
-        
-        if rfid_value:
-            check_for_active_sheets = sheets_rifd.objects.filter(project_id = project_id, sheet_id = sheet_id, rfid_value = rfid_value, status = True)
-
-            if check_for_active_sheets == None:
-                sheets_rifd.objects.create(project_id = project_id, sheet_id = sheet_id, rfid_value = rfid_value)
-
-                return JsonResponse({'status' : rfid_value})
-
+    try:
+        response = requests.get(f"{node_endpoint}/request_rfid")
+        if response.status_code == 200:
+            rfid_value = response.text
+            if rfid_value:
+                # Check if sheet with same project_id, sheet_id, and rfid_value exists
+                check_for_active_sheets = SheetsRIFD.objects.filter(project_id=project_id, sheet_id=sheet_id, rfid_value=rfid_value, status=True)
+                if not check_for_active_sheets:
+                    SheetsRIFD.objects.create(project_id=project_id, sheet_id=sheet_id, rfid_value=rfid_value)
+                    return JsonResponse({'status': rfid_value})
+                else:
+                    return JsonResponse({'status': 'Already active sheet exists'})
             else:
-                return JsonResponse({'status' : 'Already active sheet is there'})
-                
+                return JsonResponse({'status': 'Failed to get RFID value from NodeMCU'})
         else:
+            return JsonResponse({'status': 'Failed to get RFID value from NodeMCU'})
+    except Exception as e:
+        return JsonResponse({'status': 'Failed to get RFID value from NodeMCU', 'error': str(e)})
 
-            rfid_value = "Failed"
-            print("Failed to get RFID value from NodeMCU")
-            # values_for_assignment.objects.create(project_id = project_id, sheet_id = sheet_id)
 
-            return JsonResponse({'status' : rfid_value})
-    
-    else:
-
-        rfid_value = "Failed"
-        print("Failed to get RFID value from NodeMCU")
-        # values_for_assignment.objects.create(project_id = project_id, sheet_id = sheet_id)
-
-        return JsonResponse({'status' : rfid_value})
 
 
 # def send_values_to_assign_rfid_to_sheet(request, project_id, sheet_id, rfid_value):
