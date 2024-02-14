@@ -48,6 +48,9 @@ class request_material_Form(forms.ModelForm):
            
 
 class project_Form(forms.ModelForm):
+
+
+
     class Meta:
         model = project
         fields = '__all__'
@@ -67,6 +70,16 @@ class project_Form(forms.ModelForm):
 
             'description': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'description'
+            }),
+
+
+            'design_file': forms.ClearableFileInput(attrs={
+                            'class': 'form-control',
+            }),
+
+            'own_design_file': forms.ClearableFileInput(attrs={
+                            'class': 'form-control',
+                            
             }),
            
           

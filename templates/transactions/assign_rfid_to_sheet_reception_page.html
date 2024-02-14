@@ -1,0 +1,387 @@
+{% extends 'base/base.html' %}
+
+
+
+{% block title %}Create Product{% endblock title %}
+
+{% block head %}
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.0.0/dist/jsQR.js"></script>
+
+
+<style>
+
+
+   
+    .table {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1rem;
+        background-color: transparent;
+    }
+    
+    
+    .table th, .table thead th {
+        font-weight: 500;
+    }
+    
+    
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+    }
+    
+    
+    .table th {
+        padding: 1rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+    
+    
+    .table th, .table thead th {
+        font-weight: 500;
+    }
+    
+    
+    th {
+        text-align: inherit;
+    }
+    
+    
+</style>
+
+{% endblock head %}
+
+{% block content %}
+
+
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="icon-box">
+					<i class="material-icons">&#xE876;</i>
+				</div>				
+				<h4 class="modal-title w-100">Awesome!</h4>	
+			</div>
+			<div class="modal-body">
+				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>     
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Assign Material Qr</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form onsubmit="submitForm(event)" id="submitform" method="post">
+                            {% csrf_token %}
+
+                            
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Employee Name</label>
+                                {{ form.employee_name }}
+                               
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Customer Name</label>
+                                {{ form.customer }}
+                               
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Description </label>
+                                {{ form.description }}
+                               
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Date</label>
+                                {{ form.DC_date }}
+                            </div>
+
+                            <hr>
+
+                            
+                            <label for="name" class="control-label mb-1"> Raw Material Details</label>
+
+                           
+                             
+
+                            <table class="table">
+                                <thead class="thead-light" style="background: #e3e3e3;">
+                                    <tr>
+                                        <td> Category </td>
+                                        <td> Size </td>
+                                        <td> Grade </td>
+                                        <td> Thickness </td>
+                                        <td> Requested Sheet No </td>
+                                        <td> Assigned Scanned Sheet </td>
+                                        <td> Action </td>
+                                        
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {% for i in data %}
+
+                                        {% for z in i.project_material_re.all %}
+
+                                    <tr>
+                                        <td> {{ z.project_material.product.category }} </td>
+                                        <td> {{ z.project_material.product.size }} </td>
+                                        <td> {{ z.project_material.product.grade }} </td>
+                                        <td> {{ z.project_material.product.thickness }} </td>
+                                        <td> {{ z.project_material.sheet_no }} </td>
+                                        <td> {{ z.product_qr.id }} </td>
+                                        <td>  
+                                            <video id="camera{{ z.id }}" style="display:none" width="320" height="240"  autoplay></video>
+
+                                                <button type="button" class="btn btn-success startButton" id="{{ z.id }}">Start Scanning</button>
+                                                
+                                                <button onclick="assign_values('{{ i.project.id }}', '{{ z.id }}')" type="button" class="btn btn-success" id="">Assign RFID</button>
+
+                                        </td>
+                                    </tr>
+
+                                    {% endfor %}
+                                    {% endfor %}
+
+                                
+                                    </tbody>
+
+                                </table>  
+ <br>
+                            <div>
+                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="payment-button-amount">Submit Plan</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- .card -->
+
+    </div><!--/.col-->
+</div>
+
+
+{% endblock content %}
+
+{% block js %}
+    
+
+<script>
+
+    let material_id = [];
+    let scanned_value = [];
+    
+
+document.addEventListener("DOMContentLoaded", function () {
+    const video = document.getElementById("video");
+    const startButtons = document.querySelectorAll(".startButton");
+    let scanner = null;
+
+    async function startCamera(buttonId) {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+
+            camera_id = 'camera' + buttonId
+            let videoElement = document.getElementById(camera_id);
+            videoElement.srcObject = stream;
+
+            videoElement.style.display ="block";
+
+            // Get a reference to the video element you want to keep visible
+            var videoToKeepVisible = videoElement
+            // Get a NodeList of all video elements on the page
+            var allVideoElements = document.getElementsByTagName('video');
+
+            // Loop through all video elements
+            for (var i = 0; i < allVideoElements.length; i++) {
+                var videoElement1 = allVideoElements[i];
+
+                // Check if the current video element is not the one you want to keep visible
+                if (videoElement1 !== videoToKeepVisible) {
+                    // Check if the video element has an active srcObject (stream)
+                    if (videoElement1.srcObject) {
+                    // Stop all tracks of the video element to stop the stream
+                    var tracks = videoElement1.srcObject.getTracks();
+                    tracks.forEach(function(track) {
+                        track.stop();
+                    });
+                    
+                    // Clear the srcObject to stop the video element
+                    videoElement1.srcObject = null;
+                    }
+                }
+            }
+
+            
+            // Create a canvas element for capturing video frames
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+
+            // Listen for video playing to start QR code scanning
+            videoElement.addEventListener('playing', () => {
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                scanQRCode(canvas, videoElement, buttonId);
+            });
+        } catch (error) {
+            console.error('Error accessing the camera:', error);
+        }
+
+        function scanQRCode(canvas, videoElement, buttonId) {
+            const scanInterval = setInterval(() => {
+                canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        
+                // Get the pixel data from the canvas
+                const imageData = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
+        
+                // Use the jsQR library to scan for QR codes
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+        
+                if (code) {
+                    clearInterval(scanInterval); // Stop scanning
+                   console.log('Scanned:', code.data);
+                    const scannedValue =  code.data;
+                    console.log("Button ID: ", buttonId, ", Scanned Value: ", scannedValue);
+
+                     // Ask for confirmation
+                    const confirmation = confirm(`Scanned Value: ${scannedValue}\nConfirm this value?`);
+
+                    if (confirmation) {
+
+                        const scannedButton = document.getElementById(buttonId);
+                        scannedButton.style.backgroundColor = "orange"; // Change to your desired color
+                    
+
+                        // Get the button's parent row
+                        const buttonRow = scannedButton.closest("tr");
+                        // Create a new cell for the scanned value
+                        const scannedSheetCell = scannedButton.closest("tr")
+            
+
+                        const index = material_id.indexOf(buttonId);
+
+                        if (index !== -1) {
+                            // Update the existing value in scanned_value array
+                            scanned_value[index] = code.data;
+                        } else {
+                            // Push the new values to both arrays
+                            material_id.push(buttonId);
+                            scanned_value.push(code.data);
+                        } 
+                    }
+
+                     else {
+                        // If not confirmed, start scanning again for the same button
+                        startCamera(buttonId);
+                    }
+                }
+            }, 100);
+        }
+    }
+    
+
+    function stopVideo(buttonId) {
+        if (scanner) {
+            scanner.stop();
+            scanner = null;
+        }
+
+        const stream = video.srcObject;
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+        video.srcObject = null;
+
+        video.style.display = "none";
+        startButtons.forEach((button) => {
+            if (button.id === buttonId) {
+                button.disabled = false;
+            }
+        });
+    }
+    startButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+           
+            const buttonId = this.id;
+            startCamera(buttonId);
+                    this.disabled = true;
+               
+           
+        });
+    });
+    
+});
+
+
+
+
+function assign_values(project_id, sheet_id) {
+    event.preventDefault(); // Prevent form submission to avoid page reload
+
+    const confirmation2 = confirm(`All Scanned Value: ${sheet_id}\nConfirm this value?`);
+
+    var assignUrl = "{% url 'values_to_assign_rfid_to_sheet' 0 0 %}";
+
+    if (confirmation2) {
+        $.ajax({                       
+            type: "POST",
+            url: assignUrl.replace('0', project_id).replace('0', sheet_id),
+            // Make sure project_id and sheet_id are replaced with actual values
+            success: function (data) {
+                alert(data.status)
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                console.error(status, error);
+                window.location.reload(); // Reload the page on error
+            }
+        });
+    } else {
+        window.location.reload(); // Reload the page if the user cancels
+    }
+}
+
+
+
+
+
+$(document).ready(function() {
+    // Select the input fields you want to make read-only by their IDs or other selectors
+
+    $("#employee_name, #customer").prop("disabled", true);
+
+    $("#description, #id_DC_date").prop("readonly", true);
+    
+});
+
+
+
+
+</script>
+
+{% endblock js %}

@@ -5,6 +5,7 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import pandas as pd
+import requests
 
 
 from store.views import numOfDays
@@ -256,7 +257,13 @@ def send_whatsapp_message(request, category, size, thickness, grade):
     return True
 
 
-def demo_api(request, sheet_id, rfid_value):
+def sheet_tracking(request, sheet_id, rfid_value):
+
+
+    sheets_rfid_instance = sheets_rifd.objects.get(sheet_id = sheet_id, status = True)
+
+    sheet_tracking_history.objects.create(project_id = sheets_rfid_instance.project_id, sheet_id = sheets_rfid_instance.sheet_id)
+    
 
     context = {
 
@@ -268,15 +275,95 @@ def demo_api(request, sheet_id, rfid_value):
     return JsonResponse(context)
 
 
-def demo_api1(request):
+def assign_rfid_to_sheet_reception_page(request, project_id):
+
+    project_instance = project.objects.get(id = project_id)
+
+    forms = project_Form(instance = project_instance)
+
+    data_form = product_Form()
+
+    data = project_material.objects.filter(project = project_instance)
+
 
     context = {
-
-        'sheet_id' : 1,
-
+        'form': forms,
+        'data_form': data_form,
+        'data': data,
+        'project_id': project_id,
     }
+    return render(request, 'transactions/assign_rfid_to_sheet_reception_page.html', context)
 
-    return JsonResponse(context)
+
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+
+@csrf_exempt
+def values_to_assign_rfid_to_sheet(request, project_id, sheet_id):
+
+    node_endpoint = "http://192.168.121.98:80"
+
+    response = requests.get(f"{node_endpoint}/request_rfid")
+
+    if response.status_code == 200:
+        rfid_value = response.text
+        # Now you have the RFID value, you can use it as needed
+        
+        if rfid_value:
+            check_for_active_sheets = sheets_rifd.objects.filter(project_id = project_id, sheet_id = sheet_id, rfid_value = rfid_value, status = True)
+
+            if check_for_active_sheets == None:
+                sheets_rifd.objects.create(project_id = project_id, sheet_id = sheet_id, rfid_value = rfid_value)
+
+                return JsonResponse({'status' : rfid_value})
+
+            else:
+                return JsonResponse({'status' : 'Already active sheet is there'})
+                
+        else:
+
+            rfid_value = "Failed"
+            print("Failed to get RFID value from NodeMCU")
+            # values_for_assignment.objects.create(project_id = project_id, sheet_id = sheet_id)
+
+            return JsonResponse({'status' : rfid_value})
+    
+    else:
+
+        rfid_value = "Failed"
+        print("Failed to get RFID value from NodeMCU")
+        # values_for_assignment.objects.create(project_id = project_id, sheet_id = sheet_id)
+
+        return JsonResponse({'status' : rfid_value})
+
+
+# def send_values_to_assign_rfid_to_sheet(request, project_id, sheet_id, rfid_value):
+
+#     instance = sheets_rifd.objects.create(project_id = project_id, sheet_id = sheet_id, rfid_value = rfid_value)
+
+#     context = {
+
+#         'project_id' : instance.project_id,
+#         'sheet_id' : instance.sheet_id,
+#         'status' : 'done'
+
+#     }
+
+#     return JsonResponse(context)
+
+
+# def assign_rfid_to_sheet(request):
+
+#     instance = values_for_assignment.objects.last()
+
+#     context = {
+
+#         'project_id' : instance.project_id,
+#         'sheet_id' : instance.sheet_id,
+
+#     }
+
+#     return JsonResponse(context)
 
 
 
@@ -719,7 +806,7 @@ def add_project(request):
         print(request.POST)
 
         # Deserialize the JSON data into a Python object
-        forms = project_Form(request.POST)
+        forms = project_Form(request.POST, request.FILES)
         
         order_id = request.POST.get("order_id")
        

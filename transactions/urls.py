@@ -82,8 +82,11 @@ urlpatterns = [
 
     path('download', download, name='download'),
     
-    path('demo-api/<sheet_id>/<rfid_value>', demo_api, name='demo_api'), #for assigining rfid to sheet
-    path('demo-api1', demo_api1, name='demo_api1'),
+    path('assign-rfid-to-sheet-reception_page/<project_id>', assign_rfid_to_sheet_reception_page, name='assign_rfid_to_sheet_reception_page'), #for assigining rfid to sheet
+    path('values-to-assign-rfid-to-sheet/<project_id>/<sheet_id>', values_to_assign_rfid_to_sheet, name='values_to_assign_rfid_to_sheet'), #for assigining rfid to sheet
+    # path('demo-api/<project_id>/<sheet_id>/<rfid_value>', send_values_to_assign_rfid_to_sheet, name='send_values_to_assign_rfid_to_sheet'), #for assigining rfid to sheet
+    # path('demo-api1', assign_rfid_to_sheet, name='assign_rfid_to_sheet'),
+    path('sheet-tracking/<sheet_id>/<rfid_value>', sheet_tracking, name='sheet_tracking'), #for assigining rfid to sheet
 
     # path('productiom', download, name='download'),
 

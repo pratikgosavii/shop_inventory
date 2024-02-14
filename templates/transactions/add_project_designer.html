@@ -18,6 +18,10 @@
             height: 37px !important;
         }
 
+        #id_design_file {
+            display: none;
+        }
+
 </style>
 
 {% endblock head %}
@@ -100,6 +104,11 @@
                                 <label for="name" class="control-label mb-1">Date</label>
                                 {{ form.DC_date }}
                                 
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Design File</label>
+    Currently: <a href="{{ form.design_file.value.url }}">{{ form.design_file.value }}</a><br>
                             </div>
 
 

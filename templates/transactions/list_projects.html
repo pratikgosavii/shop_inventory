@@ -137,6 +137,10 @@
 
                   <a href="{% url 'update_project_accountant' i.id %}">
 
+                    {% elif request.user.is_reception %}
+
+                  <a href="{% url 'assign_rfid_to_sheet_reception_page' i.id %}">
+
                     {% endif %}
                     
                     
@@ -147,6 +151,7 @@
                       <a href="{% url 'assign_matarial_qr' i.id %}"> <i class="fa fa-qrcode" style="font-size: 1.5em;" aria-hidden="true"></i> 
                     
                         {% endif %}
+
 
                   {% if request.user.is_superuser %}
 

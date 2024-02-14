@@ -32,10 +32,28 @@ class project(models.Model):
     description = models.CharField( max_length=50)
     order_id = models.CharField(unique=True, max_length=50)
     completed = models.BooleanField(default=False)
+    design_file = models.FileField(upload_to='media/project_design/')
+    own_design_file = models.FileField(upload_to='media/project_design/', blank=True)
 
     def __str__(self):
         return self.description
+    
+class sheets_rifd(models.Model):
 
+    project_id = models.CharField( max_length=50)
+    sheet_id = models.CharField(max_length=50)
+    rfid_value = models.CharField(max_length=50)
+    status = models.BooleanField(default=True)
+
+class sheet_tracking_history(models.Model):
+
+    project_id = models.CharField( max_length=50)
+    sheet_id = models.CharField(max_length=50)
+    rfid_value = models.CharField(max_length=50)
+    check_point = models.CharField(max_length=50)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    
 class project_logs(models.Model):
 
     project = models.ForeignKey(project , on_delete=models.CASCADE, related_name='project_logs')
