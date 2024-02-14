@@ -309,7 +309,7 @@ def values_to_assign_rfid_to_sheet(request, project_id, sheet_id):
 
     try:
         print('hereeeee')
-        response = requests.get(f"{node_endpoint}/request_rfid")
+        response = requests.get(f"{node_endpoint}")
         if response.status_code == 200:
             rfid_value = response.text
             if rfid_value:
