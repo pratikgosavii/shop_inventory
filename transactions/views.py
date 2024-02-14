@@ -304,7 +304,7 @@ import time
 
 @csrf_exempt
 def values_to_assign_rfid_to_sheet(request, project_id, sheet_id):
-    node_endpoint = "http://192.168.99.98:80"
+    node_endpoint = "http://192.168.23.98:80"
     try:
         response = requests.get(f"{node_endpoint}/request_rfid")
         if response.status_code == 200:
