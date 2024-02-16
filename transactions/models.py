@@ -32,8 +32,8 @@ class project(models.Model):
     description = models.CharField( max_length=50)
     order_id = models.CharField(unique=True, max_length=50)
     completed = models.BooleanField(default=False)
-    design_file = models.FileField(upload_to='media/project_design/')
-    own_design_file = models.FileField(upload_to='media/project_design/', blank=True)
+    # design_file = models.FileField(upload_to='media/project_design/')
+    # own_design_file = models.FileField(upload_to='media/project_design/', blank=True)
 
     def __str__(self):
         return self.description

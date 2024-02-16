@@ -73,14 +73,14 @@ class project_Form(forms.ModelForm):
             }),
 
 
-            'design_file': forms.ClearableFileInput(attrs={
-                            'class': 'form-control',
-            }),
+            # 'design_file': forms.ClearableFileInput(attrs={
+            #                 'class': 'form-control',
+            # }),
 
-            'own_design_file': forms.ClearableFileInput(attrs={
-                            'class': 'form-control',
+            # 'own_design_file': forms.ClearableFileInput(attrs={
+            #                 'class': 'form-control',
                             
-            }),
+            # }),
            
           
 

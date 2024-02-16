@@ -310,20 +310,18 @@ def values_to_assign_rfid_to_sheet(request, project_id, sheet_id):
     try:
         print('hereeeee')
         response = requests.get(f"{node_endpoint}")
-        if response.status_code == 200:
-            rfid_value = response.text
-            if rfid_value:
-                # Check if sheet with same project_id, sheet_id, and rfid_value exists
-                check_for_active_sheets = sheets_rifd.objects.filter(project_id=project_id, sheet_id=sheet_id, rfid_value=rfid_value, status=True)
-                if not check_for_active_sheets:
-                    sheets_rifd.objects.create(project_id=project_id, sheet_id=sheet_id, rfid_value=rfid_value)
-                    return JsonResponse({'status': rfid_value})
-                else:
-                    return JsonResponse({'status': 'Already active sheet exists'})
+        rfid_value = response.text
+        if rfid_value:
+            # Check if sheet with same project_id, sheet_id, and rfid_value exists
+            check_for_active_sheets = sheets_rifd.objects.filter(project_id=project_id, sheet_id=sheet_id, rfid_value=rfid_value, status=True)
+            if not check_for_active_sheets:
+                sheets_rifd.objects.create(project_id=project_id, sheet_id=sheet_id, rfid_value=rfid_value)
+                return JsonResponse({'status': rfid_value})
             else:
-                return JsonResponse({'status': 'response'})
+                return JsonResponse({'status': 'Already active sheet exists'})
         else:
             return JsonResponse({'status': 'response'})
+       
     except Exception as e:
         return JsonResponse({'status': 'response', 'error': str(e)})
 
