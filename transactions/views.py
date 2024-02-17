@@ -1424,7 +1424,7 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                 if stock_instance.quantity < 4:
                     
-                    a1212 = notification_table.objects.create(message =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade))
+                    a1212 = notification_table.objects.create(message =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + "Left :- " + str(stock_instance.quantity))
                     pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
                                             key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
                                             secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
