@@ -310,7 +310,7 @@ def values_to_assign_rfid_to_sheet(request, project_id, sheet_id):
     try:
         print('hereeeee')
         response = requests.get(f"{node_endpoint}")
-        rfid_value = response.text
+        rfid_value = response
         if rfid_value:
             # Check if sheet with same project_id, sheet_id, and rfid_value exists
             check_for_active_sheets = sheets_rifd.objects.filter(project_id=project_id, sheet_id=sheet_id, rfid_value=rfid_value, status=True)
