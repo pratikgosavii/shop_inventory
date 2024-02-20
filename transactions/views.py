@@ -311,8 +311,32 @@ def values_to_assign_rfid_to_sheet(request, project_id, sheet_id):
         print('hereeeee')
         response = requests.get(f"{node_endpoint}")
         rfid_value = response
-       
-        return JsonResponse({'status': rfid_value})
+
+        print('-------------------------------')
+        print('-------------------------------')
+        print('-------------------------------')
+
+        print(rfid_value)
+        print('-------------------------------')
+        print('-------------------------------')
+        print('-------------------------------')
+
+        rfid_value = response.json() 
+
+
+        serialized_response = json.dumps({'status': rfid_value})
+
+
+        if rfid_value:
+            # Check if sheet with same project_id, sheet_id, and rfid_value exists
+            check_for_active_sheets = sheets_rifd.objects.filter(project_id=project_id, sheet_id=sheet_id, rfid_value=rfid_value, status=True)
+            if not check_for_active_sheets:
+                sheets_rifd.objects.create(project_id=project_id, sheet_id=sheet_id, rfid_value=rfid_value)
+                return JsonResponse(serialized_response, safe=False)
+            else:
+                return JsonResponse({'status': 'Already active sheet exists'})
+        else:
+            return JsonResponse({'status': 'response'})
        
     except Exception as e:
         return JsonResponse({'status': 'response', 'error': str(e)})
