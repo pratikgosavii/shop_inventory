@@ -304,31 +304,28 @@ import time
 
 @csrf_exempt
 def values_to_assign_rfid_to_sheet(request, project_id, sheet_id):
+    
     node_endpoint = "http://192.168.66.98:80"
-    print('sdsdsdsd')
 
     try:
-        print('hereeeee')
-        response = requests.get(f"{node_endpoint}")
- 
-        print('-------------------------------')
-        print('-------------------------------')
-        print('-------------------------------')
+        # Make the request to the NodeMCU server
+        response = requests.get(node_endpoint)
 
-        print('Response content:', response.content)  # Print the response content
+        # Print the content of the response
+        print('Response content:', response.content)
+
+        # Attempt to parse the response as JSON
         rfid_value = response.json()
-        print('-------------------------------')
-        print('-------------------------------')
-        print('-------------------------------')
 
-        rfid_value = response.json() 
+        # Print the parsed JSON data
+        print('Parsed JSON data:', rfid_value)
 
-
+        # Serialize the response if needed
         serialized_response = json.dumps({'status': rfid_value})
 
-
+        # Check if the response contains data
         if rfid_value:
-            # Check if sheet with same project_id, sheet_id, and rfid_value exists
+            # Check if a sheet with the same project_id, sheet_id, and rfid_value exists
             check_for_active_sheets = sheets_rifd.objects.filter(project_id=project_id, sheet_id=sheet_id, rfid_value=rfid_value, status=True)
             if not check_for_active_sheets:
                 sheets_rifd.objects.create(project_id=project_id, sheet_id=sheet_id, rfid_value=rfid_value)
@@ -336,10 +333,11 @@ def values_to_assign_rfid_to_sheet(request, project_id, sheet_id):
             else:
                 return JsonResponse({'status': 'Already active sheet exists'})
         else:
-            return JsonResponse({'status': 'response'})
+            return JsonResponse({'status': 'No response data'})
        
     except Exception as e:
-        return JsonResponse({'status': 'response', 'error': str(e)})
+        # Handle any exceptions that might occur
+        return JsonResponse({'status': 'Error', 'error': str(e)})
 
 
 
