@@ -353,7 +353,7 @@ function assign_values(project_id, sheet_id) {
             url: assignUrl.replace('0', project_id).replace('0', sheet_id),
             // Make sure project_id and sheet_id are replaced with actual values
             success: function (data) {
-                alert(data.status)
+                console.log(data)
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
