@@ -310,13 +310,13 @@ def values_to_assign_rfid_to_sheet(request, project_id, sheet_id):
     try:
         print('hereeeee')
         response = requests.get(f"{node_endpoint}")
-        rfid_value = response
 
         print('-------------------------------')
         print('-------------------------------')
         print('-------------------------------')
 
-        print(rfid_value)
+        print('Response content:', response.content)  # Print the response content
+        rfid_value = response.json()
         print('-------------------------------')
         print('-------------------------------')
         print('-------------------------------')
