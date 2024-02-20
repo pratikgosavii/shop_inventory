@@ -1632,7 +1632,6 @@ import qrcode
 from django.core.files.base import ContentFile
 from io import BytesIO
 
-from PIL import Image
 
 import qrcode
 from reportlab.lib.pagesizes import A4
