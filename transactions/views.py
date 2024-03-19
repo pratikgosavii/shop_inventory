@@ -161,6 +161,8 @@ def delete_images(request):
 
 
 
+from datetime import datetime
+
 
 @login_required(login_url='login')
 def add_order(request):
@@ -177,11 +179,27 @@ def add_order(request):
     
     else:
 
+        order_no = order.objects.last()
+
+        if not order_no:
+
+            order_no = 1
+
+        else:
+
+            order_no = int(order_no.id) + 1
+
+        print(order_no)
+
         forms = order_Form()
 
         context = {
-            'form': forms
+            'form': forms,
+            'order_no' : order_no,
+            'date' : datetime.now()
+                              
         }
+
         return render(request, 'transactions/add_order.html', context)
 
         
