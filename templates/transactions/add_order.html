@@ -80,6 +80,41 @@
         margin: 10px 0px !important;
 
     }
+
+
+
+
+    @media print {
+
+        #header{
+            display: none;
+        }
+
+        #total_sq_inch_label{
+            display: none;
+        }
+
+        #total_sq_inch_text{
+            display: none;
+        }
+
+        #submitButton{
+            display: none;
+        }
+
+        #payment-button{
+            display: none;
+        }
+
+        #left-panel{
+            display: none;
+        }
+
+        #right-panel{
+            margin-left: 0px !important;
+        }
+
+    }
     
     
     
@@ -114,60 +149,102 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-header">
-                <strong class="card-title">Add Order Details</strong>
-            </div>
+            
             <div class="container">
                 <div class="row">
-                  <div class="col-12" style="font-size: 27px;
+                  <div class="col-12" style="font-size: 23px;
                   border: 1px solid black;
                   text-align: center;
                   padding: 10px;">
-                    Techno Commerical Offer
+                    Techno - Commerical Offer
                   </div>
                 
                 </div>
-              </div>
+            </div>
 
-              
+              <br>
 
-              <div class="row">
-                <div class="col-sm">
-                    <div class="form-group" style="justify-content: right;">
-                        <div style="">
+            <div class="row">
+                <div class="col-12" style="display : flex;">
 
-                            <div style="display: flex; display: flex; border: 1px solid black; padding: 11px;">
-                                <label for="name" class="control-label mb-1">Offer No</label>
-                                <input type="text" style="margin-left:10px;" value="{{ order_no }}" class="form-control" readonly>
+                    <div class="col-6" style="justify-content: left;">
+
+                        <div style="border: 1px solid black; padding: 9px 6px;">
+
+                            <div style="display:flex;">
+                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Customer Name</label>
+                                <input type="text" style="margin-left:10px !important;" value="" class="form-control" >
                             </div>
 
-                            <div style="display: flex; border: 1px solid black; padding: 11px;">
-                                <label for="name" class="control-label mb-1">Offer Date</label>
+                            <div style="display:flex;">
+                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Customer Address</label>
+                                <!-- Use the  attribute to make the input field read-only -->
+                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
+                            </div>
+                            
+                            <div style="display:flex;">
+                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Contact Person Name</label>
+                                <!-- Use the  attribute to make the input field read-only -->
+                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
+                            </div>
+                            
+                            <div style="display:flex;">
+                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Mobile Number</label>
+                                <!-- Use the  attribute to make the input field read-only -->
+                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
+                            </div>
+                            
+                            <div style="display:flex;">
+                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Contact Email</label>
+                                <!-- Use the  attribute to make the input field read-only -->
+                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
+                            </div>
+                            
+                            <div style="display:flex;">
+                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Client GST</label>
+                                <!-- Use the  attribute to make the input field read-only -->
+                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-6" style="justify-content: right;">
+                        <div style="">
+
+                            <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
+                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer No</label>
+                                <input type="text" style="margin-left:10px !important;" value="{{ form.order_id.value }}" class="form-control" readonly>
+                            </div>
+
+                            <div style="display: flex; border: 1px solid black; padding: 9px 6px;">
+                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer Date</label>
                                 <!-- Use the readonly attribute to make the input field read-only -->
-                                <input style="margin-left:10px;" type="datetime-local" value="{{ date|date:'Y-m-d\TH:i' }}" class="form-control" readonly>
+                                <input style="margin-left:10px !important;" type="datetime-local" value="{{ date|date:'Y-m-d\TH:i' }}" class="form-control" readonly>
                             </div>
                             
 
 
-                            <div style="display: flex; display: flex; border: 1px solid black; padding: 11px;">
-                                <label for="name" class="control-label mb-1">Reference From</label>
+                            <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
+                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Reference From</label>
+
+                                <div>
+                                        
+                                    <div>
+
+                                        <input type="radio" id="checkbox1"  name="refered_from">
+                                        <label style="margin: 10px 0px !important;" for="checkbox1">Direct Contact</label>
+                                    </div>
 
                                     <div>
-                                        
-                                        <div>
+                                        <input type="radio" id="checkbox1"  name="refered_from">
+                                        <label style="margin: 10px 0px !important;" for="checkbox1">Webiste</label>
+                                    </div>
 
-                                            <input type="checkbox" id="checkbox1">
-                                            <label for="checkbox1">Direct Contact</label>
-                                        </div>
-
-                                        <div>
-                                            <input type="checkbox" id="checkbox1">
-                                            <label for="checkbox1">Webiste</label>
-                                        </div>
-
-                                        <div>
-                                            <input type="checkbox" id="checkbox1">
-                                            <label for="checkbox1">Mailer</label>
+                                    <div>
+                                        <input type="radio" id="checkbox1"  name="refered_from">
+                                        <label style="margin: 10px 0px !important;" for="checkbox1">Mailer</label>
                                     </div>
 
                                 </div>
@@ -179,834 +256,1031 @@
             </div>
 
             
+                <div class="">
+                    <div class="col-12" style="display:flex;">
 
-            <div class="">
-                <div class="col-12" style="display:flex;">
-                    <div class="col-6">
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;"> Materials </p>
-                        <hr>
-
-                        <div>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">SS 304</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">SS 316</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">SS 316 L</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Aluminium Coil</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Sheet 2S</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Brass</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Copper</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Mild Sheel</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Spring Sheel</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Nickel</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Beryllium Copper</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Trifoliate sandwich</label>
-
-                            <label for="checkbox1"> Any Other please mention</label>
-                            <input type="textbox" class="form-control" id="checkbox1">
-
-                        </div>
-
-                    
-
-
-                
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;"> Process </p>
-                        <hr>
-
-                        <div>
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Chemical Etching</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1"> Chemical Milling</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Anodic Prin</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Etching + Laser Cutting</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Laser Cutting</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Laser Cutting + Coating</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Etching + Silk Screen Printing</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Stamping</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1"> Etching + Laser Engraving</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1"> Injection Mould Texturing </label>
-
-                        </div>
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;">  Finish of Nameplate & Designer Sheet</p>
-                        <hr>
-
-                        <div>
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1"> White Finish with deep etched Color</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">  Colored Background with emboss letters</label>
-
-                        </div>
-                        
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;">  Design format accepted </p>
-                        <hr>
-
-                        <div>
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">CDR</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">DXF</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">A.I </label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">PDF </label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Excel</label>
-
-                        </div>
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;"> MOQ For nameplates in sq. inch </p>
-                        <hr>
-
-                        <div>
-
-
-<input type="radio" id="checkbox10" value="4608" name="checkboxGroup2">
-<label for="checkbox10">2304</label>
-
-<input type="radio" id="checkbox10" value="4608" name="checkboxGroup2">
-<label for="checkbox10">2160</label>
-
-<input type="radio" id="checkbox10" value="4608" name="checkboxGroup2">
-<label for="checkbox10">2016</label>
-
-<input type="radio" id="checkbox10" value="4608" name="checkboxGroup2">
-<label for="checkbox10">1872</label>
-
-<input type="radio" id="checkbox9" value="4032" name="checkboxGroup2">
-<label for="checkbox9">1728</label>
-
-<input type="radio" id="checkbox8" value="3456" name="checkboxGroup2">
-<label for="checkbox8">1584</label>
-
-<input type="radio" id="checkbox7" value="2880" name="checkboxGroup2">
-<label for="checkbox7">1440</label>
-
-<input type="radio" id="checkbox6" value="2304" name="checkboxGroup2">
-<label for="checkbox6">1296</label>
-
-<input type="radio" id="checkbox5" value="1728" name="checkboxGroup2">
-<label for="checkbox5">1152</label>
-
-<input type="radio" id="checkbox4" value="1152" name="checkboxGroup2">
-<label for="checkbox4">1008</label>
-
-<input type="radio" id="checkbox4" value="1152" name="checkboxGroup2">
-<label for="checkbox4">864</label>
-
-<input type="radio" id="checkbox4" value="1152" name="checkboxGroup2">
-<label for="checkbox4">720</label>
-
-<input type="radio" id="checkbox3" value="576" name="checkboxGroup2">
-<label for="checkbox3">576</label>
-
-<input type="radio" id="checkbox3" value="576" name="checkboxGroup2">
-<label for="checkbox3">432</label>
-
-<input type="radio" id="checkbox2" value="288" name="checkboxGroup2">
-<label for="checkbox2">288</label>
-
-<input type="radio" id="checkbox1" value="144" name="checkboxGroup2">
-<label for="checkbox1">144</label>
-
-
-
-                        </div>
-
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;">  Size of Nameplate , Precision Parts & Laser Cutting in Inch </p>
-                        <hr>
-
-                        <div>
+                        <div class="col-6">
                             
-                            <div style="display: flex; gap : 20px;">
-                                <label for="checkbox1">Length</label>
-                                <input type="number" class="form-control" id="length_a">
-                                <select id="mm_inch_select"> 
-                                    <option value="1"> MM </option>
-                                    <option value="2"> Inch </option>
-                                    </select>
-                            </div>
-                            
+                            <form id="orderForm" style="display: contents; comehere">
 
-                            <div style="display: flex; gap : 20px;">
-                                <label for="checkbox1">Width</label>
-                                <input type="number" class="form-control" id="width_a">
-                            </div>
-                            
+                                {% csrf_token %}
+                                
 
-                            <label for="checkbox1"> Total Qty in Number</label>
-                            <input type="number" class="form-control" id="quantity_a">
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Item Code/ Drawing Number/ Project Number </p>
 
-                            <label for="checkbox1"> Total Sq Inch </label>
-                            <input type="textbox" class="form-control" id="total_sq_inch">
-
-                        </div>
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;">   Font height in mm for all types of Nameplate </p>
-                        <hr>
-
-                        <div>
-                            
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">1</label>
-                            
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">2</label>
-                            
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">3</label>
-                            
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">4</label>
-                            
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">5</label>
-                            
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">6</label>
-                            
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">7</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">8</label>
-                            
-                            <label for="checkbox1">Above 8</label>
-                            <input type="textbox" class="form-control" id="checkbox1">
-
-                            <label for="checkbox1">Or Combination from 1 to 8</label>
-                            
-                                <div style="display : flex; gap: 10px;">
-                                    <input type="number" class="form-control" id="checkbox1">
-                                    <input type="number" class="form-control" id="checkbox1">
+                                <div>
+                                    <input type="textbox" name="item_code" id="item_code" class="form-control" id="checkbox1">
                                 </div>
 
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Materials </p>
+                                
+                                <input type="hidden" style="margin-left:10px !important;" name="order" value="{{ form.order_id.value }}">
+
+
+                                <input type="hidden" id="editOrderId">
+
+
+                                <div>
+
+                                    <input type="radio" id="checkbox1" value="ss_304" name="material">
+                                    <label for="checkbox1">SS 304</label>
+
+                                    <input type="radio" id="checkbox1" value="ss_316" name="material">
+                                    <label for="checkbox1">SS 316</label>
+
+                                    <input type="radio" id="checkbox1" value="ss_316_L" name="material">
+                                    <label for="checkbox1">SS 316 L</label>
+
+                                    <input type="radio" id="checkbox1" value="aluminium_coil" name="material">
+                                    <label for="checkbox1">Aluminium Coil</label>
+
+                                    <input type="radio" id="checkbox1" value="sheet_2S" name="material">
+                                    <label for="checkbox1">Sheet 2S</label>
+
+                                    <input type="radio" id="checkbox1" value="brass" name="material">
+                                    <label for="checkbox1">Brass</label>
+
+                                    <input type="radio" id="checkbox1" value="copper" name="material">
+                                    <label for="checkbox1">Copper</label>
+
+                                    <input type="radio" id="checkbox1" value="mild_sheel" name="material">
+                                    <label for="checkbox1">Mild Sheel</label>
+
+                                    <input type="radio" id="checkbox1" value="spring_sheel" name="material">
+                                    <label for="checkbox1">Spring Sheel</label>
+
+                                    <input type="radio" id="checkbox1" value="nickel" name="material">
+                                    <label for="checkbox1">Nickel</label>
+
+                                    <input type="radio" id="checkbox1" value="beryllium_copper" name="material">
+                                    <label for="checkbox1">Beryllium Copper</label>
+
+                                    <input type="radio" id="checkbox1" value="trifoliate_sandwich" name="material">
+                                    <label for="checkbox1">Trifoliate sandwich</label>
+
+                                    <label for="checkbox1"> Any Other please mention</label>
+                                    <input type="textbox" class="form-control" id="checkbox1">
+
+                                </div>
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Process </p>
+                            
+
+                                <div>
+
+                                    <input type="radio" id="checkbox1" value="chemical_etching" name="process">
+                                    <label for="checkbox1">Chemical Etching</label>
+
+                                    <input type="radio" id="checkbox1" value="etching_laser_cutting" name="process">
+                                    <label for="checkbox1">Etching + Laser Cutting</label>
+
+                                    
+                                    <input type="radio" id="checkbox1" value="etching_laser_engraving" name="process">
+                                    <label for="checkbox1"> Etching + Laser Engraving</label>
+
+                                    <input type="checkbox" id="checkbox1" value="chemical_milling" name="process">
+                                    <label for="checkbox1"> Chemical Milling</label>
+
+                                    <input type="checkbox" id="checkbox1" value="anodic_print" name="process">
+                                    <label for="checkbox1">Anodic Print</label>
+
+                            
+                                    <input type="checkbox" id="checkbox1" value="laser_cutting" name="process">
+                                    <label for="checkbox1">Laser Cutting</label>
+
+                                    <input type="checkbox" id="checkbox1" value="laser_cutting_coating" name="process">
+                                    <label for="checkbox1">Laser Cutting + Coating</label>
+
+                                    <input type="checkbox" id="checkbox1" value="stamping" name="process">
+                                    <label for="checkbox1">Stamping</label>
+
+
+                                    <input type="checkbox" id="checkbox1" value="injection_mould_texturing" name="process">
+                                    <label for="checkbox1"> Injection Mould Texturing </label>
+
+                                </div>
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> MOQ For nameplates in sq. inch </p>
+                                
+
+                                <div>
+                                    <div>
+
+                                        <input type="radio" id="checkbox1" value="144" name="sqinch">
+                                        <label for="checkbox1">144</label>
+
+                                        
+                                        <input type="radio" id="checkbox2" value="288" name="sqinch">
+                                        <label for="checkbox2">288</label>
+                                        
+                                        <input type="radio" id="checkbox3" value="432" name="sqinch">
+                                        <label for="checkbox3">432</label>
+                                    
+                                    </div>
+
+                                    <div>
+
+                                        <input type="radio" id="checkbox3" value="576" name="sqinch">
+                                        <label for="checkbox3">576</label>
+                                        
+                                    </div>
+                                                            
+                                    <div>
+
+                                        <input type="radio" id="checkbox4" value="720" name="sqinch">
+                                        <label for="checkbox4">720</label>
+
+                                        <input type="radio" id="checkbox4" value="864" name="sqinch">
+                                        <label for="checkbox4">864</label>
+
+                                        <input type="radio" id="checkbox4" value="1008" name="sqinch">
+                                        <label for="checkbox4">1008</label>
+                                        
+                                        <input type="radio" id="checkbox5" value="1152" name="sqinch">
+                                        <label for="checkbox5">1152</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
+                                        
+                                        <input type="radio" id="checkbox6" value="1296" name="sqinch">
+                                        <label for="checkbox6">1296</label>
+                                        
+                                        <input type="radio" id="checkbox7" value="1440" name="sqinch">
+                                        <label for="checkbox7">1440</label>
+                                        
+                                        <input type="radio" id="checkbox8" value="1584" name="sqinch">
+                                        <label for="checkbox8">1584</label>
+
+                                        <input type="radio" id="checkbox9" value="1728" name="sqinch">
+                                        <label for="checkbox9">1728</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
+                                        
+                                    </div>
+
+                                                                
+                                    <div>
+
+                                        <input type="radio" id="checkbox10" value="1872" name="sqinch">
+                                        <label for="checkbox10">1872</label>
+                                    
+                                        <input type="radio" id="checkbox10" value="2016" name="sqinch">
+                                        <label for="checkbox10">2016</label>
+
+                                        <input type="radio" id="checkbox10" value="2160" name="sqinch">
+                                        <label for="checkbox10">2160</label>
+                                        
+                                        <input type="radio" id="checkbox10" value="2304" name="sqinch">
+                                        <label for="checkbox10">2304</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
+                                        
+                                        <input type="radio" id="checkbox10" value="2448" name="sqinch">
+                                        <label for="checkbox10">2448</label>
+                                        
+                                        <input type="radio" id="checkbox10" value="2592" name="sqinch">
+                                        <label for="checkbox10">2592</label>
+                                        
+                                        <input type="radio" id="checkbox10" value="2736" name="sqinch">
+                                        <label for="checkbox10">2736</label>
+                                        
+                                        <input type="radio" id="checkbox10" value="2880" name="sqinch">
+                                        <label for="checkbox10">2880</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
+                                        
+                                    </div>
+
+                                                                
+                                    <div>
+
+                                        <input type="radio" id="checkbox10" value="3024" name="sqinch">
+                                        <label for="checkbox10">3024</label>
+
+                                        <input type="radio" id="checkbox10" value="3168" name="sqinch">
+                                        <label for="checkbox10">3168</label>
+                                        
+                                        <input type="radio" id="checkbox10" value="3312" name="sqinch">
+                                        <label for="checkbox10">3312</label>
+                                        
+                                        <input type="radio" id="checkbox10" value="3456" name="sqinch">
+                                        <label for="checkbox10">3456</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span>
+                                        
+                                        <input type="radio" id="checkbox10" value="3600" name="sqinch">
+                                        <label for="checkbox10">3600</label>
+                                        
+                                        <input type="radio" id="checkbox10" value="3744" name="sqinch">
+                                        <label for="checkbox10">3744</label>
+
+                                        <input type="radio" id="checkbox10" value="3888" name="sqinch">
+                                        <label for="checkbox10">3888</label>
+                                        
+                                        <input type="radio" id="checkbox10" value="4032" name="sqinch">
+                                        <label for="checkbox10">4032</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span>
+                                        
+                                        <input type="radio" id="checkbox10" value="4176" name="sqinch">
+                                        <label for="checkbox10">4176</label>
+                                        
+                                        <input type="radio" id="checkbox10" value="4320" name="sqinch">
+                                        <label for="checkbox10">4320</label> 
+                                        
+                                        <input type="radio" id="checkbox10" value="4464" name="sqinch">
+                                        <label for="checkbox10">4464</label> 
+                                        
+                                    </div>
+                                        
+
+                                    <div>
+
+                                        <input type="radio" id="checkbox10" value="4608" name="sqinch">
+                                        <label for="checkbox10">4608</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
+                                    </div>
+
+                                </div>
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Size of Nameplate , Precision Parts & Laser Cutting in Inch </p>
+                        
+
+                                <div>
+                                    
+                                    <div style="display: flex; gap : 20px;">
+                                        <label for="checkbox1">Length</label>
+                                        <input type="number" name="length_sdsd" class="form-control" id="length_a">
+                                        <select id="mm_inch_select"> 
+                                            <option value="1"> MM </option>
+                                            <option value="2"> Inch </option>
+                                            </select>
+                                    </div>
+                                    
+
+                                    <div style="display: flex; gap : 20px;">
+                                        <label for="checkbox1">Width</label>
+                                        <input type="number" name="width_sdsdsdsdsddfd" class="form-control" id="width_a">
+                                    </div>
+                                    
+
+                                    <label for="checkbox1"> Total Qty in Number</label>
+                                    <input type="number" class="form-control" name="quantity" id="quantity_a">
+
+                                    <label for="checkbox1" id=" total_sq_inch_label"> Total Sq Inch </label>
+                                    <input type="textbox" class="form-control" name="total_sq_inch" id="total_sq_inch">
+
+                                </div>
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Text Matter </p>
+                                                    
+                                
+                                <input type="radio" id="standard_text_matter" value="standard_text_matter" name="text_matter">
+                                <label for="checkbox2">Standard Text Matter</label>
+
+                                <input type="radio" id="variable_text_matter_text_matter" value="variable_text_matter" name="text_matter">
+                                <label for="checkbox1">Variable Text Matter</label>
+                                    
+                                
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">Type of Etching </p>
+                                                        
+                                    
+                                <input type="radio" id="deep_etching" value="deep_etching" name="etching">
+                                <label for="checkbox2">Deep Etching</label>
+
+                                <input type="radio" id="embossed_etching" value="embossed_etching" name="etching">
+                                <label for="checkbox1">Embossed Etching</label>
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Color Avaiable for Nameplate, Metal Business Card </p>
+                                                    
+                            
+                                <div>
+        
+                                    <input type="radio" value="1" name="color_count">
+                                    <label for="checkbox1">1</label>
+        
+                                    <input type="radio" value="2" name="color_count">
+                                    <label for="checkbox1">2</label>
+        
+                                    <input type="radio" value="multi_color" name="color_count">
+                                    <label for="checkbox1">Multi Color up to 4 Color (Printing - Silk Screen)</label>
+        
+                                </div>
+                        
+                                            
+                        
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Color (Silk Screen Printed Or Power Coated for Metal Business Card) on Nameplate , Metal Business Card </p>
+                        
+
+                                <div>
+
+                                    <input type="radio" id="checkbox1" value="black" name="color">
+                                    <label for="checkbox1">Black</label>
+
+                                    <input type="radio" id="checkbox1" value="blue" name="color">
+                                    <label for="checkbox1">Blue</label>
+
+                                    <input type="radio" id="checkbox1" value="red" name="color">
+                                    <label for="checkbox1">Red</label>
+
+                                    <input type="radio" id="checkbox1" value="green" name="color">
+                                    <label for="checkbox1">Green</label>
+
+                                    <input type="radio" id="checkbox1" value="yellow" name="color">
+                                    <label for="checkbox1">Yellow</label>
+                                
+                                </div>
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">   Font height in mm for all types of Nameplate </p>
+                            
+
+                                <div>
+                                    
+                                    <input type="radio" id="checkbox1" value="1" name="font_height">
+                                    <label for="checkbox1">1</label>
+                                    
+                                    <input type="radio" id="checkbox1" value="2" name="font_height">
+                                    <label for="checkbox1">2</label>
+                                    
+                                    <input type="radio" id="checkbox1" value="3" name="font_height">
+                                    <label for="checkbox1">3</label>
+                                    
+                                    <input type="radio" id="checkbox1" value="4" name="font_height">
+                                    <label for="checkbox1">4</label>
+                                    
+                                    <input type="radio" id="checkbox1" value="5" name="font_height">
+                                    <label for="checkbox1">5</label>
+                                    
+                                    <input type="radio" id="checkbox1" value="6" name="font_height">
+                                    <label for="checkbox1">6</label>
+                                    
+                                    <input type="radio" id="checkbox1" value="7" name="font_height">
+                                    <label for="checkbox1">7</label>
+
+                                    <input type="radio" id="checkbox1" value="8" name="font_height">
+                                    <label for="checkbox1">8</label>
+                                    
+                                    <input type="radio" id="checkbox1" value="above_8" name="font_height">
+                                    <label for="checkbox1">Above 8</label>
+
+                                    <input type="radio" id="checkbox1" value="combination_of_1to8" name="font_height">
+                                    <label for="checkbox1">Combination of 1 to 8</label>
+                                    
+                                        
+
+                                </div>
+
+                            
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Thickness </p>
+                                                
+                        
+                                <div>
+        
+                                    <input type="radio" value="0.1" name="thickness">
+                                    <label for="checkbox1" value="checkbox1">0.1</label>
+                                
+                                    <input type="radio" value="0.2" name="thickness">
+                                    <label for="checkbox2" value="checkbox2">0.2</label>
+                                
+                                    <input type="radio" value="0.3" name="thickness">
+                                    <label for="checkbox3" value="checkbox3">0.3</label>
+                                
+                                    <input type="radio" value="0.4" name="thickness">
+                                    <label for="checkbox4" value="checkbox4">0.4</label>
+                                
+                                    <input type="radio" value="0.5" name="thickness">
+                                    <label for="checkbox5" value="checkbox5">0.5</label>
+                                
+                                    <input type="radio" value="0.6" name="thickness">
+                                    <label for="checkbox6" value="checkbox6">0.6</label>
+                                
+                                    <input type="radio" value="0.7" name="thickness">
+                                    <label for="checkbox7" value="checkbox7">0.7</label>
+                                
+                                    <input type="radio" value="0.8" name="thickness">
+                                    <label for="checkbox8" value="checkbox8">0.8</label>
+                                
+                                    <input type="radio" value="checkbox9" name="thickness">
+                                    <label for="checkbox9" value="0.9">0.9</label>
+                                
+                                    <input type="radio" value="checkbox10" name="thickness">
+                                    <label for="checkbox10" value="1.0">1.0</label>
+                                
+                                    <input type="radio" value="checkbox11" name="thickness">
+                                    <label for="checkbox11" value="1.2">1.2</label>
+                                
+                                    <input type="radio" value="checkbox12" name="thickness">
+                                    <label for="checkbox12" value="1.5">1.5</label>
+                                
+                                    <input type="radio" value="checkbox13" name="thickness">
+                                    <label for="checkbox13" value="2">2</label>
+                                
+                                    <input type="radio" value="checkbox14" name="thickness">
+                                    <label for="checkbox14" value="2.5">2.5</label>
+                                
+                                    <input type="radio" value="checkbox15" name="thickness">
+                                    <label for="checkbox15" value="3">3.0</label>
+                                
+                                </div>
+
+                            
+
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplate , As per MOQ</p>
+                        
+                                <div>
+                                    
+                                    <input type="textbox" id="ssdsdsd" name="dsd"  class="form-control">
+                                    
+        
+                                    
+                                </div>
+                
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Blank Tags, As per MOQ</p>
+        
+                                <div>
+                                    
+                                    <input type="textbox" id="cdfdfdf" name="defds" class="form-control">
+                        
+                                </div>
+
+
+
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Below MOQ for  Nameplates, Precision Parts in sq. inch </p>
+
+                                <div>
+                                    
+                                    <select class="form-control" name="range_mrq" id="below_moq">
+                                        <!-- Options will be generated dynamically here -->
+                                    </select>
+
+                
+                                </div>
+                                </hr>
+
+                    
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplates, As per MOQ</p>
+
+                                <div>
+                                    
+                                    <input type="textbox" name="rate_per_unit" id="total_rate" class="form-control">
+
+                                    <div>
+
+                                        <label for="checkbox1"> Basic Amount</label>
+
+                                        <input type="textbox" name="basic_amount" id="total_basic_amount" class="form-control">
+
+                                    </div>
+                                </div>
+
+                        
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> GST (IGST, SGST)</p>
+
+                                <div>
+                                    
+                                    <div>
+
+                                        <input type="radio" id="total_basic_amount" value="with_gst" name="charges_type_group">
+                                        <label for="checkbox1">  With Material GST @18 % </label>
+                                        
+                                    </div>
+                                    <div>
+                                        <label for="checkbox1"> Total With GST </label>
+                                        <input type="text" name="total_with_gst" id="total_with_gst" class="form-control">
+                                    </div>
+
+                                    
+                                </div>
+
+                                <div>
+                                    <input type="radio" name="charges_type_group" value="with_job_shop" id="with_job_shop_radio">
+                                    <label for="with_job_shop_radio"> With Labour Charges GST @12%</label>
+                                    <div>
+                                        <label for="total_with_job_shop">Total</label>
+                                        <input type="text" name="total1" id="total_with_job_shop" class="form-control">
+                                    </div>
+                                </div>
+                                        
+                                <label for="checkbox1"> Total Amount </label>
+                                <input type="text" name="total2" id="total_amount_with_charges_type" class="form-control">
+                            
+
+
+
+                        
+                            
+
+                                </hr>
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Rate Per unit in INR for Nameplates, Precision Parts, Elevator designer Sheets below MOQ </p>
+                                
+
+                                <div>
+                                    
+                                    <input type="checkbox" id="checkbox1">
+                                    <label for="checkbox1">0000</label>
+                        
+                                </div>
+                                
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Film Charges / Development Charges </p>
+                                
+                                <div>
+                                    
+                                    <input type="radio" id="checkbox1" id="flim_charges1" name="flim_charges">
+                                    <label for="checkbox1">Inclusive</label>
+
+                                    <input type="radio" id="checkbox1" id="flim_charges2" name="flim_charges">
+                                    <label for="checkbox1"> Extra Charges Rs</label>
+                                    
+
+                                        <select id="sqinch" name="flim_charges_sqinch"></select>
+                                
+                                    <label for="checkbox1"> Sq Inch </label>
+                                    <select id="sqinch2" name="flim_charges_cost"></select>
+
+                                </div>
+                    
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Min Font Height & Max Font Height </p>
+                                
+
+                                <div>
+                                    
+                                    <input type="radio" id="checkbox1" name="font_height">
+                                    <label for="checkbox1">1mm</label>
+
+                                    <input type="radio" id="checkbox1"  name="font_height">
+                                    <label for="checkbox1"> 600 mm </label>
+                        
+                                </div>
+
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">   Material Test Certificate ( MTC ) </p>
+                                
+
+                                <div>
+                                    
+                                    <input type="radio" id="checkbox1" id="certificate_cost_free" name="certificate_cost">
+                                    <label for="checkbox1"> Free along with invoice</label>
+
+                                    <input type="radio"  id="certificate_cost_charge" name="certificate_cost">
+                                    <label for="checkbox1"> Extra Charges Rs. </label>
+                                    <select id="certificate_cost_amount" name="certificate_cost_amount"></select>
+                                
+
+                        
+                                </div>
+
+
+                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Samples or Proto Type </p>
+                                
+
+                                <div>
+                                    
+                                    <input type="radio" id="checkbox1" name="sample">
+                                    <label for="checkbox1"> Free in case confirm Order </label>
+
+                                    <input type="radio" id="checkbox1"  name="sample">
+                                    <label for="checkbox1"> Extra Charges Rs. </label>
+                                    <input type="textbox" value="0" id="sample_price">
+                                
+
+                        
+                                </div>
+
+                                <br>
+
+                                <div>
+                                    
+                                    <label for="checkbox1"> Final Total </label>
+                                    <input type="textbox" name="final_item_total" id="final_item_total">
+
+
+
+                        
+                                </div>
+
+                                <br>
+
+
+                                <input type="submit" id="submitButton" class="btn btn-info"  value="Add Item Code Order"> 
+
+                                <br>
+                                <br>
+                                <br>
+
+
+                                
+                                
+                            
+                            </form>
+
+                            <div class="row" id="submittedOrders">
+                                <!-- Cards will be dynamically appended here -->
+                            </div>
+
                         </div>
 
+                                
 
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;">  Below MOQ for  Nameplates, Precision Parts 
-in sq. inch </p>
+
+                
+
+
+
+                        <div class="col-6">
+
+                            
+
+                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Industry </p>
+                                
+
+                            <div>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Automotive</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Auto Ancillary</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Sugar</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Domestic Appliance</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Process Equipmen</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Petro Chemica</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Food Equipmen</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1"> Medical Device & Equipement</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Defence</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Aviation & Aero Space</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Elevator</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Electricals</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Electronics</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Filteration</label>
+
+                            </div>
+
+                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Product </p>
+                                
+
+                            <div>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Nameplate</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Front Pannel</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Nameplate with QR code</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Project Based Cable Tags</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Schematic Drg</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Thin Shim & Spacer</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Proto type Stator & Rotar Lamination</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1"> Regular Thin Mesh</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Customized Mesh</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Encoder Disc</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Aperture & Pin Holes</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Texturing</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Speaker Grill</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1"> Contact , Connector & terminals</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Valve & Compressor Plate</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Diaphragm</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1"> EMI / RFI Shielding</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Filteration</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1"> Battery Contact</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Antenna Tele Communication</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Bipolar Plate PEM</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Flat Spring, U Spring, V sPRING</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Metal Business Card with NFC Chip</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Metal Business Card without Chip</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Book Mark & Product model</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1"> Designer Stainless steel sheet</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Designer Stainless steel sheet with
+                                    elevator cabinet</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Designer Stainless steel sheet with
+                                    elevator cabinet, roof & bottom</label>
+
+                            </div>
+
+
+                                
+                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Design format accepted </p>
+                                
+
+                            <div>
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">CDR</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">DXF</label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">A.I </label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">PDF </label>
+
+                                <input type="checkbox" id="checkbox1">
+                                <label for="checkbox1">Excel</label>
+
+                            </div>
+
+
+
+
+                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">    IncoTerm </p>
+                                                    
+                            
+                            <div>
+
+                                <input type="radio" id="checkbox1" name="IncoTerm">
+                                <label for="checkbox1"> Ex-Works </label>
+
+                                <input type="radio" id="checkbox1"  name="IncoTerm">
+                                <label for="checkbox1">F.O.B. </label>
+
+                                <input type="radio" id="checkbox1"  name="IncoTerm">
+                                <label for="checkbox1"> C & F </label>
+
+                                <input type="radio" id="checkbox1"  name="IncoTerm">
+                                <label for="checkbox1"> CIF  </label>
+
+                                <input type="radio" id="checkbox1"  name="IncoTerm">
+                                <label for="checkbox1"> Warehouse to Warehouse </label>
+
+                            </div>
+
+                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">    Mode of Transport </p>
+                                                                        
+                                                
+                            <div>
+
+                                <input type="radio" id="checkbox1" name="transport">
+                                <label for="checkbox1"> Road </label>
+
+                                <input type="radio" id="checkbox1" name="transport">
+                                <label for="checkbox1">Rail </label>
+
+                                <input type="radio" id="checkbox1" name="transport">
+                                <label for="checkbox1"> Air </label>
+
+                                <input type="radio" id="checkbox1" name="transport">
+                                <label for="checkbox1"> Courier  </label>
+
+                                <input type="radio" id="checkbox1" name="transport">
+                                <label for="checkbox1"> Porter </label>
+
+                                <input type="radio" id="checkbox1" name="transport">
+                                <label for="checkbox1"> Personal Pick Up </label>
+
+                                <br>
+                                <label for="transportation_cost">Transportation Cost</label>
+                                <select id="transportation_cost" class="form-control"></select>
+                                
+
+                            </div>
+
+                            
+
+                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Payment </p>
+                                                    
+                            <div>
+
+                                
+                                <input type="radio" id="checkbox1" name="payment">
+
+                                <label for="checkbox1"> Advance </label>
+
+                                
+                            </div>
+                            <div style="display: flex; gap: 10px;"> <input type="number" id="checkbox1" class="form-control"> 
+
+                                <label for="checkbox1" name="payment">    % of Advance </label>  
+                                
+                            </div>
+
+                            
+                            <div>
+                                <input type="radio" id="radio1" name="payment">
+                                <label for="transportation_cost">Against Delivery</label>
+                                <input type="radio" id="radio1" name="payment">
+                                <label for="radio1"> Proforma Invoice </label>
+                                <input type="radio" id="radio1" name="payment">
+                                <label> Credit in day </label>
+
+                                <input type="number" id="numberField" name="limit to 99" min="0" max="100">
+
+                            </div>
 
                         <div>
+                        <br>
+                                                                            
+
+                    </div>
+
+
+
+                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">   Credit Limit in INR </p>
                             
-                            <select class="form-control" id="below_moq">
-                                <!-- Options will be generated dynamically here -->
+
+                    <div>
+
+                        <label for="checkbox1"> Amount <input type="number" id="checkbox1" class="form-control"> 
+                    </div>
+
+                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Rejection Acceptance from the date of invoice </p>
+            
+                    
+                    <div>
+                        <label for="transportation_cost">Days</label>
+                        <select id="" class="form-control">
+                            <option value=""> 1 </option>
+                            <option value=""> 2 </option>
+                            <option value=""> 3 </option>
+                            <option value=""> 4 </option>
+                            <option value=""> 5 </option>
+                            <option value=""> 6 </option>
+                            <option value=""> 7 </option>
+                            <option value=""> 8 </option>
+                        </select>
+                        
+                    </div>
+
+
+                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">    Offer Valid Till </p>
+                            
+
+                    <div>
+
+                        <input type="date" name="DC_date" class="form-control dateclas" required="" id="id_DC_date">
+                    </div>
+
+
+                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">    Rate Contract For per Month procurement </p>
+                            
+
+                                                
+
+                    <div>
+                        <input type="radio" id="radio1" name="Acceptance">
+                        <label for="transportation_cost">Yes</label>
+                        <input type="radio" id="radio1" name="Acceptance">
+                        <label for="radio1"> No </label>
+                        
+                    </div>
+
+
+
+                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> In Case there is sudden rise of material price per unit will differ </p>
+                            
+
+                    <div>
+                        <input type="radio" id="radio1" name="differ">
+                        <label for="transportation_cost">Yes</label>
+                        <input type="radio" id="radio1" name="differ">
+                        <label for="radio1"> Price Rise in % </label>
+                        <select id="mm_inch_select" class="from-control"> 
+                            <option value="1"> 0 </option>
+                            <option value="2"> 1 </option>
+                            <option value="2"> 2 </option>
+                            <option value="2"> 3 </option>
+                            <option value="2"> 4 </option>
+                            <option value="2"> 5 </option>
+                            <option value="2"> 6 </option>
+                            <option value="2"> 7 </option>
+                            <option value="2"> 8 </option>
+                            <option value="2"> 9 </option>
+                            <option value="2"> 10 </option>
+                            <option value="2"> 11 </option>
+                            <option value="2"> 12 </option>
+                            <option value="2"> 13 </option>
+                            <option value="2"> 14 </option>
+                            <option value="2"> 15 </option>
+                            <option value="2"> 16 </option>
+                            <option value="2"> 17 </option>
+                            <option value="2"> 18 </option>
+                            <option value="2"> 19 </option>
+                            <option value="2"> 20 </option>
+                            <option value="2"> 21 </option>
+                            <option value="2"> 22 </option>
+                            <option value="2"> 23 </option>
+                            <option value="2"> 24 </option>
+                            <option value="2"> 25 </option>
+                            
                             </select>
 
-                           
-
-                
                     </div>
-                </hr>
 
+                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Packaging and Forwarding </p>
+                            
+
+                        
+
+                    <div>
+
+
+                        <label for="transportation_cost">Type of Packaging</label>
+
+                        <select id="" class="form-control">
+                            <option value=""> Paper </option>
+                            <option value=""> Plastic Bags </option>
+                            <option value=""> Corrugated Box </option>
+                            <option value=""> Wooden Box  </option>
+                        </select>
+
+
+
+                        <label for="transportation_cost">Packaging Charges</label>
+
+                        <select id="packaging_charges" class="form-control"></select>
                     
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;"> Rate Per unit in INR for Nameplates, As per MOQ</p>
-
-                        <div>
-                            
-                            <input type="textbox" id="total_rate" class="form-control">
-                           
-
-                
-                    </div>
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;"> Rate Per unit in INR for Etched Tags, As per MOQ</p>
-
-                        <div>
-                            
-                            <input type="textbox" id="total_rate" class="form-control">
-                           
-
-                
-                    </div>
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;"> Rate Per unit in INR for Blank Tags, As per MOQ</p>
-
-                        <div>
-                            
-                            <input type="textbox" id="total_rate" class="form-control">
-                           
-
-                
-                    </div>
-
-                </hr>
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;">  Rate Per unit in INR for Nameplates, Precision Parts, Elevator designer Sheets below MOQ </p>
-                        <hr>
-
-                        <div>
-                            
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">0000</label>
-                           
-
-                
-                    </div>
-                    
-                    <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;">   Film Charges / Development Charges </p>
-                    <hr>
-
-                    <div>
-                        
-                        <input type="checkbox" id="checkbox1">
-                        <label for="checkbox1">Inclusive</label>
-
-                        <input type="checkbox" id="checkbox1">
-                        <label for="checkbox1"> Extra Charges Rs</label>
-                       
-
             
-                </div>
-
-                    <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;">  Min Font Height & Max Font Heigh </p>
-                    <hr>
-
-                    <div>
-                        
-                        <input type="checkbox" id="checkbox1">
-                        <label for="checkbox1">1mm</label>
-
-                        <input type="checkbox" id="checkbox1">
-                        <label for="checkbox1"> 600 mm </label>
-                       
-
             
-                </div>
-
-
-                    <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;">   Material Test Certificate ( MTC ) </p>
-                    <hr>
-
-                    <div>
-                        
-                        <input type="checkbox" id="checkbox1">
-                        <label for="checkbox1"> Free along with invoice</label>
-
-                        <input type="checkbox" id="checkbox1">
-                        <label for="checkbox1"> Extra Charges Rs. </label>
-                       
-
-            
-                </div>
-
-
-                    <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;"> Samples or Proto Typin </p>
-                    <hr>
-
-                    <div>
-                        
-                        <input type="checkbox" id="checkbox1">
-                        <label for="checkbox1"> Free in case confirm Order </label>
-
-                        <input type="checkbox" id="checkbox1">
-                        <label for="checkbox1"> Extra Charges Rs. </label>
-                       
-
-            
-                </div>
-
-
-                </div>
-                            
-
-               
-
-
-
-                    <div class="col-6">
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;"> Thickness </p>
-                        <hr>
-
-                        <div>
-
-                                <input type="radio" value="0.1" name="checkboxGroup">
-                                <label for="checkbox1" value="checkbox1">0.1</label>
-                            
-                                <input type="radio" value="0.2" name="checkboxGroup">
-                                <label for="checkbox2" value="checkbox2">0.2</label>
-                            
-                                <input type="radio" value="0.3" name="checkboxGroup">
-                                <label for="checkbox3" value="checkbox3">0.3</label>
-                            
-                                <input type="radio" value="0.4" name="checkboxGroup">
-                                <label for="checkbox4" value="checkbox4">0.4</label>
-                            
-                                <input type="radio" value="0.5" name="checkboxGroup">
-                                <label for="checkbox5" value="checkbox5">0.5</label>
-                            
-                                <input type="radio" value="0.6" name="checkboxGroup">
-                                <label for="checkbox6" value="checkbox6">0.6</label>
-                            
-                                <input type="radio" value="0.7" name="checkboxGroup">
-                                <label for="checkbox7" value="checkbox7">0.7</label>
-                            
-                                <input type="radio" value="0.8" name="checkboxGroup">
-                                <label for="checkbox8" value="checkbox8">0.8</label>
-                            
-                                <input type="radio" value="checkbox9" name="checkboxGroup">
-                                <label for="checkbox9" value="0.9">0.9</label>
-                            
-                                <input type="radio" value="checkbox10" name="checkboxGroup">
-                                <label for="checkbox10" value="1.0">1.0</label>
-                            
-                                <input type="radio" value="checkbox11" name="checkboxGroup">
-                                <label for="checkbox11" value="1.2">1.2</label>
-                            
-                                <input type="radio" value="checkbox12" name="checkboxGroup">
-                                <label for="checkbox12" value="1.5">1.5</label>
-                            
-                                <input type="radio" value="checkbox13" name="checkboxGroup">
-                                <label for="checkbox13" value="2">2</label>
-                            
-                                <input type="radio" value="checkbox14" name="checkboxGroup">
-                                <label for="checkbox14" value="2.5">2.5</label>
-                            
-                                <input type="radio" value="checkbox15" name="checkboxGroup">
-                                <label for="checkbox15" value="3">3.0</label>
-                            
-                        </div>
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;"> Industry </p>
-                        <hr>
-
-                        <div>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Automotive</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Auto Ancillary</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Sugar</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Domestic Appliance</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Process Equipmen</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Petro Chemica</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Food Equipmen</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1"> Medical Device & Equipement</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Defence</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Aviation & Aero Space</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Elevator</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Electricals</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Electronics</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Filteration</label>
-
-                        </div>
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;"> Product </p>
-                        <hr>
-
-                        <div>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Nameplate</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Front Pannel</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Nameplate with QR code</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Project Based Cable Tags</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Schematic Drg</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Thin Shim & Spacer</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Proto type Stator & Rotar Lamination</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1"> Regular Thin Mesh</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Customized Mesh</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Encoder Disc</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Aperture & Pin Holes</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Texturing</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Speaker Grill</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1"> Contact , Connector & terminals</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Valve & Compressor Plate</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Diaphragm</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1"> EMI / RFI Shielding</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Filteration</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1"> Battery Contact</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Antenna Tele Communication</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Bipolar Plate PEM</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Flat Spring, U Spring, V sPRING</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Metal Business Card with NFC Chip</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Metal Business Card without Chip</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Book Mark & Product model</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1"> Designer Stainless steel sheet</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Designer Stainless steel sheet with
-                                elevator cabinet</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Designer Stainless steel sheet with
-                                elevator cabinet, roof & bottom</label>
-
-                        </div>
-
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;"> Color Avaiable for Nameplate, Metal Business Card </p>
-                        <hr>
-
-                        <div>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">1</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">2</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Multi Color up to 4 Color</label>
-
-                        </div>
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;"> Color on Nameplate , Metal Business Card </p>
-                        <hr>
-
-                        <div>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Black</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Blue</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Red</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Green</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Yellow</label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">Multi Color</label>
-
-                           
-                        </div>
-
-
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;">  Payment </p>
-                        <hr>
-
-                        <div>
-
-                            <label for="checkbox1"> Advance <input type="number" id="checkbox1" class="form-control"> 
-                            </div>
-
-                            <div>
-                            <label for="checkbox1">    % of Advance </label> <input type="number" id="checkbox1" class="form-control"> 
-                            </div>
-
-                            <div>
-                            <label for="checkbox1"> Proforma Invoice Credit in day <input type="number" id="checkbox1" class="form-control"></label>
-
-                          
-                        </div>
-
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;">   Credit Limit in INR </p>
-                        <hr>
-
-                        <div>
-
-                            <label for="checkbox1"> Amount <input type="number" id="checkbox1" class="form-control"> 
-                        </div>
-
-
-
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;">    IncoTerm </p>
-                        <hr>
-
-                        <div>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1"> Ex-Works </label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1">F.O.B. </label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1"> C & F </label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1"> CIF  </label>
-
-                            <input type="checkbox" id="checkbox1">
-                            <label for="checkbox1"> Warehouse to Warehouse </label>
-
-                        </div>
-
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;">    Rejection Acceptance from the date of invoice </p>
-                        <hr>
-
-                        <div>
-
-                            <label for="checkbox1"> Days <input type="number" id="checkbox1" class="form-control"> 
-                        </div>
-
-                        <p style="color: black; text-align: center;color: black;
-    text-align: center;
-    background: orange;
-    border: 1px solid black;
-    font-weight: 600;">    Offer Valid Till </p>
-                        <hr>
-
-                        <div>
-
-                            <label for="checkbox1"> Days <input type="number" id="checkbox1" class="form-control"> 
-                            <label for="checkbox1"> Month <input type="number" id="checkbox1" class="form-control"> 
-                            <label for="checkbox1"> Year <input type="number" id="checkbox1" class="form-control"> 
-                        </div>
-
-
-
 
                     </div>
-                    
+
+
+
                 </div>
+                        
             </div>
+        </div>
 
 
-            
- <br>
- <br>
-                            <div>
-                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
-                                    <span id="payment-button-amount">Update Production</span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-        </div> <!-- .card -->
-
-    </div><!--/.col-->
+                    
+        <br>
+        <br>
+        <div>
+            <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                <span id="payment-button-amount">Update Production</span>
+            </button>
+        </div>
+    </div>
 </div>
+
 
 
 {% endblock content %}
@@ -1037,28 +1311,82 @@ in sq. inch </p>
             
             // Display the result in the "size" input field
             document.getElementById('total_sq_inch').value = sqIn.toFixed(2);
-        } else {
-            // Display an error message if inputs are not valid numbers
-            
+
+
+                
+            calculatedValue = sqIn.toFixed(2)
+
+
+
+            const radioButtons = document.getElementsByName('sqinch');
+            const calculatedValue = 1500; // Replace 1500 with your actual calculated value
+
+            let closestDifference = Infinity;
+            let closestButton = null;
+
+            for (const radioButton of radioButtons) {
+                const value = parseFloat(radioButton.value);
+                const difference = calculatedValue - value;
+                if (difference >= 0 && difference < closestDifference) {
+                    closestDifference = difference;
+                    closestButton = radioButton;
+                }
+            }
+
+            if (closestButton) {
+                closestButton.checked = true;
+            }
+
+            getValue();
+
+
+            } else {
+                // Display an error message if inputs are not valid numbers
+            }
+
         }
 
-    }
-
-    else{
-
+        else{
 
             if (!isNaN(lengthMm) && !isNaN(widthMm)) {
                 // Convert mm to inches (1 inch = 25.4 mm)
-                const lengthIn = lengthMm / 25.4;
-                const widthIn = widthMm / 25.4;
+                var lengthIn = (lengthMm / 2.5) / 10;
+                var widthIn = (widthMm / 2.5) / 10;
 
                 
                 // Calculate square inches
-                const sqIn = (lengthIn * widthIn) * quantity;
-                
+                var sqIn1 = lengthIn * widthIn * quantity;
+                console.log(sqIn1)
+
+                sqIn = sqIn1 + ((sqIn1 / 100) * 5)
+                console.log(sqIn)
                 
                 // Display the result in the "size" input field
                 document.getElementById('total_sq_inch').value = sqIn.toFixed(2);
+
+                var calculatedValue = sqIn.toFixed(2)
+
+                const radioButtons = document.getElementsByName('sqinch');
+
+                let closestDifference = Infinity;
+                let closestButton = null;
+
+                for (const radioButton of radioButtons) {
+                    const value = parseFloat(radioButton.value);
+                    const difference = calculatedValue - value;
+                    if (difference >= 0 && difference < closestDifference) {
+                        closestDifference = difference;
+                        closestButton = radioButton;
+                    }
+                }
+
+                if (closestButton) {
+                    closestButton.checked = true;
+                }
+
+            getValue();
+
+
             } else {
                 // Display an error message if inputs are not valid numbers
                 
@@ -1068,13 +1396,17 @@ in sq. inch </p>
 
     }
 
-    document.getElementById('length_a').addEventListener('input', calculateSqIn);
-    document.getElementById('width_a').addEventListener('input', calculateSqIn);
-    document.getElementById('quantity_a').addEventListener('input', calculateSqIn);
-    document.getElementById('mm_inch_select').addEventListener('input', calculateSqIn);
-    
 
-    const dropdown = document.getElementById('below_moq');
+
+        document.getElementById('length_a').addEventListener('input', calculateSqIn);
+
+        document.getElementById('length_a').addEventListener('input', calculateSqIn);
+        document.getElementById('width_a').addEventListener('input', calculateSqIn);
+        document.getElementById('quantity_a').addEventListener('input', calculateSqIn);
+        document.getElementById('mm_inch_select').addEventListener('input', calculateSqIn);
+        
+
+        const dropdown = document.getElementById('below_moq');
 
         // Loop to generate options from 1 to 143
         for (let i = 1; i <= 143; i++) {
@@ -1091,100 +1423,976 @@ in sq. inch </p>
 
 
         const tableData = {
+
+            
             "0.5": {
-                144: 13.20,
-                288: 11,
-                576: 8.85,
-                1152: 8.80,
-                1728: 6.60,
-                2304: 5.60,
-                2880: 5.57,
-                3456: 5.56,
-                4032: 5.55,
-                4608: 5.50,
-                // Add more square inch values and corresponding values as needed
+                576: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.75,
+                            2: 6,
+                        },
+                        variable_text_matter: {
+                            1: 8,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6.5,
+                        }
+                        
+                    },
+                },
+
+                720: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                },
+                864: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                },
+                1008: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                1152: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                },
+                1296: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                },
+                1440: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                },
+                1584: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                },
+                1728: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                },
+                1872: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                },
+                2016: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                },
+                2160: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                },
+                2304: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                },
+                2448: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                },
+                2592: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                },
+                2736: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                },
+                2880: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                3024: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                3168: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                3312: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                3456: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                3600: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                3744: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                3888: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                4032: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                4176: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 4.85,
+                            2: 5,
+                        },
+                        variable_text_matter: {
+                            1: 6.8,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                4320: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 4.85,
+                            2: 5,
+                        },
+                        variable_text_matter: {
+                            1: 6.8,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                4608: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 4.85,
+                            2: 5,
+                        },
+                        variable_text_matter: {
+                            1: 6.8,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
             },
-            "0.6": {
-                72: 15,
-                144: 25,
-                288: 35,144: 13.20,
-                288: 11,
-                576: 8.85,
-                1152: 8.80,
-                1728: 6.60,
-                2304: 5.60,
-                2880: 5.57,
-                3456: 5.56,
-                4032: 5.55,
-                4608: 5.50,
-                // Add more square inch values and corresponding values as needed
-            },
-            "0.7": {
-                72: 15,
-                144: 25,
-                288: 35,144: 13.20,
-                288: 11,
-                576: 8.85,
-                1152: 8.80,
-                1728: 6.60,
-                2304: 5.60,
-                2880: 5.57,
-                3456: 5.56,
-                4032: 5.55,
-                4608: 5.50,
-                // Add more square inch values and corresponding values as needed
-            },
-            "0.8": {
-                72: 15,
-                144: 25,
-                288: 35,144: 13.20,
-                288: 11,
-                576: 8.85,
-                1152: 8.80,
-                1728: 6.60,
-                2304: 5.60,
-                2880: 5.57,
-                3456: 5.56,
-                4032: 5.55,
-                4608: 5.50,
-                // Add more square inch values and corresponding values as needed
-            },
-            // Add more thickness options and corresponding data as needed
+            
         };
 
 
         function getValue() {
 
+            // Check if all required inputs are selected
+            const thicknessInput = document.querySelector('input[name="thickness"]:checked');
+            const sqInchInput = document.querySelector('input[name="sqinch"]:checked');
+            const colorInput = document.querySelector('input[name="color_count"]:checked');
+            const textMatterInput = document.querySelector('input[name="text_matter"]:checked');
+            const etchingInput = document.querySelector('input[name="etching"]:checked');
 
-            const thickness = document.querySelector('input[name="checkboxGroup"]:checked').value;
-            
-            const sqInch = document.querySelector('input[name="checkboxGroup2"]:checked').value;
+                
 
 
-           
-            // Retrieve value from tableData
-            const value = tableData[thickness][sqInch];
+            if (thicknessInput && sqInchInput && colorInput && textMatterInput && etchingInput) {
 
-            // Display the value
-            total_sq_inch = document.getElementById("total_sq_inch").value;
-            quantity_a = document.getElementById("quantity_a").value;
-            var price = value * total_sq_inch
-            var final_price = price / quantity_a
-            document.getElementById("total_rate").value = final_price.toFixed(2);;
+                const thickness = document.querySelector('input[name="thickness"]:checked').value;
+                    
+                const sqInch = document.querySelector('input[name="sqinch"]:checked').value;
+
+                const color = document.querySelector('input[name="color_count"]:checked').value;
+
+                const text_matter = document.querySelector('input[name="text_matter"]:checked').value;
+
+                const etching = document.querySelector('input[name="etching"]:checked').value;
+
+                if (thickness && sqInch && color && text_matter && etching) {
+
+
+                   
+
+
+                // Retrieve value from tableData
+                const value = tableData[thickness][sqInch][etching][text_matter][color];
+                console.log(value)
+
+                // Display the value
+                total_sq_inch = document.getElementById("total_sq_inch").value;
+                quantity_a = document.getElementById("quantity_a").value;
+                var price = value * total_sq_inch
+                var final_price = price / quantity_a
+                document.getElementById("total_rate").value = final_price.toFixed(2);
+                document.getElementById("total_basic_amount").value = final_price.toFixed(2) * quantity_a;
+
+
+            }
 
         }
 
 
-        const checkboxes = document.querySelectorAll('input[name="checkboxGroup"]');
+            
 
-        // Attach event listeners to each checkbox
-        checkboxes.forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                // This code will be executed whenever any checkbox is changed
-                getValue(); // Call your function here
+        }
+
+
+        ['thickness', 'sqinch', 'color_count', 'text_matter', 'etching', 'certificate_cost'].forEach(function(groupName) {
+            const checkboxes = document.querySelectorAll('input[name="' + groupName + '"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    getValue(); // Call your function here
+                });
             });
         });
         
+        var final_pri = 0
+
+       // Get all radio buttons in the group
+const radioButtons = document.getElementsByName('charges_type_group');
+
+var chargeRadioButton = document.getElementById('certificate_cost_charge');
+
+
+const selectElement1212 = document.getElementById('certificate_cost_amount');
+const radioButtons1 = document.getElementsByName('certificate_cost');
+
+// Add event listener to each radio button in the group
+radioButtons1.forEach(function(radioButton) {
+    radioButton.addEventListener('change', function(event) {
+        updateFinalItemTotal();
+    });
+});
+
+// Add event listener to the select element
+selectElement1212.addEventListener('change', function(event) {
+    updateFinalItemTotal();
+});
+
+// Function to update the final item total
+function updateFinalItemTotal() {
+    if (chargeRadioButton.checked) {
+        var selectedValue = selectElement1212.value;
+        final_pri += parseFloat(selectedValue); // Increment final_pri by the selected value
+    }
+    document.getElementById("final_item_total").value = final_pri;
+}
+
+
+const sample_price = document.getElementById('sample_price');
+const sample_radioButtons1 = document.getElementsByName('sample');
+
+// Add event listener to each radio button in the group
+sample_radioButtons1.forEach(function(radioButton) {
+    radioButton.addEventListener('change', function(event) {
+        updateFinalItemTotal1();
+    });
+});
+
+
+// Add event listener to the select element
+sample_price.addEventListener('change', function(event) {
+    updateFinalItemTotal();
+});
+
+
+// Function to update the final item total
+function updateFinalItemTotal1() {
+
+    if (chargeRadioButton.checked) {
+        var selectedValue = sample_price.value;
+        final_pri += parseFloat(selectedValue); // Increment final_pri by the selected value
+    }
+    document.getElementById("final_item_total").value = final_pri;
+}
+
+
+
+// Add event listener to each radio button in the group
+radioButtons.forEach(function(radioButton) {
+    radioButton.addEventListener('change', function(event) {
+
+        var total_charges = 0
+        var basic_amount = 0
+        // Check if the event object exists and has the target property
+        if (event && event.target && event.target.value) {
+            if (event.target.value === 'with_job_shop') {
+                // Call your function here
+                var basic_amount = parseFloat(document.getElementById("total_basic_amount").value);
+                const amount_with_gst = (basic_amount / 100) * 12;
+
+                 total_charges = amount_with_gst
+
+                document.getElementById("total_with_job_shop").value = amount_with_gst.toFixed(2);
+                document.getElementById("total_with_gst").value = "";
+            } else {
+                // Call your function here
+                var basic_amount = parseFloat(document.getElementById("total_basic_amount").value);
+                const amount_with_gst = (basic_amount / 100) * 18;
+
+                 total_charges = amount_with_gst
+
+                document.getElementById("total_with_gst").value = amount_with_gst.toFixed(2);
+                document.getElementById("total_with_job_shop").value = "";
+            }
+
+            var total_amount_with_charges_type = basic_amount + total_charges
+
+            // Round total_amount_with_charges_type to two decimal places
+            const roundedValue = Math.round(total_amount_with_charges_type * 100) / 100;
+
+            // Set the rounded value as the value of the specified element
+            document.getElementById("total_amount_with_charges_type").value = roundedValue;
+
+           final_pri = roundedValue
+
+           
+
+
+
+        } else {
+            console.error('Event or event.target is undefined.');
+        }
+    });
+});
+
+      
+
+// Get the select element
+const selectElement = document.getElementById("transportation_cost");
+
+// Add options to the select element
+for (let i = 100; i <= 10000; i += 100) {
+    const option = document.createElement("option");
+    option.text = i;
+    option.value = i;
+    selectElement.add(option);
+}
+
+// Get the select element
+const selectElement1 = document.getElementById("packaging_charges");
+
+
+// Add options to the select element
+for (let i = 0; i <= 5000; i += 100) {
+    const option = document.createElement("option");
+    option.text = i;
+    option.value = i;
+    selectElement1.add(option);
+}
+      
+
+// Get the select element
+const selectElement2 = document.getElementById("sqinch");
+
+
+// Add options to the select element
+for (let i = 100; i <= 2500; i += 100) {
+    const option = document.createElement("option");
+    option.text = i;
+    option.value = i;
+    selectElement2.add(option);
+}
+      
+
+// Get the select element
+const selectElement3 = document.getElementById("sqinch2");
+
+
+// Add options to the select element
+for (let i = 100; i <= 1500; i += 100) {
+    const option = document.createElement("option");
+    option.text = i;
+    option.value = i;
+    selectElement3.add(option);
+}
+
+// Get the select element
+const selectElement4 = document.getElementById("certificate_cost_amount");
+
+
+// Add options to the select element
+for (let i = 100; i <= 1000; i += 100) {
+    const option = document.createElement("option");
+    option.text = i;
+    option.value = i;
+    selectElement4.add(option);
+}
+      
+
+
+
+
+
+
+
+var cardsAppended = 0;
+
+
+
+
+
+// JavaScript code for sending AJAX POST request
+$(document).ready(function() {
+    $('#submit-form').submit(function(event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        // Serialize form data including CSRF token
+        var formData = $('form').serialize();
+        
+        // Send AJAX POST request
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'add_order' %}", // Replace with your Django view URL
+            data: formData,
+            beforeSend: function(xhr, settings) {
+                // Set CSRF token in request headers
+                xhr.setRequestHeader('X-CSRFToken', $('input[name="csrfmiddlewaretoken"]').val());
+            },
+            success: function(response) {
+                // Handle successful response
+                console.log(response);
+
+                var cardHtml = '<div class="col-6">' +
+                    '<div class="card mb-3" style="width: 18rem;border: 1px solid black;">' +
+                        '<div class="card-body" style="border: 1px solid black;">' +
+                            '<p class="card-text">' + response.instance + '</p>' +
+                            '<a href="#" class="btn btn-primary">View</a>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+
+                $('#card-row').append(cardHtml);
+                cardsAppended++;
+
+                // Check if the number of cards appended is divisible by 2
+                if (cardsAppended % 2 === 0) {
+                    $('#card-row').append('<div class="w-100"></div>'); // Add a new row
+                }
+
+                
+                // Assuming you have a form with id "myForm"
+               // Clear text inputs
+                $('#submit-form :input[type="text"]').val('');
+
+                // Clear radio buttons
+                $('#submit-form :input[type="radio"]').prop('checked', false);
+
+                // Clear number inputs
+                $('#submit-form :input[type="number"]').val('');
+
+               // item_code
+
+               $('#item_code').val('');
+                
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                // Handle error
+                console.error('Error:', textStatus, errorThrown);
+            }
+        });
+    });
+});
+
+
+
+
+let orders = []; // Array to store submitted orders
+let orderIdCounter = 1; // Counter for unique order IDs
+
+// Function to add submitted order to the array
+function addOrder(orderData) {
+    orderData.id = orderIdCounter++;
+    orders.push(orderData);
+    renderOrders(); // Render submitted orders
+}
+
+// Function to render submitted orders
+function renderOrders() {
+    const ordersContainer = document.getElementById('submittedOrders');
+    ordersContainer.innerHTML = ''; // Clear existing content
+
+    orders.forEach(order => {
+        const orderElement = document.createElement('div');
+        orderElement.innerHTML = `<div class="col-6">
+                <div class="card mb-3" style="width: 18rem;border: 1px solid black;">
+                    <div class="card-body" style="border: 1px solid black;">
+                        <p class="card-text" style="margin-bottom: 1px;"> Order Id:- ${order.item_code} </p>
+                        <p class="card-text" style="margin-bottom: 1px;"> Total SqInch:- ${order.quantity} </p>
+                        <p class="card-text" style="margin-bottom: 1px;"> Rate:- ${order.rate_per_unit} </p>
+                        <a onclick="editOrder(${order.id})" class="btn btn-primary">View</a>
+                        <a onclick="deleteOrder(${order.id})" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+            </div>
+        `;
+
+
+        ordersContainer.appendChild(orderElement);
+    });
+}
+
+// Function to delete submitted order
+function deleteOrder(orderId) {
+    orders = orders.filter(order => order.id !== orderId);
+    renderOrders(); // Render updated list
+}
+
+// Function to edit submitted order
+function editOrder(orderId) {
+    const orderToEdit = orders.find(order => order.id === orderId);
+    if (orderToEdit) {
+        // Populate form with order data for editing
+        const form = document.getElementById('orderForm');
+        for (const key in orderToEdit) {
+            if (Object.hasOwnProperty.call(orderToEdit, key)) {
+                const element = form.elements[key];
+                if (element) {
+                    element.value = orderToEdit[key];
+                }
+            }
+        }
+
+        // Store the ID of the order being edited
+        document.getElementById('editOrderId').value = orderId;
+    }
+}
+
+// Function to handle adding a new order
+function addNewOrder(orderData) {
+    // Add submitted order to the array
+    
+    document.getElementById('editOrderId').value = '';
+
+    addOrder({ ...orderData });
+}
+
+// Function to handle editing an existing order
+function editExistingOrder(orderData) {
+    // Check if we are editing an existing order
+    const editOrderId = parseInt(document.getElementById('editOrderId').value);
+
+    if (editOrderId) {
+        // Find the index of the order to be edited
+        const index = orders.findIndex(order => order.id === editOrderId);
+        if (index !== -1) {
+            // Update existing order
+            orders[index] = { id: editOrderId, ...orderData };
+            renderOrders(); // Render updated list
+        }
+    }
+}
+
+// Function to handle form submission
+function handleSubmit(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Retrieve form data
+    const formData = new FormData(document.getElementById('orderForm'));
+
+    // Convert FormData object to a plain object
+    const orderData = {};
+    formData.forEach((value, key) => {
+        orderData[key] = value;
+    });
+
+    // Check if we are editing an existing order
+    const editOrderId = parseInt(document.getElementById('editOrderId').value);
+    console.log('Edit Order ID:', editOrderId); // Log editOrderId to check its value
+
+
+
+    if (editOrderId) {
+        editExistingOrder(orderData);
+    } else {
+        addNewOrder(orderData);
+    }
+
+    // Clear form fields
+    document.getElementById('orderForm').reset();
+}
+
+// Initialize event listener for form submission
+document.getElementById('submitButton').addEventListener('click', handleSubmit);
+
 
 
 

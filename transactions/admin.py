@@ -21,3 +21,5 @@ admin.site.register(project_logs)
 admin.site.register(notification_table)
 admin.site.register(demo)
 admin.site.register(sheets_rifd)
+
+admin.site.register(order_child)

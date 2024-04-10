@@ -77,6 +77,8 @@ urlpatterns = [
     path('update-order/<order_id>', update_order, name='update_order'),
     path('delete-order/<order_id>', delete_order, name='delete_order'),
     path('list-order/', list_order, name='list_order'),
+
+    path('downald-data/', downalo_data, name='downalo_data'),
     
 
 

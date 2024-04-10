@@ -164,16 +164,18 @@ def delete_images(request):
 from datetime import datetime
 
 
-@login_required(login_url='login')
 def add_order(request):
 
     if request.method == 'POST':
 
-        forms = order_Form(request.POST)
+        print(request.POST)
+
+
+        forms = order_child_Form(request.POST)
 
         if forms.is_valid():
             forms.save()
-            return redirect('list_order')
+            return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
         else:
             print(forms.errors)
     
@@ -187,11 +189,13 @@ def add_order(request):
 
         else:
 
-            order_no = int(order_no.id) + 1
+            order_no = int(order_no.order_id) + 1
+
+        order_instance = order.objects.create(order_id = order_no)
 
         print(order_no)
 
-        forms = order_Form()
+        forms = order_Form(instance = order_instance)
 
         context = {
             'form': forms,
@@ -215,7 +219,8 @@ def update_order(request, order_id):
 
         if forms.is_valid():
             forms.save()
-            return redirect('list_order')
+            print(forms.instance.item_code)
+            return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
         else:
             print(forms.errors)
     
@@ -250,9 +255,53 @@ def list_order(request):
         'data': data
     }
 
-    return render(request, 'transactions/list_order.html', context)
+    return render(request, 'transactions/list_orders.html', context)
 
 
+
+import csv
+
+
+
+def downalo_data(request):
+
+    projects_data = []
+    projects_data.append(['Order ID', 'Customer', 'Sheet No', 'Previous Size', 'Used Size',	'Left Size', 'Updated At', 'Cutter'])
+
+    for proj in project.objects.all():
+
+        projects_data.append([proj.order_id, proj.customer, '', '', '',	'', '', ''])
+
+
+        for material in project_material.objects.filter(project=proj):
+
+            if material.sheet_no:
+
+                try:
+                    product_qr_instances = project_matarial_qr.objects.get(id = material.sheet_no)
+
+
+
+                    a = material_history.objects.filter(product_qr = product_qr_instances.id, project = proj)
+
+
+                    for z in a:
+                        projects_data.append(['', '', z.product_qr.id, z.previous_size, z.used_size, z.left_size, z.updated_at, z.cutter])
+
+                except project_matarial_qr.DoesNotExist:
+                    
+                    pass
+
+    # Convert data to DataFrame
+    df = pd.DataFrame(projects_data)
+
+    # Export DataFrame to CSV
+    df.to_csv('project_data.csv', index=False)
+
+
+
+
+    
 
 
 from django.http import HttpResponse

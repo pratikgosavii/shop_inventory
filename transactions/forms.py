@@ -210,6 +210,20 @@ class order_Form(forms.ModelForm):
 
 
 
+class order_child_Form(forms.ModelForm):
+
+    class Meta:
+        model = order_child
+        fields = '__all__'
+        widgets = {
+
+            'date' : DateInput(attrs={ 'class': 'form-control', 'type': 'date'}, format = '%Y-%m-%d'),
+          
+            
+        }
+
+
+
 
 class goods_company_Form(forms.ModelForm):
     class Meta:
