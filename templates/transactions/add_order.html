@@ -780,14 +780,14 @@
                                     <input type="radio" id="checkbox1" id="flim_charges1" name="flim_charges">
                                     <label for="checkbox1">Inclusive</label>
 
-                                    <input type="radio" id="checkbox1" id="flim_charges2" name="flim_charges">
-                                    <label for="checkbox1"> Extra Charges Rs</label>
+                                    <input type="radio" id="sqinch_flim_option" id="flim_charges2" name="flim_charges">
+                                    <label for="checkbox1"> Sq Inch </label>
                                     
 
                                         <select id="sqinch" name="flim_charges_sqinch"></select>
                                 
-                                    <label for="checkbox1"> Sq Inch </label>
-                                    <select id="sqinch2" name="flim_charges_cost"></select>
+                                    <label for="checkbox1"> Extra Charges Rs </label>
+                                    <input type="text" id="flim_charges_total" name="flim_charges_total">
 
                                 </div>
                     
@@ -814,9 +814,17 @@
                                     <input type="radio" id="checkbox1" id="certificate_cost_free" name="certificate_cost">
                                     <label for="checkbox1"> Free along with invoice</label>
 
-                                    <input type="radio"  id="certificate_cost_charge" name="certificate_cost">
-                                    <label for="checkbox1"> Extra Charges Rs. </label>
-                                    <select id="certificate_cost_amount" name="certificate_cost_amount"></select>
+                                    <input type="radio"  id="no_certificate" name="certificate_cost">
+                                    <label for="checkbox1"> No Certificate </label>
+                                    <select id="no_certificate" name="certificate_cost_amount"></select>
+
+                                    <div>
+
+                                        <input type="radio"  id="certificate_cost_charge" name="certificate_cost">
+                                        <label for="checkbox1"> Extra Charges Rs. </label>
+                                        <select id="certificate_cost_amount" name="certificate_cost_amount"></select>
+
+                                    </div>
                                 
 
                         
@@ -1256,6 +1264,20 @@
                         <label for="transportation_cost">Packaging Charges</label>
 
                         <select id="packaging_charges" class="form-control"></select>
+                    
+            
+            
+
+                    </div>
+
+                    <div>
+
+
+                       
+
+                        <label for="transportation_cost">Final Amount</label>
+
+                        <input type="text" id="final_amount" class="form-control">
                     
             
             
@@ -2026,12 +2048,14 @@
         
         var final_pri = 0
 
-       // Get all radio buttons in the group
-const radioButtons = document.getElementsByName('charges_type_group');
+
+
+
+// Get all radio buttons in the group
+
+const radioButtons = document.getElementsByName('flim_charges');
 
 var chargeRadioButton = document.getElementById('certificate_cost_charge');
-
-
 const selectElement1212 = document.getElementById('certificate_cost_amount');
 const radioButtons1 = document.getElementsByName('certificate_cost');
 
@@ -2055,6 +2079,41 @@ function updateFinalItemTotal() {
     }
     document.getElementById("final_item_total").value = final_pri;
 }
+
+
+
+//sdsudhsdskjdkjd
+
+var sqinch_selected = document.getElementById('sqinch_flim_option');
+const flim_sqinch = document.getElementById('sqinch');
+
+
+// Add event listener to the select element
+flim_sqinch.addEventListener('change', function(event) {
+    update_final_bill_with_flim();
+});
+
+// Function to update the final item total
+function update_final_bill_with_flim() {
+    if (sqinch_selected.checked) {
+        var selectedValue = flim_sqinch.value;
+        var temp = selectedValue * 1.5
+        final_pri += parseFloat(temp); // Increment final_pri by the selected value
+    }
+    document.getElementById("final_item_total").value = final_pri;
+    document.getElementById("flim_charges_total").value = temp;
+}
+
+
+// Function to update the final item total
+function update_final_bill_with_flim() {
+    if (sqinch_selected.checked) {
+        var selectedValue = flim_sqinch.value;
+        final_pri += parseFloat(selectedValue); // Increment final_pri by the selected value
+    }
+    document.getElementById("final_item_total").value = final_pri;
+}
+
 
 
 const sample_price = document.getElementById('sample_price');
@@ -2165,7 +2224,7 @@ const selectElement2 = document.getElementById("sqinch");
 
 
 // Add options to the select element
-for (let i = 100; i <= 2500; i += 100) {
+for (let i = 100; i <= 600; i += 100) {
     const option = document.createElement("option");
     option.text = i;
     option.value = i;
@@ -2173,17 +2232,6 @@ for (let i = 100; i <= 2500; i += 100) {
 }
       
 
-// Get the select element
-const selectElement3 = document.getElementById("sqinch2");
-
-
-// Add options to the select element
-for (let i = 100; i <= 1500; i += 100) {
-    const option = document.createElement("option");
-    option.text = i;
-    option.value = i;
-    selectElement3.add(option);
-}
 
 // Get the select element
 const selectElement4 = document.getElementById("certificate_cost_amount");
@@ -2197,7 +2245,6 @@ for (let i = 100; i <= 1000; i += 100) {
     selectElement4.add(option);
 }
       
-
 
 
 
@@ -2392,6 +2439,35 @@ function handleSubmit(event) {
 
 // Initialize event listener for form submission
 document.getElementById('submitButton').addEventListener('click', handleSubmit);
+
+
+
+
+function calculateTotal() {
+    var totalFinalAmount = orders.reduce((total, order) => total + order.final_item_total, 0);
+
+    var packagingCharges = parseFloat(document.getElementById("packaging_charges").value);
+    var finalAmount = totalFinalAmount + packagingCharges;
+    
+    
+
+
+    // Check if finalAmount is a number before calling toFixed
+    if (!isNaN(finalAmount)) {
+        document.getElementById("final_amount").value = finalAmount.toFixed(2);
+    } else {
+        // Handle the case where finalAmount is not a number
+        document.getElementById("final_amount").value = "Invalid input";
+    }
+}
+
+
+// Add event listeners to all input fields in the form
+
+const formInputsasas = document.querySelectorAll('input');
+formInputsasas.forEach(input => {
+  input.addEventListener('change', calculateTotal);
+});
 
 
 

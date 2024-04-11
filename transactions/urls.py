@@ -79,6 +79,8 @@ urlpatterns = [
     path('list-order/', list_order, name='list_order'),
 
     path('downald-data/', downalo_data, name='downalo_data'),
+
+    path('demo/', demo1, name='demo'),
     
 
 

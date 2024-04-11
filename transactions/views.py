@@ -2370,3 +2370,9 @@ def verify_password(request):
 
         return JsonResponse({'status' : "wrong"})
 
+
+
+def demo1(request):
+
+    
+    return render(request, 'transactions/demo.html')
