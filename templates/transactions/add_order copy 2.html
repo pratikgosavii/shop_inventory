@@ -718,7 +718,7 @@
 
                                         <label for="checkbox1"> Basic Amount</label>
 
-                                        <input type="number" name="basic_amount" id="total_basic_amount" class="form-control">
+                                        <input type="textbox" name="basic_amount" id="total_basic_amount" class="form-control">
 
                                     </div>
                                 </div>
@@ -731,7 +731,7 @@
                                     
                                     <div>
 
-                                        <input type="radio" id="with_material_gst" value="with_gst" name="charges_type_group">
+                                        <input type="radio" id="total_basic_amount" value="with_gst" name="charges_type_group">
                                         <label for="checkbox1">  With Material GST @18 % </label>
                                         
                                     </div>
@@ -839,7 +839,7 @@
                                     <input type="radio" id="checkbox1" name="sample">
                                     <label for="checkbox1"> Free in case confirm Order </label>
 
-                                    <input type="radio" id="sample_cha"  name="sample">
+                                    <input type="radio" id="checkbox1"  name="sample">
                                     <label for="checkbox1"> Extra Charges Rs. </label>
                                     <input type="textbox" value="0" id="sample_price">
                                 
@@ -1359,6 +1359,7 @@
                 closestButton.checked = true;
             }
 
+            getValue();
 
 
             } else {
@@ -1377,8 +1378,10 @@
                 
                 // Calculate square inches
                 var sqIn1 = lengthIn * widthIn * quantity;
+                console.log(sqIn1)
 
                 sqIn = sqIn1 + ((sqIn1 / 100) * 5)
+                console.log(sqIn)
                 
                 // Display the result in the "size" input field
                 document.getElementById('total_sq_inch').value = sqIn.toFixed(2);
@@ -1403,6 +1406,7 @@
                     closestButton.checked = true;
                 }
 
+            getValue();
 
 
             } else {
@@ -1414,7 +1418,6 @@
 
     }
 
-   
 
 
         document.getElementById('length_a').addEventListener('input', calculateSqIn);
@@ -1440,7 +1443,546 @@
         }
 
 
-        var get_value_total = 0
+
+        const tableData = {
+
+            
+            "0.5": {
+                576: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.75,
+                            2: 6,
+                        },
+                        variable_text_matter: {
+                            1: 8,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6.5,
+                        }
+                        
+                    },
+                },
+
+                720: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                },
+                864: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                },
+                1008: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                1152: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                },
+                1296: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                },
+                1440: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                },
+                1584: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                },
+                1728: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.50,
+                            2: 5.75,
+                        },
+                        variable_text_matter: {
+                            1: 7.5,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 6,
+                        }
+                        
+                    },
+                },
+                1872: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                },
+                2016: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                },
+                2160: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                },
+                2304: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                },
+                2448: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                },
+                2592: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                },
+                2736: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                },
+                2880: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                            2: 5.50,
+                        },
+                        variable_text_matter: {
+                            1: 7.25,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.5,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                3024: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                3168: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                3312: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                3456: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                3600: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                3744: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                3888: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                4032: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                            2: 5.25,
+                        },
+                        variable_text_matter: {
+                            1: 7,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5.25,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                4176: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 4.85,
+                            2: 5,
+                        },
+                        variable_text_matter: {
+                            1: 6.8,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                4320: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 4.85,
+                            2: 5,
+                        },
+                        variable_text_matter: {
+                            1: 6.8,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+                4608: {
+                    deep_etching: {
+                        standard_text_matter: {
+                            1: 4.85,
+                            2: 5,
+                        },
+                        variable_text_matter: {
+                            1: 6.8,
+                        },
+                        // Add more color options as needed
+                    },
+                    embossed_etching: {
+                        standard_text_matter: {
+                            1: 5,
+                        }
+                        
+                    },
+                    // Add more text matter options as needed
+                
+                },
+            },
+            
+        };
+
 
         function getValue() {
 
@@ -1466,49 +2008,44 @@
 
                 const etching = document.querySelector('input[name="etching"]:checked').value;
 
-
-                fetch('../../static/js/data.json')
-                .then(response => {
-                  if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                  }
-                  return response.json();
-                })
-                .then(tableData => {
-                    if (thickness && sqInch && color && text_matter && etching) {
+                if (thickness && sqInch && color && text_matter && etching) {
 
 
-                    
+                   
 
 
-                        // Retrieve value from tableData
-                        const value = tableData[thickness][sqInch][etching][text_matter][color];
+                // Retrieve value from tableData
+                const value = tableData[thickness][sqInch][etching][text_matter][color];
+                console.log(value)
 
-                        // Display the value
-                        total_sq_inch = document.getElementById("total_sq_inch").value;
-                        quantity_a = document.getElementById("quantity_a").value;
-                        var price = value * total_sq_inch
-                        var final_price = price / quantity_a
-                        document.getElementById("total_rate").value = final_price.toFixed(2);
-                        document.getElementById("total_basic_amount").value = final_price.toFixed(2) * quantity_a;
-                        
-                        get_value_total = final_price.toFixed(2) * quantity_a
-
-                    }
+                // Display the value
+                total_sq_inch = document.getElementById("total_sq_inch").value;
+                quantity_a = document.getElementById("quantity_a").value;
+                var price = value * total_sq_inch
+                var final_price = price / quantity_a
+                document.getElementById("total_rate").value = final_price.toFixed(2);
+                document.getElementById("total_basic_amount").value = final_price.toFixed(2) * quantity_a;
 
 
+            }
 
-            });
         }
 
-                update_other_values();
 
+            
+
+        }
+
+
+        ['thickness', 'sqinch', 'color_count', 'text_matter', 'etching', 'certificate_cost'].forEach(function(groupName) {
+            const checkboxes = document.querySelectorAll('input[name="' + groupName + '"]');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    getValue(); // Call your function here
+                });
+            });
+        });
         
-                
-            }
-       
-
-
         var final_pri = 0
 
 
@@ -1516,158 +2053,180 @@
 
 // Get all radio buttons in the group
 
+var radioButtons = document.getElementsByName('flim_charges');
 
+var chargeRadioButton = document.getElementById('certificate_cost_charge');
+var selectElement1212 = document.getElementById('certificate_cost_amount');
+var radioButtons1 = document.getElementsByName('certificate_cost');
 
-function update_other_values(){
+// Add event listener to each radio button in the group
+radioButtons1.forEach(function(radioButton) {
+    radioButton.addEventListener('change', function(event) {
+        updateFinalItemTotal();
+    });
+});
 
-    console.log('sdhjshduhsd')
+// Add event listener to the select element
+selectElement1212.addEventListener('change', function(event) {
+    updateFinalItemTotal();
+});
+
+// Function to update the final item total
+function updateFinalItemTotal() {
     
-    var other_total = 0
-
-    
-    other_total = get_value_total
-
-    console.log(other_total)
-
-   
+    if (chargeRadioButton.checked) {
+        var selectedValue = selectElement1212.value;
+        final_pri += parseFloat(selectedValue); // Increment final_pri by the selected value
+    }
+    document.getElementById("final_item_total").value = final_pri;
+}
 
 
-    var sdsd = document.getElementById('sqinch_flim_option');
-    var selectElement1212 = document.getElementById('sqinch');
+var sdsd = document.getElementById('sqinch_flim_option');
+var selectElement1212 = document.getElementById('sqinch');
+var radioButtons1 = document.getElementsByName('flim_charges');
 
+// Add event listener to each radio button in the group
+radioButtons1.forEach(function(radioButton) {
+    radioButton.addEventListener('change', function(event) {
+        updateFinalItemTotal12();
+    });
+});
 
-    // Function to update the final item total
+// Add event listener to the select element
+selectElement1212.addEventListener('change', function(event) {
+    updateFinalItemTotal12();
+});
+
+// Function to update the final item total
+function updateFinalItemTotal12() {
     if (sdsd.checked) {
+        alert('runing')
         var selectedValue = selectElement1212.value;
         selectedValue = parseFloat(selectedValue) * 1.5; // Increment final_pri by the selected value
-        other_total += parseFloat(selectedValue); // Increment final_pri by the selected value
-        document.getElementById("final_item_total").value = other_total.toFixed(2);
+        final_pri += parseFloat(selectedValue); // Increment final_pri by the selected value
+        document.getElementById("final_item_total").value = final_pri;
         document.getElementById("flim_charges_total").value = selectedValue;
     }
     else{
 
-        document.getElementById("final_item_total").value = other_total.toFixed(2);
+        document.getElementById("final_item_total").value = final_pri;
         document.getElementById("flim_charges_total").value = '0';
 
     }
     
-    console.log(other_total)
+}
 
 
    // Get all radio buttons in the group
+   var radioButtons =document.getElementsByName('charges_type_group');
 
    var chargeRadioButton = document.getElementById('certificate_cost_charge');
+   
+   
    var selectElement1212 = document.getElementById('certificate_cost_amount');
+   var radioButtons1 = document.getElementsByName('certificate_cost');
+   
+   // Add event listener to each radio button in the group
+   radioButtons1.forEach(function(radioButton) {
+       radioButton.addEventListener('change', function(event) {
+           updateFinalItemTotal();
+       });
+   });
+   
+   // Add event listener to the select element
+   selectElement1212.addEventListener('change', function(event) {
+       updateFinalItemTotal();
+   });
    
    // Function to update the final item total
+   function updateFinalItemTotal() {
+       if (chargeRadioButton.checked) {
+           var selectedValue = selectElement1212.value;
+           final_pri += parseFloat(selectedValue); // Increment final_pri by the selected value
+       }
+       document.getElementById("final_item_total").value = final_pri;
+   }
+   
+
+
+
+const sample_price = document.getElementById('sample_price');
+const sample_radioButtons1 = document.getElementsByName('sample');
+
+// Add event listener to each radio button in the group
+sample_radioButtons1.forEach(function(radioButton) {
+    radioButton.addEventListener('change', function(event) {
+        updateFinalItemTotal1();
+    });
+});
+
+
+// Add event listener to the select element
+sample_price.addEventListener('change', function(event) {
+    updateFinalItemTotal();
+});
+
+
+// Function to update the final item total
+function updateFinalItemTotal1() {
+
     if (chargeRadioButton.checked) {
-        var selectedValue = selectElement1212.value;
-        console.log(other_total)
-        console.log(selectedValue)
-        other_total += parseFloat(selectedValue); // Increment final_pri by the selected value
-        console.log(other_total)
-
+        var selectedValue = sample_price.value;
+        final_pri += parseFloat(selectedValue); // Increment final_pri by the selected value
     }
-    document.getElementById("final_item_total").value = other_total.toFixed(2);
-
-    console.log(other_total)
-
-
-
-    const sample_price = document.getElementById('sample_price');
-
-    var chargeRadioButton = document.getElementById('sample_cha');
-
-    
-    // Function to update the final item total
-
-    if (chargeRadioButton.checked) {
-        var selectedValue = samplep_rice.value;
-        other_total += parseFloat(selectedValue); // Increment final_pri by the selected value
-    }
-    document.getElementById("final_item_total").value = other_total.toFixed(2);
-    console.log(other_total)
-
-
-    var chargeRadioButton2 = document.getElementById('with_material_gst');
-    var chargeRadioButton1 = document.getElementById('with_job_shop_radio');
-
-
-    var total_charges = 0
-    var basic_amount = 0
-    
-    // Check if the event object exists and has the target property
-    if (chargeRadioButton1.checked) {
-
-        // Call your function here
-        var basic_amount = parseFloat(document.getElementById("total_basic_amount").value);
-        const amount_with_gst = (basic_amount / 100) * 12;
-
-        total_charges = amount_with_gst
-
-        document.getElementById("total_with_job_shop").value = amount_with_gst.toFixed(2);
-        document.getElementById("total_with_gst").value = "";
-
-        var total_amount_with_charges_type = basic_amount + total_charges
-
-        // Round total_amount_with_charges_type to two decimal places
-        const roundedValue = Math.round(total_amount_with_charges_type * 100) / 100;
-
-        // Set the rounded value as the value of the specified element
-        document.getElementById("total_amount_with_charges_type").value = roundedValue;
-
-        other_total += total_charges
-
-        document.getElementById("final_item_total").value = other_total.toFixed(2);
-    
-        console.log('here')
-        console.log(other_total)
-
-    }
-    if (chargeRadioButton2.checked) {
-        // Call your function here
-        var basic_amount = parseFloat(document.getElementById("total_basic_amount").value);
-        const amount_with_gst = (basic_amount / 100) * 18;
-
-        total_charges = amount_with_gst
-
-        document.getElementById("total_with_gst").value = amount_with_gst.toFixed(2);
-        document.getElementById("total_with_job_shop").value = "";
-
-        var total_amount_with_charges_type = basic_amount + total_charges
-
-        // Round total_amount_with_charges_type to two decimal places
-        const roundedValue = Math.round(total_amount_with_charges_type * 100) / 100;
-
-        // Set the rounded value as the value of the specified element
-        document.getElementById("total_amount_with_charges_type").value = roundedValue;
-
-        other_total += total_charges
-
-        document.getElementById("final_item_total").value = other_total.toFixed(2);
-
-        console.log('here')
-        console.log(other_total)
-
-    }
-
-            
-
-       
-
+    document.getElementById("final_item_total").value = final_pri;
 }
 
 
 
+// Add event listener to each radio button in the group
+radioButtons.forEach(function(radioButton) {
+    radioButton.addEventListener('change', function(event) {
+
+        var total_charges = 0
+        var basic_amount = 0
+        // Check if the event object exists and has the target property
+        if (event && event.target && event.target.value) {
+            if (event.target.value === 'with_job_shop') {
+                // Call your function here
+                var basic_amount = parseFloat(document.getElementById("total_basic_amount").value);
+                const amount_with_gst = (basic_amount / 100) * 12;
+
+                 total_charges = amount_with_gst
+
+                document.getElementById("total_with_job_shop").value = amount_with_gst.toFixed(2);
+                document.getElementById("total_with_gst").value = "";
+            } else {
+                // Call your function here
+                var basic_amount = parseFloat(document.getElementById("total_basic_amount").value);
+                const amount_with_gst = (basic_amount / 100) * 18;
+
+                 total_charges = amount_with_gst
+
+                document.getElementById("total_with_gst").value = amount_with_gst.toFixed(2);
+                document.getElementById("total_with_job_shop").value = "";
+            }
+
+            var total_amount_with_charges_type = basic_amount + total_charges
+
+            // Round total_amount_with_charges_type to two decimal places
+            const roundedValue = Math.round(total_amount_with_charges_type * 100) / 100;
+
+            // Set the rounded value as the value of the specified element
+            document.getElementById("total_amount_with_charges_type").value = roundedValue;
+
+           final_pri = roundedValue
+
+           
 
 
 
-
-
-
-
-
-
+        } else {
+            console.error('Event or event.target is undefined.');
+        }
+    });
+});
 
       
 
@@ -1806,10 +2365,6 @@ function addOrder(orderData) {
     orderData.id = orderIdCounter++;
     orders.push(orderData);
     renderOrders(); // Render submitted orders
-
-    calculateTotal();
-
-
 }
 
 // Function to render submitted orders
@@ -1924,19 +2479,17 @@ document.getElementById('submitButton').addEventListener('click', handleSubmit);
 
 
 function calculateTotal() {
-    var totalFinalAmount = orders.reduce((acc, obj) => acc + parseFloat(obj.final_item_total), 0);
-    console.log(orders)
+    var totalFinalAmount = orders.reduce((total, order) => total + order.final_item_total, 0);
 
     var packagingCharges = parseFloat(document.getElementById("packaging_charges").value);
-    var finalAmount = totalFinalAmount + parseFloat(packagingCharges);
-
+    var finalAmount = totalFinalAmount + packagingCharges;
     
     
 
 
     // Check if finalAmount is a number before calling toFixed
     if (!isNaN(finalAmount)) {
-        document.getElementById("final_amount").value = finalAmount;
+        document.getElementById("final_amount").value = finalAmount.toFixed(2);
     } else {
         // Handle the case where finalAmount is not a number
         document.getElementById("final_amount").value = "Invalid input";
@@ -1946,9 +2499,9 @@ function calculateTotal() {
 
 // Add event listeners to all input fields in the form
 
-const formInputsasas = document.querySelectorAll('input, select');
+const formInputsasas = document.querySelectorAll('input');
 formInputsasas.forEach(input => {
-  input.addEventListener('change', getValue);
+  input.addEventListener('change', calculateTotal);
 });
 
 

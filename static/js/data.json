@@ -1,0 +1,4953 @@
+{
+    "0.5": {
+        "576": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.75,
+                    "2": 6
+                },
+                "variable_text_matter": {
+                    "1": 8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6.5
+                }
+            }
+        },
+        "720": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "864": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1008": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1152": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1296": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1440": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1584": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1728": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1872": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2016": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2160": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2304": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2448": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2592": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2736": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2880": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "3024": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3168": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3312": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3456": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3600": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3744": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3888": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "4032": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "4176": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 4.85,
+                    "2": 5
+                },
+                "variable_text_matter": {
+                    "1": 6.8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5
+                }
+            }
+        },
+        "4320": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 4.85,
+                    "2": 5
+                },
+                "variable_text_matter": {
+                    "1": 6.8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5
+                }
+            }
+        },
+        "4608": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 4.85,
+                    "2": 5
+                },
+                "variable_text_matter": {
+                    "1": 6.8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5
+                }
+            }
+        }
+    },
+    "0.6": {
+        "576": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.75,
+                    "2": 6
+                },
+                "variable_text_matter": {
+                    "1": 8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6.5
+                }
+            }
+        },
+        "720": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "864": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1008": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1152": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1296": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1440": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1584": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1728": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1872": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2016": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2160": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2304": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2448": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2592": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2736": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2880": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "3024": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3168": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3312": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3456": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3600": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3744": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3888": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "4032": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "4176": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 4.85,
+                    "2": 5
+                },
+                "variable_text_matter": {
+                    "1": 6.8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5
+                }
+            }
+        },
+        "4320": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 4.85,
+                    "2": 5
+                },
+                "variable_text_matter": {
+                    "1": 6.8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5
+                }
+            }
+        },
+        "4608": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 4.85,
+                    "2": 5
+                },
+                "variable_text_matter": {
+                    "1": 6.8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5
+                }
+            }
+        }
+    },
+    "0.7": {
+        "576": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.75,
+                    "2": 6
+                },
+                "variable_text_matter": {
+                    "1": 8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6.5
+                }
+            }
+        },
+        "720": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "864": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1008": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1152": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1296": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1440": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1584": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1728": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.50,
+                    "2": 5.75
+                },
+                "variable_text_matter": {
+                    "1": 7.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6
+                }
+            }
+        },
+        "1872": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2016": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2160": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2304": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2448": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2592": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2736": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "2880": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.25,
+                    "2": 5.50
+                },
+                "variable_text_matter": {
+                    "1": 7.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.5
+                }
+            }
+        },
+        "3024": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3168": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3312": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3456": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3600": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3744": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "3888": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "4032": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "4176": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 4.85,
+                    "2": 5
+                },
+                "variable_text_matter": {
+                    "1": 6.8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5
+                }
+            }
+        },
+        "4320": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 4.85,
+                    "2": 5
+                },
+                "variable_text_matter": {
+                    "1": 6.8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5
+                }
+            }
+        },
+        "4608": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 4.85,
+                    "2": 5
+                },
+                "variable_text_matter": {
+                    "1": 6.8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5
+                }
+            }
+        }
+    },
+
+    "0.8": {
+        "576": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 8,
+                    "2": 7.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_maatter": {
+                    "1": 8.5
+                }
+            }
+        },
+        "720": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "864": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "1008": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "1152": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "1296": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "1440": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "1584": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "1728": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "1872": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "2016": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "2160": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "2304": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "2448": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "2592": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "2736": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "2880": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "3024": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 6
+                },
+                "variable_text_matter": {
+                    "1": 8.75
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6.75
+                }
+            }
+        },
+        "3168": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 6
+                },
+                "variable_text_matter": {
+                    "1": 8.75
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6.75
+                }
+            }
+        },
+        "3312": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 6
+                },
+                "variable_text_matter": {
+                    "1": 8.75
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6.75
+                }
+            }
+        },
+        "3456": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 6
+                },
+                "variable_text_matter": {
+                    "1": 8.75
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6.75
+                }
+            }
+        },
+        "3600": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 6
+                },
+                "variable_text_matter": {
+                    "1": 8.75
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6.75
+                }
+            }
+        },
+        "3744": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 6
+                },
+                "variable_text_matter": {
+                    "1": 8.75
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6.75
+                }
+            }
+        },
+        "3888": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 6
+                },
+                "variable_text_matter": {
+                    "1": 8.75
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6.75
+                }
+            }
+        },
+        "4032": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 6
+                },
+                "variable_text_matter": {
+                    "1": 6.75
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5.25
+                }
+            }
+        },
+        "4176": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 4.85,
+                    "2": 5
+                },
+                "variable_text_matter": {
+                    "1": 6.8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5
+                }
+            }
+        },
+        "4320": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 4.85,
+                    "2": 5
+                },
+                "variable_text_matter": {
+                    "1": 6.8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5
+                }
+            }
+        },
+        "4608": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 4.85,
+                    "2": 5
+                },
+                "variable_text_matter": {
+                    "1": 6.8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 5
+                }
+            }
+        }
+    },
+    "0.9": {
+        "576": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 8,
+                    "2": 7.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_maatter": {
+                    "1": 8.5
+                }
+            }
+        },
+        "720": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "864": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "1008": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "1152": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "1296": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "1440": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "1584": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "1728": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "1872": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "2016": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "2160": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "2304": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "2448": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "2592": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "2736": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "2880": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "3024": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3168": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3312": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3456": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3600": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3744": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3888": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "4032": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5.5,
+                    "2": 5.25
+                },
+                "variable_text_matter": {
+                    "1": 7
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "4176": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.5
+                },
+                "variable_text_matter": {
+                    "1": 8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6.65
+                }
+            }
+        },
+        "4320": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.5
+                },
+                "variable_text_matter": {
+                    "1": 8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6.65
+                }
+            }
+        },
+        "4608": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 5,
+                    "2": 5.5
+                },
+                "variable_text_matter": {
+                    "1": 8
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 6.65
+                }
+            }
+        }
+    },
+    "1": {
+        "576": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 8.25,
+                    "2": 9.25
+                },
+                "variable_text_matter": {
+                    "1": 10
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 8.5
+                }
+            }
+        },
+        "720": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "864": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "1008": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "1152": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "1296": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "1440": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "1584": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "1728": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "1872": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 7
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "2016": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 7
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "2160": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 7
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "2304": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 7
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "2448": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 7
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "2592": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 7
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "2736": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 7
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "2880": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "3024": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3168": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3312": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3456": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3600": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3744": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3888": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "4032": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "4176": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 8.75
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "4320": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 8.75
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "4608": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 8.75
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        }
+    },
+    "1.2": {
+        "576": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 8.25,
+                    "2": 9.25
+                },
+                "variable_text_matter": {
+                    "1": 10
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 8.5
+                }
+            }
+        },
+        "720": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "864": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "1008": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "1152": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "1296": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "1440": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "1584": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "1728": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 7,
+                    "2": 7.5
+                },
+                "variable_text_matter": {
+                    "1": 9.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.8
+                }
+            }
+        },
+        "1872": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 7
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "2016": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 7
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "2160": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 7
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "2304": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 7
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "2448": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 7
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "2592": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 7
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "2736": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 7
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "2880": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.5,
+                    "2": 6.25
+                },
+                "variable_text_matter": {
+                    "1": 9.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.5
+                }
+            }
+        },
+        "3024": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3168": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3312": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3456": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3600": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3744": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "3888": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "4032": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6.25,
+                    "2": 6.75
+                },
+                "variable_text_matter": {
+                    "1": 9
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7.25
+                }
+            }
+        },
+        "4176": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 8.75
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "4320": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 8.75
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        },
+        "4608": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 6,
+                    "2": 6.5
+                },
+                "variable_text_matter": {
+                    "1": 8.75
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 7
+                }
+            }
+        }
+    },
+    "1.5": {
+        "576": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 10.3,
+                    "2": 11.25
+                },
+                "variable_text_matter": {
+                    "1": 12.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 10.75
+                }
+            }
+        },
+        "720": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.25,
+                    "2": 9.5
+                },
+                "variable_text_matter": {
+                    "1": 12.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "864": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.25,
+                    "2": 9.5
+                },
+                "variable_text_matter": {
+                    "1": 12.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "1008": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.25,
+                    "2": 9.5
+                },
+                "variable_text_matter": {
+                    "1": 12.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "1152": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.25,
+                    "2": 9.5
+                },
+                "variable_text_matter": {
+                    "1": 12.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "1296": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.25,
+                    "2": 9.5
+                },
+                "variable_text_matter": {
+                    "1": 12.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "1440": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.25,
+                    "2": 9.5
+                },
+                "variable_text_matter": {
+                    "1": 12.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "1584": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.25,
+                    "2": 9.5
+                },
+                "variable_text_matter": {
+                    "1": 12.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "1728": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.25,
+                    "2": 9.5
+                },
+                "variable_text_matter": {
+                    "1": 2.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "1872": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.75,
+                    "2": 9.25
+                },
+                "variable_text_matter": {
+                    "1": 12
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "2016": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.75,
+                    "2": 9.25
+                },
+                "variable_text_matter": {
+                    "1": 12
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "2160": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.75,
+                    "2": 9.25
+                },
+                "variable_text_matter": {
+                    "1": 12
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "2304": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.75,
+                    "2": 9.25
+                },
+                "variable_text_matter": {
+                    "1": 12
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "2448": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.75,
+                    "2": 9.25
+                },
+                "variable_text_matter": {
+                    "1": 12
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "2592": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.75,
+                    "2": 9.25
+                },
+                "variable_text_matter": {
+                    "1": 12
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "2736": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.75,
+                    "2": 9.25
+                },
+                "variable_text_matter": {
+                    "1": 12
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "2880": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.75,
+                    "2": 9.25
+                },
+                "variable_text_matter": {
+                    "1": 12
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.5
+                }
+            }
+        },
+        "3024": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9,
+                    "2": 8.75
+                },
+                "variable_text_matter": {
+                    "1": 11.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.25
+                }
+            }
+        },
+        "3168": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9,
+                    "2": 8.75
+                },
+                "variable_text_matter": {
+                    "1": 11.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.25
+                }
+            }
+        },
+        "3312": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9,
+                    "2": 8.75
+                },
+                "variable_text_matter": {
+                    "1": 11.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.25
+                }
+            }
+        },
+        "3456": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9,
+                    "2": 8.75
+                },
+                "variable_text_matter": {
+                    "1": 11.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.25
+                }
+            }
+        },
+        "3600": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9,
+                    "2": 8.75
+                },
+                "variable_text_matter": {
+                    "1": 11.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.25
+                }
+            }
+        },
+        "3744": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9,
+                    "2": 8.75
+                },
+                "variable_text_matter": {
+                    "1": 11.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.25
+                }
+            }
+        },
+        "3888": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9,
+                    "2": 8.75
+                },
+                "variable_text_matter": {
+                    "1": 11.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.25
+                }
+            }
+        },
+        "4032": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9,
+                    "2": 8.75
+                },
+                "variable_text_matter": {
+                    "1": 11.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.25
+                }
+            }
+        },
+        "4176": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.5,
+                    "2": 8.5
+                },
+                "variable_text_matter": {
+                    "1": 11.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.75
+                }
+            }
+        },
+        "4320": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.5,
+                    "2": 8.5
+                },
+                "variable_text_matter": {
+                    "1": 11.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.75
+                }
+            }
+        },
+        "4608": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 9.5,
+                    "2": 8.5
+                },
+                "variable_text_matter": {
+                    "1": 11.25
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 9.75
+                }
+            }
+        }
+    },
+    "2": {
+        "576": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 17,
+                    "2": 18
+                },
+                "variable_text_matter": {
+                    "1": 17.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 18.5
+                }
+            }
+        },
+        "720": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "864": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "1008": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "1152": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "1296": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "1440": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "1584": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "1728": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "1872": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "2016": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "2160": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "2304": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "2448": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "2592": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "2736": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "2880": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "3024": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "3168": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "3312": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "3456": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "3600": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "3744": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "3888": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "4032": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "4176": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 14,
+                    "2": 15
+                },
+                "variable_text_matter": {
+                    "1": 15.950
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15
+                }
+            }
+        },
+        "4320": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 14,
+                    "2": 15
+                },
+                "variable_text_matter": {
+                    "1": 15.95
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15
+                }
+            }
+        },
+        "4608": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 14,
+                    "2": 15
+                },
+                "variable_text_matter": {
+                    "1": 15.95
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15
+                }
+            }
+        }
+    },
+    "2.5": {
+        "576": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 17,
+                    "2": 18
+                },
+                "variable_text_matter": {
+                    "1": 17.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 18.5
+                }
+            }
+        },
+        "720": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "864": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "1008": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "1152": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "1296": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "1440": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "1584": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "1728": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 16,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "1872": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "2016": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "2160": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "2304": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "2448": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "2592": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "2736": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "2880": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15.5,
+                    "2": 16
+                },
+                "variable_text_matter": {
+                    "1": 16.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "3024": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "3168": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "3312": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "3456": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "3600": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "3744": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "3888": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "4032": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 15.5
+                },
+                "variable_text_matter": {
+                    "1": 15.5
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15.5
+                }
+            }
+        },
+        "4176": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 14,
+                    "2": 15
+                },
+                "variable_text_matter": {
+                    "1": 15.950
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15
+                }
+            }
+        },
+        "4320": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 14,
+                    "2": 15
+                },
+                "variable_text_matter": {
+                    "1": 15.95
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15
+                }
+            }
+        },
+        "4608": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 14,
+                    "2": 15
+                },
+                "variable_text_matter": {
+                    "1": 15.95
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 15
+                }
+            }
+        }
+    },
+    "3": {
+        "576": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 20,
+                    "2": 21
+                },
+                "variable_text_matter": {
+                    "1": 22
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 21.5
+                }
+            }
+        },
+        "720": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 18,
+                    "2": 20
+                },
+                "variable_text_matter": {
+                    "1": 21
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 20.5
+                }
+            }
+        },
+        "864": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 18,
+                    "2": 20
+                },
+                "variable_text_matter": {
+                    "1": 21
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 20.5
+                }
+            }
+        },
+        "1008": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 18,
+                    "2": 20
+                },
+                "variable_text_matter": {
+                    "1": 21
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 20.5
+                }
+            }
+        },
+        "1152": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 18,
+                    "2": 20
+                },
+                "variable_text_matter": {
+                    "1": 21
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 20.5
+                }
+            }
+        },
+        "1296": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 18,
+                    "2": 20
+                },
+                "variable_text_matter": {
+                    "1": 21
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 20.5
+                }
+            }
+        },
+        "1440": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 18,
+                    "2": 20
+                },
+                "variable_text_matter": {
+                    "1": 21
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 20.5
+                }
+            }
+        },
+        "1584": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 18,
+                    "2": 20
+                },
+                "variable_text_matter": {
+                    "1": 21
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 20.5
+                }
+            }
+        },
+        "1728": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 18,
+                    "2": 20
+                },
+                "variable_text_matter": {
+                    "1": 21
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 20.5
+                }
+            }
+        },
+        "1872": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 17,
+                    "2": 19
+                },
+                "variable_text_matter": {
+                    "1": 20
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 19.5
+                }
+            }
+        },
+        "2016": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 17,
+                    "2": 19
+                },
+                "variable_text_matter": {
+                    "1": 20
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 19.5
+                }
+            }
+        },
+        "2160": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 17,
+                    "2": 19
+                },
+                "variable_text_matter": {
+                    "1": 20
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 19.5
+                }
+            }
+        },
+        "2304": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 17,
+                    "2": 19
+                },
+                "variable_text_matter": {
+                    "1": 20
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 19.5
+                }
+            }
+        },
+        "2448": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 17,
+                    "2": 19
+                },
+                "variable_text_matter": {
+                    "1": 20
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 19.5
+                }
+            }
+        },
+        "2592": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 17,
+                    "2": 19
+                },
+                "variable_text_matter": {
+                    "1": 20
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 19.5
+                }
+            }
+        },
+        "2736": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 17,
+                    "2": 19
+                },
+                "variable_text_matter": {
+                    "1": 20
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 19.5
+                }
+            }
+        },
+        "2880": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 17,
+                    "2": 19
+                },
+                "variable_text_matter": {
+                    "1": 20
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 19.5
+                }
+            }
+        },
+        "3024": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 18
+                },
+                "variable_text_matter": {
+                    "1": 19
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 18.5
+                }
+            }
+        },
+        "3168": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 18
+                },
+                "variable_text_matter": {
+                    "1": 19
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 18.5
+                }
+            }
+        },
+        "3312": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 18
+                },
+                "variable_text_matter": {
+                    "1": 19
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 18.5
+                }
+            }
+        },
+        "3456": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 18
+                },
+                "variable_text_matter": {
+                    "1": 19
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 18.5
+                }
+            }
+        },
+        "3600": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 18
+                },
+                "variable_text_matter": {
+                    "1": 19
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 18.5
+                }
+            }
+        },
+        "3744": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 18
+                },
+                "variable_text_matter": {
+                    "1": 19
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 18.5
+                }
+            }
+        },
+        "3888": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 18
+                },
+                "variable_text_matter": {
+                    "1": 19
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 18.5
+                }
+            }
+        },
+        "4032": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 15,
+                    "2": 18
+                },
+                "variable_text_matter": {
+                    "1": 19
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 18.5
+                }
+            }
+        },
+        "4176": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 14,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 180
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "4320": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 14,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 18
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        },
+        "4608": {
+            "deep_etching": {
+                "standard_text_matter": {
+                    "1": 14,
+                    "2": 17
+                },
+                "variable_text_matter": {
+                    "1": 18
+                }
+            },
+            "embossed_etching": {
+                "standard_text_matter": {
+                    "1": 17.5
+                }
+            }
+        }
+    }
+}

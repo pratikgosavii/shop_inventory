@@ -80,7 +80,6 @@ urlpatterns = [
 
     path('downald-data/', downalo_data, name='downalo_data'),
 
-    path('demo/', demo1, name='demo'),
     
 
 

@@ -1,0 +1,1068 @@
+"1": {
+    576: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 8.25,
+                2: 9.25,
+            },
+            variable_text_matter: {
+                1: 10,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 8.5,
+            }
+            
+        },
+    },
+
+    720: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+    },
+    864: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+    },
+    1008: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    1152: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+    },
+    1296: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+    },
+    1440: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+    },
+    1584: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+    },
+    1728: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+    },
+    1872: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 7,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+    },
+    2016: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 7,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+    },
+    2160: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 7,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+    },
+    2304: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 7,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+    },
+    2448: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 7,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+    },
+    2592: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 7,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+    },
+    2736: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 7,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+    },
+    2880: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 6.25,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    3024: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    3168: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    3312: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    3456: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    3600: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    3744: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    3888: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    4032: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    4176: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6,
+                2: 6.5,
+            },
+            variable_text_matter: {
+                1: 8.75,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    4320: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6,
+                2: 6.5,
+            },
+            variable_text_matter: {
+                1: 8.75,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    4608: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6,
+                2: 6.5,
+            },
+            variable_text_matter: {
+                1: 8.75,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+},
+
+
+"1.2": {
+    576: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 8.25,
+                2: 9.25,
+            },
+            variable_text_matter: {
+                1: 10,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 8.5,
+            }
+            
+        },
+    },
+
+    720: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+    },
+    864: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+    },
+    1008: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    1152: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+    },
+    1296: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+    },
+    1440: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+    },
+    1584: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+    },
+    1728: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 7,
+                2: 7.5,
+            },
+            variable_text_matter: {
+                1: 9.5,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.8,
+            }
+            
+        },
+    },
+    1872: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 7,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+    },
+    2016: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 7,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+    },
+    2160: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 7,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+    },
+    2304: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 7,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+    },
+    2448: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 7,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+    },
+    2592: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 7,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+    },
+    2736: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 7,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+    },
+    2880: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.5,
+                2: 6.25,
+            },
+            variable_text_matter: {
+                1: 9.25,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.5,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    3024: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    3168: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    3312: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    3456: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    3600: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    3744: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    3888: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    4032: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6.25,
+                2: 6.75,
+            },
+            variable_text_matter: {
+                1: 9,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7.25,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    4176: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6,
+                2: 6.5,
+            },
+            variable_text_matter: {
+                1: 8.75,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    4320: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6,
+                2: 6.5,
+            },
+            variable_text_matter: {
+                1: 8.75,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+    4608: {
+        deep_etching: {
+            standard_text_matter: {
+                1: 6,
+                2: 6.5,
+            },
+            variable_text_matter: {
+                1: 8.75,
+            },
+            // Add more color options as needed
+        },
+        embossed_etching: {
+            standard_text_matter: {
+                1: 7,
+            }
+            
+        },
+        // Add more text matter options as needed
+    
+    },
+},
