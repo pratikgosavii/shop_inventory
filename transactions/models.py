@@ -295,6 +295,20 @@ THICKNESS_OPTION_CHOICES = (
 
 )
 
+CHARGES_TYPE_OPTION_CHOICES = (
+
+('with_gst' ,'with_gst'),
+('with_job_shop' ,'with_job_shop'),
+
+)
+
+FLIM_CHARGES_OPTION_CHOICES = (
+
+('with_gst' ,'with_gst'),
+('with_job_shop' ,'with_job_shop'),
+
+)
+
 
 
 
@@ -314,6 +328,11 @@ class order_child(models.Model):
     quantity = models.FloatField()
     rate_per_unit = models.FloatField()
     basic_amount = models.FloatField()
+    charges_type_group = models.CharField(max_length=50, choices=CHARGES_TYPE_OPTION_CHOICES)
+    total_with_job_shop = models.FloatField()
+    total_with_gst = models.FloatField()
+    total_amount_with_charges_type = models.FloatField()
+    flim_charges = models.CharField(max_length=50, choices= FLIM_CHARGES_OPTION_CHOICES)
 
 
 
