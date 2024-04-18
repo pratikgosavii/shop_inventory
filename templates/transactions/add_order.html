@@ -366,8 +366,8 @@
                                 <div>
                                     <div>
 
-                                        <input type="radio" id="checkbox1" value="144" name="sqinch">
-                                        <label for="checkbox1">144</label>
+                                        <input type="radio" id="checkbox144" value="144" name="sqinch">
+                                        <label for="checkbox144">144</label>
 
                                         
                                         <input type="radio" id="checkbox2" value="288" name="sqinch">
@@ -1346,19 +1346,32 @@
             let closestDifference = Infinity;
             let closestButton = null;
 
-            for (const radioButton of radioButtons) {
-                const value = parseFloat(radioButton.value);
-                const difference = calculatedValue - value;
-                if (difference >= 0 && difference < closestDifference) {
-                    closestDifference = difference;
-                    closestButton = radioButton;
+            if (parseInt(calculatedValue) <= 144) {
+
+
+                var checkbox2 = document.getElementById("checkbox144");
+                
+                // Check the checkbox
+                checkbox2.checked = true;
+
+            }
+
+            else{
+
+                for (const radioButton of radioButtons) {
+                    const value = parseFloat(radioButton.value);
+                    const difference = calculatedValue - value;
+                    if (difference >= 0 && difference < closestDifference) {
+                        closestDifference = difference;
+                        closestButton = radioButton;
+                    }
                 }
-            }
 
-            if (closestButton) {
-                closestButton.checked = true;
+                if (closestButton) {
+                    closestButton.checked = true;
+                }
+                
             }
-
 
 
             } else {
@@ -1368,6 +1381,7 @@
         }
 
         else{
+            
 
             if (!isNaN(lengthMm) && !isNaN(widthMm)) {
                 // Convert mm to inches (1 inch = 25.4 mm)
@@ -1390,20 +1404,35 @@
                 let closestDifference = Infinity;
                 let closestButton = null;
 
-                for (const radioButton of radioButtons) {
-                    const value = parseFloat(radioButton.value);
-                    const difference = calculatedValue - value;
-                    if (difference >= 0 && difference < closestDifference) {
-                        closestDifference = difference;
-                        closestButton = radioButton;
+
+                if (parseInt(calculatedValue) <= 144) {
+
+
+                    var checkbox2 = document.getElementById("checkbox144");
+                    
+                    // Check the checkbox
+                    checkbox2.checked = true;
+    
+                }
+    
+                else{
+    
+        
+
+                    for (const radioButton of radioButtons) {
+                        const value = parseFloat(radioButton.value);
+                        const difference = calculatedValue - value;
+                        if (difference >= 0 && difference < closestDifference) {
+                            closestDifference = difference;
+                            closestButton = radioButton;
+                        }
                     }
+
+                    if (closestButton) {
+                        closestButton.checked = true;
+                    }
+
                 }
-
-                if (closestButton) {
-                    closestButton.checked = true;
-                }
-
-
 
             } else {
                 // Display an error message if inputs are not valid numbers
