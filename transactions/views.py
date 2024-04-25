@@ -220,7 +220,17 @@ def add_order(request):
                               
         }
 
-        return render(request, 'transactions/add_order.html', context)
+         # Check if the request is coming from a mobile device
+        user_agent = request.META.get('HTTP_USER_AGENT', '')
+        is_mobile = 'Mobile' in user_agent
+
+        if is_mobile:
+            
+            return render(request, 'transactions/add_order_mobile.html', context)
+
+        else:
+
+            return render(request, 'transactions/add_order.html', context)
 
         
 
