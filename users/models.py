@@ -8,3 +8,4 @@ class User(AbstractUser):
     is_reception = models.BooleanField(default=False)
     is_designer = models.BooleanField(default=False)
     is_cutter = models.BooleanField(default=False)
+    is_salesman = models.BooleanField(default=False)

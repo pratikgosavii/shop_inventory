@@ -143,15 +143,239 @@ class scratch_stock(models.Model):
     
 
 
+
+INDUSTRY_OPTION_CHOICES = (
+    ('automotive', 'automotive'),
+    ('auto_ancillary', 'auto ancillary'),
+    ('sugar', 'sugar'),
+    ('domestic_appliance', 'domestic appliance'),
+    ('process_equipmen', 'process equipmen'),
+    ('petro_chemica', 'petro chemica'),
+    ('food_equipmen', 'food equipmen'),
+    ('medical_device_equipement', 'medical device & equipement'),
+    ('defence', 'defence'),
+    ('aviation_aero_space', 'aviation & aero space'),
+    ('elevator', 'elevator'),
+    ('electricals', 'electricals'),
+    ('electronics', 'electronics'),
+    ('filteration', 'filteration'),
+    )
+
+
+PRODUCT_OPTION_CHOICES = (
+    ('nameplate', 'nameplate'),
+    ('front_pannel', 'front pannel'),
+    ('nameplate_with_qr_code', 'nameplate with qr code'),
+    ('project_based_cable_tags', 'project based cable tags'),
+    ('schematic_drg', 'schematic drg'),
+    ('thin_shim_and_spacer', 'thin shim & spacer'),
+    ('proto_type_stator_and_rotar_lamination', 'proto type stator & rotar lamination'),
+    ('regular_thin_mesh', 'regular thin mesh'),
+    ('customized_mesh', 'customized mesh'),
+    ('encoder_disc', 'encoder disc'),
+    ('aperture_and_pin_holes', 'aperture & pin holes'),
+    ('texturing', 'texturing'),
+    ('speaker_grill', 'speaker grill'),
+    ('contact_connector_and_terminals', 'contact , connector & terminals'),
+    ('valve_and_compressor_plate', 'valve & compressor plate'),
+    ('diaphragm', 'diaphragm'),
+    ('emi_rfi_shielding', 'emi / rfi shielding'),
+    ('filteration', 'filteration'),
+    ('battery_contact', 'battery contact'),
+    ('antenna_tele_communication', 'antenna tele communication'),
+    ('bipolar_plate_pem', 'bipolar plate pem'),
+    ('flat_spring_u_spring_v_spring', 'flat spring, u spring, v spring'),
+    ('metal_business_card_with_nfc_chip', 'metal business card with nfc chip'),
+    ('metal_business_card_without_chip', 'metal business card without chip'),
+    ('book_mark_and_product_model', 'book mark & product model'),
+    ('designer_stainless_steel_sheet', 'designer stainless steel sheet'),
+    ('designer_stainless_steel_sheet_with_elevator_cabinet', 'designer stainless steel sheet with elevator cabinet'),
+    ('designer_stainless_steel_sheet_with_elevator_cabinet_roof_and_bottom', 'designer stainless steel sheet with elevator cabinet, roof & bottom'),
+)
+
+FILE_FORMAT_CHOICES = (
+    ('cdr', 'CDR'),
+    ('dxf', 'DXF'),
+    ('ai', 'A.I'),
+    ('pdf', 'PDF'),
+    ('excel', 'Excel'),
+)
+
+INCOTERM_CHOICES = (
+    ('ex-works', 'Ex-Works'),
+    ('f.o.b.', 'F.O.B.'),
+    ('c_and_f', 'C & F'),
+    ('cif', 'CIF'),
+    ('warehouse_to_warehouse', 'Warehouse to Warehouse'),
+)
+
+TRANSPORT_CHOICES = (
+    ('road', 'Road'),
+    ('rail', 'Rail'),
+    ('air', 'Air'),
+    ('courier', 'Courier'),
+    ('porter', 'Porter'),
+    ('personal_pick_up', 'Personal Pick Up'),
+)
+
+PAYMENT_CHOICES = (
+    ('advance', 'advance'),
+    ('against_delivery', 'against_delivery'),
+    ('proforma_invoice ', 'proforma_invoice'),
+    ('credit_in_day ', 'credit_in_day'),
+)
+
+REJECTION_ACCEPTANCE = (
+    ('1', '1'),
+    ('2', '2'),
+    ('3', '3'),
+    ('4', '4'),
+    ('5', '5'),
+    ('6', '6'),
+    ('7', '7'),
+    ('8', '8'),
+)
+
+
+
+SUDDENT_RISE_CHOICES = (
+    ('yes', 'Yes'),
+    ('no', 'No'),
+)
+
+SUDDENT_RISE_PERCENT_CHOICES = (
+    ('1', '1'),
+    ('2', '2'),
+    ('3', '3'),
+    ('4', '4'),
+    ('5', '5'),
+    ('6', '6'),
+    ('7', '7'),
+    ('8', '8'),
+    ('9', '9'),
+    ('10', '10'),
+    ('11', '11'),
+    ('12', '12'),
+    ('13', '13'),
+    ('14', '14'),
+    ('15', '15'),
+    ('16', '16'),
+    ('17', '17'),
+    ('18', '18'),
+    ('19', '19'),
+    ('20', '20'),
+)
+
+
+PACKAGING_CHOICES = (
+    ('paper', 'Paper'),
+    ('plastic_bags', 'Plastic Bags'),
+    ('corrugated_box', 'Corrugated Box'),
+    ('wooden_box', 'Wooden Box'),
+)
+
+REFERENCE_FROM_OPTION_CHOICES = (
+    ('Direct_Contact', 'Direct_Contact'),
+    ('Webiste', 'Webiste'),
+    ('Mailer', 'Mailer'),
+)
+
+
+
+PACKAGING_CHARGES_CHOICES = (
+        (0, '0'),
+        (100, '100'),
+        (200, '200'),
+        (300, '300'),
+        (400, '400'),
+        (500, '500'),
+        (600, '600'),
+        (700, '700'),
+        (800, '800'),
+        (900, '900'),
+        (1000, '1000'),
+        (1100, '1100'),
+        (1200, '1200'),
+        (1300, '1300'),
+        (1400, '1400'),
+        (1500, '1500'),
+        (1600, '1600'),
+        (1700, '1700'),
+        (1800, '1800'),
+        (1900, '1900'),
+        (2000, '2000'),
+        (2100, '2100'),
+        (2200, '2200'),
+        (2300, '2300'),
+        (2400, '2400'),
+        (2500, '2500'),
+        (2600, '2600'),
+        (2700, '2700'),
+        (2800, '2800'),
+        (2900, '2900'),
+        (3000, '3000'),
+        (3100, '3100'),
+        (3200, '3200'),
+        (3300, '3300'),
+        (3400, '3400'),
+        (3500, '3500'),
+        (3600, '3600'),
+        (3700, '3700'),
+        (3800, '3800'),
+        (3900, '3900'),
+        (4000, '4000'),
+        (4100, '4100'),
+        (4200, '4200'),
+        (4300, '4300'),
+        (4400, '4400'),
+        (4500, '4500'),
+        (4600, '4600'),
+        (4700, '4700'),
+        (4800, '4800'),
+        (4900, '4900'),
+        (5000, '5000'),
+    )
+
+
+
+		     
 class order(models.Model):
     
-    customer = models.TextField(null = True, blank = True)
-    description = models.TextField(null = True, blank = True)
-    urgency = models.TextField(null = True, blank = True)
-    requirements = models.TextField(null = True, blank = True)
-    invoice = models.IntegerField(null = True, blank = True)
+    customer_name = models.TextField(null = True, blank = True)
+    customer_address = models.TextField(null = True, blank = True)
+    contance_person_no = models.TextField(null = True, blank = True)
+    contact_no = models.TextField(null = True, blank = True)
+    email = models.TextField(null = True, blank = True)
+    client_gst = models.TextField(null = True, blank = True)
     date = models.DateTimeField(null = True, blank = True)
-    order_id = models.IntegerField()
+
+    reference_from = models.CharField(max_length=100, choices=REFERENCE_FROM_OPTION_CHOICES)
+    
+    industry = models.CharField(max_length=100, choices=INDUSTRY_OPTION_CHOICES)
+    product = models.CharField(max_length=100, choices=PRODUCT_OPTION_CHOICES)
+    file_format = models.CharField(max_length=100, choices=FILE_FORMAT_CHOICES)
+    incoterm = models.CharField(max_length=100, choices=INCOTERM_CHOICES)
+    transportation_type = models.CharField(max_length=100, choices=TRANSPORT_CHOICES)
+    transportation_cost = models.IntegerField()
+    
+    payment = models.CharField(max_length=100, choices=PAYMENT_CHOICES)
+    advance = models.IntegerField(null = True, blank = True)
+    credit_in_days = models.IntegerField(null = True, blank = True)
+    
+    credit_limit = models.IntegerField()
+    rejection_acceptance = models.CharField(max_length=100, choices=REJECTION_ACCEPTANCE)
+    
+    offer_valid_date = models.DateField()
+
+    sudden_rise = models.CharField(max_length=100, choices=SUDDENT_RISE_CHOICES)
+    sudden_rise_percent = models.CharField(max_length=100, choices=SUDDENT_RISE_PERCENT_CHOICES, null = True, blank = True)
+    
+    packaging  = models.CharField(max_length=100, choices=PACKAGING_CHOICES)
+    packaging_charges = models.IntegerField(choices=PACKAGING_CHARGES_CHOICES)
+
+    final_amount = models.FloatField()
+
+
 
 
 
@@ -304,8 +528,23 @@ CHARGES_TYPE_OPTION_CHOICES = (
 
 FLIM_CHARGES_OPTION_CHOICES = (
 
-('with_gst' ,'with_gst'),
-('with_job_shop' ,'with_job_shop'),
+('inclusive' ,'inclusive'),
+('sqinch' ,'sqinch'),
+
+)
+
+SAMPLE_OPTION_CHOICES = (
+
+('Free_in_case_confirm_Order' ,'Free_in_case_confirm_Order'),
+('Extra_Charges_Rs' ,'Extra_Charges_Rs'),
+
+)
+
+CERTIFICATE_OPTION_CHOICES = (
+
+('Free_along_with_invoice' ,'Free_along_with_invoice'),
+('No_certification' ,'No_certification'),
+('Extra_Charges' ,'Extra_Charges'),
 
 )
 
@@ -324,15 +563,23 @@ class order_child(models.Model):
     color = models.CharField(max_length=50, choices=COLOR_OPTION_CHOICES)
     font_height = models.CharField(max_length=50, choices=FONT_HEIGHT_OPTION_CHOICES)
     thickness = models.CharField(max_length=50, choices=THICKNESS_OPTION_CHOICES)
-    total_sq_inch = models.FloatField()
-    quantity = models.FloatField()
-    rate_per_unit = models.FloatField()
-    basic_amount = models.FloatField()
+    total_sq_inch = models.FloatField(null = True, blank = True)
+    quantity = models.FloatField(null = True, blank = True)
+    rate_per_unit = models.FloatField(null = True, blank = True)
+    basic_amount = models.FloatField(null = True, blank = True)
     charges_type_group = models.CharField(max_length=50, choices=CHARGES_TYPE_OPTION_CHOICES)
-    total_with_job_shop = models.FloatField()
-    total_with_gst = models.FloatField()
-    total_amount_with_charges_type = models.FloatField()
+    total_with_job_shop = models.FloatField(null = True, blank = True)
+    total_with_gst = models.FloatField(null = True, blank = True)
+    total_amount_with_charges_type = models.FloatField(null = True, blank = True)
     flim_charges = models.CharField(max_length=50, choices= FLIM_CHARGES_OPTION_CHOICES)
+    flim_sqinch = models.CharField(max_length=50,null = True, blank = True)
+    flim_charges_total = models.FloatField(null = True, blank = True)
+    sample = models.CharField(max_length=50, choices= SAMPLE_OPTION_CHOICES)
+    sample_price = models.FloatField(null = True, blank = True)
+    certificate_cost = models.CharField(max_length=50, choices= CERTIFICATE_OPTION_CHOICES)
+    certificate_price = models.FloatField(null = True, blank = True)
+
+
 
 
 

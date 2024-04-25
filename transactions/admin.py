@@ -23,3 +23,4 @@ admin.site.register(demo)
 admin.site.register(sheets_rifd)
 
 admin.site.register(order_child)
+admin.site.register(order)

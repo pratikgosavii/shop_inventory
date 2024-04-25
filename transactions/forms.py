@@ -210,38 +210,7 @@ class order_Form(forms.ModelForm):
 
 
 
-class order_child_Form(forms.ModelForm):
-
+class OrderChildForm(forms.ModelForm):
     class Meta:
         model = order_child
         fields = '__all__'
-        widgets = {
-
-            'date' : DateInput(attrs={ 'class': 'form-control', 'type': 'date'}, format = '%Y-%m-%d'),
-          
-            
-        }
-
-
-
-
-class goods_company_Form(forms.ModelForm):
-    class Meta:
-        model = stock
-        fields = '__all__'
-        widgets = {
-         
-            'company_goods': forms.Select(attrs={
-                'class': 'form-control', 'id': 'company_goods'
-            }),
-           
-            'goods_company_name': forms.TextInput(attrs={
-                'class': 'form-control', 'id': 'name'
-            }),
-
-            'total_bag': forms.NumberInput(attrs={
-                'class': 'form-control cal', 'id': 'total_bag'
-            }),
-           
-            
-        }

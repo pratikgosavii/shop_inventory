@@ -168,64 +168,67 @@
                 <div class="col-12" style="display : flex;">
                     <form id="form3" style="display: contents; comehere">
                         {% csrf_token %}
-
                     <div class="col-6" style="justify-content: left;">
 
                         <div style="border: 1px solid black; padding: 9px 6px;">
 
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Customer Name</label>
-                                <input type="text" style="margin-left:10px !important;" name="customer_name" value="" class="form-control" >
+                                <input type="text" style="margin-left:10px !important;" value="" class="form-control" >
                             </div>
 
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Customer Address</label>
                                 <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" name="customer_address" type="text" id="Customer" value="" class="form-control" >
+                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
                             </div>
                             
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Contact Person Name</label>
                                 <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" name="contance_person_no" id="contance_person_no" type="text" value="" class="form-control" >
+                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
                             </div>
                             
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Mobile Number</label>
                                 <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" name="contact_no" id="contact_no" type="text" value="" class="form-control" >
+                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
                             </div>
                             
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Contact Email</label>
                                 <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" name="email" id="email" type="text" value="" class="form-control" >
+                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
                             </div>
                             
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Client GST</label>
                                 <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" name="client_gst" id="client_gst" type="text" value="" class="form-control" >
+                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
                             </div>
 
-
+                        </form>
                         </div>
                     </div>
 
                     <div class="col-6" style="justify-content: right;">
+                        <form id="orderForm" style="display: contents; comehere">
+
+                            {% csrf_token %}
+
 
 
                         <div style="">
 
-                            {% comment %} <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
+                            <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer No</label>
                                 <input type="text" style="margin-left:10px !important;" value="{{ form.order_id.value }}" class="form-control" readonly>
-                            </div> {% endcomment %}
+                            </div>
 
                             <div style="display: flex; border: 1px solid black; padding: 9px 6px;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer Date</label>
                                 <!-- Use the readonly attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" name="date" id="date" type="datetime-local" value="{{ date|date:'Y-m-d\TH:i' }}" class="form-control" readonly>
+                                <input style="margin-left:10px !important;" type="datetime-local" value="{{ date|date:'Y-m-d\TH:i' }}" class="form-control" readonly>
                             </div>
                             
 
@@ -237,25 +240,23 @@
                                         
                                     <div>
 
-                                        <input type="radio" id="conctc" value="Direct_Contact" name="reference_from">
-                                        <label style="margin: 10px 0px !important;"  for="conctc">Direct Contact</label>
+                                        <input type="radio" id="checkbox1"  name="refered_from">
+                                        <label style="margin: 10px 0px !important;" value="Direct_Contact" for="checkbox1">Direct Contact</label>
                                     </div>
 
                                     <div>
-                                        <input type="radio" id="webs" value="Webiste" name="reference_from">
-                                        <label style="margin: 10px 0px !important;"  for="webs">Webiste</label>
+                                        <input type="radio" id="checkbox1"  name="refered_from">
+                                        <label style="margin: 10px 0px !important;" value="Webiste" for="checkbox1">Webiste</label>
                                     </div>
 
                                     <div>
-                                        <input type="radio" id="mailrt" value="Mailer" name="reference_from">
-                                        <label style="margin: 10px 0px !important;" for="mailrt">Mailer</label>
+                                        <input type="radio" id="checkbox1"  name="refered_from">
+                                        <label style="margin: 10px 0px !important;" value="Mailer" for="checkbox1">Mailer</label>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
-                    </form>
-
                     </div>
                 </div>
                
@@ -264,11 +265,12 @@
             
                 <div class="">
                     <div class="col-12" style="display:flex;">
-                        <form id="orderForm" style="display: contents; comehere">
-                            {% csrf_token %}
+
                         <div class="col-6">
                             
+                            <form id="orderForm" style="display: contents; comehere">
 
+                                {% csrf_token %}
                                 
 
                                 <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Item Code/ Drawing Number/ Project Number </p>
@@ -824,14 +826,12 @@
 
                                     <div>
 
-                                        <input type="radio"  id="certificate_cost_charge" value="Extra_Charges" name="certificate_cost">
+                                        <input type="radio"  id="certificate_cost_charge" name="certificate_cost">
                                         <label for="checkbox1"> Extra Charges Rs. </label>
                                         <select id="certificate_cost_amount" name="certificate_price"></select>
 
                                     </div>
-                                
 
-                        
                                 </div>
 
 
@@ -876,7 +876,6 @@
                                 
                                 
                             
-                            </form>
 
                             <div class="row" id="submittedOrders">
                                 <!-- Cards will be dynamically appended here -->
@@ -893,9 +892,6 @@
 
                         <div class="col-6">
 
-                            <form id="form2">
-
-                                {% csrf_token %}
 
                             <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Industry </p>
                                 
@@ -1890,20 +1886,20 @@ function renderOrders() {
         const orderElement = document.createElement('div');
         orderElement.classList.add('col-sm-6');
         orderElement.innerHTML = `
-        <div class="card mb-3" style="width: 18rem;border: 1px solid black;">
-            <div class="card-body" style="border: 1px solid black;">
-                <p class="card-text" style="margin-bottom: 1px;"> Order Id:- ${order.item_code} </p>
-                <p class="card-text" style="margin-bottom: 1px;"> Total SqInch:- ${order.quantity} </p>
-                <p class="card-text" style="margin-bottom: 1px;"> Rate:- ${order.rate_per_unit} </p>
-                <a onclick="editOrder(${order.id})" style="font-weight: 600;
-                color: black;
-                border: none;" class="btn btn-primary">View</a>
-                <a onclick="deleteOrder(${order.id})" style="background: red;
-                font-weight: 600;
-                color: black;
-                border: none;" class="btn btn-primary">Delete</a>
-            </div>
-        </div>
+                <div class="card mb-3" style="width: 18rem;border: 1px solid black;">
+                    <div class="card-body" style="border: 1px solid black;">
+                        <p class="card-text" style="margin-bottom: 1px;"> Order Id:- ${order.item_code} </p>
+                        <p class="card-text" style="margin-bottom: 1px;"> Total SqInch:- ${order.quantity} </p>
+                        <p class="card-text" style="margin-bottom: 1px;"> Rate:- ${order.rate_per_unit} </p>
+                        <a onclick="editOrder(${order.id})" style="font-weight: 600;
+                        color: black;
+                        border: none;" class="btn btn-primary">View</a>
+                        <a onclick="deleteOrder(${order.id})" style="background: red;
+                        font-weight: 600;
+                        color: black;
+                        border: none;" class="btn btn-primary">Delete</a>
+                    </div>
+                </div>
         `;
 
 
@@ -1950,7 +1946,7 @@ function addNewOrder(orderData) {
 function editExistingOrder(orderData) {
     // Check if we are editing an existing order
     const editOrderId = parseInt(document.getElementById('editOrderId').value);
-
+    console.log(editOrderId)
     if (editOrderId) {
         // Find the index of the order to be edited
         const index = orders.findIndex(order => order.id === editOrderId);
@@ -2009,11 +2005,14 @@ function handleSubmit(event) {
     }
     
     // Usage
-    resetFormExcept(['order_id', 'date', 'conctc', 'webs', 'mailrt', 'submitButton', 'Customer', 'contance_person_no', 'contact_no', 'email', 'client_gst']);
+    resetFormExcept(['order_id', 'date', 'conctc', 'webs', 'mailrt', 'submitButton']);
 }
 
 // Initialize event listener for form submission
 document.getElementById('submitButton').addEventListener('click', handleSubmit);
+
+
+
 
 
 
@@ -2049,21 +2048,23 @@ formInputsasas.forEach(input => {
 
 
 $(document).ready(function(){
-    $('#form2').submit(function(e){
+    $('#orderForm').submit(function(e){
         e.preventDefault(); // Prevent default form submission
 
         alert('here')
         
         // Gather form data
         var formData = $(this).serializeArray();
-        
+    
+    
         // Gather form data from form3
         var formData3 = $('#form3').serializeArray();
-        
+    
         // Additional array data
         
         // Append form data from form3 to form data from form2
         formData = formData.concat(formData3);
+
         // Additional array data
         
         // Append array data to form data
@@ -2092,25 +2093,69 @@ $(document).ready(function(){
 
 
 
-{% comment %} 
-document.addEventListener('DOMContentLoaded', function() {
-    var form = document.getElementById('orderForm');
 
-    // Function to pre-select radio buttons in a group
-    function preSelectRadioButton(groupName, selectedValue) {
-      var radioButtons = form.elements[groupName];
-      for (var i = 0; i < radioButtons.length; i++) {
-        if (radioButtons[i].value === selectedValue) {
-          radioButtons[i].checked = true;
-          break;
-        }
-      }
+document.addEventListener('DOMContentLoaded', function() {
+    // Parse the JSON strings passed from the Django view
+    const instanceData = JSON.parse('{{ instance_json|escapejs }}');
+    const orderChildInstancesData = JSON.parse('{{ order_child_instance_dict|escapejs }}');
+
+    // Function to render order child instances
+    function renderOrderChildInstances(orderChildInstances) {
+        const orderChildInstancesContainer = document.getElementById('submittedOrders');
+        orderChildInstancesContainer.innerHTML = ''; // Clear existing content
+
+        orderChildInstances.forEach(child => {
+            const orderElement = document.createElement('div');
+           
+            child.pk = child.id; 
+            child.id = orderIdCounter++;
+            orders.push(child);
+
+            console.log(orders)
+
+            orderElement.classList.add('col-sm-6');
+            orderElement.innerHTML = `
+                    <div class="card mb-3" style="width: 18rem;border: 1px solid black;">
+                        <div class="card-body" style="border: 1px solid black;">
+                            <p class="card-text" style="margin-bottom: 1px;"> Order Id:- ${child.item_code} </p>
+                            <p class="card-text" style="margin-bottom: 1px;"> Total SqInch:- ${child.quantity} </p>
+                            <p class="card-text" style="margin-bottom: 1px;"> Rate:- ${child.rate_per_unit} </p>
+                            <a onclick="editOrder(${child.id})" style="font-weight: 600;
+                            color: black;
+                            border: none;" class="btn btn-primary">View</a>
+                            <a onclick="deleteOrder(${child.id})" style="background: red;
+                            font-weight: 600;
+                            color: black;
+                            border: none;" class="btn btn-primary">Delete</a>
+                        </div>
+                    </div>
+            `;
+    
+            orderChildInstancesContainer.appendChild(orderElement);
+        });
     }
 
-    // Pre-select radio buttons in each group
-    preSelectRadioButton('thickness', "0.1");
-    preSelectRadioButton('sqinch', "4464");
-  }); {% endcomment %}
+    // Render the order child instances
+    renderOrderChildInstances(orderChildInstancesData);
+
+    // Function to populate the form with instance data
+    function populateForm(instanceData) {
+        const form = document.getElementById('orderForm');
+        // Loop through instance data and populate form fields
+        for (const key in instanceData) {
+            if (instanceData.hasOwnProperty(key)) {
+                const element = form.elements[key];
+                if (element) {
+                    element.value = instanceData[key];
+                }
+            }
+        }
+    }
+
+    // Populate the form with instance data
+    populateForm(instanceData);
+});
+
   
 
 

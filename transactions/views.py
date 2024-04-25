@@ -168,38 +168,54 @@ def add_order(request):
 
     if request.method == 'POST':
 
+        orders_data_json = request.POST.get('orders', '[]')
+        orders_data = json.loads(orders_data_json)
+
+
         print(request.POST)
+        forms_order = order_Form(request.POST)
 
+        if forms_order.is_valid():
 
-        forms = order_child_Form(request.POST)
+            forms_order.save()
 
-        if forms.is_valid():
-            forms.save()
-            return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
         else:
-            print(forms.errors)
+
+            print(forms_order.errors)
+
+      
+        for item in orders_data:
+            print(item)
+            item['order'] = forms_order.instance.id
+            forms = OrderChildForm(item)
+            if forms.is_valid():
+
+                forms.save()
+
+                return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
+
+
+            else:
+
+                print(forms.errors)
+
+
+        # forms = order_child_Form(request.POST)
+
+        # if forms.is_valid():
+        #     forms.save()
+        #     return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
+        # else:
+        #     print(forms.errors)
     
     else:
 
-        order_no = order.objects.last()
-
-        if not order_no:
-
-            order_no = 1
-
-        else:
-
-            order_no = int(order_no.order_id) + 1
-
-        order_instance = order.objects.create(order_id = order_no)
-
-        print(order_no)
-
-        forms = order_Form(instance = order_instance)
+      
+        forms = order_Form()
 
         context = {
             'form': forms,
-            'order_no' : order_no,
+            'order_no' : '1',
             'date' : datetime.now()
                               
         }
@@ -208,31 +224,77 @@ def add_order(request):
 
         
 
+from django.forms.models import model_to_dict
+
+import json
+from django.forms.models import model_to_dict
+from django.core.serializers.json import DjangoJSONEncoder
+from django.utils import timezone
+
+
 @login_required(login_url='login')
 def update_order(request, order_id):
 
+    instance = order.objects.get(id = order_id)
+
     if request.method == 'POST':
 
-        instance = order.objects.get(id=order_id)
+        orders_data_json = request.POST.get('orders', '[]')
+        orders_data = json.loads(orders_data_json)
 
-        forms = order_Form(request.POST, instance=instance)
 
-        if forms.is_valid():
-            forms.save()
-            print(forms.instance.item_code)
-            return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
+
+        forms_order = order_Form(request.POST, instance = instance)
+
+        if forms_order.is_valid():
+
+            forms_order.save()
+
         else:
-            print(forms.errors)
-    
+
+            print(forms_order.errors)
+
+      
+        for item in orders_data:
+
+            order_child_instance = order_child.objects.get(id = item.pk)
+            
+            print(item)
+            forms = OrderChildForm(item)
+            if forms.is_valid():
+
+                forms.save()
+
+
+
+            else:
+
+                print(forms.errors)
+                return JsonResponse({'status' : 'error'})
+
+        
+        return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
+
     else:
+
 
         instance = order.objects.get(id=order_id)
         forms = order_Form(instance=instance)
+        order_child_instance = order_child.objects.filter(order=instance)
 
+        # Convert date fields to string representations
+        instance_dict = model_to_dict(instance)
+        order_child_instance_list = [model_to_dict(child) for child in order_child_instance]
+
+        print(order_child_instance_list)
+
+        
         context = {
-            'form': forms
+            'form': forms,
+            'order_child_instance_dict': json.dumps(order_child_instance_list, cls=DjangoJSONEncoder),
+            'instance_json': json.dumps(instance_dict, cls=DjangoJSONEncoder),  # Convert instance to JSON string
         }
-        return render(request, 'transactions/add_order.html', context)
+        return render(request, 'transactions/update_order.html', context)
 
         
 
