@@ -11,6 +11,10 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    
     
 <style>
 
@@ -45,6 +49,18 @@
         border-top: 1px solid #dee2e6;
     }
     
+
+    .left-panel {
+
+       display : none;
+
+    }
+
+    .right-panel {
+        background: #f1f2f7;
+        margin-left: 0px !important;
+
+    }
     
     .table th, .table thead th {
         font-weight: 500;
@@ -1891,15 +1907,20 @@ function renderOrders() {
         const orderElement = document.createElement('div');
         orderElement.classList.add('col-sm-6');
         orderElement.innerHTML = `
-                <div class="card mb-3" style="width: 18rem;border: 1px solid black;">
-                    <div class="card-body" style="border: 1px solid black;">
-                        <p class="card-text" style="margin-bottom: 1px;"> Order Id:- ${order.item_code} </p>
-                        <p class="card-text" style="margin-bottom: 1px;"> Total SqInch:- ${order.quantity} </p>
-                        <p class="card-text" style="margin-bottom: 1px;"> Rate:- ${order.rate_per_unit} </p>
-                        <a onclick="editOrder(${order.id})" class="btn btn-primary">View</a>
-                        <a onclick="deleteOrder(${order.id})" class="btn btn-primary">View</a>
-                    </div>
-                </div>
+        <div class="card mb-3" style="width: 18rem;border: 1px solid black;">
+            <div class="card-body" style="border: 1px solid black;">
+                <p class="card-text" style="margin-bottom: 1px;"> Order Id:- ${order.item_code} </p>
+                <p class="card-text" style="margin-bottom: 1px;"> Total SqInch:- ${order.quantity} </p>
+                <p class="card-text" style="margin-bottom: 1px;"> Rate:- ${order.rate_per_unit} </p>
+                <a onclick="editOrder(${order.id})" style="font-weight: 600;
+                color: black;
+                border: none;" class="btn btn-primary">View</a>
+                <a onclick="deleteOrder(${order.id})" style="background: red;
+                font-weight: 600;
+                color: black;
+                border: none;" class="btn btn-primary">Delete</a>
+            </div>
+        </div>
         `;
 
 
