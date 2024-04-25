@@ -174,7 +174,8 @@
 
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Customer Name</label>
-                                <input type="text" style="margin-left:10px !important;" value="" class="form-control" >
+                                {{ form.customer }}
+
                             </div>
 
                             <div style="display:flex;">
@@ -744,7 +745,7 @@
                                     </div>
                                     <div>
                                         <label for="checkbox1"> Total With GST </label>
-                                        <input type="text" name="total_with_gst" id="total_with_gst" class="form-control">
+                                        <input type="text" name="total_with_gst" id="total_with_gst" class="form-control" readonly>
                                     </div>
 
                                     
@@ -755,7 +756,7 @@
                                     <label for="with_job_shop_radio"> With Labour Charges GST @12%</label>
                                     <div>
                                         <label for="total_with_job_shop">Total</label>
-                                        <input type="text" name="total_with_job_shop" id="total_with_job_shop" class="form-control">
+                                        <input type="text" name="total_with_job_shop" id="total_with_job_shop" class="form-control" readonly>
                                     </div>
                                 </div>
                                         
@@ -794,7 +795,7 @@
                                         <select id="sqinch" name="flim_sqinch"></select>
                                 
                                     <label for="checkbox1"> Extra Charges Rs </label>
-                                    <input type="text" id="flim_charges_total" name="flim_charges_total">
+                                    <input type="text" id="flim_charges_total" name="flim_charges_total" readonly>
 
                                 </div>
                     

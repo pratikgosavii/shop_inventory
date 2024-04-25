@@ -11,9 +11,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
     
     
 <style>
@@ -49,18 +46,18 @@
         border-top: 1px solid #dee2e6;
     }
     
-
+{% comment %} 
     .left-panel {
 
        display : none;
 
-    }
+    } {% endcomment %}
 
-    .right-panel {
+    {% comment %} .right-panel {
         background: #f1f2f7;
         margin-left: 0px !important;
 
-    }
+    } {% endcomment %}
     
     .table th, .table thead th {
         font-weight: 500;
@@ -192,7 +189,8 @@
 
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Customer Name</label>
-                                <input type="text" style="margin-left:10px !important;" value="" class="form-control" >
+                                {{ form.customer }}
+
                             </div>
 
                             <div style="display:flex;">
@@ -233,11 +231,11 @@
 
 
                         <div style="">
-
+{% comment %} 
                             <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer No</label>
                                 <input type="text" style="margin-left:10px !important;" value="{{ form.order_id.value }}" class="form-control" readonly>
-                            </div>
+                            </div> {% endcomment %}
 
                             <div style="display: flex; border: 1px solid black; padding: 9px 6px;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer Date</label>
@@ -760,7 +758,7 @@
                                     </div>
                                     <div>
                                         <label for="checkbox1"> Total With GST </label>
-                                        <input type="text" name="total_with_gst" id="total_with_gst" class="form-control">
+                                        <input type="text" name="total_with_gst" id="total_with_gst" class="form-control" readonly>
                                     </div>
 
                                     
@@ -771,7 +769,7 @@
                                     <label for="with_job_shop_radio"> With Labour Charges GST @12%</label>
                                     <div>
                                         <label for="total_with_job_shop">Total</label>
-                                        <input type="text" name="total_with_job_shop" id="total_with_job_shop" class="form-control">
+                                        <input type="text" name="total_with_job_shop" id="total_with_job_shop" class="form-control" readonly>
                                     </div>
                                 </div>
                                         
@@ -810,7 +808,7 @@
                                         <select id="sqinch" name="flim_sqinch"></select>
                                 
                                     <label for="checkbox1"> Extra Charges Rs </label>
-                                    <input type="text" id="flim_charges_total" name="flim_charges_total">
+                                    <input type="text" id="flim_charges_total" name="flim_charges_total" readonly>
 
                                 </div>
                     

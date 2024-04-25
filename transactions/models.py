@@ -341,8 +341,7 @@ PACKAGING_CHARGES_CHOICES = (
 		     
 class order(models.Model):
     
-    customer_name = models.TextField(null = True, blank = True)
-    customer_address = models.TextField(null = True, blank = True)
+    customer = models.ForeignKey(customer, on_delete=models.CASCADE)
     contance_person_no = models.TextField(null = True, blank = True)
     contact_no = models.TextField(null = True, blank = True)
     email = models.TextField(null = True, blank = True)

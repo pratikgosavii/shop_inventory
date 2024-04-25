@@ -36,7 +36,9 @@
                         <thead>
                             <tr>
                                 <th class="serial">#</th>
-                                <th>Category Name</th>
+                                <th>Order No</th>
+                                <th>Customer</th>
+                                <th>Date</th>
                                 <th>Actions</th>
                                 
                             </tr>
@@ -46,9 +48,11 @@
                             {% for i in data %}
                             <tr>
                                 <td class="serial">{{ forloop.counter }}</td>
-                                <td>{{ i.name }}</td>
+                                <td>{{ i.id }}</td>
+                                <td>{{ i.customer_name }}</td>
+                                <td>{{ i.date }}</td>
                                 <td>  
-                                   <a href="{% url 'update_category' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+                                   <a href="{% url 'update_order' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
                                         <span id="payment-button-amount">View</span>
                                     </button>  </a>
                                     

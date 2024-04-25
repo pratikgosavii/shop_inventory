@@ -182,7 +182,7 @@ class order_Form(forms.ModelForm):
         widgets = {
           
            
-            'customer': forms.TextInput(attrs={
+            'customer': forms.Select(attrs={
                 'class': 'form-control', 'id': 'customer',
             }),
 
