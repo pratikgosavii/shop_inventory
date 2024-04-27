@@ -1,0 +1,209 @@
+{% extends 'base/base.html' %} {% block title %}Product List{% endblock title %}
+{% block head %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    <!-- imp -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script> 
+
+
+
+<style>
+  tr.hide-table-padding td {
+    padding: 0;
+  }
+
+  .expand-button {
+    position: relative;
+  }
+
+  .accordion-toggle .expand-button:after {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translate(0, -50%);
+    content: "-";
+  }
+  .accordion-toggle.collapsed .expand-button:after {
+    content: "+";
+  }
+</style>
+
+
+<style>
+
+    
+    
+
+ 
+
+  </style>
+
+
+
+{% endblock head %} {% block content %}  
+
+
+
+<div class="row">
+  <div class="col-xl-12">
+
+    <form method="get" action="{% url 'project_report' %}">
+
+      <div class="form-group" style="display: flex;
+        gap: 14px;">
+
+        <label for="name" class="control-label mb-1" style="margin-left : 0px;">Customer</label>
+                {{ order_filter.form.customer }}
+                    
+                
+        <label for="name" class="control-label mb-1" style="margin-left : 0px;">User</label>
+          {{ order_filter.form.user }}
+              
+        <label for="name" class="control-label mb-1" style="margin-left : 0px;">From Date </label>
+          {{ order_filter.form.date_start }}
+              
+        <label for="name" class="control-label mb-1" style="margin-left : 0px;">To Date </label>
+          {{ order_filter.form.date_end }}
+              
+          
+      
+
+        <br>
+
+      
+        <button class="btn btn-primary" type="submit" > Submit </button>
+      </div>
+
+    </form>
+  
+<br />
+
+
+<button class="btn btn-primary" onclick="report();" type="submit">
+  Download Sales Report
+</button> 
+
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="box-title">Project List</h4>
+      </div>
+      <div class="card-body--">
+        <div class="table-stats order-table ov-h">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="serial">#</th>
+                <th>Customer</th>
+                <th>User</th>
+                <th>Final Amount</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for i in data %}
+
+
+
+              <tr>
+
+                <input type="hidden" value="{{ i.id }}" />
+                <td class="serial">{{ forloop.counter }}</td>
+                <td>{{ i.customer }}</td>
+                <td>{{ i.user }}</td>
+                <td>{{ i.final_amount }}</td>
+                <td>{{ i.date }}</td>
+
+              </tr>
+              
+              {% endfor %}
+
+            </tbody>
+          </table>
+          <a href="{% url 'download_project_report' %}" ><button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+            <span id="payment-button-amount">Submit Plan</span>
+        </button> </a>
+          
+
+          {% if data.has_other_pages %}
+          <nav>
+            <ul class="pagination justify-content-center">
+              {% if data.has_previous %}
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  href="?page={{ data.previous_page_number }}"
+                  aria-label="Previous"
+                >
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&laquo;</span>
+              </li>
+              {% endif %} 
+              {% for p in data.paginator.page_range %} 
+              {% if data.number == p %}
+              <li class="page-item">
+                <a class="page-link" style="color: red" href="#">{{ p }}</a>
+              </li>
+              {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+              </li>
+              {% endif %} 
+              {% endfor %} {% if data.has_next %}
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  href="?page={{ data.next_page_number }}"
+                  aria-label="Next"
+                >
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&raquo;</span>
+              </li>
+              {% endif %}
+            </ul>
+          </nav>
+          {% endif %}
+        </div>
+        <!-- /.table-stats -->
+      </div>
+    </div>
+    <!-- /.card -->
+  </div>
+  <!-- /.col-lg-8 -->
+</div>
+
+{% endblock content %}
+
+{% block js %}
+
+<script>
+ 
+  function report(){
+  
+    url = window.location.href
+    
+    url = url.split('?')
+    
+    url = url[1]
+    
+    url = "{% url 'download_sales_report' %}" + '?' + url
+    
+    window.location = url
+    
+    }
+    
+    
+</script>
+
+{% endblock js %}
+

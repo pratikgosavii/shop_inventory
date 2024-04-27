@@ -125,27 +125,6 @@
 {% block content %}
 
 
-<!-- Modal HTML -->
-<div id="myModal" class="modal fade">
-	<div class="modal-dialog modal-confirm">
-		<div class="modal-content">
-			<div class="modal-header">
-				<div class="icon-box">
-					<i class="material-icons">&#xE876;</i>
-				</div>				
-				<h4 class="modal-title w-100">Awesome!</h4>	
-			</div>
-			<div class="modal-body">
-				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
-			</div>
-		</div>
-	</div>
-</div>     
-
-
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -168,6 +147,7 @@
                 <div class="col-12" style="display : flex;">
                     <form id="form3" style="display: contents; comehere">
                         {% csrf_token %}
+
                     <div class="col-6" style="justify-content: left;">
 
                         <div style="border: 1px solid black; padding: 9px 6px;">
@@ -175,61 +155,44 @@
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Customer Name</label>
                                 {{ form.customer }}
-
-                            </div>
-
-                            <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Customer Address</label>
-                                <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
                             </div>
                             
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Contact Person Name</label>
                                 <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
+                                <input style="margin-left:10px !important;" name="contance_person_no" id="contance_person_no" type="text" value="" class="form-control" >
                             </div>
                             
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Mobile Number</label>
                                 <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
+                                <input style="margin-left:10px !important;" name="contact_no" id="contact_no" type="text" value="" class="form-control" >
                             </div>
                             
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Contact Email</label>
                                 <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
-                            </div>
-                            
-                            <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Client GST</label>
-                                <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
+                                <input style="margin-left:10px !important;" name="email" id="email" type="text" value="" class="form-control" >
                             </div>
 
-                        </form>
+
                         </div>
                     </div>
 
                     <div class="col-6" style="justify-content: right;">
-                        <form id="orderForm" style="display: contents; comehere">
-
-                            {% csrf_token %}
-
 
 
                         <div style="">
 
-                            <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
+                            {% comment %} <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer No</label>
                                 <input type="text" style="margin-left:10px !important;" value="{{ form.order_id.value }}" class="form-control" readonly>
-                            </div>
+                            </div> {% endcomment %}
 
                             <div style="display: flex; border: 1px solid black; padding: 9px 6px;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer Date</label>
                                 <!-- Use the readonly attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" type="datetime-local" value="{{ date|date:'Y-m-d\TH:i' }}" class="form-control" readonly>
+                                <input style="margin-left:10px !important;" name="date" id="date" type="datetime-local" value="{{ date|date:'Y-m-d\TH:i' }}" class="form-control" readonly>
                             </div>
                             
 
@@ -241,23 +204,25 @@
                                         
                                     <div>
 
-                                        <input type="radio" id="checkbox1"  name="refered_from">
-                                        <label style="margin: 10px 0px !important;" value="Direct_Contact" for="checkbox1">Direct Contact</label>
+                                        <input type="radio" id="conctc" value="Direct_Contact" name="reference_from">
+                                        <label style="margin: 10px 0px !important;"  for="conctc">Direct Contact</label>
                                     </div>
 
                                     <div>
-                                        <input type="radio" id="checkbox1"  name="refered_from">
-                                        <label style="margin: 10px 0px !important;" value="Webiste" for="checkbox1">Webiste</label>
+                                        <input type="radio" id="webs" value="Webiste" name="reference_from">
+                                        <label style="margin: 10px 0px !important;"  for="webs">Webiste</label>
                                     </div>
 
                                     <div>
-                                        <input type="radio" id="checkbox1"  name="refered_from">
-                                        <label style="margin: 10px 0px !important;" value="Mailer" for="checkbox1">Mailer</label>
+                                        <input type="radio" id="mailrt" value="Mailer" name="reference_from">
+                                        <label style="margin: 10px 0px !important;" for="mailrt">Mailer</label>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
+                    </form>
+
                     </div>
                 </div>
                
@@ -266,12 +231,11 @@
             
                 <div class="">
                     <div class="col-12" style="display:flex;">
-
+                        <form id="orderForm" style="display: contents; comehere">
+                            {% csrf_token %}
                         <div class="col-6">
                             
-                            <form id="orderForm" style="display: contents; comehere">
 
-                                {% csrf_token %}
                                 
 
                                 <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Item Code/ Drawing Number/ Project Number </p>
@@ -286,6 +250,7 @@
 
 
                                 <input type="hidden" id="editOrderId">
+                                <input type="hidden" name="pk" id="pk">
 
 
                                 <div>
@@ -803,13 +768,14 @@
                                 <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Min Font Height & Max Font Height </p>
                                 
 
+                                
                                 <div>
                                     
-                                    <input type="radio" id="checkbox1" name="font_height12">
-                                    <label for="checkbox1">1mm</label>
+                                    <input type="radio" id="min_font_height1" value="1mm" name="min_font_height">
+                                    <label for="min_font_height1">1mm</label>
 
-                                    <input type="radio" id="checkbox1"  name="font_height12">
-                                    <label for="checkbox1"> 600 mm </label>
+                                    <input type="radio" id="min_font_height2" value="600mm" name="min_font_height">
+                                    <label for="min_font_height2"> 600 mm </label>
                         
                                 </div>
 
@@ -827,12 +793,14 @@
 
                                     <div>
 
-                                        <input type="radio"  id="certificate_cost_charge" name="certificate_cost">
+                                        <input type="radio"  id="certificate_cost_charge" value="Extra_Charges" name="certificate_cost">
                                         <label for="checkbox1"> Extra Charges Rs. </label>
                                         <select id="certificate_cost_amount" name="certificate_price"></select>
 
                                     </div>
+                                
 
+                        
                                 </div>
 
 
@@ -877,6 +845,7 @@
                                 
                                 
                             
+                            </form>
 
                             <div class="row" id="submittedOrders">
                                 <!-- Cards will be dynamically appended here -->
@@ -893,6 +862,9 @@
 
                         <div class="col-6">
 
+                            <form id="form2">
+
+                                {% csrf_token %}
 
                             <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Industry </p>
                                 
@@ -1308,6 +1280,7 @@
 
 
 
+
 {% endblock content %}
 
 {% block js %}
@@ -1551,14 +1524,12 @@
 
 function update_other_values(){
 
-    console.log('sdhjshduhsd')
     
     var other_total = 0
 
     
     other_total = get_value_total
 
-    console.log(other_total)
 
    
 
@@ -1582,7 +1553,6 @@ function update_other_values(){
 
     }
     
-    console.log(other_total)
 
 
    // Get all radio buttons in the group
@@ -1593,15 +1563,11 @@ function update_other_values(){
    // Function to update the final item total
     if (chargeRadioButton.checked) {
         var selectedValue = selectElement1212.value;
-        console.log(other_total)
-        console.log(selectedValue)
         other_total += parseFloat(selectedValue); // Increment final_pri by the selected value
-        console.log(other_total)
 
     }
     document.getElementById("final_item_total").value = other_total.toFixed(2);
 
-    console.log(other_total)
 
 
 
@@ -1617,7 +1583,6 @@ function update_other_values(){
         other_total += parseFloat(selectedValue); // Increment final_pri by the selected value
     }
     document.getElementById("final_item_total").value = other_total.toFixed(2);
-    console.log(other_total)
 
 
     var chargeRadioButton2 = document.getElementById('with_material_gst');
@@ -1651,8 +1616,6 @@ function update_other_values(){
 
         document.getElementById("final_item_total").value = other_total.toFixed(2);
     
-        console.log('here')
-        console.log(other_total)
 
     }
     if (chargeRadioButton2.checked) {
@@ -1677,8 +1640,6 @@ function update_other_values(){
 
         document.getElementById("final_item_total").value = other_total.toFixed(2);
 
-        console.log('here')
-        console.log(other_total)
 
     }
 
@@ -1799,67 +1760,6 @@ var cardsAppended = 0;
 
 
 
-// JavaScript code for sending AJAX POST request
-$(document).ready(function() {
-    $('#submit-form').submit(function(event) {
-        event.preventDefault(); // Prevent default form submission
-        
-        // Serialize form data including CSRF token
-        var formData = $('form').serialize();
-        
-        // Send AJAX POST request
-        $.ajax({
-            type: 'POST',
-            url: "{% url 'add_order' %}", // Replace with your Django view URL
-            data: formData,
-            beforeSend: function(xhr, settings) {
-                // Set CSRF token in request headers
-                xhr.setRequestHeader('X-CSRFToken', $('input[name="csrfmiddlewaretoken"]').val());
-            },
-            success: function(response) {
-                // Handle successful response
-                console.log(response);
-
-                var cardHtml = '<div class="col-6">' +
-                    '<div class="card mb-3" style="width: 18rem;border: 1px solid black;">' +
-                        '<div class="card-body" style="border: 1px solid black;">' +
-                            '<p class="card-text">' + response.instance + '</p>' +
-                            '<a href="#" class="btn btn-primary">View</a>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>';
-
-                $('#card-row').append(cardHtml);
-                cardsAppended++;
-
-                // Check if the number of cards appended is divisible by 2
-                if (cardsAppended % 2 === 0) {
-                    $('#card-row').append('<div class="w-100"></div>'); // Add a new row
-                }
-
-                
-                // Assuming you have a form with id "myForm"
-               // Clear text inputs
-                $('#submit-form :input[type="text"]').val('');
-
-                // Clear radio buttons
-                $('#submit-form :input[type="radio"]').prop('checked', false);
-
-                // Clear number inputs
-                $('#submit-form :input[type="number"]').val('');
-
-               // item_code
-
-               $('#item_code').val('');
-                
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                // Handle error
-                console.error('Error:', textStatus, errorThrown);
-            }
-        });
-    });
-});
 
 
 
@@ -1908,11 +1808,45 @@ function renderOrders() {
     });
 }
 
+
+let deletedOrderIds = [];
 // Function to delete submitted order
+// Function to delete submitted order and return the pk value of the deleted order
 function deleteOrder(orderId) {
-    orders = orders.filter(order => order.id !== orderId);
-    renderOrders(); // Render updated list
+    // Find the order index in the array
+    const index = orders.findIndex(order => order.id === orderId);
+
+
+    console.log(orders)
+
+
+
+
+    // If order with orderId exists
+    if (index !== -1) {
+        // Retrieve the pk value of the order
+        var deletedPk = orders[index].pk;
+
+        deletedOrderIds.push(deletedPk);
+        // Remove the order from the array
+        orders.splice(index, 1);
+
+        // Render updated list
+        renderOrders();
+
+        console.log(deletedOrderIds)
+
+        // Recalculate totals
+        calculateTotal();
+
+        // Return the pk value of the deleted order
+        return deletedPk;
+    } else {
+        // If order with orderId does not exist, return null or handle accordingly
+        return null;
+    }
 }
+
 
 // Function to edit submitted order
 function editOrder(orderId) {
@@ -1945,9 +1879,9 @@ function addNewOrder(orderData) {
 
 // Function to handle editing an existing order
 function editExistingOrder(orderData) {
+
     // Check if we are editing an existing order
     const editOrderId = parseInt(document.getElementById('editOrderId').value);
-    console.log(editOrderId)
     if (editOrderId) {
         // Find the index of the order to be edited
         const index = orders.findIndex(order => order.id === editOrderId);
@@ -1956,6 +1890,8 @@ function editExistingOrder(orderData) {
             orders[index] = { id: editOrderId, ...orderData };
             renderOrders(); // Render updated list
         }
+
+        calculateTotal();
     }
 }
 
@@ -1963,8 +1899,10 @@ function editExistingOrder(orderData) {
 function handleSubmit(event) {
     event.preventDefault(); // Prevent default form submission
 
+        alert('wwewew')
     // Retrieve form data
     const formData = new FormData(document.getElementById('orderForm'));
+    console.log('-------14----------')
 
     // Convert FormData object to a plain object
     const orderData = {};
@@ -1975,7 +1913,7 @@ function handleSubmit(event) {
     // Check if we are editing an existing order
     const editOrderId = parseInt(document.getElementById('editOrderId').value);
     console.log('Edit Order ID:', editOrderId); // Log editOrderId to check its value
-
+    console.log('-------13----------')
 
 
     if (editOrderId) {
@@ -1983,6 +1921,7 @@ function handleSubmit(event) {
     } else {
         addNewOrder(orderData);
     }
+    console.log('-------12----------')
 
     // Clear form fields
     document.getElementById('editOrderId').value = '';
@@ -2004,9 +1943,14 @@ function handleSubmit(event) {
             }
         }
     }
+
+    console.log('-------1----------')
     
     // Usage
     resetFormExcept(['order_id', 'date', 'conctc', 'webs', 'mailrt', 'submitButton']);
+
+    calculateTotal();
+
 }
 
 // Initialize event listener for form submission
@@ -2019,14 +1963,21 @@ document.getElementById('submitButton').addEventListener('click', handleSubmit);
 
 
 function calculateTotal() {
+
+
     var totalFinalAmount = orders.reduce((acc, obj) => acc + parseFloat(obj.final_item_total), 0);
-    console.log(orders)
+    console.log(totalFinalAmount)
 
     var packagingCharges = parseFloat(document.getElementById("packaging_charges").value);
     var finalAmount = totalFinalAmount + parseFloat(packagingCharges);
+    console.log(finalAmount)
 
     
-    
+    var transportation_cost = parseFloat(document.getElementById("transportation_cost").value);
+    finalAmount = finalAmount + parseFloat(transportation_cost);
+
+    console.log('finalAmount')
+    console.log(finalAmount)
 
 
     // Check if finalAmount is a number before calling toFixed
@@ -2044,12 +1995,13 @@ function calculateTotal() {
 const formInputsasas = document.querySelectorAll('input, select');
 formInputsasas.forEach(input => {
   input.addEventListener('change', getValue);
+  input.addEventListener('change', calculateTotal);
 });
 
 
 
 $(document).ready(function(){
-    $('#orderForm').submit(function(e){
+    $('#form2').submit(function(e){
         e.preventDefault(); // Prevent default form submission
 
         alert('here')
@@ -2070,12 +2022,14 @@ $(document).ready(function(){
         
         // Append array data to form data
         formData.push({name: 'orders', value: JSON.stringify(orders)});
+        formData.push({name: 'deletedOrderIds', value: JSON.stringify(deletedOrderIds)});
 
         
 
         console.log(formData)
 
         // Send data via POST request
+        alert('----')
         $.ajax({
             url: $(this).attr('action'),
             type: 'POST',
@@ -2112,7 +2066,6 @@ document.addEventListener('DOMContentLoaded', function() {
             child.id = orderIdCounter++;
             orders.push(child);
 
-            console.log(orders)
 
             orderElement.classList.add('col-sm-6');
             orderElement.innerHTML = `
@@ -2155,6 +2108,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Populate the form with instance data
     populateForm(instanceData);
+
+    function populateForm22(instanceData) {
+        const form = document.getElementById('form2');
+        // Loop through instance data and populate form fields
+        for (const key in instanceData) {
+            if (instanceData.hasOwnProperty(key)) {
+                const element = form.elements[key];
+                if (element) {
+                    element.value = instanceData[key];
+                }
+            }
+        }
+    }
+
+    // Populate the form with instance data
+    populateForm22(instanceData);
+
+
+    function populateForm222(instanceData) {
+        const form = document.getElementById('form3');
+        // Loop through instance data and populate form fields
+        for (const key in instanceData) {
+            if (instanceData.hasOwnProperty(key)) {
+                const element = form.elements[key];
+                if (element) {
+                    element.value = instanceData[key];
+                }
+            }
+        }
+    }
+
+    // Populate the form with instance data
+    populateForm222(instanceData);
 });
 
   

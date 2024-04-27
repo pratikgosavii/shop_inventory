@@ -339,15 +339,29 @@ PACKAGING_CHARGES_CHOICES = (
 
 
 		     
+class sales_customer(models.Model):
+
+    
+    name = models.CharField(max_length=120, unique=False)
+    address = models.CharField(max_length=120, unique=False)
+    mobile_no = models.IntegerField()
+    client_gst = models.CharField(max_length=120, unique=False)
+    
+    
+    def __str__(self):
+        return self.name
+    
+
+from users.models import User
+		     
 class order(models.Model):
     
-    customer = models.ForeignKey(customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(sales_customer, on_delete=models.CASCADE)
     contance_person_no = models.TextField(null = True, blank = True)
     contact_no = models.TextField(null = True, blank = True)
     email = models.TextField(null = True, blank = True)
-    client_gst = models.TextField(null = True, blank = True)
     date = models.DateTimeField(null = True, blank = True)
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     reference_from = models.CharField(max_length=100, choices=REFERENCE_FROM_OPTION_CHOICES)
     
     industry = models.CharField(max_length=100, choices=INDUSTRY_OPTION_CHOICES)
@@ -498,6 +512,13 @@ FONT_HEIGHT_OPTION_CHOICES = (
 
 )
 
+MIN_FONT_HEIGHT_OPTION_CHOICES = (
+
+('1mm', '1mm'),
+('600mm', '600mm'),
+
+)
+
 THICKNESS_OPTION_CHOICES = (
 
 ('0.1' ,'0.1'),
@@ -561,6 +582,7 @@ class order_child(models.Model):
     color_count = models.CharField(max_length=50, choices=COLOR_COUNT_OPTION_CHOICES)
     color = models.CharField(max_length=50, choices=COLOR_OPTION_CHOICES)
     font_height = models.CharField(max_length=50, choices=FONT_HEIGHT_OPTION_CHOICES)
+    min_font_height = models.CharField(max_length=50, choices=MIN_FONT_HEIGHT_OPTION_CHOICES)
     thickness = models.CharField(max_length=50, choices=THICKNESS_OPTION_CHOICES)
     total_sq_inch = models.FloatField(null = True, blank = True)
     quantity = models.FloatField(null = True, blank = True)
@@ -577,6 +599,7 @@ class order_child(models.Model):
     sample_price = models.FloatField(null = True, blank = True)
     certificate_cost = models.CharField(max_length=50, choices= CERTIFICATE_OPTION_CHOICES)
     certificate_price = models.FloatField(null = True, blank = True)
+    final_item_total = models.FloatField(null = True, blank = True)
 
 
 
@@ -588,7 +611,6 @@ class order_child(models.Model):
 
 # models.py
 from django.db import models
-from django.contrib.auth.models import User
 # alerts/signals.py
 from django.db.models.signals import post_save
 from django.dispatch import receiver

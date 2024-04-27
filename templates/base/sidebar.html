@@ -162,6 +162,14 @@
 
                 {% if request.user.is_superuser or request.user.is_accounts %}
                 
+                <li class="menu-title">Reports</li><!-- /.menu-title -->
+
+
+
+                <li class="">
+                    <a href="{% url 'sales_report' %}"><i class="menu-icon fa fa-laptop"></i>Sales Software </a>
+                </li>
+
                 <li class="menu-title">Transactions</li><!-- /.menu-title -->
 
                 <li class="menu-item-has-children dropdown">

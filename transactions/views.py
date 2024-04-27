@@ -168,6 +168,9 @@ def add_order(request):
 
     if request.method == 'POST':
 
+
+        print('-----------')
+
         orders_data_json = request.POST.get('orders', '[]')
         orders_data = json.loads(orders_data_json)
 
@@ -178,28 +181,30 @@ def add_order(request):
         if forms_order.is_valid():
 
             forms_order.save()
+            
+            for item in orders_data:
+                print(item)
+                item['order'] = forms_order.instance.id
+                forms = OrderChildForm(item)
+                if forms.is_valid():
+
+                    forms.save()
+
+                    return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
+
+
+                else:
+
+                    print(forms.errors)
+
+
 
         else:
 
             print(forms_order.errors)
 
       
-        for item in orders_data:
-            print(item)
-            item['order'] = forms_order.instance.id
-            forms = OrderChildForm(item)
-            if forms.is_valid():
-
-                forms.save()
-
-                return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
-
-
-            else:
-
-                print(forms.errors)
-
-
+        
         # forms = order_child_Form(request.POST)
 
         # if forms.is_valid():
@@ -249,10 +254,24 @@ def update_order(request, order_id):
 
     if request.method == 'POST':
 
+        print('-----------------------')
+        print('-----------------------')
+        print('-----------------------')
+        print('-----------------------')
+        print('-----------------------')
+
         orders_data_json = request.POST.get('orders', '[]')
+        deletedOrderIdss = request.POST.get('deletedOrderIds')
         orders_data = json.loads(orders_data_json)
+        deleted_order_ids = json.loads(deletedOrderIdss)
 
+        print(deleted_order_ids)
 
+        for i in deleted_order_ids:
+
+            print(i)
+
+            order_child.objects.get(id = i).delete()
 
         forms_order = order_Form(request.POST, instance = instance)
 
@@ -260,31 +279,33 @@ def update_order(request, order_id):
 
             forms_order.save()
 
+            for item in orders_data:
+
+
+                order_child_instance = order_child.objects.get(id = item['pk'])
+                item['order'] = forms_order.instance.id
+                
+                forms = OrderChildForm(item, instance = order_child_instance)
+                if forms.is_valid():
+
+                    forms.save()
+
+
+
+                else:
+
+                    return JsonResponse({'status' : 'error'})
+
+        
+            return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
+
+
         else:
 
             print(forms_order.errors)
 
       
-        for item in orders_data:
-
-            order_child_instance = order_child.objects.get(id = item.pk)
-            
-            print(item)
-            forms = OrderChildForm(item)
-            if forms.is_valid():
-
-                forms.save()
-
-
-
-            else:
-
-                print(forms.errors)
-                return JsonResponse({'status' : 'error'})
-
         
-        return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
-
     else:
 
 
@@ -296,7 +317,6 @@ def update_order(request, order_id):
         instance_dict = model_to_dict(instance)
         order_child_instance_list = [model_to_dict(child) for child in order_child_instance]
 
-        print(order_child_instance_list)
 
         
         context = {
@@ -873,6 +893,95 @@ def download_project_report(request):
                     writer.writerow([index, production_obj.item_code, production_obj.production_quantity, item.customer, item.DC_date])  # Replace with your actual field names
 
     return response
+
+
+
+@login_required(login_url='login')
+def sales_report(request):
+
+    data = order.objects.all()
+   
+
+
+    order_filters = order_filter(request.GET, queryset=data)
+
+    filter_data = order_filters.qs
+
+    final_amount = filter_data.aggregate(Sum('final_amount'))['final_amount__sum']
+
+    context = {
+        'data': filter_data,
+        'final_amount': final_amount,
+        'order_filter': order_filters,
+       
+    }
+
+    return render(request, 'transactions/sales_report.html', context)
+
+def download_sales_report(request):
+
+      
+    data = order.objects.all()
+   
+    order_filters = order_filter(request.GET, queryset=data)
+
+    order_filters_data1 = list(order_filters.qs.values_list('customer__name', 'user__username', 'date', 'final_amount'))
+    order_filters_data = list(map(list, order_filters_data1))
+    
+
+    vals = []
+        
+    vals1 = []
+
+    
+    vals.append([''])
+    vals.append(['SALES REPORT'])
+    vals.append([''])
+    vals.append([''])
+    
+    vals1.append("Sr No")
+    vals1.append("Customer")
+    vals1.append("User")
+    vals1.append("Date")
+    vals1.append("Final Amount")
+    vals.append(vals1)
+
+    counteer = 1
+
+    for i in order_filters_data:
+        vals1 = []
+        vals1.append(counteer)
+        counteer = counteer + 1
+        vals1.append(i[0])
+        vals1.append(i[1])
+        vals1.append(i[2])
+        vals1.append(i[3])
+        
+        vals.append(vals1)
+
+
+
+    name = "Sales_Report.csv"
+    path = os.path.join(BASE_DIR) + '\static\csv\\' + name
+
+    
+    with open(path,  'w', newline="") as f:
+        writer = csv.writer(f)
+        writer.writerows(vals)
+
+
+        link = os.path.join(BASE_DIR) + '\static\csv\\' + name
+
+    with open(path,  'r', newline="") as f:
+        mime_type  = mimetypes.guess_type(link)
+
+        response = HttpResponse(f.read(), content_type=mime_type)
+        response['Content-Disposition'] = 'attachment;filename=' + str(link)
+
+        return response
+
+
+
 
 import json
 

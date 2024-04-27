@@ -192,12 +192,6 @@
                                 {{ form.customer }}
 
                             </div>
-
-                            <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Customer Address</label>
-                                <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
-                            </div>
                             
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Contact Person Name</label>
@@ -213,12 +207,6 @@
                             
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Contact Email</label>
-                                <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
-                            </div>
-                            
-                            <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Client GST</label>
                                 <!-- Use the  attribute to make the input field read-only -->
                                 <input style="margin-left:10px !important;" type="text" value="" class="form-control" >
                             </div>
@@ -774,7 +762,7 @@
                                 </div>
                                         
                                 <label for="checkbox1"> Total Amount </label>
-                                <input type="text" name="total2" id="total_amount_with_charges_type" class="form-control">
+                                <input type="text" name="total_amount_with_charges_type" id="total_amount_with_charges_type" class="form-control">
                             
 
 
@@ -816,13 +804,14 @@
                                 <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Min Font Height & Max Font Height </p>
                                 
 
+                                
                                 <div>
                                     
-                                    <input type="radio" id="checkbox1" name="font_height12">
-                                    <label for="checkbox1">1mm</label>
+                                    <input type="radio" id="min_font_height1" value="1mm" name="min_font_height">
+                                    <label for="min_font_height1">1mm</label>
 
-                                    <input type="radio" id="checkbox1"  name="font_height12">
-                                    <label for="checkbox1"> 600 mm </label>
+                                    <input type="radio" id="min_font_height2" value="600mm" name="min_font_height">
+                                    <label for="min_font_height2"> 600 mm </label>
                         
                                 </div>
 
@@ -1930,6 +1919,9 @@ function renderOrders() {
 function deleteOrder(orderId) {
     orders = orders.filter(order => order.id !== orderId);
     renderOrders(); // Render updated list
+
+    calculateTotal();
+
 }
 
 // Function to edit submitted order
@@ -1950,6 +1942,9 @@ function editOrder(orderId) {
         // Store the ID of the order being edited
         document.getElementById('editOrderId').value = orderId;
     }
+
+    calculateTotal();
+
 }
 
 // Function to handle adding a new order
@@ -2026,6 +2021,9 @@ function handleSubmit(event) {
     // Usage
     resetFormExcept(['order_id', 'date', 'conctc', 'webs', 'mailrt', 'submitButton']);
 
+    calculateTotal();
+
+
 }
 
 // Initialize event listener for form submission
@@ -2041,7 +2039,9 @@ function calculateTotal() {
     var packagingCharges = parseFloat(document.getElementById("packaging_charges").value);
     var finalAmount = totalFinalAmount + parseFloat(packagingCharges);
 
-    
+    var transportation_cost = parseFloat(document.getElementById("transportation_cost").value);
+    finalAmount = finalAmount + parseFloat(transportation_cost);
+
     
 
 
@@ -2060,6 +2060,7 @@ function calculateTotal() {
 const formInputsasas = document.querySelectorAll('input, select');
 formInputsasas.forEach(input => {
   input.addEventListener('change', getValue);
+  input.addEventListener('change', calculateTotal);
 });
 
 

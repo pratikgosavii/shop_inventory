@@ -30,6 +30,12 @@ urlpatterns = [
     path('list-project/', list_project, name='list_project'),
     path('report-project/', project_report, name='project_report'),
     path('download-report-project/', download_project_report, name='download_project_report'),
+    path('report-project/', project_report, name='project_report'),
+    path('download-report-project/', download_project_report, name='download_project_report'),
+
+    path('report-sales/', sales_report, name='sales_report'),
+    path('download-report-sales/', download_sales_report, name='download_sales_report'),
+
     path('close-project/<project_id>', close_project, name='close_project'),
     path('delete-project/<project_id>', delete_project, name='delete_project'),
 
@@ -71,6 +77,12 @@ urlpatterns = [
 
     # path('send-whatsapp-message/', send_whatsapp_message, name='send_whatsapp_message'),
 
+
+
+    # path('add-sales-customer/', add_sales_customer, name='add_sales_customer'),
+    # path('update-sales-customer/<sales_customer_id>', update_sales_customer, name='update_sales_customer'),
+    # path('delete-sales-customer/<sales_customer_id>', delete_sales_customer, name='delete_sales_customer'),
+    # path('list-sales-customer/', list_sales_customer, name='list_sales_customer'),
 
 
     path('add-order/', add_order, name='add_order'),
