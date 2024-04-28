@@ -386,6 +386,7 @@ class order(models.Model):
     packaging  = models.CharField(max_length=100, choices=PACKAGING_CHOICES)
     packaging_charges = models.IntegerField(choices=PACKAGING_CHARGES_CHOICES)
 
+    total_sqinch = models.FloatField()
     final_amount = models.FloatField()
 
 

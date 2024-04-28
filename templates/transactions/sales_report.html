@@ -87,7 +87,7 @@
   <div class="col-xl-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="box-title">Project List</h4>
+        <h4 class="box-title">Sales Report</h4>
       </div>
       <div class="card-body--">
         <div class="table-stats order-table ov-h">
@@ -122,9 +122,27 @@
 
             </tbody>
           </table>
-          <a href="{% url 'download_project_report' %}" ><button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
-            <span id="payment-button-amount">Submit Plan</span>
-        </button> </a>
+
+          <footer class="site-footer">
+            <div class="footer-inner bg-white" style="float: right;">
+                <div class="row">
+                    
+                    <p style="font-weight: 700;
+                    color: black;;margin-left:30px;border : 1px solid grey;padding : 10px;">  Total Sqinch : {{ total_sqinch }} </p>
+                  </div>
+                <div class="row">
+                    
+                    <p style="font-weight: 700;
+                    color: black;;margin-left:30px;border : 1px solid grey;padding : 10px;">  Total Amount : {{ final_amount }} </p>
+                  </div>
+
+                
+                
+              </div>
+        </footer>
+
+
+        
           
 
           {% if data.has_other_pages %}

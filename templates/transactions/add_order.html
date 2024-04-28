@@ -1268,7 +1268,9 @@
                     <div>
 
 
-                       
+                        <label for="final_sqinch">Total Sqinch</label>
+
+                        <input type="text" id="final_sqinch" name="final_amount" class="form-control">
 
                         <label for="transportation_cost">Final Amount</label>
 
@@ -2015,6 +2017,12 @@ document.getElementById('submitButton').addEventListener('click', handleSubmit);
 
 
 function calculateTotal() {
+
+    var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
+
+    document.getElementById('final_sqinch').value = 'final_sqinch'
+
+
     var totalFinalAmount = orders.reduce((acc, obj) => acc + parseFloat(obj.final_item_total), 0);
     console.log(orders)
 
@@ -2053,6 +2061,11 @@ $(document).ready(function(){
         e.preventDefault(); // Prevent default form submission
 
         alert('here')
+
+        var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
+
+        alert(final_sqinch)
+
         
         // Gather form data
         var formData = $(this).serializeArray();
@@ -2069,7 +2082,7 @@ $(document).ready(function(){
         // Append array data to form data
         formData.push({name: 'orders', value: JSON.stringify(orders)});
 
-        
+      
 
         console.log(formData)
 

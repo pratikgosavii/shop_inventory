@@ -1249,6 +1249,11 @@
 
                        
 
+                        <label for="final_sqinch">Total Sqinch</label>
+
+                        <input type="text" id="final_sqinch" name="final_amount" class="form-control">
+                    
+
                         <label for="transportation_cost">Final Amount</label>
 
                         <input type="text" id="final_amount" name="final_amount" class="form-control">
@@ -1965,6 +1970,10 @@ document.getElementById('submitButton').addEventListener('click', handleSubmit);
 function calculateTotal() {
 
 
+    var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
+
+    document.getElementById('final_sqinch').value = 'final_sqinch'
+
     var totalFinalAmount = orders.reduce((acc, obj) => acc + parseFloat(obj.final_item_total), 0);
     console.log(totalFinalAmount)
 
@@ -2024,9 +2033,7 @@ $(document).ready(function(){
         formData.push({name: 'orders', value: JSON.stringify(orders)});
         formData.push({name: 'deletedOrderIds', value: JSON.stringify(deletedOrderIds)});
 
-        
-
-        console.log(formData)
+       
 
         // Send data via POST request
         alert('----')
@@ -2052,6 +2059,7 @@ $(document).ready(function(){
 document.addEventListener('DOMContentLoaded', function() {
     // Parse the JSON strings passed from the Django view
     const instanceData = JSON.parse('{{ instance_json|escapejs }}');
+    console.log(instanceData)
     const orderChildInstancesData = JSON.parse('{{ order_child_instance_dict|escapejs }}');
 
     // Function to render order child instances

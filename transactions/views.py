@@ -174,9 +174,11 @@ def add_order(request):
         orders_data_json = request.POST.get('orders', '[]')
         orders_data = json.loads(orders_data_json)
 
+        updated_request = request.POST.copy()
+        updated_request.update({'user': request.user})
 
         print(request.POST)
-        forms_order = order_Form(request.POST)
+        forms_order = order_Form(updated_request)
 
         if forms_order.is_valid():
 
@@ -273,7 +275,11 @@ def update_order(request, order_id):
 
             order_child.objects.get(id = i).delete()
 
-        forms_order = order_Form(request.POST, instance = instance)
+        updated_request = request.POST.copy()
+        updated_request.update({'user': request.user})
+
+        print(request.POST)
+        forms_order = order_Form(updated_request, instance = instance)
 
         if forms_order.is_valid():
 
@@ -908,11 +914,13 @@ def sales_report(request):
     filter_data = order_filters.qs
 
     final_amount = filter_data.aggregate(Sum('final_amount'))['final_amount__sum']
+    total_sqinch = filter_data.aggregate(Sum('total_sqinch'))['total_sqinch__sum']
 
     context = {
         'data': filter_data,
         'final_amount': final_amount,
-        'order_filter': order_filters,
+        'total_sqinch': total_sqinch,
+        'order_filster': order_filters,
        
     }
 
@@ -943,6 +951,7 @@ def download_sales_report(request):
     vals1.append("Customer")
     vals1.append("User")
     vals1.append("Date")
+    vals1.append("Total SQinch")
     vals1.append("Final Amount")
     vals.append(vals1)
 
