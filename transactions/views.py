@@ -920,7 +920,7 @@ def sales_report(request):
         'data': filter_data,
         'final_amount': final_amount,
         'total_sqinch': total_sqinch,
-        'order_filster': order_filters,
+        'order_filter': order_filters,
        
     }
 
@@ -933,7 +933,7 @@ def download_sales_report(request):
    
     order_filters = order_filter(request.GET, queryset=data)
 
-    order_filters_data1 = list(order_filters.qs.values_list('customer__name', 'user__username', 'date', 'final_amount'))
+    order_filters_data1 = list(order_filters.qs.values_list('customer__name', 'user__username', 'date', 'total_sqinch', 'final_amount'))
     order_filters_data = list(map(list, order_filters_data1))
     
 
@@ -965,6 +965,7 @@ def download_sales_report(request):
         vals1.append(i[1])
         vals1.append(i[2])
         vals1.append(i[3])
+        vals1.append(i[4])
         
         vals.append(vals1)
 
