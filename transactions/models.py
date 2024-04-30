@@ -14,8 +14,8 @@ from store.models import *
 class request_material(models.Model):
 
     category = models.ForeignKey(category , on_delete=models.CASCADE, related_name='dscdc')
-    size = models.ForeignKey(size , on_delete=models.CASCADE, related_name='sdcdscd')
-    employee_name = models.CharField(max_length=50, null = True, blank = True)
+    size = models.ForegnKey(size , on_delete=models.CASCADE, related_name='sdcdscd')
+    employee_name = modiels.CharField(max_length=50, null = True, blank = True)
     bags = models.BigIntegerField()
     customer_name = models.ForeignKey(customer , on_delete=models.CASCADE, related_name='dscdc')
     DC_number = models.CharField(max_length=50)
@@ -577,6 +577,7 @@ class order_child(models.Model):
     order = models.ForeignKey(order, on_delete=models.CASCADE, related_name = "fdthfh")
     item_code = models.TextField()
     material = models.CharField(max_length=50, choices=MATERIAL_OPTION_CHOICES)
+    other_material = models.CharField(max_length=50, null = True, blank = True)
     process = models.CharField(max_length=50, choices=PROCESS_OPTION_CHOICES)
     text_matter = models.CharField(max_length=50, choices=TEXT_MATTER_OPTION_CHOICES)
     etching = models.CharField(max_length=50, choices=ETCHING_OPTION_CHOICES)

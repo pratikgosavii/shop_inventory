@@ -174,26 +174,26 @@
                         <div style="border: 1px solid black; padding: 9px 6px;">
 
                             <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Customer Name</label>
+                                <label style="margin: 10px 0px !important;" for="customer" class="control-label mb-1">Customer Name</label>
                                 {{ form.customer }}
                             </div>
                             
                          
                             
                             <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Contact Person Name</label>
+                                <label style="margin: 10px 0px !important;" for="contance_person_no" class="control-label mb-1">Contact Person Name</label>
                                 <!-- Use the  attribute to make the input field read-only -->
                                 <input style="margin-left:10px !important;" name="contance_person_no" id="contance_person_no" type="text" value="" class="form-control" >
                             </div>
                             
                             <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Mobile Number</label>
+                                <label style="margin: 10px 0px !important;" for="contact_no" class="control-label mb-1">Mobile Number</label>
                                 <!-- Use the  attribute to make the input field read-only -->
                                 <input style="margin-left:10px !important;" name="contact_no" id="contact_no" type="text" value="" class="form-control" >
                             </div>
                             
                             <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Contact Email</label>
+                                <label style="margin: 10px 0px !important;" for="email" class="control-label mb-1">Contact Email</label>
                                 <!-- Use the  attribute to make the input field read-only -->
                                 <input style="margin-left:10px !important;" name="email" id="email" type="text" value="" class="form-control" >
                             </div>
@@ -213,7 +213,7 @@
                             </div> {% endcomment %}
 
                             <div style="display: flex; border: 1px solid black; padding: 9px 6px;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer Date</label>
+                                <label style="margin: 10px 0px !important;" for="date" class="control-label mb-1">Offer Date</label>
                                 <!-- Use the readonly attribute to make the input field read-only -->
                                 <input style="margin-left:10px !important;" name="date" id="date" type="datetime-local" value="{{ date|date:'Y-m-d\TH:i' }}" class="form-control" readonly>
                             </div>
@@ -221,7 +221,7 @@
 
 
                             <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Reference From</label>
+                                <label style="margin: 10px 0px !important;" for="reference_from" class="control-label mb-1">Reference From</label>
 
                                 <div>
                                         
@@ -264,7 +264,7 @@
                                 <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Item Code/ Drawing Number/ Project Number </p>
 
                                 <div>
-                                    <input type="textbox" name="item_code" id="item_code" class="form-control" id="checkbox1">
+                                    <input type="textbox" name="item_code" id="item_code" class="form-control" id="checkbox1" required>
                                 </div>
 
                                 <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Materials </p>
@@ -277,44 +277,44 @@
 
                                 <div>
 
-                                    <input type="radio" id="checkbox1" value="ss_304" name="material">
+                                    <input type="radio" id="checkbox1" value="ss_304" name="material" required>
                                     <label for="checkbox1">SS 304</label>
 
-                                    <input type="radio" id="checkbox1" value="ss_316" name="material">
+                                    <input type="radio" id="checkbox1" value="ss_316" name="material" required>
                                     <label for="checkbox1">SS 316</label>
 
-                                    <input type="radio" id="checkbox1" value="ss_316_L" name="material">
+                                    <input type="radio" id="checkbox1" value="ss_316_L" name="material" required>
                                     <label for="checkbox1">SS 316 L</label>
 
-                                    <input type="radio" id="checkbox1" value="aluminium_coil" name="material">
+                                    <input type="radio" id="checkbox1" value="aluminium_coil" name="material" required>
                                     <label for="checkbox1">Aluminium Coil</label>
 
-                                    <input type="radio" id="checkbox1" value="sheet_2S" name="material">
+                                    <input type="radio" id="checkbox1" value="sheet_2S" name="material" required>
                                     <label for="checkbox1">Sheet 2S</label>
 
-                                    <input type="radio" id="checkbox1" value="brass" name="material">
+                                    <input type="radio" id="checkbox1" value="brass" name="material" required>
                                     <label for="checkbox1">Brass</label>
 
-                                    <input type="radio" id="checkbox1" value="copper" name="material">
+                                    <input type="radio" id="checkbox1" value="copper" name="material" required>
                                     <label for="checkbox1">Copper</label>
 
-                                    <input type="radio" id="checkbox1" value="mild_sheel" name="material">
+                                    <input type="radio" id="checkbox1" value="mild_sheel" name="material" required>
                                     <label for="checkbox1">Mild Sheel</label>
 
-                                    <input type="radio" id="checkbox1" value="spring_sheel" name="material">
+                                    <input type="radio" id="checkbox1" value="spring_sheel" name="material" required>
                                     <label for="checkbox1">Spring Sheel</label>
 
-                                    <input type="radio" id="checkbox1" value="nickel" name="material">
+                                    <input type="radio" id="checkbox1" value="nickel" name="material" required>
                                     <label for="checkbox1">Nickel</label>
 
-                                    <input type="radio" id="checkbox1" value="beryllium_copper" name="material">
+                                    <input type="radio" id="checkbox1" value="beryllium_copper" name="material" required>
                                     <label for="checkbox1">Beryllium Copper</label>
 
-                                    <input type="radio" id="checkbox1" value="trifoliate_sandwich" name="material">
+                                    <input type="radio" id="checkbox1" value="trifoliate_sandwich" name="material" required>
                                     <label for="checkbox1">Trifoliate sandwich</label>
 
                                     <label for="checkbox1"> Any Other please mention</label>
-                                    <input type="textbox" class="form-control" id="checkbox1">
+                                    <input type="textbox" name="other_material" class="form-control" id="checkbox1">
 
                                 </div>
 
@@ -323,34 +323,34 @@
 
                                 <div>
 
-                                    <input type="radio" id="checkbox1" value="chemical_etching" name="process">
+                                    <input type="radio" id="checkbox1" value="chemical_etching" name="process" required>
                                     <label for="checkbox1">Chemical Etching</label>
 
-                                    <input type="radio" id="checkbox1" value="etching_laser_cutting" name="process">
+                                    <input type="radio" id="checkbox1" value="etching_laser_cutting" name="process" required>
                                     <label for="checkbox1">Etching + Laser Cutting</label>
 
                                     
-                                    <input type="radio" id="checkbox1" value="etching_laser_engraving" name="process">
+                                    <input type="radio" id="checkbox1" value="etching_laser_engraving" name="process" required>
                                     <label for="checkbox1"> Etching + Laser Engraving</label>
 
-                                    <input type="checkbox" id="checkbox1" value="chemical_milling" name="process">
+                                    <input type="checkbox" id="checkbox1" value="chemical_milling" name="process" required>
                                     <label for="checkbox1"> Chemical Milling</label>
 
-                                    <input type="checkbox" id="checkbox1" value="anodic_print" name="process">
+                                    <input type="checkbox" id="checkbox1" value="anodic_print" name="process" required>
                                     <label for="checkbox1">Anodic Print</label>
 
                             
-                                    <input type="checkbox" id="checkbox1" value="laser_cutting" name="process">
+                                    <input type="checkbox" id="checkbox1" value="laser_cutting" name="process" required>
                                     <label for="checkbox1">Laser Cutting</label>
 
-                                    <input type="checkbox" id="checkbox1" value="laser_cutting_coating" name="process">
+                                    <input type="checkbox" id="checkbox1" value="laser_cutting_coating" name="process" required>
                                     <label for="checkbox1">Laser Cutting + Coating</label>
 
-                                    <input type="checkbox" id="checkbox1" value="stamping" name="process">
+                                    <input type="checkbox" id="checkbox1" value="stamping" name="process" required>
                                     <label for="checkbox1">Stamping</label>
 
 
-                                    <input type="checkbox" id="checkbox1" value="injection_mould_texturing" name="process">
+                                    <input type="checkbox" id="checkbox1" value="injection_mould_texturing" name="process" required>
                                     <label for="checkbox1"> Injection Mould Texturing </label>
 
                                 </div>
@@ -361,49 +361,49 @@
                                 <div>
                                     <div>
 
-                                        <input type="radio" id="checkbox144" value="144" name="sqinch">
+                                        <input type="radio" id="checkbox144" value="144" name="sqinch" required>
                                         <label for="checkbox144">144</label>
 
                                         
-                                        <input type="radio" id="checkbox2" value="288" name="sqinch">
+                                        <input type="radio" id="checkbox2" value="288" name="sqinch" required>
                                         <label for="checkbox2">288</label>
                                         
-                                        <input type="radio" id="checkbox3" value="432" name="sqinch">
+                                        <input type="radio" id="checkbox3" value="432" name="sqinch" required>
                                         <label for="checkbox3">432</label>
                                     
                                     </div>
 
                                     <div>
 
-                                        <input type="radio" id="checkbox3" value="576" name="sqinch">
+                                        <input type="radio" id="checkbox3" value="576" name="sqinch" required>
                                         <label for="checkbox3">576</label>
                                         
                                     </div>
                                                             
                                     <div>
 
-                                        <input type="radio" id="checkbox4" value="720" name="sqinch">
+                                        <input type="radio" id="checkbox4" value="720" name="sqinch" required>
                                         <label for="checkbox4">720</label>
 
-                                        <input type="radio" id="checkbox4" value="864" name="sqinch">
+                                        <input type="radio" id="checkbox4" value="864" name="sqinch" required>
                                         <label for="checkbox4">864</label>
 
-                                        <input type="radio" id="checkbox4" value="1008" name="sqinch">
+                                        <input type="radio" id="checkbox4" value="1008" name="sqinch" required>
                                         <label for="checkbox4">1008</label>
                                         
-                                        <input type="radio" id="checkbox5" value="1152" name="sqinch">
+                                        <input type="radio" id="checkbox5" value="1152" name="sqinch" required>
                                         <label for="checkbox5">1152</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
                                         
-                                        <input type="radio" id="checkbox6" value="1296" name="sqinch">
+                                        <input type="radio" id="checkbox6" value="1296" name="sqinch" required>
                                         <label for="checkbox6">1296</label>
                                         
-                                        <input type="radio" id="checkbox7" value="1440" name="sqinch">
+                                        <input type="radio" id="checkbox7" value="1440" name="sqinch" required>
                                         <label for="checkbox7">1440</label>
                                         
-                                        <input type="radio" id="checkbox8" value="1584" name="sqinch">
+                                        <input type="radio" id="checkbox8" value="1584" name="sqinch" required>
                                         <label for="checkbox8">1584</label>
 
-                                        <input type="radio" id="checkbox9" value="1728" name="sqinch">
+                                        <input type="radio" id="checkbox9" value="1728" name="sqinch" required>
                                         <label for="checkbox9">1728</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
                                         
                                     </div>
@@ -411,75 +411,75 @@
                                                                 
                                     <div>
 
-                                        <input type="radio" id="checkbox10" value="1872" name="sqinch">
+                                        <input type="radio" id="checkbox10" value="1872" name="sqinch" required>
                                         <label for="checkbox10">1872</label>
                                     
-                                        <input type="radio" id="checkbox10" value="2016" name="sqinch">
-                                        <label for="checkbox10">2016</label>
+                                        <input type="radio" id="checkbox12" value="2016" name="sqinch" required>
+                                        <label for="checkbox12">2016</label>
 
-                                        <input type="radio" id="checkbox10" value="2160" name="sqinch">
-                                        <label for="checkbox10">2160</label>
+                                        <input type="radio" id="checkbox13" value="2160" name="sqinch" required>
+                                        <label for="checkbox13">2160</label>
                                         
-                                        <input type="radio" id="checkbox10" value="2304" name="sqinch">
-                                        <label for="checkbox10">2304</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
+                                        <input type="radio" id="checkbox14" value="2304" name="sqinch" required>
+                                        <label for="checkbox41">2304</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
                                         
-                                        <input type="radio" id="checkbox10" value="2448" name="sqinch">
-                                        <label for="checkbox10">2448</label>
+                                        <input type="radio" id="checkbox15" value="2448" name="sqinch" required>
+                                        <label for="checkbox15">2448</label>
                                         
-                                        <input type="radio" id="checkbox10" value="2592" name="sqinch">
-                                        <label for="checkbox10">2592</label>
+                                        <input type="radio" id="checkbox16" value="2592" name="sqinch" required>
+                                        <label for="checkbox16">2592</label>
                                         
-                                        <input type="radio" id="checkbox10" value="2736" name="sqinch">
-                                        <label for="checkbox10">2736</label>
+                                        <input type="radio" id="checkbox17" value="2736" name="sqinch" required>
+                                        <label for="checkbox17">2736</label>
                                         
-                                        <input type="radio" id="checkbox10" value="2880" name="sqinch">
-                                        <label for="checkbox10">2880</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
+                                        <input type="radio" id="checkbox17" value="2880" name="sqinch" required>
+                                        <label for="checkbox17">2880</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
                                         
                                     </div>
 
                                                                 
                                     <div>
 
-                                        <input type="radio" id="checkbox10" value="3024" name="sqinch">
-                                        <label for="checkbox10">3024</label>
+                                        <input type="radio" id="checkbox18" value="3024" name="sqinch" required>
+                                        <label for="checkbox18">3024</label>
 
-                                        <input type="radio" id="checkbox10" value="3168" name="sqinch">
-                                        <label for="checkbox10">3168</label>
+                                        <input type="radio" id="checkbox19" value="3168" name="sqinch" required>
+                                        <label for="checkbox19">3168</label>
                                         
-                                        <input type="radio" id="checkbox10" value="3312" name="sqinch">
-                                        <label for="checkbox10">3312</label>
+                                        <input type="radio" id="checkbox20" value="3312" name="sqinch" required>
+                                        <label for="checkbox20">3312</label>
                                         
-                                        <input type="radio" id="checkbox10" value="3456" name="sqinch">
-                                        <label for="checkbox10">3456</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span>
+                                        <input type="radio" id="checkbox21" value="3456" name="sqinch" required>
+                                        <label for="checkbox21">3456</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span>
                                         
-                                        <input type="radio" id="checkbox10" value="3600" name="sqinch">
-                                        <label for="checkbox10">3600</label>
+                                        <input type="radio" id="checkbox22" value="3600" name="sqinch" required>
+                                        <label for="checkbox22">3600</label>
                                         
-                                        <input type="radio" id="checkbox10" value="3744" name="sqinch">
-                                        <label for="checkbox10">3744</label>
+                                        <input type="radio" id="checkbox23" value="3744" name="sqinch" required>
+                                        <label for="checkbox23">3744</label>
 
-                                        <input type="radio" id="checkbox10" value="3888" name="sqinch">
-                                        <label for="checkbox10">3888</label>
+                                        <input type="radio" id="checkbox23" value="3888" name="sqinch" required>
+                                        <label for="checkbox23">3888</label>
                                         
-                                        <input type="radio" id="checkbox10" value="4032" name="sqinch">
-                                        <label for="checkbox10">4032</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span>
+                                        <input type="radio" id="checkbox24" value="4032" name="sqinch" required>
+                                        <label for="checkbox24">4032</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span>
                                         
-                                        <input type="radio" id="checkbox10" value="4176" name="sqinch">
-                                        <label for="checkbox10">4176</label>
+                                        <input type="radio" id="checkbox25" value="4176" name="sqinch" required>
+                                        <label for="checkbox25">4176</label>
                                         
-                                        <input type="radio" id="checkbox10" value="4320" name="sqinch">
-                                        <label for="checkbox10">4320</label> 
+                                        <input type="radio" id="checkbox26" value="4320" name="sqinch" required>
+                                        <label for="checkbox26">4320</label> 
                                         
-                                        <input type="radio" id="checkbox10" value="4464" name="sqinch">
-                                        <label for="checkbox10">4464</label> 
+                                        <input type="radio" id="checkbox26" value="4464" name="sqinch" required>
+                                        <label for="checkbox26">4464</label> 
                                         
                                     </div>
                                         
 
                                     <div>
 
-                                        <input type="radio" id="checkbox10" value="4608" name="sqinch">
-                                        <label for="checkbox10">4608</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
+                                        <input type="radio" id="checkbox27" value="4608" name="sqinch" required>
+                                        <label for="checkbox27">4608</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
                                     </div>
 
                                 </div>
@@ -490,8 +490,8 @@
                                 <div>
                                     
                                     <div style="display: flex; gap : 20px;">
-                                        <label for="checkbox1">Length</label>
-                                        <input type="number" name="length" class="form-control" id="length_a">
+                                        <label for="length_a">Length</label>
+                                        <input type="number" name="length" class="form-control" id="length_a" required>
                                         <select id="mm_inch_select"> 
                                             <option value="1"> MM </option>
                                             <option value="2"> Inch </option>
@@ -500,51 +500,51 @@
                                     
 
                                     <div style="display: flex; gap : 20px;">
-                                        <label for="checkbox1">Width</label>
-                                        <input type="number" name="width" class="form-control" id="width_a">
+                                        <label for="width_a">Width</label>
+                                        <input type="number" name="width" class="form-control" id="width_a" required>
                                     </div>
                                     
 
-                                    <label for="checkbox1"> Total Qty in Number</label>
-                                    <input type="number" class="form-control" name="quantity" id="quantity_a">
+                                    <label for="quantity_a"> Total Qty in Number</label>
+                                    <input type="number" class="form-control" name="quantity" id="quantity_a" required>
 
-                                    <label for="checkbox1" id=" total_sq_inch_label"> Total Sq Inch </label>
-                                    <input type="textbox" class="form-control" name="total_sq_inch" id="total_sq_inch">
+                                    <label for="total_sq_inch"> Total Sq Inch </label>
+                                    <input type="textbox" class="form-control" name="total_sq_inch" id="total_sq_inch" required>
 
                                 </div>
 
                                 <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Text Matter </p>
                                                     
                                 
-                                <input type="radio" id="standard_text_matter" value="standard_text_matter" name="text_matter">
-                                <label for="checkbox2">Standard Text Matter</label>
+                                <input type="radio" id="standard_text_matter" value="standard_text_matter" name="text_matter" required>
+                                <label for="standard_text_matter">Standard Text Matter</label>
 
-                                <input type="radio" id="variable_text_matter_text_matter" value="variable_text_matter" name="text_matter">
-                                <label for="checkbox1">Variable Text Matter</label>
+                                <input type="radio" id="variable_text_matter_text_matter" value="variable_text_matter" name="text_matter" required>
+                                <label for="variable_text_matter_text_matter">Variable Text Matter</label>
                                     
                                 
                                 <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">Type of Etching </p>
                                                         
                                     
-                                <input type="radio" id="deep_etching" value="deep_etching" name="etching">
-                                <label for="checkbox2">Deep Etching</label>
+                                <input type="radio" id="deep_etching" value="deep_etching" name="etching" required>
+                                <label for="deep_etching">Deep Etching</label>
 
-                                <input type="radio" id="embossed_etching" value="embossed_etching" name="etching">
-                                <label for="checkbox1">Embossed Etching</label>
+                                <input type="radio" id="embossed_etching" value="embossed_etching" name="etching" required>
+                                <label for="embossed_etching">Embossed Etching</label>
 
                                 <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Color Avaiable for Nameplate, Metal Business Card </p>
                                                     
                             
                                 <div>
         
-                                    <input type="radio" value="1" name="color_count">
-                                    <label for="checkbox1">1</label>
+                                    <input type="radio" value="1" id="color_count1" name="color_count" required>
+                                    <label for="color_count1">1</label>
         
-                                    <input type="radio" value="2" name="color_count">
-                                    <label for="checkbox1">2</label>
+                                    <input type="radio" value="2" id="color_count2" name="color_count" required>
+                                    <label for="color_count2">2</label>
         
-                                    <input type="radio" value="multi_color" name="color_count">
-                                    <label for="checkbox1">Multi Color up to 4 Color (Printing - Silk Screen)</label>
+                                    <input type="radio" value="multi_color" id="color_count3" name="color_count" required>
+                                    <label for="color_count3">Multi Color up to 4 Color (Printing - Silk Screen)</label>
         
                                 </div>
                         
@@ -556,20 +556,20 @@
 
                                 <div>
 
-                                    <input type="radio" id="checkbox1" value="black" name="color">
-                                    <label for="checkbox1">Black</label>
+                                    <input type="radio" id="color_choose1" value="black" name="color" required>
+                                    <label for="color_choose1">Black</label>
 
-                                    <input type="radio" id="checkbox1" value="blue" name="color">
-                                    <label for="checkbox1">Blue</label>
+                                    <input type="radio" id="color_choose2" value="blue" name="color" required>
+                                    <label for="color_choose2">Blue</label>
 
-                                    <input type="radio" id="checkbox1" value="red" name="color">
-                                    <label for="checkbox1">Red</label>
+                                    <input type="radio" id="color_choose3" value="red" name="color" required>
+                                    <label for="color_choose3">Red</label>
 
-                                    <input type="radio" id="checkbox1" value="green" name="color">
-                                    <label for="checkbox1">Green</label>
+                                    <input type="radio" id="color_choose4" value="green" name="color" required>
+                                    <label for="color_choose4">Green</label>
 
-                                    <input type="radio" id="checkbox1" value="yellow" name="color">
-                                    <label for="checkbox1">Yellow</label>
+                                    <input type="radio" id="color_choose5" value="yellow" name="color" required>
+                                    <label for="color_choose5">Yellow</label>
                                 
                                 </div>
 
@@ -578,34 +578,34 @@
 
                                 <div>
                                     
-                                    <input type="radio" id="font_heightid1" value="1" name="font_height">
+                                    <input type="radio" id="font_heightid1" value="1" name="font_height" required>
                                     <label for="font_heightid1">1</label>
                                     
-                                    <input type="radio" id="font_heightid2" value="2" name="font_height">
+                                    <input type="radio" id="font_heightid2" value="2" name="font_height" required>
                                     <label for="font_heightid2">2</label>
                                     
-                                    <input type="radio" id="font_heightid3" value="3" name="font_height">
+                                    <input type="radio" id="font_heightid3" value="3" name="font_height" required>
                                     <label for="font_heightid3">3</label>
                                     
-                                    <input type="radio" id="font_heightid4" value="4" name="font_height">
+                                    <input type="radio" id="font_heightid4" value="4" name="font_height" required>
                                     <label for="font_heightid4">4</label>
                                     
-                                    <input type="radio" id="font_heightid5" value="5" name="font_height">
+                                    <input type="radio" id="font_heightid5" value="5" name="font_height" required>
                                     <label for="font_heightid5">5</label>
                                     
-                                    <input type="radio" id="font_heightid6" value="6" name="font_height">
+                                    <input type="radio" id="font_heightid6" value="6" name="font_height" required>
                                     <label for="font_heightid6">6</label>
                                     
-                                    <input type="radio" id="font_heightid7" value="7" name="font_height">
+                                    <input type="radio" id="font_heightid7" value="7" name="font_height" required>
                                     <label for="font_heightid7">7</label>
 
-                                    <input type="radio" id="font_heightid8" value="8" name="font_height">
+                                    <input type="radio" id="font_heightid8" value="8" name="font_height" required>
                                     <label for="font_heightid8">8</label>
                                     
-                                    <input type="radio" id="font_heightid9" value="above_8" name="font_height">
+                                    <input type="radio" id="font_heightid9" value="above_8" name="font_height" required>
                                     <label for="font_heightid9">Above 8</label>
 
-                                    <input type="radio" id="font_heightid10" value="combination_of_1to8" name="font_height">
+                                    <input type="radio" id="font_heightid10" value="combination_of_1to8" name="font_height" required>
                                     <label for="font_heightid10">Combination of 1 to 8</label>
                                     
                                         
@@ -618,50 +618,50 @@
                         
                                 <div>
         
-                                    <input type="radio" value="0.1" name="thickness">
-                                    <label for="checkbox1" value="checkbox1">0.1</label>
+                                    <input type="radio" value="0.1" id="thickness1" name="thickness" required>
+                                    <label for="thickness1" value="checkbox1">0.1</label>
                                 
-                                    <input type="radio" value="0.2" name="thickness">
-                                    <label for="checkbox2" value="checkbox2">0.2</label>
+                                    <input type="radio" value="0.2" id="thickness2" name="thickness" required>
+                                    <label for="thickness2" value="checkbox2">0.2</label>
                                 
-                                    <input type="radio" value="0.3" name="thickness">
-                                    <label for="checkbox3" value="checkbox3">0.3</label>
+                                    <input type="radio" value="0.3" id="thickness3" name="thickness" required>
+                                    <label for="thickness3" value="checkbox3">0.3</label>
                                 
-                                    <input type="radio" value="0.4" name="thickness">
-                                    <label for="checkbox4" value="checkbox4">0.4</label>
+                                    <input type="radio" value="0.4" id="thickness4" name="thickness" required>
+                                    <label for="thickness4" value="checkbox4">0.4</label>
                                 
-                                    <input type="radio" value="0.5" name="thickness">
-                                    <label for="checkbox5" value="checkbox5">0.5</label>
+                                    <input type="radio" value="0.5" id="thickness5" name="thickness" required>
+                                    <label for="thickness5" value="checkbox5">0.5</label>
                                 
-                                    <input type="radio" value="0.6" name="thickness">
-                                    <label for="checkbox6" value="checkbox6">0.6</label>
+                                    <input type="radio" value="0.6" id="thickness6" name="thickness" required>
+                                    <label for="thickness6" value="checkbox6">0.6</label>
                                 
-                                    <input type="radio" value="0.7" name="thickness">
-                                    <label for="checkbox7" value="checkbox7">0.7</label>
+                                    <input type="radio" value="0.7" id="thickness7" name="thickness" required>
+                                    <label for="thickness7" value="checkbox7">0.7</label>
                                 
-                                    <input type="radio" value="0.8" name="thickness">
-                                    <label for="checkbox8" value="checkbox8">0.8</label>
+                                    <input type="radio" value="0.8" id="thickness8" name="thickness" required>
+                                    <label for="thickness8" value="checkbox8">0.8</label>
                                 
-                                    <input type="radio" value="0.9" name="thickness">
-                                    <label for="checkbox9" value="">0.9</label>
+                                    <input type="radio" value="0.9" id="thickness9" name="thickness" required>
+                                    <label for="thickness9" value="">0.9</label>
                                 
-                                    <input type="radio" value="1.0" name="thickness">
-                                    <label for="checkbox10" value="">1.0</label>
+                                    <input type="radio" value="1.0" id="thickness10" name="thickness" required>
+                                    <label for="thickness10" value="">1.0</label>
                                 
-                                    <input type="radio" value="1.2" name="thickness">
-                                    <label for="checkbox11" value="">1.2</label>
+                                    <input type="radio" value="1.2" id="thickness11" name="thickness" required>
+                                    <label for="thickness11" value="">1.2</label>
                                 
-                                    <input type="radio" value="1.5" name="thickness">
-                                    <label for="checkbox12" value="">1.5</label>
+                                    <input type="radio" value="1.5" id="thickness12" name="thickness" required>
+                                    <label for="thickness12" value="">1.5</label>
                                 
-                                    <input type="radio" value="2" name="thickness">
-                                    <label for="checkbox13" value="">2</label>
+                                    <input type="radio" value="2" id="thickness13" name="thickness" required>
+                                    <label for="thickness13" value="">2</label>
                                 
-                                    <input type="radio" value="checkbox14" name="thickness">
-                                    <label for="checkbox14" value="2.5">2.5</label>
+                                    <input type="radio" value="2.5" id="thickness14" name="thickness" required>
+                                    <label for="thickness14" value="2.5">2.5</label>
                                 
-                                    <input type="radio" value="3" name="thickness">
-                                    <label for="checkbox15" value="">3.0</label>
+                                    <input type="radio" value="3" id="thickness15" name="thickness" required>
+                                    <label for="thickness15" value="">3.0</label>
                                 
                                 </div>
 
@@ -711,9 +711,9 @@
 
                                     <div>
 
-                                        <label for="checkbox1"> Basic Amount</label>
+                                        <label for="total_basic_amount"> Basic Amount</label>
 
-                                        <input type="number" name="basic_amount" id="total_basic_amount" class="form-control">
+                                        <input type="number" name="basic_amount" id="total_basic_amount" class="form-control" required>
 
                                     </div>
                                 </div>
@@ -722,30 +722,23 @@
 
                                 <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> GST (IGST, SGST)</p>
 
-                                <div>
-                                    
                                     <div>
-
-                                        <input type="radio" id="with_material_gst" value="with_gst" name="charges_type_group">
-                                        <label for="checkbox1">  With Material GST @18 % </label>
-                                        
+                                        <input type="radio" id="with_material_gst" value="with_gst" name="charges_type_group" required>
+                                        <label for="with_material_gst">With Material GST @18%</label>
                                     </div>
                                     <div>
-                                        <label for="checkbox1"> Total With GST </label>
+                                        <label for="total_with_gst">Total With GST</label>
                                         <input type="text" name="total_with_gst" id="total_with_gst" class="form-control" readonly>
                                     </div>
-
-                                    
-                                </div>
-
-                                <div>
-                                    <input type="radio" name="charges_type_group" value="with_job_shop" id="with_job_shop_radio">
-                                    <label for="with_job_shop_radio"> With Labour Charges GST @12%</label>
+                                
                                     <div>
-                                        <label for="total_with_job_shop">Total</label>
-                                        <input type="text" name="total_with_job_shop" id="total_with_job_shop" class="form-control" readonly>
+                                        <input type="radio" name="charges_type_group" value="with_job_shop" id="with_job_shop_radio" required>
+                                        <label for="with_job_shop_radio">With Labour Charges GST @12%</label>
+                                        <div>
+                                            <label for="total_with_job_shop">Total</label>
+                                            <input type="text" name="total_with_job_shop" id="total_with_job_shop" class="form-control" readonly>
+                                        </div>
                                     </div>
-                                </div>
                                         
                                 <label for="checkbox1"> Total Amount </label>
                                 <input type="text" name="total_amount_with_charges_type" id="total_amount_with_charges_type" class="form-control">
@@ -772,16 +765,16 @@
                                 
                                 <div>
                                     
-                                    <input type="radio" id="flim_charges1" value="inclusive" name="flim_charges" >
+                                    <input type="radio" id="flim_charges1" value="inclusive" name="flim_charges" required >
                                     <label for="flim_charges1">Inclusive</label>
 
-                                    <input type="radio" id="sqinch_flim_option" value="sqinch" name="flim_charges">
+                                    <input type="radio" id="sqinch_flim_option" value="sqinch" name="flim_charges" required>
                                     <label for="sqinch_flim_option"> Sq Inch </label>
                                     
 
                                         <select id="sqinch" name="flim_sqinch"></select>
                                 
-                                    <label for="checkbox1"> Extra Charges Rs </label>
+                                    <label for="flim_charges_total"> Extra Charges Rs </label>
                                     <input type="text" id="flim_charges_total" name="flim_charges_total" readonly>
 
                                 </div>
@@ -792,10 +785,10 @@
 
                                 <div>
                                     
-                                    <input type="radio" id="min_font_height1" value="1mm" name="min_font_height">
+                                    <input type="radio" id="min_font_height1" value="1mm" name="min_font_height" required>
                                     <label for="min_font_height1">1mm</label>
 
-                                    <input type="radio" id="min_font_height2" value="600mm" name="min_font_height">
+                                    <input type="radio" id="min_font_height2" value="600mm" name="min_font_height" required>
                                     <label for="min_font_height2"> 600 mm </label>
                         
                                 </div>
@@ -806,16 +799,16 @@
 
                                 <div>
                                     
-                                    <input type="radio" id="certificate_cost_free" value="Free_along_with_invoice" name="certificate_cost">
-                                    <label for="checkbox1"> Free along with invoice</label>
+                                    <input type="radio" id="certificate_cost_free" value="Free_along_with_invoice" name="certificate_cost" required>
+                                    <label for="certificate_cost_free"> Free along with invoice</label>
 
-                                    <input type="radio"  id="no_certificate" value="No_certification" name="certificate_cost">
-                                    <label for="checkbox1"> No Certificate </label>
+                                    <input type="radio"  id="no_certificate" value="No_certification" name="certificate_cost" required>
+                                    <label for="no_certificate"> No Certificate </label>
 
                                     <div>
 
-                                        <input type="radio"  id="certificate_cost_charge" value="Extra_Charges" name="certificate_cost">
-                                        <label for="checkbox1"> Extra Charges Rs. </label>
+                                        <input type="radio"  id="certificate_cost_charge" value="Extra_Charges" name="certificate_cost" required>
+                                        <label for="certificate_cost_charge"> Extra Charges Rs. </label>
                                         <select id="certificate_cost_amount" name="certificate_price"></select>
 
                                     </div>
@@ -830,11 +823,11 @@
 
                                 <div>
                                     
-                                    <input type="radio" id="Free" value="Free_in_case_confirm_Order" name="sample">
-                                    <label for="checkbox1"> Free in case confirm Order </label>
+                                    <input type="radio" id="Free" value="Free_in_case_confirm_Order" name="sample" required>
+                                    <label for="Free"> Free in case confirm Order </label>
 
-                                    <input type="radio" id="sample_cha" value="Extra_Charges_Rs" name="sample">
-                                    <label for="checkbox1"> Extra Charges Rs. </label>
+                                    <input type="radio" id="sample_cha" value="Extra_Charges_Rs" name="sample" required>
+                                    <label for="sample_cha"> Extra Charges Rs. </label>
                                     <input type="textbox" value="0" id="sample_price" name="sample_price">
                                 
 
@@ -844,6 +837,10 @@
                                 <br>
 
                                 <div>
+                                    
+
+                                    <label for="checkbox1">  Total Sqinch </label>
+                                    <input type="textbox" name="total_sqinch" id="total_sqinch" required>
                                     
                                     <label for="checkbox1"> Final Total </label>
                                     <input type="textbox" name="final_item_total" id="final_item_total">
@@ -1520,6 +1517,9 @@
                         
                         get_value_total = final_price.toFixed(2) * quantity_a
 
+                        update_other_values();
+
+
                     }
 
 
@@ -1527,7 +1527,6 @@
             });
         }
 
-                update_other_values();
 
         
                 
@@ -1625,6 +1624,8 @@ function update_other_values(){
     // Check if the event object exists and has the target property
     if (chargeRadioButton1.checked) {
 
+        alert('1')
+
         // Call your function here
         var basic_amount = parseFloat(document.getElementById("total_basic_amount").value);
         const amount_with_gst = (basic_amount / 100) * 12;
@@ -1651,6 +1652,9 @@ function update_other_values(){
 
     }
     if (chargeRadioButton2.checked) {
+
+        alert('2')
+
         // Call your function here
         var basic_amount = parseFloat(document.getElementById("total_basic_amount").value);
         const amount_with_gst = (basic_amount / 100) * 18;
@@ -2011,7 +2015,7 @@ function handleSubmit(event) {
 }
 
 // Initialize event listener for form submission
-document.getElementById('submitButton').addEventListener('click', handleSubmit);
+document.getElementById('orderForm').addEventListener('submit', handleSubmit);
 
 
 
@@ -2020,7 +2024,7 @@ function calculateTotal() {
 
     var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
 
-    document.getElementById('final_sqinch').value = 'final_sqinch'
+    document.getElementById('final_sqinch').value = final_sqinch
 
 
     var totalFinalAmount = orders.reduce((acc, obj) => acc + parseFloat(obj.final_item_total), 0);
