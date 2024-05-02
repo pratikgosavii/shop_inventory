@@ -9,7 +9,15 @@ importScripts('https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js');
 // messagingSenderId.
 firebase.initializeApp({
   // Replace messagingSenderId with yours
-  'messagingSenderId': '1072169977465'
+  
+
+  apiKey : "AIzaSyBqaqW0SMq8SPHCWX9QKpShGValpYyV2bs" , 
+            authDomain : "namasterapidtax-a92e7.firebaseapp.com" , 
+            projectId : "namasterapidtax-a92e7" , 
+            storageBucket : "namasterapidtax-a92e7.appspot.com" , 
+            messagingSenderId : "1072169977465" , 
+            appId : "1:1072169977465:web:7b63186ed7f120943b76a8" , 
+            measurementId : "G-VTWK2QSFXM" 
 });
 
 // Retrieve an instance of Firebase Messaging so that it can handle background
