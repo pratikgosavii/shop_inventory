@@ -164,6 +164,11 @@ PUSH_NOTIFICATIONS_SETTINGS = {
     "USE_TLS": True,
 }
 
+# settings.py
+
+FIREBASE_SERVER_KEY = 'Your-Firebase-Server-Key'
+
+
 
 
 # settings.py

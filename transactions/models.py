@@ -14,8 +14,8 @@ from store.models import *
 class request_material(models.Model):
 
     category = models.ForeignKey(category , on_delete=models.CASCADE, related_name='dscdc')
-    size = models.ForegnKey(size , on_delete=models.CASCADE, related_name='sdcdscd')
-    employee_name = modiels.CharField(max_length=50, null = True, blank = True)
+    size = models.ForeignKey(size , on_delete=models.CASCADE, related_name='sdcdscd')
+    employee_name = models.CharField(max_length=50, null = True, blank = True)
     bags = models.BigIntegerField()
     customer_name = models.ForeignKey(customer , on_delete=models.CASCADE, related_name='dscdc')
     DC_number = models.CharField(max_length=50)

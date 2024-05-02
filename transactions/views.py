@@ -356,6 +356,21 @@ def list_order(request):
     return render(request, 'transactions/list_orders.html', context)
 
 
+# views.py
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def subscribe(request):
+    if request.method == 'POST':
+        subscription_data = json.loads(request.body)
+        # Store subscription_data in your database
+        return JsonResponse({'success': True})
+
+
+
+
 
 import csv
 
