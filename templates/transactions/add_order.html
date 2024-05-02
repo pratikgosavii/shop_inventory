@@ -1,93 +1,87 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Firebase Push Notifications</title>
-  <!-- Firebase JavaScript SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.3/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.3/firebase-messaging.js"></script>
-  <script>
-    // Initialize Firebase
-    const firebaseConfig = {
-        apiKey : "AIzaSyBqaqW0SMq8SPHCWX9QKpShGValpYyV2bs" , 
-        authDomain : "namasterapidtax-a92e7.firebaseapp.com" , 
-        projectId : "namasterapidtax-a92e7" , 
-        storageBucket : "namasterapidtax-a92e7.appspot.com" , 
-        messagingSenderId : "1072169977465" , 
-        appId : "1:1072169977465:web:7b63186ed7f120943b76a8" , 
-        measurementId : "G-VTWK2QSFXM" 
-    };
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCM Example</title>
+    <!-- Include Firebase SDK -->
 
-    firebase.initializeApp(firebaseConfig);
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
+        import { getMessaging, getToken, onMessage  } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js'
 
-    // Retrieve Firebase Messaging object.
-    const messaging = firebase.messaging();
+        // Your Firebase project configuration
+		const firebaseConfig = {
+            apiKey : "AIzaSyBqaqW0SMq8SPHCWX9QKpShGValpYyV2bs" , 
+            authDomain : "namasterapidtax-a92e7.firebaseapp.com" , 
+            projectId : "namasterapidtax-a92e7" , 
+            storageBucket : "namasterapidtax-a92e7.appspot.com" , 
+            messagingSenderId : "1072169977465" , 
+            appId : "1:1072169977465:web:7b63186ed7f120943b76a8" , 
+            measurementId : "G-VTWK2QSFXM" 
+		};
+		
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
 
-    // Request permission for push notifications.
-    messaging.requestPermission().then(() => {
-      console.log('Notification permission granted.');
+        console.log(app)
+        // Get FCM token on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            const messaging = getMessaging(app);
 
-      // Get registration token. Initially this makes a network call, once retrieved
-      // subsequent calls to getToken will return from cache.
-      messaging.getToken().then((currentToken) => {
-        if (currentToken) {
-          sendTokenToServer(currentToken);
-          updateUIForPushEnabled(currentToken);
-        } else {
-          console.log('No registration token available. Request permission to generate one.');
-          updateUIForPushPermissionRequired();
-          setTokenSentToServer(false);
-        }
-      }).catch((err) => {
-        console.log('An error occurred while retrieving token. ', err);
-        showToken('Error retrieving registration token. ', err);
-        setTokenSentToServer(false);
-      });
-    }).catch((err) => {
-      console.log('Unable to get permission to notify.', err);
-    });
+            getToken(messaging, { vapidKey: 'BKUlEXriMalHhdxTrtG5D8w3hhzEOuJFa18chtoWEhRJmYn0poji_xen-mLbOP-CcA5XYSrT5DRZD0HVe7_VxiY' })
+                .then((currentToken) => {
+                    if (currentToken) {
+                        console.log('FCM Token:', currentToken);
+                        document.getElementById('token').innerText = currentToken;
+                    } else {
+                        console.log('No registration token available. Request permission to generate one.');
+                    }
+                })
+                .catch((err) => {
+                    console.log('An error occurred while retrieving token:', err);
+                });
+			});
+		
+			onMessage(function (payload) {
+				console.log("Message received. ", JSON.stringify(payload));
+			});
 
-    // Handle received push notifications while app is in foreground.
-    messaging.onMessage((payload) => {
-      console.log('Message received. ', payload);
-      // Customize notification handling here.
-    });
+        // Listen for incoming messages
+        navigator.serviceWorker.addEventListener('message', (event) => {
+			console.log('Received FCM message:', event.data);
+			const { title, body } = event.data;
 
-    // Send the registration token to your server.
-    function sendTokenToServer(currentToken) {
-      if (!isTokenSentToServer()) {
-        console.log('Sending token to server...');
-        // Send token to your server to associate it with the user.
-        setTokenSentToServer(true);
-      } else {
-        console.log('Token already sent to server so won\'t send it again unless it changes.');
-      }
-    }
-
-    // Set the flag indicating whether the token has been sent to the server.
-    function setTokenSentToServer(sent) {
-      window.localStorage.setItem('sentToServer', sent ? '1' : '0');
-    }
-
-    function isTokenSentToServer() {
-      return window.localStorage.getItem('sentToServer') === '1';
-    }
-
-    // Update the UI for when push notifications are enabled.
-    function updateUIForPushEnabled(currentToken) {
-      console.log('Token generated:', currentToken);
-      // Customize UI for push enabled state.
-    }
-
-    // Update the UI to request permission to enable push notifications.
-    function updateUIForPushPermissionRequired() {
-      console.log('Push permission required.');
-      // Customize UI to request permission to enable push notifications.
-    }
-  </script>
+			if (!("Notification" in window)) {
+				console.log("This browser does not support desktop notification");
+			} else if (Notification.permission === "granted") {
+				const notification = new Notification(title, { body });
+				// Handle notification click event
+				notification.onclick = function () {
+					// Handle notification click, e.g., open a specific page
+					window.open('https://example.com', '_blank');
+				};
+			} else if (Notification.permission !== "denied") {
+				Notification.requestPermission().then(function (permission) {
+					if (permission === "granted") {
+						const notification = new Notification(title, { body });
+						// Handle notification click event
+						notification.onclick = function () {
+							// Handle notification click, e.g., open a specific page
+							window.open('https://example.com', '_blank');
+						};
+					}
+				});
+			}
+		});
+    </script>
 </head>
+
 <body>
-  <!-- Place your HTML content here -->
+    <h1>FCM Example</h1>
+    <p>FCM Token: <span id="token"></span></p>
 </body>
+
 </html>
