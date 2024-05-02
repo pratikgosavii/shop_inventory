@@ -32,10 +32,17 @@
         document.addEventListener('DOMContentLoaded', function () {
             const messaging = getMessaging(app);
 
-          
-            // Set the path to the service worker script
-            messaging.useServiceWorker(new URL('{% static "firebase-messaging-sw.js" %}', import.meta.url));
+
+            // Retrieve Firebase Messaging object.
         
+            // Specify the path to the service worker script
+            navigator.serviceWorker.register('{% static "firebase-messaging-sw.js"%}').then((registration) => {
+              messaging.useServiceWorker(registration);
+            }).catch((err) => {
+              console.error('Error registering service worker:', err);
+            });
+        
+           
 
             getToken(messaging, { vapidKey: 'BL0fZe1VjzDW7CJQd4IO9f_OP5AMOAiWBHQ_MxKMl1dVPmiDaWCOJTwCCe89qSlZYSnEgstltOM3sqauY4LARPk' })
                 .then((currentToken) => {
