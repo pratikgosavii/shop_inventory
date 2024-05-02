@@ -39,51 +39,89 @@
           
            
 
-            getToken(messaging, { vapidKey: 'BL0fZe1VjzDW7CJQd4IO9f_OP5AMOAiWBHQ_MxKMl1dVPmiDaWCOJTwCCe89qSlZYSnEgstltOM3sqauY4LARPk' })
-                .then((currentToken) => {
-                    if (currentToken) {
-                        console.log('FCM Token:', currentToken);
-                        document.getElementById('token').innerText = currentToken;
-                    } else {
-                        console.log('No registration token available. Request permission to generate one.');
-                    }
-                })
-                .catch((err) => {
-                    console.log('An error occurred while retrieving token:', err);
+        
+
+
+            function isTokenSentToServer() {
+                return window.localStorage.getItem("sentToServer") === "1";
+            }
+        
+            function setTokenSentToServer(sent) {
+                if (sent) {
+                    window.localStorage.setItem("sentToServer", "1");
+                } else {
+                    window.localStorage.setItem("sentToServer", "0");
+                }
+            }
+        
+        
+            function requestPermission() {
+                messaging.requestPermission().then(function () {
+                    console.log("Has permission!");
+                    resetUI();
+                }).catch(function (err) {
+                    console.log('Unable to get permission to notify.', err);
                 });
-			});
-		
-			onMessage(function (payload) {
-				console.log("Message received. ", JSON.stringify(payload));
-			});
+            }
+        
+            function resetUI() {
+                console.log("In reset ui");
+                messaging.getToken().then(function (currentToken) {
+                    console.log(currentToken);
+                    if (currentToken) {
+                        sendTokenToServer(currentToken);
+                    } else {
+                        setTokenSentToServer(false);
+                    }
+                }).catch(function (err) {
+                    console.log(err);
+                    setTokenSentToServer(false);
+                });
+            }
+        
+            messaging.onTokenRefresh(function () {
+                messaging.getToken().then(function (refreshedToken) {
+                    console.log("Token refreshed.");
+                    // Indicate that the new Instance ID token has not yet been sent to the
+                    // app server.
+                    setTokenSentToServer(false);
+                    // Send Instance ID token to app server.
+                    sendTokenToServer(refreshedToken);
+                    resetUI();
+                }).catch(function (err) {
+                    console.log("Unable to retrieve refreshed token ", err);
+                });
+            });
+        
+            messaging.onMessage(function (payload) {
+                payload = payload.data;
+                // Create notification manually when user is focused on the tab
+                const notificationTitle = payload.title;
+                const notificationOptions = {
+                    body: payload.body,
+                    icon: payload.icon_url,
+                };
+        
+                if (!("Notification" in window)) {
+                    console.log("This browser does not support system notifications");
+                }
+                // Let's check whether notification permissions have already been granted
+                else if (Notification.permission === "granted") {
+                    // If it's okay let's create a notification
+                    var notification = new Notification(notificationTitle, notificationOptions);
+                    notification.onclick = function (event) {
+                        event.preventDefault(); // prevent the browser from focusing the Notification's tab
+                        window.open(payload.url, '_blank');
+                        notification.close();
+                    }
+                }
+            });
+        
+        
+            requestPermission();
 
-        // Listen for incoming messages
-        navigator.serviceWorker.addEventListener('message', (event) => {
-			console.log('Received FCM message:', event.data);
-			const { title, body } = event.data;
+        });
 
-			if (!("Notification" in window)) {
-				console.log("This browser does not support desktop notification");
-			} else if (Notification.permission === "granted") {
-				const notification = new Notification(title, { body });
-				// Handle notification click event
-				notification.onclick = function () {
-					// Handle notification click, e.g., open a specific page
-					window.open('https://example.com', '_blank');
-				};
-			} else if (Notification.permission !== "denied") {
-				Notification.requestPermission().then(function (permission) {
-					if (permission === "granted") {
-						const notification = new Notification(title, { body });
-						// Handle notification click event
-						notification.onclick = function () {
-							// Handle notification click, e.g., open a specific page
-							window.open('https://example.com', '_blank');
-						};
-					}
-				});
-			}
-		});
     </script>
 </head>
 
