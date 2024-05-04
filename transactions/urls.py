@@ -79,18 +79,18 @@ urlpatterns = [
 
 
 
-    # path('add-sales-customer/', add_sales_customer, name='add_sales_customer'),
-    # path('update-sales-customer/<sales_customer_id>', update_sales_customer, name='update_sales_customer'),
-    # path('delete-sales-customer/<sales_customer_id>', delete_sales_customer, name='delete_sales_customer'),
-    # path('list-sales-customer/', list_sales_customer, name='list_sales_customer'),
+    path('add-sales-customer/', add_sales_customer, name='add_sales_customer'),
+    path('update-sales-customer/<sales_customer_id>', update_sales_customer, name='update_sales_customer'),
+    path('delete-sales-customer/<sales_customer_id>', delete_sales_customer, name='delete_sales_customer'),
+    path('list-sales-customer/', list_sales_customer, name='list_sales_customer'),
 
 
     path('add-order/', add_order, name='add_order'),
     path('update-order/<order_id>', update_order, name='update_order'),
     path('delete-order/<order_id>', delete_order, name='delete_order'),
     path('list-order/', list_order, name='list_order'),
+    path('approve-order/<order_id>', approve_order, name='approve_order'),
     
-    path('list-order/', list_order, name='list_order'),
 
     path('downald-data/', downalo_data, name='downalo_data'),
 

@@ -342,7 +342,7 @@ PACKAGING_CHARGES_CHOICES = (
 class sales_customer(models.Model):
 
     
-    name = models.CharField(max_length=120, unique=False)
+    name = models.CharField(max_length=120, unique=True)
     address = models.CharField(max_length=120, unique=False)
     mobile_no = models.IntegerField()
     client_gst = models.CharField(max_length=120, unique=False)
@@ -388,6 +388,7 @@ class order(models.Model):
 
     total_sqinch = models.FloatField()
     final_amount = models.FloatField()
+    is_approved = models.BooleanField(default=False)
 
 
 

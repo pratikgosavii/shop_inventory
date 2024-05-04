@@ -214,3 +214,30 @@ class OrderChildForm(forms.ModelForm):
     class Meta:
         model = order_child
         fields = '__all__'
+
+
+
+        
+class sales_customer_Form(forms.ModelForm):
+    class Meta:
+        model = sales_customer
+        fields = '__all__'
+        widgets = {
+           
+            'name': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'name'
+            }),
+            'address': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'address'
+            }),
+            'mobile_no': forms.NumberInput(attrs={
+                'class': 'form-control', 'id': 'mobile_no'
+            }),
+            'client_gst': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'client_gst'
+            }),
+            
+           
+     
+            
+        }

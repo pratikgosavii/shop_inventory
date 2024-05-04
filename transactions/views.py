@@ -142,6 +142,79 @@ def low_stock_report(request, notification_id):
 
 
 
+
+@login_required(login_url='login')
+def add_sales_customer(request):
+
+    if request.method == 'POST':
+
+        forms = sales_customer_Form(request.POST)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_sales_customer')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        forms = sales_customer_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'store/add_sales_customer.html', context)
+
+        
+
+@login_required(login_url='login')
+def update_sales_customer(request, sales_customer_id):
+
+    if request.method == 'POST':
+
+        instance = sales_customer.objects.get(id=sales_customer_id)
+
+        forms = sales_customer_Form(request.POST, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_sales_customer')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        instance = sales_customer.objects.get(id=sales_customer_id)
+        forms = sales_customer_Form(instance=instance)
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'store/add_sales_customer.html', context)
+
+        
+
+@login_required(login_url='login')
+def delete_sales_customer(request, sales_customer_id):
+
+    sales_customer.objects.get(id=sales_customer_id).delete()
+
+    return HttpResponseRedirect(reverse('list_sales_customer'))
+
+
+        
+
+@login_required(login_url='login')
+def list_sales_customer(request):
+
+    data = sales_customer.objects.all()
+
+    context = {
+        'data': data
+    }
+
+    return render(request, 'store/list_sales_customer.html', context)
+
 @login_required(login_url='login')
 def delete_images(request):
 
@@ -162,6 +235,39 @@ def delete_images(request):
 
 
 from datetime import datetime
+import requests
+
+
+def send_notification():
+
+
+    # Define the URL
+    url = "https://fcm.googleapis.com/fcm/send"
+
+    # Define the payload
+    payload = {
+        "notification": {
+            "body": "This is an FCM notification message!",
+            "time": "FCM Message"
+        },
+        "registration_ids": [
+            "cikuUpJv7AKnXm9CkIMaCJ:APA91bFIf6zJZYTSw5d3GiEjOBpkeFmg2096zYtBv00dZskbKB9YpI_dbORCtL1urv6syPPasGox606lDTZWdT4oMZ49yqHR_7pkHIvO0IFWJ6SShJ96sVaW0ZftblUySLGAPAVGEdyX",
+        ]
+    }
+
+    # Define the headers
+    headers = {
+        "Authorization": "key=AAAA-aJPhnk:APA91bGsRiq0bVsPc2DUPDWxiJvNOvdYpkcPG9pAT2V0aUzmNBws7O5uzdVOtCiY6d-7QrJ1PTGN2pTUenPIbL7ZB6qIwYomhsOHyaipHLlMT4dbFgKVTIb1yO6zsdkUC0aJLF7G7_8B",
+        "Content-Type": "application/json"
+    }
+
+    # Send the POST request
+    response = requests.post(url, json=payload, headers=headers)
+
+    # Print the response
+    print(response.status_code)
+    print(response.text)
+
 
 
 def add_order(request):
@@ -191,6 +297,8 @@ def add_order(request):
                 if forms.is_valid():
 
                     forms.save()
+
+                    send_notification()
 
                     return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
 
@@ -347,13 +455,36 @@ def delete_order(request, order_id):
 @login_required(login_url='login')
 def list_order(request):
 
-    data = order.objects.all()
+    if request.user.is_superuser:
+        data = order.objects.all()
+    else:
+        data = order.objects.filter(user = request.user)
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(data, 20)
+
+    try:
+        data = paginator.page(page)
+    except PageNotAnInteger:
+        data = paginator.page(1)
+    except EmptyPage:
+        data = paginator.page(paginator.num_pages)
 
     context = {
         'data': data
     }
 
     return render(request, 'transactions/list_orders.html', context)
+
+def approve_order(request, order_id):
+
+    order_instance = order.objects.get(id = order_id)
+    order_instance.is_approved = True
+    order_instance.save()
+
+    return redirect('list_order')
+
+
 
 
 # views.py
