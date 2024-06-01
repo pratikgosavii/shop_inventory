@@ -156,10 +156,12 @@
                                         <td>  
                                             <video id="camera{{ z.id }}" style="display:none" width="320" height="240"  autoplay></video>
 
+                                            <div style="display:flex; gap:10px;">
                                                 <button type="button" class="btn btn-success startButton" id="{{ z.id }}">Start Scanning</button>
                                                 
                                                 <button onclick="assign_values('{{ i.project.id }}', '{{ z.id }}')" type="button" class="btn btn-success" id="">Assign RFID</button>
-
+                                                <a href="{% url 'print_label' i.project.id z.project_material.sheet_no %}"> <button onclick="" type="button" class="btn btn-warning" id="">Label Print</button> </a>
+                                            </div>
                                         </td>
                                     </tr>
 

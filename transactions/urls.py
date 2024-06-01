@@ -57,6 +57,7 @@ urlpatterns = [
     path('from-to-generate-product-qr/', from_to_generate_product_qr, name='from_to_generate_product_qr'),
     path('list-generated-product-qr/', list_generated_product_qr, name='list_generated_product_qr'),
     path('print-single-qr/<product_qr_id>', print_single_qr, name='print_single_qr'),
+    path('print-label/<project_id>/<product_qr_id>', print_label, name='print_label'),
     
     
     path('scanner-page', scanner_page, name='scanner_page'),

@@ -163,7 +163,7 @@ def add_sales_customer(request):
         context = {
             'form': forms
         }
-        return render(request, 'store/add_sales_customer.html', context)
+        return render(request, 'transactions/add_sales_customer.html', context)
 
         
 
@@ -190,7 +190,7 @@ def update_sales_customer(request, sales_customer_id):
         context = {
             'form': forms
         }
-        return render(request, 'store/add_sales_customer.html', context)
+        return render(request, 'transactions/add_sales_customer.html', context)
 
         
 
@@ -213,7 +213,7 @@ def list_sales_customer(request):
         'data': data
     }
 
-    return render(request, 'store/list_sales_customer.html', context)
+    return render(request, 'transactions/list_sales_customer.html', context)
 
 @login_required(login_url='login')
 def delete_images(request):
@@ -2330,6 +2330,22 @@ def print_single_qr(request, product_qr_id):
     
 
     return render(request, 'transactions/html_qr_single.html', {'data' : a})
+
+def print_label(request, project_id, product_qr_id):
+
+    project_instance = project.objects.get(id = project_id)
+   
+    context = {
+        
+        'project_id': project_id,
+        'product_qr_id': product_qr_id,
+        'date': datetime.now(),
+        'project_name': project_instance.customer,
+    }
+
+    
+
+    return render(request, 'transactions/html_print_label.html', {'data' : context})
 
 def list_generated_product_qr(request):
 

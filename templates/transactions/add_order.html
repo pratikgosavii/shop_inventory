@@ -1,6 +1,6 @@
 {% extends 'base/base.html' %}
 
-
+{% load static %}
 
 {% block title %}Create Product{% endblock title %}
 
@@ -130,9 +130,26 @@
         display: flow;
         padding: 10px;
         border-radius: 12px;
+        margin-bottom: 0.6em;
     }
 
-    
+    @media print {
+        body {
+          -webkit-print-color-adjust: exact; /* For WebKit browsers */
+          color-adjust: exact; /* For other browsers */
+        }
+      
+        .printable {
+          background-color: #f0f0f0;
+          color: #333;
+          padding: 10px;
+          border: 1px solid #ccc;
+        }
+      
+        .no-print {
+          display: none;
+        }
+      }
     
     
 </style>
@@ -165,19 +182,19 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <div class="card">
+        <div class="">
             
-            <div class="container">
-                <div class="row">
-                  <div class="col-12 card" style="font-size: 23px;
-                  border: 1px solid black;
-                  text-align: center;
-                  padding: 10px;">
-                    Techno - Commerical Offer
-                  </div>
-                
-                </div>
+            <div class="col-12" style="display: flex;">
+
+                    <div class="col-3">
+                        <img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 96px; margin-right: 10px;">
+                    </div>
+
+                    <div class="col-9 card" style="font-size: 23px; border: 1px solid black; text-align: center; padding: 10px; color: white; font-weight: bolder; background: #003366; display: flex; align-items: center; justify-content: center;">
+                        Techno - Commercial Offer
+                    </div>
             </div>
+            
 
               <br>
 
@@ -186,9 +203,9 @@
                     <form id="form3" style="display: contents; comehere">
                         {% csrf_token %}
 
-                    <div class="col-6 card" style="justify-content: left;">
+                    <div class="col-6" style="justify-content: left;">
 
-                        <div style="border: 1px solid black; padding: 9px 6px;">
+                        <div class="card" style="border: 1px solid black; padding: 9px 6px;">
 
                             <div style="display:flex;">
                                 <label style="margin: 10px 0px !important;" for="customer" class="control-label mb-1">Customer Name</label>
@@ -278,13 +295,18 @@
 
                                 
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Item Code/ Drawing Number/ Project Number </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Item Code/ Drawing Number/ Project Number </p>
 
-                                <div>
+                                <div class="card">
+
                                     <input type="textbox" name="item_code" id="item_code" class="form-control" id="checkbox1" required>
                                 </div>
-
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Materials </p>
+                                <div>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Materials </p>
                                 
                                 <input type="hidden" style="margin-left:10px !important;" name="order" value="{{ form.order_id.value }}">
 
@@ -334,10 +356,13 @@
                                     <input type="textbox" name="other_material" class="form-control" id="checkbox1">
 
                                 </div>
+                                </div>
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Process </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Process </p>
                             
-
+                                {% comment %} #2b1b83 {% endcomment %}
                                 <div class="card">
 
                                     <input type="radio" id="chemical_etching" value="chemical_etching" name="process" required>
@@ -372,7 +397,9 @@
 
                                 </div>
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> MOQ For nameplates in sq. inch </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> MOQ For nameplates in sq. inch </p>
                                 
 
                                 <div>
@@ -493,7 +520,8 @@
                                     </div>
                                         
 
-                                    <div>
+                                    <div class="card">                 
+
 
                                         <input type="radio" id="checkbox27" value="4608" name="sqinch" required>
                                         <label for="checkbox27">4608</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
@@ -501,7 +529,9 @@
 
                                 </div>
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Size of Nameplate , Precision Parts & Laser Cutting in Inch </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Size of Nameplate , Precision Parts & Laser Cutting in Inch </p>
                         
 
                                 <div class="card">
@@ -530,7 +560,9 @@
 
                                 </div>
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Text Matter </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Text Matter </p>
                                                     
                                 <div  class="card">
                                 
@@ -541,7 +573,9 @@
                                     <label for="variable_text_matter_text_matter">Variable Text Matter</label>
                                 </div>       
                                 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">Type of Etching </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">Type of Etching </p>
                                                         
                                 <div  class="card">
                                     
@@ -555,7 +589,9 @@
                                 </div>
 
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Color Avaiable for Nameplate, Metal Business Card </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Color Avaiable for Nameplate, Metal Business Card </p>
                                                     
                             
                                 <div class="card">
@@ -574,7 +610,9 @@
                                             
                         
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Color (Silk Screen Printed Or Power Coated for Metal Business Card) on Nameplate , Metal Business Card </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Color (Silk Screen Printed Or Power Coated for Metal Business Card) on Nameplate , Metal Business Card </p>
                         
 
                                 <div class="card">
@@ -596,7 +634,9 @@
                                 
                                 </div>
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">   Font height in mm for all types of Nameplate </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Font height in mm for all types of Nameplate </p>
                             
 
                                 <div class="card">
@@ -636,7 +676,9 @@
                                 </div>
 
                             
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Thickness </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Thickness </p>
                                                 
                         
                                 <div class="card">
@@ -691,7 +733,9 @@
                             
 
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplate , As per MOQ</p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplate , As per MOQ</p>
                         
                                 <div class="card">
                                     
@@ -701,7 +745,9 @@
                                     
                                 </div>
                 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Blank Tags, As per MOQ</p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Blank Tags, As per MOQ</p>
         
                                 <div>
                                     
@@ -712,7 +758,9 @@
 
 
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Below MOQ for  Nameplates, Precision Parts in sq. inch </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Below MOQ for  Nameplates, Precision Parts in sq. inch </p>
 
                                 <div>
                                     
@@ -726,9 +774,12 @@
 
                     
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplates, As per MOQ</p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplates, As per MOQ</p>
 
-                                <div>
+                                <div class="card">
+
                                     
                                     <input type="textbox" name="rate_per_unit" id="total_rate" class="form-control">
 
@@ -743,7 +794,9 @@
 
                         
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> GST (IGST, SGST)</p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> GST (IGST, SGST)</p>
 
                                 <div  class="card">
 
@@ -766,19 +819,24 @@
                                         </div>
                                     </div>
                                     </div>
+
+                                    <div class="card">
                                         
                                 <label for="checkbox1"> Total Amount </label>
+                                
                                 <input type="text" name="total_amount_with_charges_type" id="total_amount_with_charges_type" class="form-control">
                             
 
 
-
+                                    </div>
                         
                             
 
                                 </hr>
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Rate Per unit in INR for Nameplates, Precision Parts, Elevator designer Sheets below MOQ </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Rate Per unit in INR for Nameplates, Precision Parts, Elevator designer Sheets below MOQ </p>
                                 
 
                                 <div>
@@ -788,9 +846,12 @@
                         
                                 </div>
                                 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Film Charges / Development Charges </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Film Charges / Development Charges </p>
                                 
-                                <div>
+                                <div class="card">
+
                                     
                                     <input type="radio" id="flim_charges1" value="inclusive" name="flim_charges" required >
                                     <label for="flim_charges1">Inclusive</label>
@@ -807,10 +868,13 @@
                                 </div>
                     
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Min Font Height & Max Font Height </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Min Font Height & Max Font Height </p>
                                 
 
-                                <div>
+                                <div class="card">
+
                                     
                                     <input type="radio" id="min_font_height1" value="1mm" name="min_font_height" required>
                                     <label for="min_font_height1">1mm</label>
@@ -821,10 +885,13 @@
                                 </div>
 
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">   Material Test Certificate ( MTC ) </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Material Test Certificate ( MTC ) </p>
                                 
 
-                                <div>
+                                <div class="card">
+
                                     
                                     <input type="radio" id="certificate_cost_free" value="Free_along_with_invoice" name="certificate_cost" required>
                                     <label for="certificate_cost_free"> Free along with invoice</label>
@@ -845,7 +912,9 @@
                                 </div>
 
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Samples or Proto Type </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Samples or Proto Type </p>
                                 
 
                                 <div class="card">
@@ -863,7 +932,8 @@
 
                                 <br>
 
-                                <div>
+                                <div class="card">
+
                                     
 
                                     
@@ -890,8 +960,67 @@
                             
                             </form>
 
-                            <div class="row" id="submittedOrders">
                                 <!-- Cards will be dynamically appended here -->
+
+                                <div class="table-stats order-table ov-h">
+                                    <table class="table ">
+                                        <thead>
+                                            <tr>
+                                                <th class="serial">#</th>
+                                                <th>Item Code</th>
+                                                <th>Material</th>
+                                                <th>Process</th>
+                                                <th>MOQ for nameplate in sqinch</th>
+                                                <th>Size</th>
+                                                <th>Text Matter</th>
+                                                <th>Type of Etching</th>
+                                                <th>Color</th>
+                                                <th>Rate Per unit</th>
+                                                <th>With GST</th>
+                                                <th>Flim Charges</th>
+                                                <th>Font</th>
+                                                <th>Material Test Certificate</th>
+                                                <th>Sample/Prototype</th>
+                                                <th>Final</th>
+                                                <th>Actions</th>
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="background: #b0ffb0;">
+                
+                                                <td class="serial"> 1 </td>
+                                                <td>demo </td>
+                                                <td>demo </td>
+                                                <td>demo </td>
+                                                <td>demo </td>
+                                                <td>demo </td>
+                                                <td>demo </td>
+                                                <td>demo </td>
+                                                <td>demo </td>
+                                                <td>  
+                
+                
+                
+                
+                                                    
+                                                    <a href="{% url 'update_order' 1 %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+                                                        <span id="payment-button-amount">View</span>
+                                                    </button>  </a>
+                                                    
+                
+                                                
+                                                    
+                
+                
+                                                </td>
+                                                
+                                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
                             </div>
 
                         </div>
@@ -909,7 +1038,9 @@
 
                                 {% csrf_token %}
 
-                            <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Industry </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Industry </p>
                                 
 
                             <div class="card">
@@ -959,7 +1090,9 @@
 
                             </div>
 
-                            <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Product </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Product </p>
                                 
 
                             <div class="card">
@@ -1052,7 +1185,9 @@
 
 
                                 
-                            <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Design format accepted </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Design format accepted </p>
                                 
 
                             <div class="card">
@@ -1076,12 +1211,14 @@
 
 
 
-                            <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">    IncoTerm </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    IncoTerm </p>
                                                     
                             
                             <div class="card">
 
-                                <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600;">Incoterms</p>
+                          
                                 <input type="radio" id="inco_ex_works" name="incoterm" value="ex-works">
                                 <label for="inco_ex_works">Ex-Works</label>
                             
@@ -1098,40 +1235,45 @@
                                 <label for="inco_warehouse">Warehouse to Warehouse</label>
                             </div>
 
-                            <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">    Mode of Transport </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Mode of Transport </p>
                                                                         
                                                 
                             <div class="card">
 
                                 <input type="radio" id="transport_road" name="transportation_type" value="road">
-    <label for="transport_road">Road</label>
+                                <label for="transport_road">Road</label>
 
-    <input type="radio" id="transport_rail" name="transportation_type" value="rail">
-    <label for="transport_rail">Rail</label>
+                                <input type="radio" id="transport_rail" name="transportation_type" value="rail">
+                                <label for="transport_rail">Rail</label>
 
-    <input type="radio" id="transport_air" name="transportation_type" value="air">
-    <label for="transport_air">Air</label>
+                                <input type="radio" id="transport_air" name="transportation_type" value="air">
+                                <label for="transport_air">Air</label>
 
-    <input type="radio" id="transport_courier" name="transportation_type" value="courier">
-    <label for="transport_courier">Courier</label>
+                                <input type="radio" id="transport_courier" name="transportation_type" value="courier">
+                                <label for="transport_courier">Courier</label>
 
-    <input type="radio" id="transport_porter" name="transportation_type" value="porter">
-    <label for="transport_porter">Porter</label>
+                                <input type="radio" id="transport_porter" name="transportation_type" value="porter">
+                                <label for="transport_porter">Porter</label>
 
-    <input type="radio" id="transport_personal" name="transportation_type" value="personal_pick_up">
-    <label for="transport_personal">Personal Pick Up</label>
-</div>
+                                <input type="radio" id="transport_personal" name="transportation_type" value="personal_pick_up">
+                                <label for="transport_personal">Personal Pick Up</label>
+                            </div>
 
-<div>
-    <label for="transportation_cost">Transportation Cost</label>
-    <select id="transportation_cost" name="transportation_cost" class="form-control"></select>
+                            <div class="card">
+
+                                <label for="transportation_cost">Transportation Cost</label>
+                                <select id="transportation_cost" name="transportation_cost" class="form-control"></select>
 
                             </div>
 
                             
 
-                            <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Payment </p>
-                                                    
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Payment </p>
+                            <div class="card">                 
                             <div>
 
                                 
@@ -1145,6 +1287,7 @@
 
                                 <label for="checkbox1" name="payment">    % of Advance </label>  
                                 
+                            </div>
                             </div>
 
                             
@@ -1168,18 +1311,24 @@
 
 
 
-                    <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">   Credit Limit in INR </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Credit Limit in INR </p>
                             
 
-                    <div>
+                    <div class="card">                 
+
 
                         <label for="checkbox1"> Amount <input type="number" id="credit_limit" name="credit_limit" class="form-control"> 
                     </div>
 
-                    <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Rejection Acceptance from the date of invoice </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Rejection Acceptance from the date of invoice </p>
             
                     
-                    <div>
+                    <div class="card">                 
+
                         <label for="transportation_cost">Days</label>
                         <select id="rejection_acceptance" name="rejection_acceptance" class="form-control">
                             <option value="1"> 1 </option>
@@ -1195,16 +1344,21 @@
                     </div>
 
 
-                    <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">    Offer Valid Till </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Offer Valid Till </p>
                             
 
-                    <div>
+                    <div class="card">                 
+
 
                         <input type="date" name="offer_valid_date" class="form-control dateclas" required="" id="id_DC_date">
                     </div>
 
 
-                    <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">    Rate Contract For per Month procurement </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Rate Contract For per Month procurement </p>
                             
 
                                                 
@@ -1219,10 +1373,13 @@
 
 
 
-                    <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;"> In Case there is sudden rise of material price per unit will differ </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> In Case there is sudden rise of material price per unit will differ </p>
                             
 
-                    <div>
+                    <div class="card">                 
+
                         <input type="radio" id="sudden_rise1" name="sudden_rise" value="yes">
                         <label for="transportation_cost">Yes</label>
                         <input type="radio" id="sudden_rise2" name="sudden_rise" value="no">
@@ -1259,7 +1416,9 @@
 
                     </div>
 
-                    <p style="color: white; text-align: center;color: white;text-align: center;background: #45afa6;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Packaging and Forwarding </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Packaging and Forwarding </p>
                             
 
                         
@@ -1315,7 +1474,7 @@
         <br>
         <div>
             <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
-                <span id="payment-button-amount">Update Production</span>
+                <span id="payment-button-amount">Add Qutation</span>
             </button>
         </div>
     </div>
@@ -1649,7 +1808,6 @@ function update_other_values(){
     // Check if the event object exists and has the target property
     if (chargeRadioButton1.checked) {
 
-        alert('1')
 
         // Call your function here
         var basic_amount = parseFloat(document.getElementById("total_basic_amount").value);
@@ -1678,7 +1836,6 @@ function update_other_values(){
     }
     if (chargeRadioButton2.checked) {
 
-        alert('2')
 
         // Call your function here
         var basic_amount = parseFloat(document.getElementById("total_basic_amount").value);
@@ -1845,8 +2002,8 @@ $(document).ready(function() {
                 console.log(response);
 
                 var cardHtml = '<div class="col-6">' +
-                    '<div class="card mb-3" style="width: 18rem;border: 1px solid black;">' +
-                        '<div class="card-body" style="border: 1px solid black;">' +
+                    '<div class="card mb-3" style="width: 18rem;">' +
+                        '<div class="card-body" style="">' +
                             '<p class="card-text">' + response.instance + '</p>' +
                             '<a href="#" class="btn btn-primary">View</a>' +
                         '</div>' +
@@ -2047,6 +2204,7 @@ document.getElementById('orderForm').addEventListener('submit', handleSubmit);
 
 function calculateTotal() {
 
+
     var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
 
     document.getElementById('final_sqinch').value = final_sqinch
@@ -2089,11 +2247,9 @@ $(document).ready(function(){
     $('#form2').submit(function(e){
         e.preventDefault(); // Prevent default form submission
 
-        alert('here')
 
         var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
 
-        alert(final_sqinch)
 
         
         // Gather form data
