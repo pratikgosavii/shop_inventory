@@ -15,7 +15,10 @@
 <style>
 
 
-   
+    .submittedOrders {
+        background-color: #b0ffb0;;
+        font-weight: bold;
+    }
 
     #video {
         display: none;
@@ -946,7 +949,7 @@
                                                 
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="submittedOrders">
                                             <tr style="background: #b0ffb0;">
                 
                                                 <td class="serial"> 1 </td>
@@ -2032,23 +2035,31 @@ function renderOrders() {
     ordersContainer.innerHTML = ''; // Clear existing content
 
     orders.forEach(order => {
-        const orderElement = document.createElement('div');
-        orderElement.classList.add('col-sm-6');
-        orderElement.innerHTML = `
-        <div class="card mb-3" style="width: 18rem;border: 1px solid black;">
-            <div class="card-body" style="border: 1px solid black;">
-                <p class="card-text" style="margin-bottom: 1px;"> Order Id:- ${order.item_code} </p>
-                <p class="card-text" style="margin-bottom: 1px;"> Total SqInch:- ${order.quantity} </p>
-                <p class="card-text" style="margin-bottom: 1px;"> Rate:- ${order.rate_per_unit} </p>
-                <a onclick="editOrder(${order.id})" style="font-weight: 600;
-                color: black;
-                border: none;" class="btn btn-primary">View</a>
-                <a onclick="deleteOrder(${order.id})" style="background: red;
-                font-weight: 600;
-                color: black;
-                border: none;" class="btn btn-primary">Delete</a>
-            </div>
-        </div>
+        const orderElement = document.createElement('tr');
+        orderElement.classList.add('submittedOrders');
+        orderElement.innerHTML = `<th>${order.item_code}</th>
+        <th>${order.material}</th>
+        <th>${order.process}</th>
+        <th>MOQ for nameplate in sqinch</th>
+        <th>${order.total_sq_inch}</th>
+        <th>${order.text_matter}</th>
+        <th>${order.etching}</th>
+        <th>${order.color}</th>
+        <th>${order.ssdsdsd}</th>
+        <th>${order.with_material_gst}</th>
+        <th>${order.flim_charges_total}</th>
+        <th>${order.font_height}</th>
+        <th>${order.font_height}</th>
+        <th>Sample/Prototype</th>
+        <th>${order.total_amount_with_charges_type}</th>
+        <th> <a onclick="editOrder(${order.id})" style="font-weight: 600;
+            color: black;
+            border: none;" class="btn btn-primary">View</a>
+            <a onclick="deleteOrder(${order.id})" style="background: red;
+            font-weight: 600;
+            color: black;
+            border: none;" class="btn btn-primary">Delete</a></th>
+        
         `;
 
 
