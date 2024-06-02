@@ -11,7 +11,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 
 
@@ -22,42 +22,7 @@
     }
 
 
-    .table {
-        width: 100%;
-        max-width: 100%;
-        margin-bottom: 1rem;
-        background-color: transparent;
-    }
-    
-    
-    .table th, .table thead th {
-        font-weight: 500;
-    }
-    
-    
-    .table thead th {
-        vertical-align: bottom;
-        border-bottom: 2px solid #dee2e6;
-    }
-    
-    
-    .table th {
-        padding: 1rem;
-        vertical-align: top;
-        border-top: 1px solid #dee2e6;
-    }
-    
-    
-    .table th, .table thead th {
-        font-weight: 500;
-    }
-    
-    
-    th {
-        text-align: inherit;
-    }
-    
-
+  
     .form-group {
         display: flex;
         align-items: center;
@@ -286,38 +251,33 @@
             </div>
 
             
-                <div class="">
+                <div style="justify-content: center;
+                display: grid;">
                     <div class="col-12">
                         <form id="orderForm" style="display: contents; comehere">
                             {% csrf_token %}
-                        <div class="">
                             
 
                                 
 
-                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Item Code/ Drawing Number/ Project Number </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;border-radius: 10px 10px 0px 0px;padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Item Code/ Drawing Number/ Project Number </p>
 
-                                <div class="card">
+                            <div class="card">
 
-                                    <input type="textbox" name="item_code" id="item_code" class="form-control" id="checkbox1" required>
-                                </div>
-                                <div>
-                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Materials </p>
+                                <input type="textbox" name="item_code" id="item_code" class="form-control" id="checkbox1" required>
+                            </div>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;border-radius: 10px 10px 0px 0px;padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Materials </p>
                                 
-                                <input type="hidden" style="margin-left:10px !important;" name="order" value="{{ form.order_id.value }}">
+                            <input type="hidden" style="margin-left:10px !important;" name="order" value="{{ form.order_id.value }}">
 
 
-                                <input type="hidden" id="editOrderId">
+                            <input type="hidden" id="editOrderId">
 
 
-                                <div class="card">
+                            <div class="card">
 
-                                    <input type="radio" id="ss_304" value="ss_304" name="material" required>
-                                    <label for="ss_304">SS 304</label>
+                                <input type="radio" id="ss_304" value="ss_304" name="material" required>
+                                <label for="ss_304">SS 304</label>
 
                                     <input type="radio" id="ss_316" value="ss_316" name="material" required>
                                     <label for="ss_316">SS 316</label>
@@ -962,7 +922,7 @@
 
                                 <!-- Cards will be dynamically appended here -->
 
-                                <div class="table-stats order-table ov-h">
+                                <div class="table-stats order-table ov-h" style="overflow: scroll;">
                                     <table class="table ">
                                         <thead>
                                             <tr>
@@ -990,6 +950,13 @@
                                             <tr style="background: #b0ffb0;">
                 
                                                 <td class="serial"> 1 </td>
+                                                <td>demo </td>
+                                                <td>demo </td>
+                                                <td>demo </td>
+                                                <td>demo </td>
+                                                <td>demo </td>
+                                                <td>demo </td>
+                                                <td>demo </td>
                                                 <td>demo </td>
                                                 <td>demo </td>
                                                 <td>demo </td>
