@@ -1970,8 +1970,7 @@ $(document).ready(function() {
             success: function(response) {
                 // Handle successful response
                 console.log(response);
-
-                var cardHtml = '<div class="">' +
+                var cardHtml = '<div class="col-6">' +
                     '<div class="card mb-3" style="width: 18rem;">' +
                         '<div class="card-body" style="">' +
                             '<p class="card-text">' + response.instance + '</p>' +
@@ -1988,20 +1987,6 @@ $(document).ready(function() {
                     $('#card-row').append('<div class="w-100"></div>'); // Add a new row
                 }
 
-                
-                // Assuming you have a form with id "myForm"
-               // Clear text inputs
-                $('#submit-form :input[type="text"]').val('');
-
-                // Clear radio buttons
-                $('#submit-form :input[type="radio"]').prop('checked', false);
-
-                // Clear number inputs
-                $('#submit-form :input[type="number"]').val('');
-
-               // item_code
-
-               $('#item_code').val('');
                 
             },
             error: function(xhr, textStatus, errorThrown) {
