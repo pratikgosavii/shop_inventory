@@ -1,0 +1,419 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block title %}Create Product{% endblock title %}
+
+{% block head %}
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+
+
+    .ssdsds {
+        background-color: #b0ffb0;;
+    }
+
+    #video {
+        display: none;
+    }
+
+
+  
+    .form-group {
+        display: flex;
+        align-items: center;
+    }
+    .form-group label {
+        flex: 1;
+        margin-bottom: 0;
+        white-space: nowrap; /* Prevent label from wrapping */
+        margin-right: 10px; /* Add space between label and input */
+        margin: 10px 0px !important;
+    }
+    label {
+        flex: 1;
+        margin-bottom: 0;
+        font-weight : 200 !important;
+        white-space: nowrap; /* Prevent label from wrapping */
+        margin-right: 10px; /* Add space between label and input */
+    }
+    
+
+    .form-control{
+        margin: 10px 0px !important;
+
+    }
+
+
+
+
+    @media print {
+
+        #header{
+            display: none;
+        }
+
+        #total_sq_inch_label{
+            display: none;
+        }
+
+        #total_sq_inch_text{
+            display: none;
+        }
+
+        #submitButton{
+            display: none;
+        }
+
+        #payment-button{
+            display: none;
+        }
+
+        #left-panel{
+            display: none;
+        }
+
+        #right-panel{
+            margin-left: 0px !important;
+        }
+
+
+        .no-print {
+            display: none !important;
+          }
+
+
+          th, td {
+            -webkit-print-color-adjust: exact; 
+            print-color-adjust: exact;
+          }
+
+
+    }
+    
+
+
+    label {
+        flex: 1;
+        margin-bottom: 0;
+        font-weight: 600 !important;
+    }
+
+    .card {
+        display: flow;
+        padding: 10px;
+        border-radius: 12px;
+        margin-bottom: 0.6em;
+    }
+
+    @media print {
+        body {
+          -webkit-print-color-adjust: exact; /* For WebKit browsers */
+          color-adjust: exact; /* For other browsers */
+        }
+      
+        .printable {
+          background-color: #f0f0f0;
+          color: #333;
+          padding: 10px;
+          border: 1px solid #ccc;
+        }
+      
+        .no-print {
+          display: none;
+        }
+      }
+
+
+      p{
+        margin : 10px 0px;
+        color: #343a40;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    vertical-align: middle;
+      }
+
+
+      table thead {
+        background-color: #003366 !important;
+        color: #ffffff !important;
+    }
+    
+    
+    
+</style>
+
+{% endblock head %}
+
+{% block content %}
+
+
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="icon-box">
+					<i class="material-icons">&#xE876;</i>
+				</div>				
+				<h4 class="modal-title w-100">Awesome!</h4>	
+			</div>
+			<div class="modal-body">
+				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>     
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="">
+            
+            <div class="col-12" style="display: flex;">
+
+                    <div class="col-3">
+                        <img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 96px; margin-right: 10px;">
+                    </div>
+
+                    <div class="col-9 card" style="font-size: 23px; border: 1px solid black; text-align: center; padding: 10px; color: white; font-weight: bolder; background: #003366; display: flex; align-items: center; justify-content: center;">
+                        Techno - Commercial Offer
+                    </div>
+            </div>
+            
+
+              <br>
+
+            <div class="row">
+                <div class="col-12" style="">
+                    <form id="form3" style="display: contents; comehere">
+                        {% csrf_token %}
+
+                    <div class="" style="justify-content: left;">
+
+                        <div class="card" style="border: 1px solid black; padding: 9px 6px;">
+
+                            <div style="display: inline-flex;">
+                                <label style="margin: 10px 0px !important;" for="customer" class="control-label mb-1">Customer Name</label>
+                                <input type="text" style="min-width: 200px; margin-left: 15px !important; margin-right: 15px !important;" value="{{ order_data.customer }}" class="form-control" readonly>
+                            </div>
+              
+                         
+                            
+                            <div style="display: inline-flex;">
+                                <label style="margin: 10px 0px !important;" for="contance_person_no" class="control-label mb-1">Contact Person Name</label>
+                                <!-- Use the  attribute to make the input field read-only -->
+                                <input type="text" style="min-width: 200px;  margin-left: 15px !important; margin-right: 15px !important;" value="{{ order_data.contance_person_no }}" class="form-control" readonly>
+                            </div>
+                            
+                            <div style="display: inline-flex;">
+                                <label style="margin: 10px 0px !important;" for="contact_no" class="control-label mb-1">Mobile Number</label>
+                                <!-- Use the  attribute to make the input field read-only -->
+                                <input type="text" style="min-width: 200px;  margin-left: 15px !important; margin-right: 15px !important;" value="{{ order_data.contact_no }}" class="form-control" readonly>
+                            </div>
+                            
+                            <div style="display: inline-flex;">
+                                <label style="margin: 10px 0px !important;" for="email" class="control-label mb-1">Contact Email</label>
+                                <!-- Use the  attribute to make the input field read-only -->
+                                <input type="text" style="min-width: 200px;  margin-left: 15px !important; margin-right: 15px !important;" value="{{ order_data.email }}" class="form-control" readonly>
+                            </div>
+                            
+
+                        </div>
+                    </div>
+
+                    <div class="col-12" style="margin:0px; padding:0px; justify-content: right;">
+
+
+                        <div style="padding: 0px;" class="card">
+
+                            {% comment %} <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
+                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer No</label>
+                                <input type="text" style="margin-left:10px !important;" value="{{ form.order_id.value }}" class="form-control" readonly>
+                            </div> {% endcomment %}
+                            
+                            <div style="display: flex; border: 1px solid black; padding: 9px 6px; border-radius: 12px;">
+                            <div style="display: flex; gap: 28px;">
+
+                                <label style="margin: 10px 0px !important;" for="reference_from" class="control-label mb-1" class="control-label mb-1">Reference From</label>
+                                <input type="text" style="min-width: 200px;" value="{{ order_data.reference_from }}" class="form-control" readonly>
+
+
+
+                                <label style="margin-left: 50px;" class="control-label mb-1">Offer Date</label>
+                                <!-- Use the readonly attribute to make the input field read-only -->
+                                <input style="min-width: 200px;" value="{{ order_data.date }}" class="form-control" readonly>
+                           
+                                
+                            </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    </div>
+                </div>
+               
+            </div>
+
+            <div class="card col-12" style="border: 1px solid black; padding: 9px 6px;">
+
+                <h3 style="text-align: center; color: #003366;
+                font-weight: 800;"> Other Details </h3>
+
+                <br>
+
+            <div style="display: flex;gap: 37px;">
+                <p> Industry:- {{ order_data.industry }} </p>
+                <p> Product:- {{ order_data.product }} </p>
+            </div>
+            <div style="display: flex;gap: 37px;">
+                <p> Design format accepted:- {{ order_data.file_format }} </p>
+                <p> IncoTerm:- {{ order_data.incoterm }} </p>
+            </div>
+            <div style="display: flex;gap: 37px;">
+                <p> Mode of Transport:- {{ order_data.transportation_type }} </p>
+                <p> Transportation Charges:- {{ order_data.transportation_cost }} </p>
+            </div>
+            <div style="display: flex;gap: 37px;">
+                <p> Payment In Advance:- {{ order_data.advance }} </p>
+                <p> Payment:- {{ order_data.payment }} </p>
+                <p> Credit Limit in Days:- {{ order_data.credit_days }} </p>
+                <p> Credit Limit in INR:- {{ order_data.credit_limit }} </p>
+            </div>
+            <div style="display: flex;gap: 37px;">
+                <p> Rejection Acceptance from the date of invoice:- {{ order_data.rejection_acceptance }} </p>
+                <p> Offer Valid Till:- {{ order_data.industry }}</p>
+            </div>
+            <div style="display: flex;gap: 37px;">
+                <p> Type of Packaging:- {{ order_data.packaging }} </p>
+                <p> Type of Charges:- {{ order_data.packaging_charges }} </p>
+            </div>
+            <div style="display: flex;gap: 37px;">
+                <p> Total Sqinch:- {{ order_data.total_sqinch }} </p>
+                <p> Final Amount:- {{ order_data.final_amount }} </p>
+            </div>
+
+
+
+
+            </div>
+                
+            <div class="card" style="padding : 0px;">
+
+                <div style="border: 1px solid black; padding: 9px 6px; border-radius: 12px;">
+            <h1 style="font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 14px;"> Item Orders Description </h1>
+
+            <div class="table-stats order-table ov-h" style="overflow: scroll;">
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Quantity </th>
+                            <th>Per Unit Amount</th>
+                            <th>Final Amount</th>
+                            <th class="no-print">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="submittedOrders">
+
+                        {% for i in order_child_data %}
+
+                        <tr>
+                        <td>Item Code:- {{ i.item_code }}<br>
+                            Material:- {{ i.material }}<br>
+                            Process:-  {{ i.process }}<br>
+                            Size:-  {{ i.total_sq_inch }}<br>
+                            Text Matter:-  {{ i.text_matter }}<br>
+                            Type of Etching:-  {{ i.etching }}<br>
+                            Color:-  {{ i.color }}<br>
+                            Rate Per unit:-  {{ i.rate_per_unit }}<br>
+                            With GST:-  {{ i.total_amount_with_charges_type }}<br>
+                            Flim Charges:-  {{ i.flim_charges_total }}<br>
+                            Font:-  {{ i.font_height }}<br>
+                            Material Test Certificate:-  {{ i.certificate_price }}<br>
+                            Sample/Prototype:-  {{ i.sample_price }}<br>
+                            </td>
+                        <td> {{ i.quantity }}</td>
+                        <td> {{ i.rate_per_unit }}</td>
+                        <td> {{ i.final_item_total }} </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+            </div>
+            </div>
+
+                <div class="card" style="padding : 0px;">
+
+<div style="border: 1px solid black; padding: 9px 6px; border-radius: 12px;">
+<p >
+<span style="font-weight: 700;"> Terms & Conditions: </span>
+</br> <span style="font-weight: 700;">  Delivery :  </span>
+     Within 8 - 10 working days from clear & firm PO & drawing approval.
+</br> <span style="font-weight: 700;">  Transport :  </span>
+    Ex works Morwadi-Pimpri MIDC, or Extra At actual from Morwadi-Pimpri.
+</br> <span style="font-weight: 700;">  Taxes :  </span>
+    GST 18% on basic rate
+</br> <span style="font-weight: 700;">  Payment Term :  </span>
+    100% against Proforma Invoice
+</br> <span style="font-weight: 700;">  Validity of Quotation :  </span>
+    Up to 7 days from the date of quotation.
+</br> We hope our offer will fulfill your requirement & look forward to your valued order.
+    Do revert back for any querries.
+</br></br>
+</br> <span style="font-weight: 700;"> 
+    Thanking You,</br>
+Yours Sincerely,
+
+</br> </br></br>
+
+</span>
+
+<span style="font-weight: 700;"> 
+RAVI-RAJ ANODISERS  </br>
+Girish Jangam </br>
+8956204805 </br> sales-girish@ravirajanodisers.com</span> 
+
+
+
+</p>
+
+</div>
+
+                </div>
+
+
+
+            </body>
+
+            {% endblock content %}
+
+
+            {% block js %}
+
+            
+<script>
+
+
+
+    
+</script>
+
+
+
+{% endblock js %}

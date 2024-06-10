@@ -74,7 +74,7 @@ urlpatterns = [
     path('delete-images/', delete_images, name='delete_images'),
 
     path('list-notifications/', list_notifications, name='list_notifications'),
-    path('llow_stock_report/<notification_id>', low_stock_report, name='low_stock_report'),
+    path('low_stock_report/<notification_id>', low_stock_report, name='low_stock_report'),
 
     # path('send-whatsapp-message/', send_whatsapp_message, name='send_whatsapp_message'),
 
@@ -90,6 +90,7 @@ urlpatterns = [
     path('update-order/<order_id>', update_order, name='update_order'),
     path('delete-order/<order_id>', delete_order, name='delete_order'),
     path('list-order/', list_order, name='list_order'),
+    path('print-order/<order_id>', print_order, name='print_order'),
     path('approve-order/<order_id>', approve_order, name='approve_order'),
     
 

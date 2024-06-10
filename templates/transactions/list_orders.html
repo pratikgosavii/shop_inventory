@@ -61,7 +61,7 @@
                                 <td>{{ i.date }}</td>
                                 <td>  
 
-                            {% if i.is_superadmin %}
+                            {% if request.user.is_superuser %}
 
 
 
@@ -70,6 +70,10 @@
                                     </button>  </a>
 
                                     {% endif %}
+
+                                   <a href="{% url 'print_order' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+                                        <span id="payment-button-amount">Print</span>
+                                    </button>  </a>
 
                                    <a href="{% url 'update_order' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
                                         <span id="payment-button-amount">View</span>

@@ -476,6 +476,22 @@ def list_order(request):
 
     return render(request, 'transactions/list_orders.html', context)
 
+def print_order(request, order_id):
+
+    order_data = order.objects.get(id = order_id)
+    order_child_data = order_child.objects.filter(order = order_data)
+
+    print(order_child_data)
+
+    
+    context = {
+        'order_data': order_data,
+        'order_child_data': order_child_data
+    }
+
+    return render(request, 'transactions/print_orders.html', context)
+
+
 def approve_order(request, order_id):
 
     order_instance = order.objects.get(id = order_id)

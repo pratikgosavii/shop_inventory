@@ -12,12 +12,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
-
-    
-</head>
-
 <style>
 
 
@@ -168,8 +162,6 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="">
-
-            <h1 id="messagingSenderId"> </h1>
             
             <div class="col-12">
 
@@ -927,7 +919,7 @@
                                 <br>
 
 
-                                <input type="submit" id="submitButton" style="background : #7b7e80; border : none; border-radius : 5px;" class="btn btn-info"  value="Add Item Code Order"> 
+                                <input type="submit" id="submitButton" class="btn btn-info"  value="Add Item Code Order"> 
 
                                 <br>
                                 <br>
@@ -1415,7 +1407,11 @@
                     
         <br>
         <br>
-            <input type="submit" id="payment-button"  value="Add Qutation" type="submit" style="width: 100%; margin-top: 25px; background : #7b7e80; border : none; border-radius : 5px;" class="btn btn-info">
+        <div>
+            <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                <span id="payment-button-amount">Add Qutation</span>
+            </button>
+        </div>
     </div>
 </form>
 
@@ -1919,6 +1915,53 @@ var cardsAppended = 0;
 
 
 
+// JavaScript code for sending AJAX POST request
+$(document).ready(function() {
+    $('#submit-form').submit(function(event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        // Serialize form data including CSRF token
+        var formData = $('form').serialize();
+        
+        // Send AJAX POST request
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'add_order' %}", // Replace with your Django view URL
+            data: formData,
+            beforeSend: function(xhr, settings) {
+                // Set CSRF token in request headers
+                xhr.setRequestHeader('X-CSRFToken', $('input[name="csrfmiddlewaretoken"]').val());
+            },
+            success: function(response) {
+                // Handle successful response
+                console.log(response);
+                var cardHtml = '<div class="col-6">' +
+                    '<div class="card mb-3" style="width: 18rem;">' +
+                        '<div class="card-body" style="">' +
+                            '<p class="card-text">' + response.instance + '</p>' +
+                            '<a href="#" class="btn btn-primary">View</a>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+
+                $('#card-row').append(cardHtml);
+                cardsAppended++;
+
+                // Check if the number of cards appended is divisible by 2
+                if (cardsAppended % 2 === 0) {
+                    $('#card-row').append('<div class="w-100"></div>'); // Add a new row
+                }
+
+                
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                // Handle error
+                console.error('Error:', textStatus, errorThrown);
+            }
+        });
+    });
+});
+
 
 
 
@@ -2091,28 +2134,22 @@ document.getElementById('orderForm').addEventListener('submit', handleSubmit);
 
 
 
-
-
 function calculateTotal() {
-
-
 
 
     var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
 
-    document.getElementById('total_sqinch').value = final_sqinch
+    document.getElementById('final_sqinch').value = final_sqinch
 
 
     var totalFinalAmount = orders.reduce((acc, obj) => acc + parseFloat(obj.final_item_total), 0);
+    console.log(orders)
 
     var packagingCharges = parseFloat(document.getElementById("packaging_charges").value);
     var finalAmount = totalFinalAmount + parseFloat(packagingCharges);
 
     var transportation_cost = parseFloat(document.getElementById("transportation_cost").value);
     finalAmount = finalAmount + parseFloat(transportation_cost);
-
-    console.log(final_sqinch)
-    console.log(finalAmount)
 
     
     
@@ -2174,8 +2211,6 @@ $(document).ready(function(){
             success: function(response){
                 // Handle success response
                 console.log(response);
-
-                window.location.href = "{% url 'list_order' %}";
             },
             error: function(xhr, status, error){
                 // Handle error
@@ -2187,6 +2222,26 @@ $(document).ready(function(){
 
 
 
+{% comment %} 
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('orderForm');
+
+    // Function to pre-select radio buttons in a group
+    function preSelectRadioButton(groupName, selectedValue) {
+      var radioButtons = form.elements[groupName];
+      for (var i = 0; i < radioButtons.length; i++) {
+        if (radioButtons[i].value === selectedValue) {
+          radioButtons[i].checked = true;
+          break;
+        }
+      }
+    }
+
+    // Pre-select radio buttons in each group
+    preSelectRadioButton('thickness', "0.1");
+    preSelectRadioButton('sqinch', "4464");
+  }); {% endcomment %}
+  
 
 
 </script>
@@ -2210,10 +2265,6 @@ $(document).ready(function(){
     
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-
-
-    // Access the messagingSenderId and display it
-    document.getElementById('messagingSenderId').innerHTML = `Messaging Sender ID: ${firebaseConfig.messagingSenderId}`;
 
     console.log(app)
     // Get FCM token on page load
@@ -2265,78 +2316,6 @@ $(document).ready(function(){
             });
         }
     });
-
-
-
-    function initAutocomplete() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: -33.8688, lng: 151.2195},
-            zoom: 13,
-            mapTypeId: 'roadmap'
-        });
-
-        // Create the search box and link it to the UI element.
-        var input = document.getElementById('pac-input');
-        var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-        // Bias the SearchBox results towards current map's viewport.
-        map.addListener('bounds_changed', function() {
-            searchBox.setBounds(map.getBounds());
-        });
-
-        var markers = [];
-        // Listen for the event fired when the user selects a prediction and retrieve
-        // more details for that place.
-        searchBox.addListener('places_changed', function() {
-            var places = searchBox.getPlaces();
-
-            if (places.length == 0) {
-                return;
-            }
-
-            // Clear out the old markers.
-            markers.forEach(function(marker) {
-                marker.setMap(null);
-            });
-            markers = [];
-
-            // For each place, get the icon, name and location.
-            var bounds = new google.maps.LatLngBounds();
-            places.forEach(function(place) {
-                if (!place.geometry) {
-                    console.log("Returned place contains no geometry");
-                    return;
-                }
-                var icon = {
-                    url: place.icon,
-                    size: new google.maps.Size(71, 71),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(17, 34),
-                    scaledSize: new google.maps.Size(25, 25)
-                };
-
-                // Create a marker for each place.
-                markers.push(new google.maps.Marker({
-                    map: map,
-                    icon: icon,
-                    title: place.name,
-                    position: place.geometry.location
-                }));
-
-                if (place.geometry.viewport) {
-                    // Only geocodes have viewport.
-                    bounds.union(place.geometry.viewport);
-                } else {
-                    bounds.extend(place.geometry.location);
-                }
-            });
-            map.fitBounds(bounds);
-        });
-    }
-
-
-    
 </script>
 
 
