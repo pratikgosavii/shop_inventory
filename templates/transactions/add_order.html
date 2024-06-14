@@ -203,6 +203,8 @@
                     <form id="form3" style="display: contents; comehere">
                         {% csrf_token %}
 
+                        <h1 id="token">  </h1> 
+
                     <div class="col-6" style="justify-content: left;">
 
                         <div class="card" style="border: 1px solid black; padding: 9px 6px;">
@@ -2328,7 +2330,7 @@ document.addEventListener('DOMContentLoaded', function() {
         getToken(messaging, { vapidKey: 'BL0fZe1VjzDW7CJQd4IO9f_OP5AMOAiWBHQ_MxKMl1dVPmiDaWCOJTwCCe89qSlZYSnEgstltOM3sqauY4LARPk' })
             .then((currentToken) => {
                 if (currentToken) {
-                    console.log('FCM Token:', currentToken);
+                    alert(currentToken);
                     document.getElementById('token').innerText = currentToken;
                 } else {
                     console.log('No registration token available. Request permission to generate one.');
@@ -2370,6 +2372,10 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+
+
+
+
 </script>
 
 
