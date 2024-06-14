@@ -1945,19 +1945,18 @@ function renderOrders() {
         
         const orderElement = document.createElement('tr');
         orderElement.classList.add('ssdsds');
-        orderElement.innerHTML = `<td>Item Code:- ${order.item_code}<br>
-            Material:- ${order.material}<br>
-            Process:-  ${order.process}<br>
-            Size:-  ${order.total_sq_inch}<br>
-            Text Matter:-  ${order.text_matter}<br>
-            Type of Etching:-  ${order.etching}<br>
-            Color:-  ${order.color}<br>
-            Rate Per unit:-  ${order.rate_per_unit}<br>
-            With GST:-  ${order.total_amount_with_charges_type}<br>
-            Flim Charges:-  ${order.flim_charges_total}<br>
-            Font:-  ${order.font_height}<br>
-            Material Test Certificate:-  ${order.certificate_price}<br>
-            Sample/Prototype:-  ${order.sample_price}<br>
+        orderElement.innerHTML = ` Item Code:- ${order.item_code}<hr>
+        Material: ${order.material}<hr>
+        Process: ${order.process}<hr>
+        Size: ${order.total_sq_inch}<hr>
+        Text Matter: ${order.text_matter}<hr>
+        Type of Etching: ${order.etching}<hr>
+        Color: ${order.color}<hr>
+        Flim Charges: ${order.flim_charges_total}<hr>
+        Font: ${order.font_height}<hr>
+        Material Test Certificate: ${order.certificate_price}<hr>
+        Sample/Prototype: ${order.sample_price}<hr>
+        With GST: ${order.total_amount_with_charges_type}<hr>
            </td>
         <td> ${order.quantity}</td>
         <td> ${order.rate_per_unit}</td>
@@ -2157,7 +2156,7 @@ $(document).ready(function(){
         
         // Append form data from form3 to form data from form2
         formData = formData.concat(formData3);
-        // Additional array data
+        // Additional array data    
         
         // Append array data to form data
         formData.push({name: 'orders', value: JSON.stringify(orders)});
@@ -2212,8 +2211,6 @@ $(document).ready(function(){
     const app = initializeApp(firebaseConfig);
 
 
-    // Access the messagingSenderId and display it
-    document.getElementById('messagingSenderId').innerHTML = `Messaging Sender ID: ${firebaseConfig.messagingSenderId}`;
 
     console.log(app)
     // Get FCM token on page load

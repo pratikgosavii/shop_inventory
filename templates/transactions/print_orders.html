@@ -146,7 +146,35 @@
         color: #ffffff !important;
     }
     
+
+    th {
+        text-align: center; 
+    }
+
+    td {
+        text-align: center; 
+    }
+
+
+    .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .custom-table, .custom-table th, .custom-table td {
+        border: 1px solid black;
+    }
+    .custom-table th, .custom-table td {
+        padding: 10px;
+        text-align: center;
+    }
     
+
+    .custom-table tr:not(:last-child) td {
+        border: 1px solid black; /* Add border to cells in rows except the last row */
+    }
+    .custom-table tr:last-child td {
+        border: 1px solid black; /* Add border to the full-width cell in the last row */
+    }
     
 </style>
 
@@ -252,7 +280,7 @@
 
                                 <label style="margin-left: 50px;" class="control-label mb-1">Offer Date</label>
                                 <!-- Use the readonly attribute to make the input field read-only -->
-                                <input style="min-width: 200px;" value="{{ order_data.date }}" class="form-control" readonly>
+                                <input style="min-width: 200px;" value="{{ order_data.date|date:"d/m/Y" }}" class="form-control" readonly>
                            
                                 
                             </div>
@@ -268,40 +296,20 @@
             <div class="card col-12" style="border: 1px solid black; padding: 9px 6px;">
 
                 <h3 style="text-align: center; color: #003366;
-                font-weight: 800;"> Other Details </h3>
+                font-weight: 800;"> Client Details </h3>
 
                 <br>
 
             <div style="display: flex;gap: 37px;">
-                <p> Industry:- {{ order_data.industry }} </p>
-                <p> Product:- {{ order_data.product }} </p>
+                <p> Industry: {{ order_data.industry }} </p>
+                <p> Product: {{ order_data.product }} </p>
+            <p> Design format accepted: {{ order_data.file_format }} </p>
             </div>
             <div style="display: flex;gap: 37px;">
-                <p> Design format accepted:- {{ order_data.file_format }} </p>
-                <p> IncoTerm:- {{ order_data.incoterm }} </p>
+                <p> Rejection Acceptance from the date of invoice: {{ order_data.rejection_acceptancedate|date:"d/m/Y" }} </p>
+                <p> Offer Valid Till: {{ order_data.offer_valid_date }}</p>
             </div>
-            <div style="display: flex;gap: 37px;">
-                <p> Mode of Transport:- {{ order_data.transportation_type }} </p>
-                <p> Transportation Charges:- {{ order_data.transportation_cost }} </p>
-            </div>
-            <div style="display: flex;gap: 37px;">
-                <p> Payment In Advance:- {{ order_data.advance }} </p>
-                <p> Payment:- {{ order_data.payment }} </p>
-                <p> Credit Limit in Days:- {{ order_data.credit_days }} </p>
-                <p> Credit Limit in INR:- {{ order_data.credit_limit }} </p>
-            </div>
-            <div style="display: flex;gap: 37px;">
-                <p> Rejection Acceptance from the date of invoice:- {{ order_data.rejection_acceptance }} </p>
-                <p> Offer Valid Till:- {{ order_data.industry }}</p>
-            </div>
-            <div style="display: flex;gap: 37px;">
-                <p> Type of Packaging:- {{ order_data.packaging }} </p>
-                <p> Type of Charges:- {{ order_data.packaging_charges }} </p>
-            </div>
-            <div style="display: flex;gap: 37px;">
-                <p> Total Sqinch:- {{ order_data.total_sqinch }} </p>
-                <p> Final Amount:- {{ order_data.final_amount }} </p>
-            </div>
+           
 
 
 
@@ -322,7 +330,6 @@
                         <tr>
                             <th>Description</th>
                             <th>Quantity </th>
-                            <th>Per Unit Amount</th>
                             <th>Final Amount</th>
                             <th class="no-print">Actions</th>
                         </tr>
@@ -332,22 +339,19 @@
                         {% for i in order_child_data %}
 
                         <tr>
-                        <td>Item Code:- {{ i.item_code }}<br>
-                            Material:- {{ i.material }}<br>
-                            Process:-  {{ i.process }}<br>
-                            Size:-  {{ i.total_sq_inch }}<br>
-                            Text Matter:-  {{ i.text_matter }}<br>
-                            Type of Etching:-  {{ i.etching }}<br>
-                            Color:-  {{ i.color }}<br>
-                            Rate Per unit:-  {{ i.rate_per_unit }}<br>
-                            With GST:-  {{ i.total_amount_with_charges_type }}<br>
-                            Flim Charges:-  {{ i.flim_charges_total }}<br>
-                            Font:-  {{ i.font_height }}<br>
-                            Material Test Certificate:-  {{ i.certificate_price }}<br>
-                            Sample/Prototype:-  {{ i.sample_price }}<br>
+                        <td>Item Code: {{ i.item_code }}<br>
+                            Material: {{ i.material }}<br>
+                            Process:  {{ i.process }}<br>
+                            Dimentions : {{ i.length }} X {{ i.width }}<br>
+                            Text Matter:  {{ i.text_matter }}<br>
+                            Type of Etching:  {{ i.etching }}<br>
+                            Color:  {{ i.color }}<br>
+                            Flim Charges:  {{ i.flim_charges_total }}<br>
+                            Font:  {{ i.font_height }}<br>
+                            Material Test Certificate:  {{ i.certificate_price }}<br>
+                            Sample/Prototype:  {{ i.sample_price }}<br>
                             </td>
                         <td> {{ i.quantity }}</td>
-                        <td> {{ i.rate_per_unit }}</td>
                         <td> {{ i.final_item_total }} </td>
                         </tr>
                         {% endfor %}
@@ -357,6 +361,48 @@
             </div>
             </div>
             </div>
+
+            <div class="card" style="padding : 0px;">
+
+
+
+                
+
+                <div style="border: 1px solid black; padding: 9px 6px; border-radius: 12px;">
+
+                    <h1 style="font-size: 18px;
+                    font-weight: 700;
+                    text-align: center;
+                    margin-bottom: 14px;"> Commercial And Logical Details
+                </h1>
+
+                <table class="custom-table">
+                    <tr>
+                        <td> IncoTerm: {{ order_data.incoterm }} </td>
+                        <td> Mode of Transport: {{ order_data.transportation_type }} </td>
+                        <td> Transportation Charges: {{ order_data.transportation_cost }} </td>
+                    </tr>
+                    <tr>
+                        <td> IncoTerm: {{ order_data.incoterm }} </td>
+                        <td> Mode of Transport: {{ order_data.transportation_type }} </td></td>
+                        <td> Transportation Charges: {{ order_data.transportation_cost }} </td>
+                    </tr>
+                    <tr>
+                        <td> Payment In Advance: {{ order_data.advance }} </td>
+                        <td> Payment: {{ order_data.payment }} </td>
+                        <td> Credit Limit in Days: {{ order_data.credit_days }} </td>
+                    </tr>
+                    <tr>
+                        <td> Credit Limit in INR: {{ order_data.credit_limit }} </td>
+                        <td> Type of Packaging: {{ order_data.packaging }} </td>
+                        <td> Type of Charges: {{ order_data.packaging_charges }} </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"> Final Amount: {{ order_data.final_amount }} </td>
+                    </tr>
+                </table>
+        </div>
+    </div>
 
                 <div class="card" style="padding : 0px;">
 
@@ -371,10 +417,10 @@
     GST 18% on basic rate
 </br> <span style="font-weight: 700;">  Payment Term :  </span>
     100% against Proforma Invoice
+</br> We hope our offer will fulfill your requirement & look forward to your valued order.
+Do revert back for any querries.
 </br> <span style="font-weight: 700;">  Validity of Quotation :  </span>
     Up to 7 days from the date of quotation.
-</br> We hope our offer will fulfill your requirement & look forward to your valued order.
-    Do revert back for any querries.
 </br></br>
 </br> <span style="font-weight: 700;"> 
     Thanking You,</br>

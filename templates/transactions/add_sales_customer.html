@@ -1,81 +1,187 @@
-{% extends 'base/base.html' %}
+<!DOCTYPE html>
+<!--
+ @license
+ Copyright 2024 Google LLC. All Rights Reserved.
+ SPDX-License-Identifier: Apache-2.0
+-->
+<html>
+  <head>
+    <title>Place Autocomplete</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script>
+      /**
+       * @license
+       * Copyright 2024 Google LLC. All Rights Reserved.
+       * SPDX-License-Identifier: Apache-2.0
+       */
+      async function init() {
+        await customElements.whenDefined('gmp-map');
 
+        const map = document.querySelector("gmp-map");
+        const marker = document.getElementById("marker");
+        const strictBoundsInputElement = document.getElementById("use-strict-bounds");
+        const placePicker = document.getElementById("place-picker");
+        const infowindowContent = document.getElementById("infowindow-content");
+        const infowindow = new google.maps.InfoWindow();
 
+        map.innerMap.setOptions({mapTypeControl: false});
+        infowindow.setContent(infowindowContent);
 
-{% block title %}Submit{% endblock title %}
+        placePicker.addEventListener('gmpx-placechange', () => {
+          const place = placePicker.value;
 
-{% block breadcrumbs %}
-{% endblock breadcrumbs %}
+          if (!place.location) {
+            window.alert(
+              "No details available for input: '" + place.name + "'"
+            );
+            infowindow.close();
+            marker.position = null;
+            return;
+          }
 
-{% block content %}
-{% if form.errors %}
-    {% for field in form %}
-        {% for error in field.errors %}
-            <p> {{ error }} </p>
-        {% endfor %}
-    {% endfor %}
-{% endif %}
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
-                <strong class="card-title">Add Sales Customer</strong>
-            </div>
-            <div class="card-body">
-                <!-- Credit Card -->
-                <div id="pay-invoice">
-                    <div class="card-body">
-                        <form action="#" method="post" >
-                            {% csrf_token %}
+          if (place.viewport) {
+            map.innerMap.fitBounds(place.viewport);
+          } else {
+            map.center = place.location;
+            map.zoom = 17;
+          }
 
-                           
-                            <div class="form-group">
-                                <label for="name" class="control-label mb-1">Name</label>
-                                {{ form.name }}
-                            </div>
+          marker.position = place.location;
+          infowindowContent.children["place-name"].textContent = place.displayName;
+          infowindowContent.children["place-address"].textContent = place.formattedAddress;
+          infowindow.open(map.innerMap, marker);
+        });
 
-                            <div class="form-group">
-                                <label for="name" class="control-label mb-1">Address</label>
-                                {{ form.address }}
-                            </div>
+        // Sets a listener on a radio button to change the filter type on the place picker
+        function setupClickListener(id, type) {
+          const radioButton = document.getElementById(id);
+          radioButton.addEventListener("click", () => {
+            placePicker.type = type;
+          });
+        }
+        setupClickListener("changetype-all", "");
+        setupClickListener("changetype-address", "address");
+        setupClickListener("changetype-establishment", "establishment");
+        setupClickListener("changetype-geocode", "geocode");
+        setupClickListener("changetype-cities", "(cities)");
+        setupClickListener("changetype-regions", "(regions)");
 
+        strictBoundsInputElement.addEventListener("change", () => {
+          placePicker.strictBounds = strictBoundsInputElement.checked;
+        });
+      }
 
-                            <div class="form-group">
-                                <label for="name" class="control-label mb-1">Address</label>
+      document.addEventListener('DOMContentLoaded', init);
+    </script>
+    <style>
+      /**
+       * @license
+       * Copyright 2024 Google LLC. All Rights Reserved.
+       * SPDX-License-Identifier: Apache-2.0
+       */
 
-                                <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-    <div id="map"></div>
+      /*
+       * Optional: Makes the sample page fill the window.
+       */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
 
+      /*
+       * Prevent a flash of unstyled content before the custom element is defined.
+       */
+      gmp-map:not(:defined) {
+        display: none;
+      }
 
-                            </div>
-                            <div class="form-group">
-                                <label for="name" class="control-label mb-1">Address</label>
-                                {{ form.address }}
-                            </div>
+      #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
 
-                            <div class="form-group">
-                                <label for="name" class="control-label mb-1">Mobile No</label>
-                                {{ form.mobile_no }}
-                            </div>
+      #infowindow-content {
+        display: none;
+      }
 
-                            <div class="form-group">
-                                <label for="name" class="control-label mb-1">GST No</label>
-                                {{ form.client_gst }}
-                            </div>
-                            
+      .pac-card {
+        background-color: #fff;
+        border-radius: 2px;
+        box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+        margin: 10px;
+        font: 400 18px Roboto, Arial, sans-serif;
+        overflow: hidden;
+      }
 
-                            <div>
-                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
-                                    <span id="payment-button-amount">Submit</span>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+      .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
 
-            </div>
-        </div> <!-- .card -->
+      .pac-controls label {
+        font-size: 13px;
+        font-weight: 300;
+      }
 
-    </div><!--/.col-->
-</div>
-{% endblock content %}
+      #place-picker {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0.5rem 1rem 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+     This loads helper components from the Extended Component Library,
+     https://github.com/googlemaps/extended-component-library.
+     Please note unpkg.com is unaffiliated with Google Maps Platform.
+    -->
+    <script type="module" src="https://unpkg.com/@googlemaps/extended-component-library@0.6">
+    </script>
+    <gmpx-api-loader
+        key="AIzaSyAqxNOnKIMM3Qgz_eKowk3Zj1_wb87-jkM"
+        solution-channel="GMP_CCS_autocomplete_v3">
+    </gmpx-api-loader>
+    <gmp-map id="map" center="40.749933,-73.98633" zoom="13" map-id="DEMO_MAP_ID">
+      <div slot="control-block-start-inline-start" class="pac-card" id="pac-card">
+        <div>
+          <div id="title">Autocomplete search</div>
+          <div id="type-selector" class="pac-controls">
+            <input type="radio" name="type" id="changetype-all" checked="checked" />
+            <label for="changetype-all">All</label>
+
+            <input type="radio" name="type" id="changetype-establishment" />
+            <label for="changetype-establishment">establishment</label>
+
+            <input type="radio" name="type" id="changetype-address" />
+            <label for="changetype-address">address</label>
+
+            <input type="radio" name="type" id="changetype-geocode" />
+            <label for="changetype-geocode">geocode</label>
+
+            <input type="radio" name="type" id="changetype-cities" />
+            <label for="changetype-cities">(cities)</label>
+
+            <input type="radio" name="type" id="changetype-regions" />
+            <label for="changetype-regions">(regions)</label>
+          </div>
+          <br />
+          <div id="strict-bounds-selector" class="pac-controls">
+            <input type="checkbox" id="use-strict-bounds" value="" />
+            <label for="use-strict-bounds">Restrict to map viewport</label>
+          </div>
+        </div>
+        <gmpx-place-picker id="place-picker" for-map="map"></gmpx-place-picker>
+      </div>
+      <gmp-advanced-marker id="marker"></gmp-advanced-marker>
+    </gmp-map>
+    <div id="infowindow-content">
+      <span id="place-name" class="title" style="font-weight: bold;"></span><br />
+      <span id="place-address"></span>
+    </div>
+  </body>
+</html>
