@@ -251,7 +251,7 @@ def send_notification():
             "time": "FCM Message"
         },
         "registration_ids": [
-            "cikuUpJv7AKnXm9CkIMaCJ:APA91bFIf6zJZYTSw5d3GiEjOBpkeFmg2096zYtBv00dZskbKB9YpI_dbORCtL1urv6syPPasGox606lDTZWdT4oMZ49yqHR_7pkHIvO0IFWJ6SShJ96sVaW0ZftblUySLGAPAVGEdyX",
+            "deXBxhh5kaaduGWQn-XIWH:APA91bF6HOf_sdv0yLfgxKKhxr0V-ilVOzPtFEbU9MLhFyKISQDdOvFCVuA0dihoXvuB94iAXsBOOYWEz7i6o9u90e9NWDd3a5KeH8ANQQrnoFiXopO95-VBvM2X0b53EEIA3g4ZXV3l"
         ]
     }
 
@@ -298,15 +298,15 @@ def add_order(request):
 
                     forms.save()
 
-                    send_notification()
-
-                    return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
-
+                    
 
                 else:
 
                     print(forms.errors)
 
+            send_notification()
+
+            return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
 
 
         else:

@@ -2193,6 +2193,8 @@ $(document).ready(function(){
 </script>
 
 
+<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+
 
 <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
@@ -2219,7 +2221,7 @@ $(document).ready(function(){
     document.addEventListener('DOMContentLoaded', function () {
         const messaging = getMessaging(app);
 
-        getToken(messaging, { vapidKey: 'BL0fZe1VjzDW7CJQd4IO9f_OP5AMOAiWBHQ_MxKMl1dVPmiDaWCOJTwCCe89qSlZYSnEgstltOM3sqauY4LARPk' })
+        getToken(messaging, { vapidKey: 'BL0fZe1VjzDW7CJQd4IO9f_OP5AMOAiWBHQ_MxKMl1dVPmiDaWCOJTwCCe89qSlZYSnEgstltOM3sqauY4LARPk'})
             .then((currentToken) => {
                 if (currentToken) {
                     document.getElementById('token').innerText = currentToken;
@@ -2235,6 +2237,43 @@ $(document).ready(function(){
         onMessage(function (payload) {
             console.log("Message received. ", JSON.stringify(payload));
         });
+
+
+
+
+        firebase.initializeApp(firebaseConfig);
+
+        
+    const messaging = firebase.messaging();
+    
+    function resetUI() {
+        console.log("In reset ui");
+        messaging.getToken().then(function (currentToken) {
+            alert(currentToken);
+            if (currentToken) {
+                alert(currentToken);
+            } 
+        }).catch(function (err) {
+            console.log(err);
+            setTokenSentToServer(false);
+        });
+    }
+
+    function requestPermission() {
+        messaging.requestPermission().then(function () {
+            console.log("Has permission!");
+            resetUI();
+        }).catch(function (err) {
+            console.log('Unable to get permission to notify.', err);
+        });
+    }
+
+    requestPermission();
+
+
+
+
+
 
     // Listen for incoming messages
     navigator.serviceWorker.addEventListener('message', (event) => {
