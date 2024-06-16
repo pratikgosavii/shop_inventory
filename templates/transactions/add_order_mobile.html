@@ -1421,6 +1421,12 @@
     </div>
 </form>
 
+
+<button id="enable-notifications">Enable Notifications</button>
+
+
+
+
 </div>
 
 
@@ -2213,62 +2219,39 @@ $(document).ready(function(){
     
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
 
+    // Request permission to send notifications
+    async function requestPermission() {
+        try {
+            // Request notification permission from the user
+            const permission = await Notification.requestPermission();
+            
+            if (permission === 'granted') {
+                console.log('Notification permission granted.');
 
-
-    console.log(app)
-    // Get FCM token on page load
-    document.addEventListener('DOMContentLoaded', function () {
-        const messaging = getMessaging(app);
-
-        getToken(messaging, { vapidKey: 'BL0fZe1VjzDW7CJQd4IO9f_OP5AMOAiWBHQ_MxKMl1dVPmiDaWCOJTwCCe89qSlZYSnEgstltOM3sqauY4LARPk'})
-            .then((currentToken) => {
-                if (currentToken) {
-                    document.getElementById('token').innerText = currentToken;
-                } else {
-                    console.log('No registration token available. Request permission to generate one.');
-                }
-            })
-            .catch((err) => {
-                console.log('An error occurred while retrieving token:', err);
-            });
-        });
-    
-        onMessage(function (payload) {
-            console.log("Message received. ", JSON.stringify(payload));
-        });
-
-
-
-
-        firebase.initializeApp(firebaseConfig);
-
-        
-    const messaging = firebase.messaging();
-    
-    function resetUI() {
-        console.log("In reset ui");
-        messaging.getToken().then(function (currentToken) {
-            alert(currentToken);
-            if (currentToken) {
-                alert(currentToken);
-            } 
-        }).catch(function (err) {
-            console.log(err);
-            setTokenSentToServer(false);
-        });
+                // Get the FCM token
+                const token = await getToken(messaging, { vapidKey: 'BL0fZe1VjzDW7CJQd4IO9f_OP5AMOAiWBHQ_MxKMl1dVPmiDaWCOJTwCCe89qSlZYSnEgstltOM3sqauY4LARPk' });
+                alert(token);
+                // Send the token to your server and store it with the user ID
+            } else {
+                alert('Unable to get permission to notify.');
+            }
+        } catch (error) {
+            alert(error.message);
+        }
     }
 
-    function requestPermission() {
-        messaging.requestPermission().then(function () {
-            console.log("Has permission!");
-            resetUI();
-        }).catch(function (err) {
-            console.log('Unable to get permission to notify.', err);
-        });
-    }
+    document.getElementById('enable-notifications').addEventListener('click', () => {
+        requestPermission();
+    });
 
-    requestPermission();
+    // Handle incoming messages
+    onMessage(messaging, (payload) => {
+        console.log('Message received. ', payload);
+        // Customize notification handling
+        // For example, show a notification using the Notifications API
+    });
 
 
 
