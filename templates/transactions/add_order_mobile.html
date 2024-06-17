@@ -2242,13 +2242,13 @@ if ('serviceWorker' in navigator) {
         console.error('Service Worker registration failed:', error);
     });
 } else {
-    console.error('Service workers are not supported by this browser.');
+    alert('Service workers are not supported by this browser.');
 }
 
 // Request permission to send notifications
 async function requestPermission() {
     if (!('Notification' in window)) {
-        console.error('Notifications are not supported by this browser.');
+        alert('Notifications are not supported by this browser.');
         alert('Notifications are not supported by your browser.');
         return;
     }
@@ -2256,7 +2256,7 @@ async function requestPermission() {
     try {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
-            console.log('Notification permission granted.');
+            alert('Notification permission granted.');
 
             // Get the FCM token
             const token = await getToken(messaging, { vapidKey: 'BL0fZe1VjzDW7CJQd4IO9f_OP5AMOAiWBHQ_MxKMl1dVPmiDaWCOJTwCCe89qSlZYSnEgstltOM3sqauY4LARPk' });
@@ -2266,7 +2266,7 @@ async function requestPermission() {
             console.log('Unable to get permission to notify.');
         }
     } catch (error) {
-        console.error('Error getting token:', error.code, error.message);
+        alert(error.message);
         alert(`Error getting token: ${error.code} - ${error.message}`);
     }
 }
