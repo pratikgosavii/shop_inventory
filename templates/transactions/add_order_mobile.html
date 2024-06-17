@@ -2263,7 +2263,7 @@ async function requestPermission() {
             alert(token);
             // Send the token to your server and store it with the user ID
         } else {
-            console.log('Unable to get permission to notify.');
+           alert('Unable to get permission to notify.');
         }
     } catch (error) {
         alert(error.message);
