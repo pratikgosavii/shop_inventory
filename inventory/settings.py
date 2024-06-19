@@ -166,7 +166,6 @@ PUSH_NOTIFICATIONS_SETTINGS = {
 
 # settings.py
 
-FIREBASE_SERVER_KEY = 'Your-Firebase-Server-Key'
 
 
 

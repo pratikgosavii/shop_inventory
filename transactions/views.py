@@ -204,6 +204,12 @@ def delete_sales_customer(request, sales_customer_id):
 
         
 
+def gettoken(request):
+
+
+    return render(request, 'transactions/gettoken.html')
+
+
 @login_required(login_url='login')
 def list_sales_customer(request):
 

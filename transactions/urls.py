@@ -86,6 +86,9 @@ urlpatterns = [
     path('list-sales-customer/', list_sales_customer, name='list_sales_customer'),
 
 
+    path('gettoken/', gettoken, name='add_order'),
+
+
     path('add-order/', add_order, name='add_order'),
     path('update-order/<order_id>', update_order, name='update_order'),
     path('delete-order/<order_id>', delete_order, name='delete_order'),
