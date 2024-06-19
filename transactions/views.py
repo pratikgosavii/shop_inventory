@@ -572,7 +572,7 @@ def send_whatsapp_message(request):
 
     # Your message content
     account_sid = 'AC6e2f2b583277bf364e1a380accdf7084'
-    auth_token = 'AC6e2f2b583277bf364e1a380accdf7084'
+    auth_token = '75a36a30175a1083d5f28f3c8d609095'
     client = Client(account_sid, auth_token)
     msg = 'Category:'
     message = client.messages.create(
