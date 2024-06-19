@@ -15,8 +15,8 @@
     <script type="module">
 
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-        import { getMessaging } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging.js';
-
+        import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging.js';
+        
 
         // Your Firebase project configuration
         const firebaseConfig = {
@@ -29,32 +29,28 @@
             measurementId: "G-VTWK2QSFXM"
         };
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        // Retrieve Firebase Messaging object
-        const messaging = firebase.messaging();
+     
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
 
         // Request permission and get token
-        messaging.requestPermission()
-        .then(() => {
-            console.log('Notification permission granted.');
-            return messaging.getToken();
-        })
-        .then((token) => {
-            console.log('Device token:', token);
-            document.getElementById('token').textContent = `Device Token: ${token}`;
-            // You can now send the token to your server and store it for sending notifications
+        getToken(messaging, { vapidKey: 'YOUR_VAPID_KEY' })
+        .then((currentToken) => {
+            if (currentToken) {
+                console.log('Device token:', currentToken);
+                document.getElementById('token').textContent = `Device Token: ${currentToken}`;
+                // Send the token to your server if needed
+            } else {
+                console.log('No registration token available. Request permission to generate one.');
+                // Show permission UI
+            }
         })
         .catch((err) => {
-            console.error('Unable to get permission to notify.', err);
+            console.error('An error occurred while retrieving token. ', err);
+            // Handle errors here
         });
 
-        // Handle incoming messages
-        messaging.onMessage((payload) => {
-            console.log('Message received. ', payload);
-            // Display the message or handle it as needed
-        });
+        
     </script>
 </body>
 </html>
