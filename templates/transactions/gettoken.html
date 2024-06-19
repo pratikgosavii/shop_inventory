@@ -3,8 +3,7 @@
 <head>
     <title>Firebase Cloud Messaging Example</title>
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging.js"></script>
+   
 </head>
 <body>  
     <!-- Your content goes here -->
@@ -14,6 +13,12 @@
 
     <!-- Firebase Configuration -->
     <script type="module">
+
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+        import { getMessaging } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging.js';
+
+
+        
         // Your Firebase project configuration
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
