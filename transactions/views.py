@@ -570,17 +570,7 @@ from django.conf import settings
 
 def send_whatsapp_message(request):
 
-    # # Your message content
-    # account_sid = 'AC6e2f2b583277bf364e1a380accdf7084'
-    # auth_token = 'AC6e2f2b583277bf364e1a380accdf7084'
-    # client = Client(account_sid, auth_token)
-    # msg = 'Category:'
-    # message = client.messages.create(
-    # from_='whatsapp:+17622262635',
-    # body=msg,
-    # to='whatsapp:+918237377298'
-    # )
-
+   
     return True
 
 
