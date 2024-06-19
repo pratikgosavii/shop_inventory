@@ -568,15 +568,15 @@ from django.http import HttpResponse
 from twilio.rest import Client
 from django.conf import settings
 
-def send_whatsapp_message(request, category, size, thickness, grade):
+def send_whatsapp_message(request):
 
     # Your message content
-    account_sid = 'AC99a2212d49d4b1349fc702d1227c0e00'
-    auth_token = '560bf0fc1c4e1ab09c32ca9bda22226c'
+    account_sid = 'AC6e2f2b583277bf364e1a380accdf7084'
+    auth_token = 'AC6e2f2b583277bf364e1a380accdf7084'
     client = Client(account_sid, auth_token)
-    msg = 'Category: ' + str(category) + 'Thickness: ' +  str(thickness) + 'Grade: ' + str(grade) + 'Size :' + str(size) + 'Quantity is less than 5'
+    msg = 'Category:'
     message = client.messages.create(
-    from_='whatsapp:+14155238886',
+    from_='whatsapp:+17622262635',
     body=msg,
     to='whatsapp:+918237377298'
     )
