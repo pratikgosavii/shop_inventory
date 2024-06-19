@@ -577,18 +577,18 @@ from django.conf import settings
 def send_whatsapp_message(request):
 
 
+        
+        
     account_sid = 'ACe3a4c9baa947e9d32c1dce288a6f0382'
-    auth_token = 'db8e3c863ce78955e80298389dc11f6b'
+    auth_token = '5b74b40eaa0e1490f47a811434ed4781'
     client = Client(account_sid, auth_token)
 
     message = client.messages.create(
-    from_='whatsapp:+16505572511',
-    body='Your appointment is coming up on July 21 at 3PM',
+    from_='whatsapp:+14155238886',
     to='whatsapp:+918237377298'
     )
 
     print(message.sid)
-
 
 def sheet_tracking(request, sheet_id, rfid_value):
 
