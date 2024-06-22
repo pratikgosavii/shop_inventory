@@ -190,21 +190,7 @@ font-family: 'Montserrat', sans-serif;
 
         {% if request.user.is_reception or request.user.is_superuser %}
 
-        <div style="display : flex;">
-
-            <form action="{% url 'generate_product_qr' %}" method="post" style="display: flex; gap: 40px;">
-
-                {% csrf_token %}
-
-                <input type="number" max="16" class="form-control" style="width : 263px;" name="quantity" placeholder="Enter Material Quantity" inputmode="numeric">
-                <button type="submit" class="btn btn-success form-input"> Generate QR </button>
-                
-            </form>
-
-            <a href="{% url 'generate_product_qr_with_values' %}" style="margin-left : 16px;">
-            <button type="submit" class="btn btn-success form-input"> Generate QR with values </button> </a>
-
-        </div>
+        
         <br> <br>
 
         <div>
