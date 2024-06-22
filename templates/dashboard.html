@@ -186,33 +186,40 @@ font-family: 'Montserrat', sans-serif;
     
 
 
-    <div class="form-group" style="display: flex;">
+    <div class="form-group" >
 
         {% if request.user.is_reception or request.user.is_superuser %}
 
-        <form action="{% url 'generate_product_qr' %}" method="post" style="display: flex; gap: 40px;">
+        <div style="display : flex;">
 
-            {% csrf_token %}
+            <form action="{% url 'generate_product_qr' %}" method="post" style="display: flex; gap: 40px;">
 
-            <input type="number" max="16" class="form-control" style="width : 263px;" name="quantity" placeholder="Enter Material Quantity" inputmode="numeric">
-            <button type="submit" class="btn btn-success form-input"> Generate QR </button>
-            
-        </form>
+                {% csrf_token %}
 
-        <a href="{% url 'generate_product_qr_with_values' %}" style="margin-left : 16px;">
-        <button type="submit" class="btn btn-success form-input"> Generate QR with values </button> </a>
+                <input type="number" max="16" class="form-control" style="width : 263px;" name="quantity" placeholder="Enter Material Quantity" inputmode="numeric">
+                <button type="submit" class="btn btn-success form-input"> Generate QR </button>
+                
+            </form>
 
+            <a href="{% url 'generate_product_qr_with_values' %}" style="margin-left : 16px;">
+            <button type="submit" class="btn btn-success form-input"> Generate QR with values </button> </a>
+
+        </div>
+        <br> <br>
+
+        <div>
         
-         <a style="margin-left : 20px;" href="{% url 'scanner_page' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan QR </button> </a>
-       
-         {% endif %}
+            <a style="margin-left : 20px;" href="{% url 'scanner_page' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan QR </button> </a>
+        
+            {% endif %}
 
-        {% if request.user.is_cutter or request.user.is_superuser %}
+            {% if request.user.is_cutter or request.user.is_superuser %}
 
-         <a style="margin-left : 20px;" href="{% url 'show_scanner_assign_matarial_qr' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Update QR </button> </a>
+            <a style="margin-left : 20px;" href="{% url 'show_scanner_assign_matarial_qr' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Update QR </button> </a>
 
-         {% endif %}
+            {% endif %}
 
+        </div>
     </div>
 
     <hr>

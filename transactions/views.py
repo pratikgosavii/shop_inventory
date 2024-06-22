@@ -79,8 +79,11 @@ from django.db.models import Sum
 def list_stock(request):
 
    
-    data = stock.objects.filter(quantity__gt =  0).prefetch_related('product__project_material_re')
+    data = stock.objects.filter(quantity__gt=0).prefetch_related('product__project_material_re').order_by('product__category', 'product__grade')
+    
+    
     total_stock = data.aggregate(total_stock=Sum('quantity'))['total_stock']
+    
     context = {
         'data': data,
         'total_stock' : total_stock,
@@ -2370,6 +2373,7 @@ def print_label(request, project_id, product_qr_id):
         
         'project_id': project_id,
         'product_qr_id': product_qr_id,
+        # 'sqinch_alloted': product_qr_id,
         'date': datetime.now(),
         'project_name': project_instance.customer,
     }
