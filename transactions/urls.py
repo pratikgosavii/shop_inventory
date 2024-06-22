@@ -76,7 +76,7 @@ urlpatterns = [
     path('list-notifications/', list_notifications, name='list_notifications'),
     path('low_stock_report/<notification_id>', low_stock_report, name='low_stock_report'),
 
-    path('send-whatsapp-message/', send_whatsapp_message, name='send_whatsapp_message'),
+    path('send-whatsapp-message/<link_id>', send_whatsapp_message, name='send_whatsapp_message'),
 
 
 

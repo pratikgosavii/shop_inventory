@@ -310,7 +310,7 @@ def add_order(request):
 
                     print(forms.errors)
 
-            send_notification()
+            send_whatsapp_message(forms_order.instance.id)
 
             return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
 
@@ -574,20 +574,29 @@ from django.http import HttpResponse
 from twilio.rest import Client
 from django.conf import settings
 
-def send_whatsapp_message(request):
+def send_whatsapp_message(request, link_id):
 
-
+    
         
         
     account_sid = 'ACe3a4c9baa947e9d32c1dce288a6f0382'
     auth_token = '5b74b40eaa0e1490f47a811434ed4781'
     client = Client(account_sid, auth_token)
+    # Construct the link using Django's reverse function
+    link = 'https://shopinventory.pythonanywhere.com/transactions/update-order/1'
+
+    # Format the current datetime
+    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    # Create the message body
+    message_body = f'New quotation added!. Click: {link}'
 
     message = client.messages.create(
-    from_='whatsapp:+14155238886',
-    to='whatsapp:+918237377298'
+        from_='whatsapp:+16505572511',
+        body=message_body,
+        to='whatsapp:+918237377298'
     )
-
+    
     print(message.sid)
 
 def sheet_tracking(request, sheet_id, rfid_value):
