@@ -313,7 +313,7 @@ def add_order(request):
 
                     print(forms.errors)
 
-            send_whatsapp_message(forms_order.instance.id)
+            send_whatsapp_message(request, forms_order.instance.id)
 
             return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
 
