@@ -33,8 +33,6 @@ IST = pytz.timezone('Asia/Kolkata')
 
 
 
-from django.conf import settings
-
 
 def demo(request):
 
@@ -315,7 +313,7 @@ def add_order(request):
 
                     print(forms.errors)
 
-            send_whatsapp_message(request, forms_order.instance.id)
+            send_whatsapp_message(forms_order.instance.id)
 
             return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
 
@@ -336,14 +334,6 @@ def add_order(request):
     
     else:
 
-
-            
-        account_sid = settings.TWILIO_ACCOUNT_SID
-        auth_token = settings.TWILIO_AUTH_TOKEN
-
-
-        print('-----------------')
-        print(account_sid)
       
         forms = order_Form()
 
@@ -596,13 +586,8 @@ def send_whatsapp_message(request, link_id):
     
         
         
-        
-    account_sid = settings.TWILIO_ACCOUNT_SID
-    auth_token = settings.TWILIO_AUTH_TOKEN
-
-
-    print(account_sid)
-
+    account_sid = settings.account_sid
+    auth_token = settings.auth_token
     client = Client(account_sid, auth_token)
     # Construct the link using Django's reverse function
     link = 'https://shopinventory.pythonanywhere.com/transactions/update-order/1'
@@ -1921,10 +1906,9 @@ def update_assign_matarial_qr(request, product_qr_id):
                     
                     message_body =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + "Left :- " + str(stock_instance.quantity)
 
-                                                        
-                                        
-                    account_sid = settings.TWILIO_ACCOUNT_SID
-                    auth_token = settings.TWILIO_AUTH_TOKEN
+                                    
+                    account_sid = settings.account_sid
+                    auth_token = settings.auth_token
                     client = Client(account_sid, auth_token)
 
 
@@ -1938,14 +1922,7 @@ def update_assign_matarial_qr(request, product_qr_id):
                         )
                     
 
-
                     
-
-
-
-
-
-
               
             else:
                 
