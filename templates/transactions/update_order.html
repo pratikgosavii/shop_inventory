@@ -1,6 +1,8 @@
+
+
 {% extends 'base/base.html' %}
 
-
+{% load static %}
 
 {% block title %}Create Product{% endblock title %}
 
@@ -11,8 +13,29 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+
     
+</head>
+
 <style>
+
+
+    .ssdsds {
+        background-color: #b0ffb0;;
+    }
+
+    .ssdsds{
+    color: black;
+    font-weight: 600;
+    margin-left: 18px;
+    left: 10px;
+
+    background-color: #f3f3f3;
+}
+
 
 
     #video {
@@ -20,42 +43,7 @@
     }
 
 
-    .table {
-        width: 100%;
-        max-width: 100%;
-        margin-bottom: 1rem;
-        background-color: transparent;
-    }
-    
-    
-    .table th, .table thead th {
-        font-weight: 500;
-    }
-    
-    
-    .table thead th {
-        vertical-align: bottom;
-        border-bottom: 2px solid #dee2e6;
-    }
-    
-    
-    .table th {
-        padding: 1rem;
-        vertical-align: top;
-        border-top: 1px solid #dee2e6;
-    }
-    
-    
-    .table th, .table thead th {
-        font-weight: 500;
-    }
-    
-    
-    th {
-        text-align: inherit;
-    }
-    
-
+  
     .form-group {
         display: flex;
         align-items: center;
@@ -114,8 +102,52 @@
             margin-left: 0px !important;
         }
 
+
+        .no-print {
+            display: none !important;
+          }
+
+
+          th, td {
+            -webkit-print-color-adjust: exact; 
+            print-color-adjust: exact;
+          }
+
+
     }
     
+
+
+    label {
+        flex: 1;
+        margin-bottom: 0;
+        font-weight: 600 !important;
+    }
+
+    .card {
+        display: flow;
+        padding: 10px;
+        border-radius: 12px;
+        margin-bottom: 0.6em;
+    }
+
+    @media print {
+        body {
+          -webkit-print-color-adjust: exact; /* For WebKit browsers */
+          color-adjust: exact; /* For other browsers */
+        }
+      
+        .printable {
+          background-color: #f0f0f0;
+          color: #333;
+          padding: 10px;
+          border: 1px solid #ccc;
+        }
+      
+        .no-print {
+          display: none;
+        }
+      }
     
     
 </style>
@@ -125,64 +157,91 @@
 {% block content %}
 
 
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="icon-box">
+					<i class="material-icons">&#xE876;</i>
+				</div>				
+				<h4 class="modal-title w-100">Awesome!</h4>	
+			</div>
+			<div class="modal-body">
+				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>     
+
+
 <div class="row">
     <div class="col-lg-12">
-        <div class="card">
+        <div class="">
+
+            <h1 id="messagingSenderId"> </h1>
             
-            <div class="container">
-                <div class="row">
-                  <div class="col-12" style="font-size: 23px;
-                  border: 1px solid black;
-                  text-align: center;
-                  padding: 10px;">
-                    Techno - Commerical Offer
-                  </div>
-                
-                </div>
+            <div class="col-12">
+
+                    <div class="col-3">
+                        <img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 96px; margin-right: 10px;">
+                    </div>
+
+                    <div class="col-9 card" style="font-size: 23px; border: 1px solid black; text-align: center; padding: 10px; color: white; font-weight: bolder; background: #003366; display: flex; align-items: center; justify-content: center;">
+                        Techno - Commercial Offer
+                    </div>
             </div>
+            
 
               <br>
 
             <div class="row">
-                <div class="col-12" style="display : flex;">
+                <div class="col-12" style="">
                     <form id="form3" style="display: contents; comehere">
                         {% csrf_token %}
 
-                    <div class="col-6" style="justify-content: left;">
+                        <h1 id="token"> </h1>
 
-                        <div style="border: 1px solid black; padding: 9px 6px;">
+                    <div class="" style="justify-content: left;">
+
+                        <div class="card" style="border: 1px solid black; padding: 9px 6px;">
 
                             <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Customer Name</label>
+                                <label style="margin: 10px 0px !important;" for="customer" class="control-label mb-1">Customer Name</label>
                                 {{ form.customer }}
                             </div>
                             
+                         
+                            
                             <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Contact Person Name</label>
+                                <label style="margin: 10px 0px !important;" for="contance_person_no" class="control-label mb-1">Contact Person Name</label>
                                 <!-- Use the  attribute to make the input field read-only -->
                                 <input style="margin-left:10px !important;" name="contance_person_no" id="contance_person_no" type="text" value="" class="form-control" >
                             </div>
                             
                             <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Mobile Number</label>
+                                <label style="margin: 10px 0px !important;" for="contact_no" class="control-label mb-1">Mobile Number</label>
                                 <!-- Use the  attribute to make the input field read-only -->
                                 <input style="margin-left:10px !important;" name="contact_no" id="contact_no" type="text" value="" class="form-control" >
                             </div>
                             
                             <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Contact Email</label>
+                                <label style="margin: 10px 0px !important;" for="email" class="control-label mb-1">Contact Email</label>
                                 <!-- Use the  attribute to make the input field read-only -->
                                 <input style="margin-left:10px !important;" name="email" id="email" type="text" value="" class="form-control" >
                             </div>
-
+                            
 
                         </div>
                     </div>
 
-                    <div class="col-6" style="justify-content: right;">
+                    <div class="" style="justify-content: right;">
 
 
-                        <div style="">
+                        <div style="" class="card">
 
                             {% comment %} <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
                                 <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer No</label>
@@ -190,7 +249,7 @@
                             </div> {% endcomment %}
 
                             <div style="display: flex; border: 1px solid black; padding: 9px 6px;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer Date</label>
+                                <label style="margin: 10px 0px !important;" for="date" class="control-label mb-1">Offer Date</label>
                                 <!-- Use the readonly attribute to make the input field read-only -->
                                 <input style="margin-left:10px !important;" name="date" id="date" type="datetime-local" value="{{ date|date:'Y-m-d\TH:i' }}" class="form-control" readonly>
                             </div>
@@ -198,7 +257,7 @@
 
 
                             <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Reference From</label>
+                                <label style="margin: 10px 0px !important;" for="reference_from" class="control-label mb-1">Reference From</label>
 
                                 <div>
                                         
@@ -229,115 +288,116 @@
             </div>
 
             
-                <div class="">
-                    <div class="col-12" style="display:flex;">
+                <div style="justify-content: center;display: grid;" class="no-print">
+                    <div class="col-12">
                         <form id="orderForm" style="display: contents; comehere">
                             {% csrf_token %}
-                        <div class="col-6">
                             
 
                                 
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Item Code/ Drawing Number/ Project Number </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;border-radius: 10px 10px 0px 0px;padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Item Code/ Drawing Number/ Project Number </p>
 
-                                <div>
-                                    <input type="textbox" name="item_code" id="item_code" class="form-control" required>
-                                </div>
+                            <div class="card">
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Materials </p>
+                                <input type="textbox" name="item_code" id="item_code" class="form-control" id="checkbox1" required>
+                            </div>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;border-radius: 10px 10px 0px 0px;padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Materials </p>
                                 
-                                <input type="hidden" style="margin-left:10px !important;" name="order" value="{{ form.order_id.value }}">
+                            <input type="hidden" style="margin-left:10px !important;" name="order" value="{{ form.order_id.value }}">
 
 
-                                <input type="hidden" id="editOrderId">
-                                <input type="hidden" name="pk" id="pk">
+                            <input type="hidden" id="editOrderId">
 
 
-                                <div>
+                            <div class="card">
 
-                                    <input type="radio" id="checkbox1" value="ss_304" name="material" required>
-                                    <label for="checkbox1">SS 304</label>
+                                <input type="radio" id="ss_304" value="ss_304" name="material" required>
+                                <label for="ss_304">SS 304</label>
 
-                                    <input type="radio" id="checkbox1" value="ss_316" name="material" required>
-                                    <label for="checkbox1">SS 316</label>
+                                    <input type="radio" id="ss_316" value="ss_316" name="material" required>
+                                    <label for="ss_316">SS 316</label>
 
-                                    <input type="radio" id="checkbox1" value="ss_316_L" name="material" required>
-                                    <label for="checkbox1">SS 316 L</label>
+                                    <input type="radio" id="ss_316_L" value="ss_316_L" name="material" required>
+                                    <label for="ss_316_L">SS 316 L</label>
 
-                                    <input type="radio" id="checkbox1" value="aluminium_coil" name="material" required>
-                                    <label for="checkbox1">Aluminium Coil</label>
+                                    <input type="radio" id="aluminium_coil" value="aluminium_coil" name="material" required>
+                                    <label for="aluminium_coil">Aluminium Coil</label>
 
-                                    <input type="radio" id="checkbox1" value="sheet_2S" name="material" required>
-                                    <label for="checkbox1">Sheet 2S</label>
+                                    <input type="radio" id="sheet_2S" value="sheet_2S" name="material" required>
+                                    <label for="sheet_2S">Sheet 2S</label>
 
-                                    <input type="radio" id="checkbox1" value="brass" name="material" required>
-                                    <label for="checkbox1">Brass</label>
+                                    <input type="radio" id="brass" value="brass" name="material" required>
+                                    <label for="brass">Brass</label>
 
-                                    <input type="radio" id="checkbox1" value="copper" name="material" required>
-                                    <label for="checkbox1">Copper</label>
+                                    <input type="radio" id="copper" value="copper" name="material" required>
+                                    <label for="copper">Copper</label>
 
-                                    <input type="radio" id="checkbox1" value="mild_sheel" name="material" required>
-                                    <label for="checkbox1">Mild Sheel</label>
+                                    <input type="radio" id="mild_sheel" value="mild_sheel" name="material" required>
+                                    <label for="mild_sheel">Mild Sheel</label>
 
-                                    <input type="radio" id="checkbox1" value="spring_sheel" name="material" required>
-                                    <label for="checkbox1">Spring Sheel</label>
+                                    <input type="radio" id="spring_sheel" value="spring_sheel" name="material" required>
+                                    <label for="spring_sheel">Spring Sheel</label>
 
-                                    <input type="radio" id="checkbox1" value="nickel" name="material" required>
-                                    <label for="checkbox1">Nickel</label>
+                                    <input type="radio" id="nickel" value="nickel" name="material" required>
+                                    <label for="nickel">Nickel</label>
 
-                                    <input type="radio" id="checkbox1" value="beryllium_copper" name="material" required>
-                                    <label for="checkbox1">Beryllium Copper</label>
+                                    <input type="radio" id="beryllium_copper" value="beryllium_copper" name="material" required>
+                                    <label for="beryllium_copper">Beryllium Copper</label>
 
-                                    <input type="radio" id="checkbox1" value="trifoliate_sandwich" name="material" required>
-                                    <label for="checkbox1">Trifoliate sandwich</label>
+                                    <input type="radio" id="trifoliate_sandwich" value="trifoliate_sandwich" name="material" required>
+                                    <label for="trifoliate_sandwich">Trifoliate sandwich</label>
 
                                     <label for="checkbox1"> Any Other please mention</label>
                                     <input type="textbox" name="other_material" class="form-control" id="checkbox1">
 
                                 </div>
+                                </div>
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Process </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;border-radius: 10px 10px 0px 0px; left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Process </p>
                             
+                                {% comment %} #2b1b83 {% endcomment %}
+                                <div class="card">
 
-                                <div>
+                                    <input type="radio" id="chemical_etching" value="chemical_etching" name="process" required>
+                                    <label for="chemical_etching">Chemical Etching</label>
 
-                                    <input type="radio" id="checkbox1" value="chemical_etching" name="process" required>
-                                    <label for="checkbox1">Chemical Etching</label>
-
-                                    <input type="radio" id="checkbox1" value="etching_laser_cutting" name="process" required>
-                                    <label for="checkbox1">Etching + Laser Cutting</label>
+                                    <input type="radio" id="etching_laser_cutting" value="etching_laser_cutting" name="process" required>
+                                    <label for="etching_laser_cutting">Etching + Laser Cutting</label>
 
                                     
-                                    <input type="radio" id="checkbox1" value="etching_laser_engraving" name="process" required>
-                                    <label for="checkbox1"> Etching + Laser Engraving</label>
+                                    <input type="radio" id="etching_laser_engraving" value="etching_laser_engraving" name="process" required>
+                                    <label for="etching_laser_engraving"> Etching + Laser Engraving</label>
 
-                                    <input type="checkbox" id="checkbox1" value="chemical_milling" name="process" required>
-                                    <label for="checkbox1"> Chemical Milling</label>
+                                    <input type="radio" id="chemical_milling" value="chemical_milling" name="process" required>
+                                    <label for="chemical_milling"> Chemical Milling</label>
 
-                                    <input type="checkbox" id="checkbox1" value="anodic_print" name="process" required>
-                                    <label for="checkbox1">Anodic Print</label>
+                                    <input type="radio" id="anodic_print" value="anodic_print" name="process" required>
+                                    <label for="anodic_print">Anodic Print</label>
 
                             
-                                    <input type="checkbox" id="checkbox1" value="laser_cutting" name="process" required>
-                                    <label for="checkbox1">Laser Cutting</label>
+                                    <input type="radio" id="laser_cutting" value="laser_cutting" name="process" required>
+                                    <label for="laser_cutting">Laser Cutting</label>
 
-                                    <input type="checkbox" id="checkbox1" value="laser_cutting_coating" name="process" required>
-                                    <label for="checkbox1">Laser Cutting + Coating</label>
+                                    <input type="radio" id="laser_cutting_coating" value="laser_cutting_coating" name="process" required>
+                                    <label for="laser_cutting_coating">Laser Cutting + Coating</label>
 
-                                    <input type="checkbox" id="checkbox1" value="stamping" name="process" required>
-                                    <label for="checkbox1">Stamping</label>
+                                    <input type="radio" id="stamping" value="stamping" name="process" required>
+                                    <label for="stamping">Stamping</label>
 
 
-                                    <input type="checkbox" id="checkbox1" value="injection_mould_texturing" name="process" required>
-                                    <label for="checkbox1"> Injection Mould Texturing </label>
+                                    <input type="radio" id="injection_mould_texturing" value="injection_mould_texturing" name="process" required>
+                                    <label for="injection_mould_texturing"> Injection Mould Texturing </label>
 
                                 </div>
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> MOQ For nameplates in sq. inch </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+                    border-radius: 10px 10px 0px 0px;
+                    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> MOQ For nameplates in sq. inch </p>
                                 
 
                                 <div>
-                                    <div>
+                                    <div class="card">
 
                                         <input type="radio" id="checkbox144" value="144" name="sqinch" required>
                                         <label for="checkbox144">144</label>
@@ -351,14 +411,14 @@
                                     
                                     </div>
 
-                                    <div>
+                                    <div class="card">
 
                                         <input type="radio" id="checkbox3" value="576" name="sqinch" required>
                                         <label for="checkbox3">576</label>
                                         
                                     </div>
                                                             
-                                    <div>
+                                    <div class="card">
 
                                         <input type="radio" id="checkbox4" value="720" name="sqinch" required>
                                         <label for="checkbox4">720</label>
@@ -387,89 +447,92 @@
                                     </div>
 
                                                                 
-                                    <div>
+                                    <div class="card">
 
                                         <input type="radio" id="checkbox10" value="1872" name="sqinch" required>
                                         <label for="checkbox10">1872</label>
                                     
-                                        <input type="radio" id="checkbox10" value="2016" name="sqinch" required>
-                                        <label for="checkbox10">2016</label>
+                                        <input type="radio" id="checkbox12" value="2016" name="sqinch" required>
+                                        <label for="checkbox12">2016</label>
 
-                                        <input type="radio" id="checkbox10" value="2160" name="sqinch" required>
-                                        <label for="checkbox10">2160</label>
+                                        <input type="radio" id="checkbox13" value="2160" name="sqinch" required>
+                                        <label for="checkbox13">2160</label>
                                         
-                                        <input type="radio" id="checkbox10" value="2304" name="sqinch" required>
-                                        <label for="checkbox10">2304</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
+                                        <input type="radio" id="checkbox14" value="2304" name="sqinch" required>
+                                        <label for="checkbox41">2304</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
                                         
-                                        <input type="radio" id="checkbox10" value="2448" name="sqinch" required>
-                                        <label for="checkbox10">2448</label>
+                                        <input type="radio" id="checkbox15" value="2448" name="sqinch" required>
+                                        <label for="checkbox15">2448</label>
                                         
-                                        <input type="radio" id="checkbox10" value="2592" name="sqinch" required>
-                                        <label for="checkbox10">2592</label>
+                                        <input type="radio" id="checkbox16" value="2592" name="sqinch" required>
+                                        <label for="checkbox16">2592</label>
                                         
-                                        <input type="radio" id="checkbox10" value="2736" name="sqinch" required>
-                                        <label for="checkbox10">2736</label>
+                                        <input type="radio" id="checkbox17" value="2736" name="sqinch" required>
+                                        <label for="checkbox17">2736</label>
                                         
-                                        <input type="radio" id="checkbox10" value="2880" name="sqinch" required>
-                                        <label for="checkbox10">2880</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
+                                        <input type="radio" id="checkbox17" value="2880" name="sqinch" required>
+                                        <label for="checkbox17">2880</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
                                         
                                     </div>
 
                                                                 
-                                    <div>
+                                    <div class="card">
 
-                                        <input type="radio" id="checkbox10" value="3024" name="sqinch" required>
-                                        <label for="checkbox10">3024</label>
+                                        <input type="radio" id="checkbox18" value="3024" name="sqinch" required>
+                                        <label for="checkbox18">3024</label>
 
-                                        <input type="radio" id="checkbox10" value="3168" name="sqinch" required>
-                                        <label for="checkbox10">3168</label>
+                                        <input type="radio" id="checkbox19" value="3168" name="sqinch" required>
+                                        <label for="checkbox19">3168</label>
                                         
-                                        <input type="radio" id="checkbox10" value="3312" name="sqinch" required>
-                                        <label for="checkbox10">3312</label>
+                                        <input type="radio" id="checkbox20" value="3312" name="sqinch" required>
+                                        <label for="checkbox20">3312</label>
                                         
-                                        <input type="radio" id="checkbox10" value="3456" name="sqinch" required>
-                                        <label for="checkbox10">3456</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span>
+                                        <input type="radio" id="checkbox21" value="3456" name="sqinch" required>
+                                        <label for="checkbox21">3456</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span>
                                         
-                                        <input type="radio" id="checkbox10" value="3600" name="sqinch" required>
-                                        <label for="checkbox10">3600</label>
+                                        <input type="radio" id="checkbox22" value="3600" name="sqinch" required>
+                                        <label for="checkbox22">3600</label>
                                         
-                                        <input type="radio" id="checkbox10" value="3744" name="sqinch" required>
-                                        <label for="checkbox10">3744</label>
+                                        <input type="radio" id="checkbox23" value="3744" name="sqinch" required>
+                                        <label for="checkbox23">3744</label>
 
-                                        <input type="radio" id="checkbox10" value="3888" name="sqinch" required>
-                                        <label for="checkbox10">3888</label>
+                                        <input type="radio" id="checkbox23" value="3888" name="sqinch" required>
+                                        <label for="checkbox23">3888</label>
                                         
-                                        <input type="radio" id="checkbox10" value="4032" name="sqinch" required>
-                                        <label for="checkbox10">4032</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span>
+                                        <input type="radio" id="checkbox24" value="4032" name="sqinch" required>
+                                        <label for="checkbox24">4032</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span>
                                         
-                                        <input type="radio" id="checkbox10" value="4176" name="sqinch" required>
-                                        <label for="checkbox10">4176</label>
+                                        <input type="radio" id="checkbox25" value="4176" name="sqinch" required>
+                                        <label for="checkbox25">4176</label>
                                         
-                                        <input type="radio" id="checkbox10" value="4320" name="sqinch" required>
-                                        <label for="checkbox10">4320</label> 
+                                        <input type="radio" id="checkbox26" value="4320" name="sqinch" required>
+                                        <label for="checkbox26">4320</label> 
                                         
-                                        <input type="radio" id="checkbox10" value="4464" name="sqinch" required>
-                                        <label for="checkbox10">4464</label> 
+                                        <input type="radio" id="checkbox26" value="4464" name="sqinch" required>
+                                        <label for="checkbox26">4464</label> 
                                         
                                     </div>
                                         
 
-                                    <div>
+                                    <div class="card">                 
 
-                                        <input type="radio" id="checkbox10" value="4608" name="sqinch" required>
-                                        <label for="checkbox10">4608</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
+
+                                        <input type="radio" id="checkbox27" value="4608" name="sqinch" required>
+                                        <label for="checkbox27">4608</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
                                     </div>
 
                                 </div>
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Size of Nameplate , Precision Parts & Laser Cutting in Inch </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Size of Nameplate , Precision Parts & Laser Cutting in Inch </p>
                         
 
-                                <div>
+                                <div class="card">
                                     
                                     <div style="display: flex; gap : 20px;">
-                                        <label for="checkbox1">Length</label>
-                                        <input type="number" name="length" class="form-control" id="length_a" required>
+                                        <label for="length_a">Length</label>
+                                        <input type="textbox" name="length" class="form-control" id="length_a" required>
                                         <select id="mm_inch_select"> 
                                             <option value="1"> MM </option>
                                             <option value="2"> Inch </option>
@@ -478,83 +541,99 @@
                                     
 
                                     <div style="display: flex; gap : 20px;">
-                                        <label for="checkbox1">Width</label>
-                                        <input type="number" name="width" class="form-control" id="width_a" required>
+                                        <label for="width_a">Width</label>
+                                        <input type="textbox" name="width" class="form-control" id="width_a" required>
                                     </div>
                                     
 
-                                    <label for="checkbox1"> Total Qty in Number</label>
+                                    <label for="quantity_a"> Total Qty in Number</label>
                                     <input type="number" class="form-control" name="quantity" id="quantity_a" required>
 
-                                    <label for="checkbox1" id=" total_sq_inch_label"> Total Sq Inch </label>
+                                    <label for="total_sq_inch"> Total Sq Inch </label>
                                     <input type="textbox" class="form-control" name="total_sq_inch" id="total_sq_inch" required>
 
                                 </div>
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Text Matter </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Text Matter </p>
                                                     
+                                <div  class="card">
                                 
-                                <input type="radio" id="standard_text_matter" value="standard_text_matter" name="text_matter" required>
-                                <label for="checkbox2">Standard Text Matter</label>
+                                    <input type="radio" id="standard_text_matter" value="standard_text_matter" name="text_matter" required>
+                                    <label for="standard_text_matter">Standard Text Matter</label>
 
-                                <input type="radio" id="variable_text_matter_text_matter" value="variable_text_matter" name="text_matter" required>
-                                <label for="checkbox1">Variable Text Matter</label>
-                                    
+                                    <input type="radio" id="variable_text_matter_text_matter" value="variable_text_matter" name="text_matter" required>
+                                    <label for="variable_text_matter_text_matter">Variable Text Matter</label>
+                                </div>       
                                 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">Type of Etching </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">Type of Etching </p>
                                                         
+                                <div  class="card">
                                     
                                 <input type="radio" id="deep_etching" value="deep_etching" name="etching" required>
-                                <label for="checkbox2">Deep Etching</label>
+                                <label for="deep_etching">Deep Etching</label>
 
                                 <input type="radio" id="embossed_etching" value="embossed_etching" name="etching" required>
-                                <label for="checkbox1">Embossed Etching</label>
+                                <label for="embossed_etching">Embossed Etching</label>
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Color Avaiable for Nameplate, Metal Business Card </p>
+
+                                </div>
+
+
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Color Avaiable for Nameplate, Metal Business Card </p>
                                                     
                             
-                                <div>
+                                <div class="card">
         
-                                    <input type="radio" value="1" name="color_count" required>
-                                    <label for="checkbox1">1</label>
+                                    <input type="radio" value="1" id="color_count1" name="color_count" required>
+                                    <label for="color_count1">1</label>
         
-                                    <input type="radio" value="2" name="color_count" required>
-                                    <label for="checkbox1">2</label>
+                                    <input type="radio" value="2" id="color_count2" name="color_count" required>
+                                    <label for="color_count2">2</label>
         
-                                    <input type="radio" value="multi_color" name="color_count" required>
-                                    <label for="checkbox1">Multi Color up to 4 Color (Printing - Silk Screen)</label>
+                                    <input type="radio" value="multi_color" id="color_count3" name="color_count" required>
+                                    <label for="color_count3">Multi Color up to 4 Color (Printing - Silk Screen)</label>
         
                                 </div>
                         
                                             
                         
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Color (Silk Screen Printed Or Power Coated for Metal Business Card) on Nameplate , Metal Business Card </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Color (Silk Screen Printed Or Power Coated for Metal Business Card) on Nameplate , Metal Business Card </p>
                         
 
-                                <div>
+                                <div class="card">
 
-                                    <input type="radio" id="checkbox1" value="black" name="color" required>
-                                    <label for="checkbox1">Black</label>
+                                    <input type="radio" id="color_choose1" value="black" name="color" required>
+                                    <label for="color_choose1">Black</label>
 
-                                    <input type="radio" id="checkbox1" value="blue" name="color" required>
-                                    <label for="checkbox1">Blue</label>
+                                    <input type="radio" id="color_choose2" value="blue" name="color" required>
+                                    <label for="color_choose2">Blue</label>
 
-                                    <input type="radio" id="checkbox1" value="red" name="color" required>
-                                    <label for="checkbox1">Red</label>
+                                    <input type="radio" id="color_choose3" value="red" name="color" required>
+                                    <label for="color_choose3">Red</label>
 
-                                    <input type="radio" id="checkbox1" value="green" name="color" required>
-                                    <label for="checkbox1">Green</label>
+                                    <input type="radio" id="color_choose4" value="green" name="color" required>
+                                    <label for="color_choose4">Green</label>
 
-                                    <input type="radio" id="checkbox1" value="yellow" name="color" required>
-                                    <label for="checkbox1">Yellow</label>
+                                    <input type="radio" id="color_choose5" value="yellow" name="color" required>
+                                    <label for="color_choose5">Yellow</label>
                                 
                                 </div>
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">   Font height in mm for all types of Nameplate </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Font height in mm for all types of Nameplate </p>
                             
 
-                                <div>
+                                <div class="card">
                                     
                                     <input type="radio" id="font_heightid1" value="1" name="font_height" required>
                                     <label for="font_heightid1">1</label>
@@ -591,64 +670,68 @@
                                 </div>
 
                             
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Thickness </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Thickness </p>
                                                 
                         
-                                <div>
+                                <div class="card">
         
-                                    <input type="radio" value="0.1" name="thickness" required>
-                                    <label for="checkbox1" value="checkbox1">0.1</label>
+                                    <input type="radio" value="0.1" id="thickness1" name="thickness" required>
+                                    <label for="thickness1" value="checkbox1">0.1</label>
                                 
-                                    <input type="radio" value="0.2" name="thickness" required>
-                                    <label for="checkbox2" value="checkbox2">0.2</label>
+                                    <input type="radio" value="0.2" id="thickness2" name="thickness" required>
+                                    <label for="thickness2" value="checkbox2">0.2</label>
                                 
-                                    <input type="radio" value="0.3" name="thickness" required>
-                                    <label for="checkbox3" value="checkbox3">0.3</label>
+                                    <input type="radio" value="0.3" id="thickness3" name="thickness" required>
+                                    <label for="thickness3" value="checkbox3">0.3</label>
                                 
-                                    <input type="radio" value="0.4" name="thickness" required>
-                                    <label for="checkbox4" value="checkbox4">0.4</label>
+                                    <input type="radio" value="0.4" id="thickness4" name="thickness" required>
+                                    <label for="thickness4" value="checkbox4">0.4</label>
                                 
-                                    <input type="radio" value="0.5" name="thickness" required>
-                                    <label for="checkbox5" value="checkbox5">0.5</label>
+                                    <input type="radio" value="0.5" id="thickness5" name="thickness" required>
+                                    <label for="thickness5" value="checkbox5">0.5</label>
                                 
-                                    <input type="radio" value="0.6" name="thickness" required>
-                                    <label for="checkbox6" value="checkbox6">0.6</label>
+                                    <input type="radio" value="0.6" id="thickness6" name="thickness" required>
+                                    <label for="thickness6" value="checkbox6">0.6</label>
                                 
-                                    <input type="radio" value="0.7" name="thickness" required>
-                                    <label for="checkbox7" value="checkbox7">0.7</label>
+                                    <input type="radio" value="0.7" id="thickness7" name="thickness" required>
+                                    <label for="thickness7" value="checkbox7">0.7</label>
                                 
-                                    <input type="radio" value="0.8" name="thickness" required>
-                                    <label for="checkbox8" value="checkbox8">0.8</label>
+                                    <input type="radio" value="0.8" id="thickness8" name="thickness" required>
+                                    <label for="thickness8" value="checkbox8">0.8</label>
                                 
-                                    <input type="radio" value="0.9" name="thickness" required>
-                                    <label for="checkbox9" value="">0.9</label>
+                                    <input type="radio" value="0.9" id="thickness9" name="thickness" required>
+                                    <label for="thickness9" value="">0.9</label>
                                 
-                                    <input type="radio" value="1.0" name="thickness" required>
-                                    <label for="checkbox10" value="">1.0</label>
+                                    <input type="radio" value="1.0" id="thickness10" name="thickness" required>
+                                    <label for="thickness10" value="">1.0</label>
                                 
-                                    <input type="radio" value="1.2" name="thickness" required>
-                                    <label for="checkbox11" value="">1.2</label>
+                                    <input type="radio" value="1.2" id="thickness11" name="thickness" required>
+                                    <label for="thickness11" value="">1.2</label>
                                 
-                                    <input type="radio" value="1.5" name="thickness" required>
-                                    <label for="checkbox12" value="">1.5</label>
+                                    <input type="radio" value="1.5" id="thickness12" name="thickness" required>
+                                    <label for="thickness12" value="">1.5</label>
                                 
-                                    <input type="radio" value="2" name="thickness" required>
-                                    <label for="checkbox13" value="">2</label>
+                                    <input type="radio" value="2" id="thickness13" name="thickness" required>
+                                    <label for="thickness13" value="">2</label>
                                 
-                                    <input type="radio" value="checkbox14" name="thickness" required>
-                                    <label for="checkbox14" value="2.5">2.5</label>
+                                    <input type="radio" value="2.5" id="thickness14" name="thickness" required>
+                                    <label for="thickness14" value="2.5">2.5</label>
                                 
-                                    <input type="radio" value="3" name="thickness" required>
-                                    <label for="checkbox15" value="">3.0</label>
+                                    <input type="radio" value="3" id="thickness15" name="thickness" required>
+                                    <label for="thickness15" value="">3.0</label>
                                 
                                 </div>
 
                             
 
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplate , As per MOQ</p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplate , As per MOQ</p>
                         
-                                <div>
+                                <div class="card">
                                     
                                     <input type="textbox" id="ssdsdsd" name="dsd"  class="form-control">
                                     
@@ -656,7 +739,9 @@
                                     
                                 </div>
                 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Blank Tags, As per MOQ</p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Blank Tags, As per MOQ</p>
         
                                 <div>
                                     
@@ -667,7 +752,9 @@
 
 
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Below MOQ for  Nameplates, Precision Parts in sq. inch </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Below MOQ for  Nameplates, Precision Parts in sq. inch </p>
 
                                 <div>
                                     
@@ -681,62 +768,71 @@
 
                     
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplates, As per MOQ</p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplates, As per MOQ</p>
 
-                                <div>
+                                <div class="card">
+
                                     
                                     <input type="textbox" name="rate_per_unit" id="total_rate" class="form-control">
 
                                     <div>
 
-                                        <label for="checkbox1"> Basic Amount</label>
+                                        <label for="total_basic_amount"> Basic Amount</label>
 
-                                        <input type="number" name="basic_amount" id="total_basic_amount" class="form-control" required>
+                                        <input type="hidden" name="rate" id="rate" >
+
+                                        <input type="textbox" name="basic_amount" id="total_basic_amount" class="form-control" required>
 
                                     </div>
                                 </div>
 
                         
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> GST (IGST, SGST)</p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> GST (IGST, SGST)</p>
 
-                                <div>
-                                    
+                                <div  class="card">
+
+
                                     <div>
-
                                         <input type="radio" id="with_material_gst" value="with_gst" name="charges_type_group" required>
-                                        <label for="checkbox1">  With Material GST @18 % </label>
-                                        
+                                        <label for="with_material_gst">With Material GST @18%</label>
                                     </div>
                                     <div>
-                                        <label for="checkbox1"> Total With GST </label>
+                                        <label for="total_with_gst">Total With GST</label>
                                         <input type="text" name="total_with_gst" id="total_with_gst" class="form-control" readonly>
                                     </div>
-
-                                    
-                                </div>
-
-                                <div>
-                                    <input type="radio" name="charges_type_group" value="with_job_shop" id="with_job_shop_radio" required>
-                                    <label for="with_job_shop_radio"> With Labour Charges GST @12%</label>
+                                
                                     <div>
-                                        <label for="total_with_job_shop">Total</label>
-                                        <input type="text" name="total_with_job_shop" id="total_with_job_shop" class="form-control" readonly>
+                                        <input type="radio" name="charges_type_group" value="with_job_shop" id="with_job_shop_radio" required>
+                                        <label for="with_job_shop_radio">With Labour Charges GST @12%</label>
+                                        <div>
+                                            <label for="total_with_job_shop">Total</label>
+                                            <input type="text" name="total_with_job_shop" id="total_with_job_shop" class="form-control" readonly>
+                                        </div>
                                     </div>
-                                </div>
+                                    </div>
+
+                                    <div class="card">
                                         
                                 <label for="checkbox1"> Total Amount </label>
-                                <input type="text" name="total2" id="total_amount_with_charges_type" class="form-control" required>
+                                
+                                <input type="text" name="total_amount_with_charges_type" id="total_amount_with_charges_type" class="form-control">
                             
 
 
-
+                                    </div>
                         
                             
 
                                 </hr>
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Rate Per unit in INR for Nameplates, Precision Parts, Elevator designer Sheets below MOQ </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Rate Per unit in INR for Nameplates, Precision Parts, Elevator designer Sheets below MOQ </p>
                                 
 
                                 <div>
@@ -746,9 +842,12 @@
                         
                                 </div>
                                 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Film Charges / Development Charges </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Film Charges / Development Charges </p>
                                 
-                                <div>
+                                <div class="card">
+
                                     
                                     <input type="radio" id="flim_charges1" value="inclusive" name="flim_charges" required >
                                     <label for="flim_charges1">Inclusive</label>
@@ -759,17 +858,19 @@
 
                                         <select id="sqinch" name="flim_sqinch"></select>
                                 
-                                    <label for="checkbox1"> Extra Charges Rs </label>
+                                    <label for="flim_charges_total"> Extra Charges Rs </label>
                                     <input type="text" id="flim_charges_total" name="flim_charges_total" readonly>
 
                                 </div>
                     
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Min Font Height & Max Font Height </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Min Font Height & Max Font Height </p>
                                 
 
-                                
-                                <div>
+                                <div class="card">
+
                                     
                                     <input type="radio" id="min_font_height1" value="1mm" name="min_font_height" required>
                                     <label for="min_font_height1">1mm</label>
@@ -780,21 +881,24 @@
                                 </div>
 
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">   Material Test Certificate ( MTC ) </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Material Test Certificate ( MTC ) </p>
                                 
 
-                                <div>
+                                <div class="card">
+
                                     
                                     <input type="radio" id="certificate_cost_free" value="Free_along_with_invoice" name="certificate_cost" required>
-                                    <label for="checkbox1"> Free along with invoice</label>
+                                    <label for="certificate_cost_free"> Free along with invoice</label>
 
                                     <input type="radio"  id="no_certificate" value="No_certification" name="certificate_cost" required>
-                                    <label for="checkbox1"> No Certificate </label>
+                                    <label for="no_certificate"> No Certificate </label>
 
                                     <div>
 
                                         <input type="radio"  id="certificate_cost_charge" value="Extra_Charges" name="certificate_cost" required>
-                                        <label for="checkbox1"> Extra Charges Rs. </label>
+                                        <label for="certificate_cost_charge"> Extra Charges Rs. </label>
                                         <select id="certificate_cost_amount" name="certificate_price"></select>
 
                                     </div>
@@ -804,16 +908,18 @@
                                 </div>
 
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Samples or Proto Type </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Samples or Proto Type </p>
                                 
 
-                                <div>
+                                <div class="card">
                                     
                                     <input type="radio" id="Free" value="Free_in_case_confirm_Order" name="sample" required>
-                                    <label for="checkbox1"> Free in case confirm Order </label>
+                                    <label for="Free"> Free in case confirm Order </label>
 
                                     <input type="radio" id="sample_cha" value="Extra_Charges_Rs" name="sample" required>
-                                    <label for="checkbox1"> Extra Charges Rs. </label>
+                                    <label for="sample_cha"> Extra Charges Rs. </label>
                                     <input type="textbox" value="0" id="sample_price" name="sample_price">
                                 
 
@@ -822,10 +928,13 @@
 
                                 <br>
 
-                                <div>
+                                <div class="card">
+
+                                    
+
                                     
                                     <label for="checkbox1"> Final Total </label>
-                                    <input type="textbox" name="final_item_total" id="final_item_total" required>
+                                    <input type="textbox" name="final_item_total" id="final_item_total">
 
 
 
@@ -835,7 +944,7 @@
                                 <br>
 
 
-                                <input type="submit" id="submitButton" class="btn btn-info"  value="Add Item Code Order"> 
+                                <input type="submit" id="submitButton" style="background : #7b7e80; border : none; border-radius : 5px;" class="btn btn-info"  value="Add Item Code Order"> 
 
                                 <br>
                                 <br>
@@ -847,8 +956,11 @@
                             
                             </form>
 
-                            <div class="row" id="submittedOrders">
                                 <!-- Cards will be dynamically appended here -->
+
+                           
+
+
                             </div>
 
                         </div>
@@ -856,20 +968,70 @@
                                 
 
 
-                
+                        <h1 style="font-size: 18px;
+                        font-weight: 700;
+                        text-align: center;
+                        margin-bottom: 14px;"> Item Orders Description </h1>
+
+                        <div class="table-stats order-table ov-h" style="overflow: scroll;">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th class="">#</th>
+                                        <th>Description</th>
+                                        <th>Quantity </th>
+                                        <th>Final Amount</th>
+                                        <th class="no-print">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="submittedOrders">
+
+                                    {% for i in order_child_instance_copy %}
+
+                                    <tr>
+                                    <td>{{ forloop.counter }} </td>
+                                    <td>Item Code: {{ i.item_code }}<br>
+                                        Material: {{ i.material }}<br>
+                                        Process:  {{ i.process }}<br>
+                                        Dimentions : {{ i.length }} X {{ i.width }}<br>
+                                        Text Matter:  {{ i.text_matter }}<br>
+                                        Type of Etching:  {{ i.etching }}<br>
+                                        Color:  {{ i.color }}<br>
+                                        Flim Charges:  {{ i.flim_charges_total }}<br>
+                                        Font:  {{ i.font_height }}<br>
+                                        Material Test Certificate:  {{ i.certificate_price }}<br>
+                                        Sample/Prototype:  {{ i.sample_price }}<br>
+                                        </td>
+                                    <td> {{ i.quantity }}</td>
+                                    <td> {{ i.final_item_total }} </td>
+
+                                    <td class="no-print">
+                                        
+                                        <a onclick="editOrder({{ i.id }})" style="font-weight: 600; color: black; border: none; margin-bottom:20px;" class="btn btn-primary">View</a>
+                                        
+                                        <a onclick="deleteOrder({{ i.id }})" style="background: red; font-weight: 600; color: black; border: none; margin-bottom : 10px;" class="btn btn-primary">Delete</a></td>
+
+                                    </tr>
+                                    {% endfor %}
+
+
+                                </tbody>
+                            </table>
 
 
 
-                        <div class="col-6">
+                        <div class="">
 
                             <form id="form2">
 
                                 {% csrf_token %}
 
-                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Industry </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Industry </p>
                                 
 
-                            <div>
+                            <div class="card">
 
                                 <input type="radio" id="industry1" name="industry" value="automotive">
                                 <label for="industry1">Automotive</label>
@@ -916,10 +1078,12 @@
 
                             </div>
 
-                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Product </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Product </p>
                                 
 
-                            <div>
+                            <div class="card">
 
                                 <input type="radio" id="checkbox1" name="product" value="nameplate">
                                 <label for="checkbox1">Nameplate</label>
@@ -1009,10 +1173,12 @@
 
 
                                 
-                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Design format accepted </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Design format accepted </p>
                                 
 
-                            <div>
+                            <div class="card">
                                 <input type="radio" id="file_format1" name="file_format" value="cdr">
                                 <label for="radio1">CDR</label>
                                 
@@ -1033,12 +1199,14 @@
 
 
 
-                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">    IncoTerm </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    IncoTerm </p>
                                                     
                             
-                            <div>
+                            <div class="card">
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600;">Incoterms</p>
+                          
                                 <input type="radio" id="inco_ex_works" name="incoterm" value="ex-works">
                                 <label for="inco_ex_works">Ex-Works</label>
                             
@@ -1055,40 +1223,45 @@
                                 <label for="inco_warehouse">Warehouse to Warehouse</label>
                             </div>
 
-                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">    Mode of Transport </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Mode of Transport </p>
                                                                         
                                                 
-                            <div>
+                            <div class="card">
 
                                 <input type="radio" id="transport_road" name="transportation_type" value="road">
-    <label for="transport_road">Road</label>
+                                <label for="transport_road">Road</label>
 
-    <input type="radio" id="transport_rail" name="transportation_type" value="rail">
-    <label for="transport_rail">Rail</label>
+                                <input type="radio" id="transport_rail" name="transportation_type" value="rail">
+                                <label for="transport_rail">Rail</label>
 
-    <input type="radio" id="transport_air" name="transportation_type" value="air">
-    <label for="transport_air">Air</label>
+                                <input type="radio" id="transport_air" name="transportation_type" value="air">
+                                <label for="transport_air">Air</label>
 
-    <input type="radio" id="transport_courier" name="transportation_type" value="courier">
-    <label for="transport_courier">Courier</label>
+                                <input type="radio" id="transport_courier" name="transportation_type" value="courier">
+                                <label for="transport_courier">Courier</label>
 
-    <input type="radio" id="transport_porter" name="transportation_type" value="porter">
-    <label for="transport_porter">Porter</label>
+                                <input type="radio" id="transport_porter" name="transportation_type" value="porter">
+                                <label for="transport_porter">Porter</label>
 
-    <input type="radio" id="transport_personal" name="transportation_type" value="personal_pick_up">
-    <label for="transport_personal">Personal Pick Up</label>
-</div>
+                                <input type="radio" id="transport_personal" name="transportation_type" value="personal_pick_up">
+                                <label for="transport_personal">Personal Pick Up</label>
+                            </div>
 
-<div>
-    <label for="transportation_cost">Transportation Cost</label>
-    <select id="transportation_cost" name="transportation_cost" class="form-control"></select>
+                            <div class="card">
+
+                                <label for="transportation_cost">Transportation Cost</label>
+                                <select id="transportation_cost" name="transportation_cost" class="form-control"></select>
 
                             </div>
 
                             
 
-                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Payment </p>
-                                                    
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Payment </p>
+                            <div class="card">                 
                             <div>
 
                                 
@@ -1103,9 +1276,10 @@
                                 <label for="checkbox1" name="payment">    % of Advance </label>  
                                 
                             </div>
+                            </div>
 
                             
-                            <div>
+                            <div class="card">
                                 <input type="radio" id="against_delivery" value="against_delivery" name="payment">
                                 <label for="against_delivery">Against Delivery</label>
                                 <input type="radio" id="proforma_invoice" value="proforma_invoice" name="payment">
@@ -1125,18 +1299,24 @@
 
 
 
-                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">   Credit Limit in INR </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Credit Limit in INR </p>
                             
 
-                    <div>
+                    <div class="card">                 
+
 
                         <label for="checkbox1"> Amount <input type="number" id="credit_limit" name="credit_limit" class="form-control"> 
                     </div>
 
-                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Rejection Acceptance from the date of invoice </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Rejection Acceptance from the date of invoice </p>
             
                     
-                    <div>
+                    <div class="card">                 
+
                         <label for="transportation_cost">Days</label>
                         <select id="rejection_acceptance" name="rejection_acceptance" class="form-control">
                             <option value="1"> 1 </option>
@@ -1152,21 +1332,26 @@
                     </div>
 
 
-                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">    Offer Valid Till </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Offer Valid Till </p>
                             
 
-                    <div>
+                    <div class="card">                 
+
 
                         <input type="date" name="offer_valid_date" class="form-control dateclas" required="" id="id_DC_date">
                     </div>
 
 
-                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">    Rate Contract For per Month procurement </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Rate Contract For per Month procurement </p>
                             
 
                                                 
 
-                    <div>
+                    <div class="card">
                         <input type="radio" id="Acceptance1" name="Acceptance">
                         <label for="transportation_cost">Yes</label>
                         <input type="radio" id="Acceptance1" name="Acceptance">
@@ -1176,10 +1361,13 @@
 
 
 
-                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> In Case there is sudden rise of material price per unit will differ </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> In Case there is sudden rise of material price per unit will differ </p>
                             
 
-                    <div>
+                    <div class="card">                 
+
                         <input type="radio" id="sudden_rise1" name="sudden_rise" value="yes">
                         <label for="transportation_cost">Yes</label>
                         <input type="radio" id="sudden_rise2" name="sudden_rise" value="no">
@@ -1216,12 +1404,14 @@
 
                     </div>
 
-                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Packaging and Forwarding </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Packaging and Forwarding </p>
                             
 
                         
 
-                    <div>
+                    <div class="card">
 
 
                         <label for="transportation_cost">Type of Packaging</label>
@@ -1244,15 +1434,12 @@
 
                     </div>
 
-                    <div>
+                    <div class="card">
 
 
-                       
+                        <label for="total_sqinch">Total Sqinch</label>
 
-                        <label for="final_sqinch">Total Sqinch</label>
-
-                        <input type="text" id="final_sqinch" name="final_amount" class="form-control">
-                    
+                        <input type="text" id="total_sqinch" name="total_sqinch" class="form-control">
 
                         <label for="transportation_cost">Final Amount</label>
 
@@ -1273,16 +1460,60 @@
                     
         <br>
         <br>
-        <div>
-            <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
-                <span id="payment-button-amount">Update Production</span>
-            </button>
-        </div>
+            <input type="submit" id="payment-button"  value="Update Qutation" type="submit" style="width: 100%; margin-top: 25px; background : #7b7e80; border : none; border-radius : 5px;" class="btn btn-info">
     </div>
 </form>
 
+
+
+<div>
+
+
+<h3> Reference Table </h3>
+
+    <div class="table-stats order-table ov-h" style="overflow: scroll;">
+        <table class="table ">
+            <thead>
+                <tr>
+                    <th class="">#</th>
+                    <th>Sqinch</th>
+                    <th>Quantity </th>
+                    <th>Rate Per Unit</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody id="submittedOrders">
+
+                {% for i in order_child_instance_copy %}
+
+                <tr>
+                <td>{{ forloop.counter }} </td>
+                <td> {{ i.total_sq_inch }} </td>
+                <td> {{ i.quantity }} </td>
+                <td> {{ i.rate_per_unit }}</td>
+                <td> {{ i.rate }} </td>
+                <td> {{ i.basic_amount }} </td>
+
+             
+                {% endfor %}
+
+
+            </tbody>
+        </table>
+
+
+</div>
 </div>
 
+<br>
+<br>
+        <a href="{% url 'approve_order' instance.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+            <span id="payment-button-amount">Approve</span>
+        </button>  </a>
+
+
+</div>
 
 
 
@@ -1503,7 +1734,6 @@
                         
                         get_value_total = final_price.toFixed(2) * quantity_a
 
-
                         update_other_values();
 
 
@@ -1532,12 +1762,14 @@
 
 function update_other_values(){
 
+    console.log('sdhjshduhsd')
     
     var other_total = 0
 
     
     other_total = get_value_total
 
+    console.log(other_total)
 
    
 
@@ -1561,6 +1793,7 @@ function update_other_values(){
 
     }
     
+    console.log(other_total)
 
 
    // Get all radio buttons in the group
@@ -1571,11 +1804,15 @@ function update_other_values(){
    // Function to update the final item total
     if (chargeRadioButton.checked) {
         var selectedValue = selectElement1212.value;
+        console.log(other_total)
+        console.log(selectedValue)
         other_total += parseFloat(selectedValue); // Increment final_pri by the selected value
+        console.log(other_total)
 
     }
     document.getElementById("final_item_total").value = other_total.toFixed(2);
 
+    console.log(other_total)
 
 
 
@@ -1591,6 +1828,7 @@ function update_other_values(){
         other_total += parseFloat(selectedValue); // Increment final_pri by the selected value
     }
     document.getElementById("final_item_total").value = other_total.toFixed(2);
+    console.log(other_total)
 
 
     var chargeRadioButton2 = document.getElementById('with_material_gst');
@@ -1602,6 +1840,7 @@ function update_other_values(){
     
     // Check if the event object exists and has the target property
     if (chargeRadioButton1.checked) {
+
 
         // Call your function here
         var basic_amount = parseFloat(document.getElementById("total_basic_amount").value);
@@ -1624,9 +1863,13 @@ function update_other_values(){
 
         document.getElementById("final_item_total").value = other_total.toFixed(2);
     
+        console.log('here')
+        console.log(other_total)
 
     }
     if (chargeRadioButton2.checked) {
+
+
         // Call your function here
         var basic_amount = parseFloat(document.getElementById("total_basic_amount").value);
         const amount_with_gst = (basic_amount / 100) * 18;
@@ -1648,6 +1891,8 @@ function update_other_values(){
 
         document.getElementById("final_item_total").value = other_total.toFixed(2);
 
+        console.log('here')
+        console.log(other_total)
 
     }
 
@@ -1771,7 +2016,6 @@ var cardsAppended = 0;
 
 
 
-
 let orders = []; // Array to store submitted orders
 let orderIdCounter = 1; // Counter for unique order IDs
 
@@ -1792,23 +2036,34 @@ function renderOrders() {
     ordersContainer.innerHTML = ''; // Clear existing content
 
     orders.forEach(order => {
-        const orderElement = document.createElement('div');
-        orderElement.classList.add('col-sm-6');
-        orderElement.innerHTML = `
-                <div class="card mb-3" style="width: 18rem;border: 1px solid black;">
-                    <div class="card-body" style="border: 1px solid black;">
-                        <p class="card-text" style="margin-bottom: 1px;"> Order Id:- ${order.item_code} </p>
-                        <p class="card-text" style="margin-bottom: 1px;"> Total SqInch:- ${order.quantity} </p>
-                        <p class="card-text" style="margin-bottom: 1px;"> Rate:- ${order.rate_per_unit} </p>
-                        <a onclick="editOrder(${order.id})" style="font-weight: 600;
-                        color: black;
-                        border: none;" class="btn btn-primary">View</a>
-                        <a onclick="deleteOrder(${order.id})" style="background: red;
-                        font-weight: 600;
-                        color: black;
-                        border: none;" class="btn btn-primary">Delete</a>
-                    </div>
-                </div>
+        
+        const orderElement = document.createElement('tr');
+        orderElement.classList.add('ssdsds');
+        orderElement.innerHTML = `<td> Item Code:- ${order.item_code}<hr>
+        Material: ${order.material}<hr>
+        Process: ${order.process}<hr>
+        Size: ${order.total_sq_inch}<hr>
+        Text Matter: ${order.text_matter}<hr>
+        Type of Etching: ${order.etching}<hr>
+        Color: ${order.color}<hr>
+        Flim Charges: ${order.flim_charges_total}<hr>
+        Font: ${order.font_height}<hr>
+        Material Test Certificate: ${order.certificate_price}<hr>
+        Sample/Prototype: ${order.sample_price}<hr>
+        With GST: ${order.total_amount_with_charges_type}<hr>
+           </td>
+        <td> ${order.quantity}</td>
+        <td> ${order.rate_per_unit}</td>
+        <td> ${order.final_item_total} </td>
+        <td class="no-print"> <a onclick="editOrder(${order.id})" style="font-weight: 600;
+            color: black;
+            border: none; margin-bottom:20px;" class="btn btn-primary">View</a>
+            <a onclick="deleteOrder(${order.id})" style="background: red;
+            font-weight: 600;
+            color: black;
+            border: none;
+            margin-bottom : 10px;" class="btn btn-primary">Delete</a></td>
+        
         `;
 
 
@@ -1816,49 +2071,21 @@ function renderOrders() {
     });
 }
 
-
-let deletedOrderIds = [];
 // Function to delete submitted order
-// Function to delete submitted order and return the pk value of the deleted order
 function deleteOrder(orderId) {
-    // Find the order index in the array
-    const index = orders.findIndex(order => order.id === orderId);
+    orders = orders.filter(order => order.id !== orderId);
+    renderOrders(); // Render updated list
 
+    calculateTotal();
 
-    console.log(orders)
-
-
-
-
-    // If order with orderId exists
-    if (index !== -1) {
-        // Retrieve the pk value of the order
-        var deletedPk = orders[index].pk;
-
-        deletedOrderIds.push(deletedPk);
-        // Remove the order from the array
-        orders.splice(index, 1);
-
-        // Render updated list
-        renderOrders();
-
-        console.log(deletedOrderIds)
-
-        // Recalculate totals
-        calculateTotal();
-
-        // Return the pk value of the deleted order
-        return deletedPk;
-    } else {
-        // If order with orderId does not exist, return null or handle accordingly
-        return null;
-    }
 }
-
 
 // Function to edit submitted order
 function editOrder(orderId) {
+alert(orderId)
     const orderToEdit = orders.find(order => order.id === orderId);
+alert(orderToEdit)
+
     if (orderToEdit) {
         // Populate form with order data for editing
         const form = document.getElementById('orderForm');
@@ -1887,9 +2114,9 @@ function addNewOrder(orderData) {
 
 // Function to handle editing an existing order
 function editExistingOrder(orderData) {
-
     // Check if we are editing an existing order
     const editOrderId = parseInt(document.getElementById('editOrderId').value);
+
     if (editOrderId) {
         // Find the index of the order to be edited
         const index = orders.findIndex(order => order.id === editOrderId);
@@ -1898,8 +2125,6 @@ function editExistingOrder(orderData) {
             orders[index] = { id: editOrderId, ...orderData };
             renderOrders(); // Render updated list
         }
-
-        calculateTotal();
     }
 }
 
@@ -1907,10 +2132,8 @@ function editExistingOrder(orderData) {
 function handleSubmit(event) {
     event.preventDefault(); // Prevent default form submission
 
-        alert('wwewew')
     // Retrieve form data
     const formData = new FormData(document.getElementById('orderForm'));
-    console.log('-------14----------')
 
     // Convert FormData object to a plain object
     const orderData = {};
@@ -1921,7 +2144,7 @@ function handleSubmit(event) {
     // Check if we are editing an existing order
     const editOrderId = parseInt(document.getElementById('editOrderId').value);
     console.log('Edit Order ID:', editOrderId); // Log editOrderId to check its value
-    console.log('-------13----------')
+
 
 
     if (editOrderId) {
@@ -1929,7 +2152,6 @@ function handleSubmit(event) {
     } else {
         addNewOrder(orderData);
     }
-    console.log('-------12----------')
 
     // Clear form fields
     document.getElementById('editOrderId').value = '';
@@ -1951,19 +2173,16 @@ function handleSubmit(event) {
             }
         }
     }
-
-    console.log('-------1----------')
     
     // Usage
-    resetFormExcept(['order_id', 'date', 'conctc', 'webs', 'mailrt', 'submitButton']);
+    resetFormExcept(['order_id', 'date', 'conctc', 'webs', 'mailrt', 'submitButton', 'Customer', 'contance_person_no', 'contact_no', 'email', 'client_gst']);
 
     calculateTotal();
 
 }
 
 // Initialize event listener for form submission
-document.getElementById('submitButton').addEventListener('click', handleSubmit);
-
+document.getElementById('orderForm').addEventListener('submit', handleSubmit);
 
 
 
@@ -1973,23 +2192,26 @@ document.getElementById('submitButton').addEventListener('click', handleSubmit);
 function calculateTotal() {
 
 
+
+
     var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
 
-    document.getElementById('final_sqinch').value = final_sqinch
+    document.getElementById('total_sqinch').value = final_sqinch
+
 
     var totalFinalAmount = orders.reduce((acc, obj) => acc + parseFloat(obj.final_item_total), 0);
-    console.log(totalFinalAmount)
 
     var packagingCharges = parseFloat(document.getElementById("packaging_charges").value);
     var finalAmount = totalFinalAmount + parseFloat(packagingCharges);
-    console.log(finalAmount)
 
-    
     var transportation_cost = parseFloat(document.getElementById("transportation_cost").value);
     finalAmount = finalAmount + parseFloat(transportation_cost);
 
-    console.log('finalAmount')
+    console.log(final_sqinch)
     console.log(finalAmount)
+
+    
+    
 
 
     // Check if finalAmount is a number before calling toFixed
@@ -2013,33 +2235,52 @@ formInputsasas.forEach(input => {
 
 
 $(document).ready(function(){
-    $('#form2').submit(function(e){
-        e.preventDefault(); // Prevent default form submission
 
-        alert('here')
+
+    const instanceData = JSON.parse('{{ instance_json|escapejs }}');
+        console.log(instanceData)
+        const orderChildInstancesData = JSON.parse('{{ order_child_instance_dict|escapejs }}');
+
+        // Function to render order child instances
+    
+
+        orderChildInstancesData.forEach(child => {
+            const orderElement = document.createElement('div');
+        
+          
+            orders.push(child);
+            });
+
+
+
+        $('#form2').submit(function(e){
+            e.preventDefault(); // Prevent default form submission
+
+
+            var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
+
+
         
         // Gather form data
         var formData = $(this).serializeArray();
-    
-    
+        
         // Gather form data from form3
         var formData3 = $('#form3').serializeArray();
-    
+        
         // Additional array data
         
         // Append form data from form3 to form data from form2
         formData = formData.concat(formData3);
-
-        // Additional array data
+        // Additional array data    
         
         // Append array data to form data
         formData.push({name: 'orders', value: JSON.stringify(orders)});
-        formData.push({name: 'deletedOrderIds', value: JSON.stringify(deletedOrderIds)});
 
-       
+      
+
+        console.log(formData)
 
         // Send data via POST request
-        alert('----')
         $.ajax({
             url: $(this).attr('action'),
             type: 'POST',
@@ -2047,6 +2288,8 @@ $(document).ready(function(){
             success: function(response){
                 // Handle success response
                 console.log(response);
+
+                window.location.href = "{% url 'list_order' %}";
             },
             error: function(xhr, status, error){
                 // Handle error
@@ -2059,104 +2302,230 @@ $(document).ready(function(){
 
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Parse the JSON strings passed from the Django view
-    const instanceData = JSON.parse('{{ instance_json|escapejs }}');
-    console.log(instanceData)
-    const orderChildInstancesData = JSON.parse('{{ order_child_instance_dict|escapejs }}');
 
-    // Function to render order child instances
-    function renderOrderChildInstances(orderChildInstances) {
-        const orderChildInstancesContainer = document.getElementById('submittedOrders');
-        orderChildInstancesContainer.innerHTML = ''; // Clear existing content
-
-        orderChildInstances.forEach(child => {
-            const orderElement = document.createElement('div');
-           
-            child.pk = child.id; 
-            child.id = orderIdCounter++;
-            orders.push(child);
+</script>
 
 
-            orderElement.classList.add('col-sm-6');
-            orderElement.innerHTML = `
-                    <div class="card mb-3" style="width: 18rem;border: 1px solid black;">
-                        <div class="card-body" style="border: 1px solid black;">
-                            <p class="card-text" style="margin-bottom: 1px;"> Order Id:- ${child.item_code} </p>
-                            <p class="card-text" style="margin-bottom: 1px;"> Total SqInch:- ${child.quantity} </p>
-                            <p class="card-text" style="margin-bottom: 1px;"> Rate:- ${child.rate_per_unit} </p>
-                            <a onclick="editOrder(${child.id})" style="font-weight: 600;
-                            color: black;
-                            border: none;" class="btn btn-primary">View</a>
-                            <a onclick="deleteOrder(${child.id})" style="background: red;
-                            font-weight: 600;
-                            color: black;
-                            border: none;" class="btn btn-primary">Delete</a>
-                        </div>
-                    </div>
-            `;
-    
-            orderChildInstancesContainer.appendChild(orderElement);
+<script type="module">
+
+// main.js
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+import { getMessaging, getToken, onMessage } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging.js';
+
+// Your Firebase project configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyBqaqW0SMq8SPHCWX9QKpShGValpYyV2bs",
+    authDomain: "namasterapidtax-a92e7.firebaseapp.com",
+    projectId: "namasterapidtax-a92e7",
+    storageBucket: "namasterapidtax-a92e7.appspot.com",
+    messagingSenderId: "1072169977465",
+    appId: "1:1072169977465:web:7b63186ed7f120943b76a8",
+    measurementId: "G-VTWK2QSFXM"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging(app);
+
+// Check if service workers are supported
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/firebase-messaging-sw.js')
+    .then((registration) => {
+        console.log('Service Worker registered with scope:', registration.scope);
+        // Service worker registered, now request notification permission
+        requestPermission();
+    }).catch((error) => {
+        console.error('Service Worker registration failed:', error);
+    });
+} else {
+    alert('Service workers are not supported by this browser.');
+}
+
+// Request permission to send notifications
+async function requestPermission() {
+    if (!('Notification' in window)) {
+        alert('Notifications are not supported by this browser.');
+        alert('Notifications are not supported by your browser.');
+        return;
+    }
+
+    try {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+            alert('Notification permission granted.');
+
+            // Get the FCM token
+            const token = await getToken(messaging, { vapidKey: 'BL0fZe1VjzDW7CJQd4IO9f_OP5AMOAiWBHQ_MxKMl1dVPmiDaWCOJTwCCe89qSlZYSnEgstltOM3sqauY4LARPk' });
+            alert(token);
+            // Send the token to your server and store it with the user ID
+        } else {
+           alert('Unable to get permission to notify.');
+        }
+    } catch (error) {
+        alert(error.message);
+        alert(`Error getting token: ${error.code} - ${error.message}`);
+    }
+}
+
+// Handle incoming messages while the web page is in the foreground
+onMessage(messaging, (payload) => {
+    console.log('Message received. ', payload);
+    const notificationTitle = payload.notification.title;
+    const notificationOptions = {
+        body: payload.notification.body,
+        icon: payload.notification.icon
+    };
+
+    if ('Notification' in window) {
+        new Notification(notificationTitle, notificationOptions);
+    } else {
+        console.error('Notifications are not supported by this browser.');
+    }
+});
+
+
+
+
+{% comment %} 
+    function initAutocomplete() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: -33.8688, lng: 151.2195},
+            zoom: 13,
+            mapTypeId: 'roadmap'
+        });
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+            searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+            var places = searchBox.getPlaces();
+
+            if (places.length == 0) {
+                return;
+            }
+
+            // Clear out the old markers.
+            markers.forEach(function(marker) {
+                marker.setMap(null);
+            });
+            markers = [];
+
+            // For each place, get the icon, name and location.
+            var bounds = new google.maps.LatLngBounds();
+            places.forEach(function(place) {
+                if (!place.geometry) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+                var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
+
+                // Create a marker for each place.
+                markers.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+                }));
+
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            });
+            map.fitBounds(bounds);
         });
     }
 
-    // Render the order child instances
-    renderOrderChildInstances(orderChildInstancesData);
 
-    // Function to populate the form with instance data
-    function populateForm(instanceData) {
-        const form = document.getElementById('orderForm');
-        // Loop through instance data and populate form fields
-        for (const key in instanceData) {
-            if (instanceData.hasOwnProperty(key)) {
-                const element = form.elements[key];
-                if (element) {
-                    element.value = instanceData[key];
+     {% endcomment %}
+
+
+
+
+     document.addEventListener('DOMContentLoaded', function() {
+        // Parse the JSON strings passed from the Django view
+        const instanceData = JSON.parse('{{ instance_json|escapejs }}');
+        console.log(instanceData)
+        const orderChildInstancesData = JSON.parse('{{ order_child_instance_dict|escapejs }}');
+    
+        
+    
+     
+        // Function to populate the form with instance data
+        function populateForm(instanceData) {
+            const form = document.getElementById('orderForm');
+            // Loop through instance data and populate form fields
+            for (const key in instanceData) {
+                if (instanceData.hasOwnProperty(key)) {
+                    const element = form.elements[key];
+                    if (element) {
+                        element.value = instanceData[key];
+                    }
                 }
             }
         }
-    }
-
-    // Populate the form with instance data
-    populateForm(instanceData);
-
-    function populateForm22(instanceData) {
-        const form = document.getElementById('form2');
-        // Loop through instance data and populate form fields
-        for (const key in instanceData) {
-            if (instanceData.hasOwnProperty(key)) {
-                const element = form.elements[key];
-                if (element) {
-                    element.value = instanceData[key];
+    
+        // Populate the form with instance data
+        populateForm(instanceData);
+    
+        function populateForm22(instanceData) {
+            const form = document.getElementById('form2');
+            // Loop through instance data and populate form fields
+            for (const key in instanceData) {
+                if (instanceData.hasOwnProperty(key)) {
+                    const element = form.elements[key];
+                    if (element) {
+                        element.value = instanceData[key];
+                    }
                 }
             }
         }
-    }
-
-    // Populate the form with instance data
-    populateForm22(instanceData);
-
-
-    function populateForm222(instanceData) {
-        const form = document.getElementById('form3');
-        // Loop through instance data and populate form fields
-        for (const key in instanceData) {
-            if (instanceData.hasOwnProperty(key)) {
-                const element = form.elements[key];
-                if (element) {
-                    element.value = instanceData[key];
+    
+        // Populate the form with instance data
+        populateForm22(instanceData);
+    
+    
+        function populateForm222(instanceData) {
+            const form = document.getElementById('form3');
+            // Loop through instance data and populate form fields
+            for (const key in instanceData) {
+                if (instanceData.hasOwnProperty(key)) {
+                    const element = form.elements[key];
+                    if (element) {
+                        element.value = instanceData[key];
+                    }
                 }
             }
         }
-    }
-
-    // Populate the form with instance data
-    populateForm222(instanceData);
-});
-
-  
-
+    
+        // Populate the form with instance data
+        populateForm222(instanceData);
+    });
+    
+      
+    
+    
 
 </script>
+
+
 
 {% endblock js %}

@@ -313,7 +313,7 @@ def add_order(request):
 
                     print(forms.errors)
 
-            send_whatsapp_message(forms_order.instance.id)
+            send_whatsapp_message(request, forms_order.instance.id)
 
             return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
 
@@ -435,17 +435,21 @@ def update_order(request, order_id):
         instance = order.objects.get(id=order_id)
         forms = order_Form(instance=instance)
         order_child_instance = order_child.objects.filter(order=instance)
-
+        order_child_instance_copy = copy.copy(order_child_instance)
         # Convert date fields to string representations
         instance_dict = model_to_dict(instance)
         order_child_instance_list = [model_to_dict(child) for child in order_child_instance]
+
+        print(order_child_instance_copy)
 
 
         
         context = {
             'form': forms,
+            'instance': instance,
             'order_child_instance_dict': json.dumps(order_child_instance_list, cls=DjangoJSONEncoder),
             'instance_json': json.dumps(instance_dict, cls=DjangoJSONEncoder),  # Convert instance to JSON string
+            'order_child_instance_copy': order_child_instance_copy,  # Convert instance to JSON string
         }
         return render(request, 'transactions/update_order.html', context)
 
@@ -582,23 +586,26 @@ def send_whatsapp_message(request, link_id):
     
         
         
-    account_sid = 'ACe3a4c9baa947e9d32c1dce288a6f0382'
-    auth_token = '5b74b40eaa0e1490f47a811434ed4781'
+        
+    account_sid = settings.TWILIO_ACCOUNT_SID
+    auth_token = settings.TWILIO_AUTH_TOKEN
     client = Client(account_sid, auth_token)
     # Construct the link using Django's reverse function
     link = 'https://shopinventory.pythonanywhere.com/transactions/update-order/1'
 
     # Format the current datetime
-    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     # Create the message body
     message_body = f'New quotation added!. Click: {link}'
 
-    message = client.messages.create(
-        from_='whatsapp:+16505572511',
-        body=message_body,
-        to='whatsapp:+918237377298'
-    )
+    phone_numbers = ['whatsapp:+918237377298', 'whatsapp:+919823208347', 'whatsapp:+919823350315']
+
+    for number in phone_numbers:
+        message = client.messages.create(
+            from_='whatsapp:+16505572511',
+            body=message_body,
+            to=number
+        )
     
     print(message.sid)
 
@@ -1805,7 +1812,7 @@ def update_assign_matarial_qr(request, product_qr_id):
             msg = "Project with project id:" + project_id
             return JsonResponse({'status' : 'error', 'msg' : msg})
 
-
+        print('1111111111')
         
         try:
             
@@ -1815,6 +1822,7 @@ def update_assign_matarial_qr(request, product_qr_id):
             msg = "Sheet is not assign to project with order id " + project_id + " does not exsisit"
             return JsonResponse({'status' : 'error', 'msg' : msg})
 
+        print('22222222222222')
 
 
         size_instance1, new_generated_size1 = size.objects.get_or_create(name = a)
@@ -1823,6 +1831,7 @@ def update_assign_matarial_qr(request, product_qr_id):
 
             size_instance1 = new_generated_size1
 
+        print('333333333333333')
 
         size_instance2, new_generated_size2 = size.objects.get_or_create(name = b)
 
@@ -1838,6 +1847,9 @@ def update_assign_matarial_qr(request, product_qr_id):
             size_instance3 = new_generated_size3
 
 
+        print('4444444444')
+
+
         project_matarial_qr_instance = project_matarial_qr.objects.filter(product_qr__id = product_qr_id).first()
 
         product_instance = project_matarial_qr_instance.project_material.product
@@ -1849,6 +1861,13 @@ def update_assign_matarial_qr(request, product_qr_id):
         
         product_instance_new, product_created_new = product.objects.get_or_create(category = product_instance.category, thickness = product_instance.thickness, size = size_instance3, grade = product_instance.grade)
         
+
+
+
+        print('555555555555555')
+
+
+
         # project_material_qr_instance = project_matarial_qr.objects.get(product_qr = product_qr_instance)
 
         # project_material_qr_instance.is_cutting_done = True
@@ -1857,6 +1876,9 @@ def update_assign_matarial_qr(request, product_qr_id):
         if product_instance_new == None:
             product_instance_new = product_created_new
 
+
+        print('666666666666666666666666')
+
         if e == "true":
 
             print(' in scratch ')
@@ -1864,6 +1886,10 @@ def update_assign_matarial_qr(request, product_qr_id):
             instance, created = scratch_stock.objects.get_or_create(product = product_instance_new)
 
             if product_qr_instance.moved_to_left_over != True:
+
+
+                print('----------------------------------2----------------------')
+
             
                 stock_instance = stock.objects.get(product = product_instance)
                 stock_instance.quantity = stock_instance.quantity - 1
@@ -1875,15 +1901,37 @@ def update_assign_matarial_qr(request, product_qr_id):
                 stock_instance.save()
 
                 if stock_instance.quantity < 4:
-                    
-                    a1212 = notification_table.objects.create(message =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + "Left :- " + str(stock_instance.quantity))
-                    pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
-                                            key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
-                                            secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
-                                            cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
-                                            ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
 
-                    pusher_client.trigger('alerts', 'new-notificatin', {'message': a1212.message})
+
+                    print('----------------------------------1----------------------')
+                    
+                    message_body =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + "Left :- " + str(stock_instance.quantity)
+
+                                                        
+                                        
+                    account_sid = settings.TWILIO_ACCOUNT_SID
+                    auth_token = settings.TWILIO_AUTH_TOKEN
+                    client = Client(account_sid, auth_token)
+
+
+                    phone_numbers = ['whatsapp:+918237377298', 'whatsapp:+919823208347', 'whatsapp:+919823350315']
+
+                    for number in phone_numbers:
+                        message = client.messages.create(
+                        from_='whatsapp:+14155238886',
+                        body=message_body,
+                        to=number
+                        )
+                    
+
+
+                    
+
+
+
+
+
+
               
             else:
                 

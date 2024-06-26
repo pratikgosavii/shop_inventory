@@ -591,6 +591,7 @@ class order_child(models.Model):
     total_sq_inch = models.FloatField(null = True, blank = True)
     width = models.FloatField(null = True, blank = True)
     quantity = models.FloatField(null = True, blank = True)
+    rate = models.FloatField(null = True, blank = True)
     rate_per_unit = models.FloatField(null = True, blank = True)
     basic_amount = models.FloatField(null = True, blank = True)
     charges_type_group = models.CharField(max_length=50, choices=CHARGES_TYPE_OPTION_CHOICES)

@@ -779,6 +779,8 @@
 
                                         <label for="total_basic_amount"> Basic Amount</label>
 
+                                        <input type="hidden" name="rate" id="rate" >
+                                        
                                         <input type="textbox" name="basic_amount" id="total_basic_amount" class="form-control" required>
 
                                     </div>
@@ -1654,6 +1656,7 @@
                         quantity_a = document.getElementById("quantity_a").value;
                         var price = value * total_sq_inch
                         var final_price = price / quantity_a
+                        document.getElementById("rate").value = value;
                         document.getElementById("total_rate").value = final_price.toFixed(2);
                         document.getElementById("total_basic_amount").value = final_price.toFixed(2) * quantity_a;
                         
