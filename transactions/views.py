@@ -33,6 +33,8 @@ IST = pytz.timezone('Asia/Kolkata')
 
 
 
+from django.conf import settings
+
 
 def demo(request):
 
