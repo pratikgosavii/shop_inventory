@@ -336,6 +336,14 @@ def add_order(request):
     
     else:
 
+
+            
+        account_sid = settings.TWILIO_ACCOUNT_SID
+        auth_token = settings.TWILIO_AUTH_TOKEN
+
+
+        print('-----------------')
+        print(account_sid)
       
         forms = order_Form()
 
@@ -591,6 +599,10 @@ def send_whatsapp_message(request, link_id):
         
     account_sid = settings.TWILIO_ACCOUNT_SID
     auth_token = settings.TWILIO_AUTH_TOKEN
+
+
+    print(account_sid)
+
     client = Client(account_sid, auth_token)
     # Construct the link using Django's reverse function
     link = 'https://shopinventory.pythonanywhere.com/transactions/update-order/1'

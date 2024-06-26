@@ -90,10 +90,6 @@ TEMPLATES = [
 ]
 
 
-
-TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
-TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
-
 WSGI_APPLICATION = 'inventory.wsgi.application'
 # settings.py
 
@@ -181,3 +177,14 @@ PUSH_NOTIFICATIONS_SETTINGS = {
 # TWILIO_AUTH_TOKEN = '3971ae05dd33a4bf02eca219c54ec84d'
 # TWILIO_PHONE_NUMBER = '+12568183318'  # Twilio phone number
 # WHATSAPP_PHONE_NUMBER = 'whatsapp:+8237377298'  # WhatsApp phone number (include 'whatsapp:')
+
+
+
+
+TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
+
+
+
+if not TWILIO_ACCOUNT_SID or not TWILIO_AUTH_TOKEN:
+    print("Twilio credentials are not set in environment variables.")
