@@ -586,8 +586,8 @@ def send_whatsapp_message(request, link_id):
     
         
         
-    account_sid = settings.account_sid
-    auth_token = settings.auth_token
+    account_sid = "ACe3a4c9baa947e9d32c1dce288a6f0382"
+    auth_token = "82e2115f7bd7df27b29f915eb8885395"
     client = Client(account_sid, auth_token)
     # Construct the link using Django's reverse function
     link = 'https://shopinventory.pythonanywhere.com/transactions/update-order/1'
@@ -1907,8 +1907,8 @@ def update_assign_matarial_qr(request, product_qr_id):
                     message_body =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + "Left :- " + str(stock_instance.quantity)
 
                                     
-                    account_sid = settings.account_sid
-                    auth_token = settings.auth_token
+                    account_sid = "ACe3a4c9baa947e9d32c1dce288a6f0382"
+                    auth_token = "82e2115f7bd7df27b29f915eb8885395"
                     client = Client(account_sid, auth_token)
 
 
