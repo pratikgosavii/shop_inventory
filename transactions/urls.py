@@ -79,6 +79,9 @@ urlpatterns = [
     path('send-whatsapp-message/<link_id>', send_whatsapp_message, name='send_whatsapp_message'),
 
 
+    path('script', script, name='script'),
+
+
 
     path('add-sales-customer/', add_sales_customer, name='add_sales_customer'),
     path('update-sales-customer/<sales_customer_id>', update_sales_customer, name='update_sales_customer'),

@@ -358,6 +358,42 @@ def add_order(request):
 
         
 
+
+        
+def send_notification():
+
+
+    # Define the URL
+    url = "https://fcm.googleapis.com/fcm/send"
+
+    # Define the payload
+    payload = {
+        "notification": {
+            "body": "This is an FCM notification message!",
+            "time": "FCM Message"
+        },
+        "registration_ids": [
+            "deXBxhh5kaaduGWQn-XIWH:APA91bF6HOf_sdv0yLfgxKKhxr0V-ilVOzPtFEbU9MLhFyKISQDdOvFCVuA0dihoXvuB94iAXsBOOYWEz7i6o9u90e9NWDd3a5KeH8ANQQrnoFiXopO95-VBvM2X0b53EEIA3g4ZXV3l"
+        ]
+    }
+
+    # Define the headers
+    headers = {
+        "Authorization": "key=AAAA-aJPhnk:APA91bGsRiq0bVsPc2DUPDWxiJvNOvdYpkcPG9pAT2V0aUzmNBws7O5uzdVOtCiY6d-7QrJ1PTGN2pTUenPIbL7ZB6qIwYomhsOHyaipHLlMT4dbFgKVTIb1yO6zsdkUC0aJLF7G7_8B",
+        "Content-Type": "application/json"
+    }
+
+    # Send the POST request
+    response = requests.post(url, json=payload, headers=headers)
+
+    # Print the response
+    print(response.status_code)
+    print(response.text)
+
+
+
+
+
 from django.forms.models import model_to_dict
 
 import json
@@ -585,28 +621,42 @@ def send_whatsapp_message(request, link_id):
 
     
         
+            
         
-    account_sid = "ACe3a4c9baa947e9d32c1dce288a6f0382"
-    auth_token = "82e2115f7bd7df27b29f915eb8885395"
+        
+    account_sid = 'ACe3a4c9baa947e9d32c1dce288a6f0382'
+    auth_token = '0afbf206e892b6de7c70523a844493bf'
     client = Client(account_sid, auth_token)
-    # Construct the link using Django's reverse function
-    link = 'https://shopinventory.pythonanywhere.com/transactions/update-order/1'
 
-    # Format the current datetime
+    message = client.messages.create(
+    from_='whatsapp:+918830265487',
+    body='Hi! Thanks for choosing us.',
+    to='whatsapp:+918237377298'
+    )
 
-    # Create the message body
-    message_body = f'New quotation added!. Click: {link}'
-
-    phone_numbers = ['whatsapp:+918237377298', 'whatsapp:+919823208347', 'whatsapp:+919823350315']
-
-    for number in phone_numbers:
-        message = client.messages.create(
-            from_='whatsapp:+16505572511',
-            body=message_body,
-            to=number
-        )
-    
     print(message.sid)
+
+
+
+
+def script(request):
+
+
+    a = project.objects.all()
+
+
+    for i in a:
+
+        b = project_material.objects.filter(project = i)
+
+        for z in b:
+
+            c = material_history.objects.filter(product_qr = z, project = b)
+
+
+
+
+
 
 def sheet_tracking(request, sheet_id, rfid_value):
 
