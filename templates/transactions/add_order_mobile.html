@@ -191,6 +191,11 @@
                     <div class="col-9 card" style="font-size: 23px; border: 1px solid black; text-align: center; padding: 10px; color: white; font-weight: bolder; background: #003366; display: flex; align-items: center; justify-content: center;">
                         Techno - Commercial Offer
                     </div>
+
+                    <button id="subscribeButton">Subscribe to Notifications</button>
+
+
+
             </div>
             
 
@@ -2340,6 +2345,35 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 
+
+document.getElementById('subscribeButton').addEventListener('click', function() {
+    askPermission()
+        
+        .then(() => {
+            console.log('User is subscribed to push notifications.');
+        })
+        .catch((error) => {
+            console.error('Failed to subscribe the user:', error);
+        });
+});
+
+function askPermission() {
+    return new Promise(function(resolve, reject) {
+        const permissionResult = Notification.requestPermission(function(result) {
+            resolve(result);
+        });
+
+        if (permissionResult) {
+            permissionResult.then(resolve, reject);
+        }
+    })
+    .then(function(permissionResult) {
+        if (permissionResult !== 'granted') {
+            throw new Error('Permission not granted for Notification');
+        }
+    });
+}
+
 // Check if service workers are supported
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/firebase-messaging-sw.js')
@@ -2351,28 +2385,6 @@ if ('serviceWorker' in navigator) {
         console.error('Service Worker registration failed:', error);
     });
 } else {
-}
-
-// Request permission to send notifications
-async function requestPermission() {
-    if (!('Notification' in window)) {
-        return;
-    }
-
-    try {
-        const permission = await Notification.requestPermission();
-        if (permission === 'granted') {
-
-            // Get the FCM token
-            const token = await getToken(messaging, { vapidKey: 'BL0fZe1VjzDW7CJQd4IO9f_OP5AMOAiWBHQ_MxKMl1dVPmiDaWCOJTwCCe89qSlZYSnEgstltOM3sqauY4LARPk' });
-            // Send the token to your server and store it with the user ID
-        } else {
-           alert('Unable to get permission to notify.');
-        }
-    } catch (error) {
-        alert(error.message);
-        alert(`Error getting token: ${error.code} - ${error.message}`);
-    }
 }
 
 // Handle incoming messages while the web page is in the foreground
