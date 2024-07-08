@@ -2349,31 +2349,37 @@ const messaging = getMessaging(app);
 
 
 document.getElementById('subscribeButton').addEventListener('click', function() {
-    askPermission()
-        
-        .then(() => {
-            console.log('User is subscribed to push notifications.');
-        })
-        .catch((error) => {
-            console.error('Failed to subscribe the user:', error);
-        });
+    askPermission();
 });
 
 function askPermission() {
-    return new Promise(function(resolve, reject) {
-        const permissionResult = Notification.requestPermission(function(result) {
-            resolve(result);
-        });
+    if (!('Notification' in window)) {
+        console.error('Notifications are not supported');
+        return;
+    }
 
-        if (permissionResult) {
-            permissionResult.then(resolve, reject);
-        }
-    })
-    .then(function(permissionResult) {
-        if (permissionResult !== 'granted') {
-            throw new Error('Permission not granted for Notification');
-        }
-    });
+    Notification.requestPermission()
+        .then(function(permission) {
+            if (permission === 'granted') {
+                console.log('Notification permission granted.');
+                showNotification();
+            } else {
+                console.error('Notification permission denied');
+            }
+        })
+        .catch(function(error) {
+            console.error('Failed to request notification permission:', error);
+        });
+}
+
+function showNotification() {
+    const options = {
+        body: 'This is a test notification',
+        icon: '/icon.png',
+        badge: '/badge.png'
+    };
+
+    new Notification('Test Notification', options);
 }
 
 
