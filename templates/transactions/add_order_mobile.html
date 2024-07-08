@@ -2376,18 +2376,6 @@ function askPermission() {
     });
 }
 
-// Check if service workers are supported
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/firebase-messaging-sw.js')
-    .then((registration) => {
-        console.log('Service Worker registered with scope:', registration.scope);
-        // Service worker registered, now request notification permission
-        requestPermission();
-    }).catch((error) => {
-        console.error('Service Worker registration failed:', error);
-    });
-} else {
-}
 
 // Handle incoming messages while the web page is in the foreground
 onMessage(messaging, (payload) => {
