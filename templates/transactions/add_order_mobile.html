@@ -2361,22 +2361,20 @@ function askPermission() {
     Notification.requestPermission()
         .then(function(permission) {
             if (permission === 'granted') {
-                console.log('Notification permission granted.');
+                alert('Notification permission granted.');
                 showNotification();
             } else {
-                console.error('Notification permission denied');
+                alert('Notification permission denied');
             }
         })
         .catch(function(error) {
-            console.error('Failed to request notification permission:', error);
+            alert('Failed to request notification permission:', error);
         });
 }
 
 function showNotification() {
     const options = {
         body: 'This is a test notification',
-        icon: '/icon.png',
-        badge: '/badge.png'
     };
 
     new Notification('Test Notification', options);
