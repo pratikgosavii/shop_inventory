@@ -2346,6 +2346,8 @@ const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
 
 
+
+
 document.getElementById('subscribeButton').addEventListener('click', function() {
     askPermission()
         
@@ -2477,6 +2479,13 @@ onMessage(messaging, (payload) => {
 
      {% endcomment %}
 
+
+     
+if ('Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window) {
+    alert('Push messaging is supported');
+} else {
+    alert('Push messaging is not supported');
+}
 
 </script>
 
