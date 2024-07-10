@@ -90,7 +90,7 @@ urlpatterns = [
 
     path('gettoken/', gettoken, name='add_order'),
 
-    path('send_qutation_notification/', send_qutation_notification, name='send_qutation_notification'),
+    path('send_qutation_notification/<order_id>', send_qutation_notification, name='send_qutation_notification'),
     path('send_low_stock_notification/<message_body>', send_low_stock_notification, name='send_low_stock_notification'),
 
     path('add-order/', add_order, name='add_order'),
