@@ -284,15 +284,15 @@ def send_notification():
 import http.client
 import ssl 
 
-def send_qutation_notification(request):
+def send_qutation_notification(request, order_id):
 
 
     conn = http.client.HTTPSConnection("api.ultramsg.com",context = ssl._create_unverified_context())
 
     payload = "token=e8uufg9ry2swd11a&"
     
-    to = 'to=+919765054243'
-    body = '&'+ 'body=Done'
+    to = 'to=+918237377298'
+    body = '&'+ 'body=https://shopinventory.pythonanywhere.com/transactions/' + str(order_id)
 
     payload = payload + to + body
 
@@ -307,7 +307,7 @@ def send_qutation_notification(request):
     res = conn.getresponse()
     data = res.read()
 
-    print(data.decode("utf-8"))
+    print('done')
 
 
 
@@ -370,7 +370,7 @@ def add_order(request):
 
                     print(forms.errors)
 
-            send_qutation_notification(request)
+            send_qutation_notification(request, forms.instance.id)
 
             return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
 
