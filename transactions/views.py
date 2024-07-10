@@ -1994,7 +1994,7 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                                     
                    
-                    send_low_stock_notification(request, message_body)
+                    # send_low_stock_notification(request, message_body)
                     
 
                     
@@ -2045,7 +2045,7 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                                     
                    
-                    send_low_stock_notification(request, message_body)
+                    # send_low_stock_notification(request, message_body)
 
 
                 product_qr_instance.moved_to_left_over = True
