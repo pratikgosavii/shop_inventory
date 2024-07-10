@@ -370,7 +370,7 @@ def add_order(request):
 
                     print(forms.errors)
 
-            send_qutation_notification(request, '3')
+            send_qutation_notification(request, forms_order.instance.id)
 
             return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
 
