@@ -76,7 +76,6 @@ urlpatterns = [
     path('list-notifications/', list_notifications, name='list_notifications'),
     path('low_stock_report/<notification_id>', low_stock_report, name='low_stock_report'),
 
-    path('send-whatsapp-message/<link_id>', send_whatsapp_message, name='send_whatsapp_message'),
 
 
     path('script', script, name='script'),
@@ -91,6 +90,8 @@ urlpatterns = [
 
     path('gettoken/', gettoken, name='add_order'),
 
+    path('send_qutation_notification/', send_qutation_notification, name='send_qutation_notification'),
+    path('send_low_stock_notification/<message_body>', send_low_stock_notification, name='send_low_stock_notification'),
 
     path('add-order/', add_order, name='add_order'),
     path('update-order/<order_id>', update_order, name='update_order'),

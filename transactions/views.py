@@ -279,6 +279,63 @@ def send_notification():
 
 
 
+
+
+import http.client
+import ssl 
+
+def send_qutation_notification(request):
+
+
+    conn = http.client.HTTPSConnection("api.ultramsg.com",context = ssl._create_unverified_context())
+
+    payload = "token=e8uufg9ry2swd11a&"
+    
+    to = 'to=+919765054243'
+    body = '&'+ 'body=Done'
+
+    payload = payload + to + body
+
+    print(payload)
+
+    payload = payload.encode('utf8').decode('iso-8859-1') 
+
+    headers = { 'content-type': "application/x-www-form-urlencoded" }
+
+    conn.request("POST", "/instance89765/messages/chat", payload, headers)
+
+    res = conn.getresponse()
+    data = res.read()
+
+    print(data.decode("utf-8"))
+
+
+
+def send_low_stock_notification(request, message_body):
+
+
+    conn = http.client.HTTPSConnection("api.ultramsg.com",context = ssl._create_unverified_context())
+
+    payload = "token=e8uufg9ry2swd11a&"
+    
+    to = 'to=+919765054243'
+    body = '&'+ 'body=' + message_body
+
+    payload = payload + to + body
+
+    print(payload)
+
+    payload = payload.encode('utf8').decode('iso-8859-1') 
+
+    headers = { 'content-type': "application/x-www-form-urlencoded" }
+
+    conn.request("POST", "/instance89765/messages/chat", payload, headers)
+
+    res = conn.getresponse()
+    data = res.read()
+
+    print(data.decode("utf-8"))
+
 def add_order(request):
 
     if request.method == 'POST':
@@ -313,7 +370,7 @@ def add_order(request):
 
                     print(forms.errors)
 
-            send_whatsapp_message(request, forms_order.instance.id)
+            send_qutation_notification(request)
 
             return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
 
@@ -614,27 +671,7 @@ def downalo_data(request):
 
 
 from django.http import HttpResponse
-from twilio.rest import Client
 from django.conf import settings
-
-def send_whatsapp_message(request, link_id):
-
-    
-        
-            
-        
-        
-    account_sid = 'ACe3a4c9baa947e9d32c1dce288a6f0382'
-    auth_token = '0afbf206e892b6de7c70523a844493bf'
-    client = Client(account_sid, auth_token)
-
-    message = client.messages.create(
-    from_='whatsapp:+918830265487',
-    body='Hi! Thanks for choosing us.',
-    to='whatsapp:+918237377298'
-    )
-
-    print(message.sid)
 
 
 
@@ -1906,8 +1943,7 @@ def update_assign_matarial_qr(request, product_qr_id):
         cutter_intance = cutter.objects.get(id = cutter_id)
 
         # Now, retrieve the related project_qr instance
-        material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = size_instance3, project = project_instance, cutter = cutter_intance)
-        
+        c = material_history.objects.create(product_qr = product_qr_instance, previous_size = size_instance1, used_size = size_instance2, left_size = size_instance3, project = project_instance, cutter = cutter_intance)
         product_instance_new, product_created_new = product.objects.get_or_create(category = product_instance.category, thickness = product_instance.thickness, size = size_instance3, grade = product_instance.grade)
         
 
@@ -1917,10 +1953,10 @@ def update_assign_matarial_qr(request, product_qr_id):
 
 
 
-        # project_material_qr_instance = project_matarial_qr.objects.get(product_qr = product_qr_instance)
+        project_material_qr_instance = project_matarial_qr.objects.get(product_qr = product_qr_instance)
 
-        # project_material_qr_instance.is_cutting_done = True
-        # project_material_qr_instance.save()
+        project_material_qr_instance.is_cutting_done = True
+        project_material_qr_instance.save()
 
         if product_instance_new == None:
             product_instance_new = product_created_new
@@ -1957,19 +1993,8 @@ def update_assign_matarial_qr(request, product_qr_id):
                     message_body =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + "Left :- " + str(stock_instance.quantity)
 
                                     
-                    account_sid = "ACe3a4c9baa947e9d32c1dce288a6f0382"
-                    auth_token = "82e2115f7bd7df27b29f915eb8885395"
-                    client = Client(account_sid, auth_token)
-
-
-                    phone_numbers = ['whatsapp:+918237377298', 'whatsapp:+919823208347', 'whatsapp:+919823350315']
-
-                    for number in phone_numbers:
-                        message = client.messages.create(
-                        from_='whatsapp:+14155238886',
-                        body=message_body,
-                        to=number
-                        )
+                   
+                    send_low_stock_notification(request, message_body)
                     
 
                     
@@ -2016,14 +2041,11 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                 if stock_instance.quantity < 4:
                     
-                    a1212 = notification_table.objects.create(message =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade))
-                    pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
-                                            key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
-                                            secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
-                                            cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
-                                            ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
+                    message_body =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + "Left :- " + str(stock_instance.quantity)
 
-                    pusher_client.trigger('alerts', 'new-notificatin', {'message': a1212.message})
+                                    
+                   
+                    send_low_stock_notification(request, message_body)
 
 
                 product_qr_instance.moved_to_left_over = True

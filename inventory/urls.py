@@ -29,13 +29,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('store/', include('store.urls')),
     path('transactions/', include('transactions.urls')),
-    path("firebase-messaging-sw.js",
-        TemplateView.as_view(
-            template_name="firebase-messaging-sw.js",
-            content_type="application/javascript",
-        ),
-        name="firebase-messaging-sw.js"
-    ),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
