@@ -291,7 +291,7 @@ def send_qutation_notification(request, order_id):
 
     payload = "token=e8uufg9ry2swd11a&"
     
-    to = 'to=+918237377298'
+    to = 'to=+919823208347'
     body = '&'+ 'body=New Qutation added. Click https://shopinventory.pythonanywhere.com/transactions/' + str(order_id)
 
     payload = payload + to + body
