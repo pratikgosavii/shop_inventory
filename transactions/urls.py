@@ -84,6 +84,7 @@ urlpatterns = [
 
     path('add-sales-customer/', add_sales_customer, name='add_sales_customer'),
     path('add-sales-customer-json/', add_sales_customer_json, name='add_sales_customer_json'),
+    path('customer_details/<int:customer_id>', get_customer_details, name='get_customer_details'),
     path('update-sales-customer/<sales_customer_id>', update_sales_customer, name='update_sales_customer'),
     path('delete-sales-customer/<sales_customer_id>', delete_sales_customer, name='delete_sales_customer'),
     path('list-sales-customer/', list_sales_customer, name='list_sales_customer'),

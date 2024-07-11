@@ -2285,6 +2285,26 @@ $(document).ready(function(){
                     });
                 }
             });
+
+
+            $('#customer').change(function (e) {
+                const customerId = $(this).val();
+                if (customerId) {
+                    $.ajax({
+                        url: "{% url 'get_customer_details' customer_id=123 %}".replace('123', customerId),
+                        type: 'GET',
+                        success: function (response) {
+                            const customer = response.customer;
+                            $('#credit_limit').val(customer.credit_limit);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching customer details:', error);
+                        }
+                    });
+                } 
+            });
+
+
         });
 
 

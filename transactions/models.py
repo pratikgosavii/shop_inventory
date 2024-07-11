@@ -239,8 +239,8 @@ REJECTION_ACCEPTANCE = (
 
 
 SUDDENT_RISE_CHOICES = (
-    ('yes', 'Yes'),
-    ('no', 'No'),
+    ('Yes', 'Yes'),
+    ('No', 'No'),
 )
 
 SUDDENT_RISE_PERCENT_CHOICES = (

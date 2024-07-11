@@ -192,7 +192,21 @@ def add_sales_customer_json(request):
         }
         return render(request, 'transactions/add_sales_customer.html', context)
 
-        
+
+
+@login_required(login_url='login')
+def get_customer_details(request, customer_id):
+
+    try:
+        customer_instance = sales_customer.objects.get(id=customer_id)
+        customer_data = {
+            'credit_limit': customer_instance.credit_limit,
+        }
+        return JsonResponse({'customer': customer_data}, status=200)
+    except sales_customer.DoesNotExist:
+        return JsonResponse({'error': 'Customer not found'}, status=404)
+
+
 
 @login_required(login_url='login')
 def update_sales_customer(request, sales_customer_id):
