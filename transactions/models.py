@@ -552,6 +552,7 @@ FLIM_CHARGES_OPTION_CHOICES = (
 
 ('inclusive' ,'inclusive'),
 ('sqinch' ,'sqinch'),
+('no_flim_charges' ,'no_flim_charges'),
 
 )
 
@@ -559,6 +560,7 @@ SAMPLE_OPTION_CHOICES = (
 
 ('Free_in_case_confirm_Order' ,'Free_in_case_confirm_Order'),
 ('Extra_Charges_Rs' ,'Extra_Charges_Rs'),
+('no_charges' ,'no_charges'),
 
 )
 

@@ -287,27 +287,28 @@ import ssl
 def send_qutation_notification(request, order_id):
 
 
-    conn = http.client.HTTPSConnection("api.ultramsg.com",context = ssl._create_unverified_context())
+    try:
+        # Define the URL and payload
+        url = "https://api.ultramsg.com/instance89765/messages/chat"
+        payload = {
+            "token": "e8uufg9ry2swd11a",
+            "to": "+918237377298",
+            "body": f"New Qutation added. Click https://shopinventory.pythonanywhere.com/transactions/{order_id}"
+        }
+        
+        # Define headers
+        headers = {
+            'content-type': "application/x-www-form-urlencoded"
+        }
+        
+        # Send the POST request
+        response = requests.post(url, data=payload, headers=headers)
 
-    payload = "token=e8uufg9ry2swd11a&"
-    
-    to = 'to=+919765054243'
-    body = '&'+ 'body=New Qutation added. Click https://shopinventory.pythonanywhere.com/transactions/' + str(order_id)
-
-    payload = payload + to + body
-
-    print(payload)
-
-    payload = payload.encode('utf8').decode('iso-8859-1') 
-
-    headers = { 'content-type': "application/x-www-form-urlencoded" }
-
-    conn.request("POST", "/instance89765/messages/chat", payload, headers)
-
-    res = conn.getresponse()
-    data = res.read()
-
-    print('done')
+        # Print the response
+        print('done')
+        print(response.status_code, response.text)
+    except requests.RequestException as e:
+        print(f"Request error occurred: {e}")
 
 
 
@@ -1954,6 +1955,7 @@ def update_assign_matarial_qr(request, product_qr_id):
 
 
         project_material_qr_instance = project_matarial_qr.objects.get(product_qr = product_qr_instance)
+        
 
         project_material_qr_instance.is_cutting_done = True
         project_material_qr_instance.save()

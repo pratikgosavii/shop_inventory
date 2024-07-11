@@ -734,15 +734,6 @@
                                     
                                 </div>
                 
-                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Blank Tags, As per MOQ</p>
-        
-                                <div>
-                                    
-                                    <input type="textbox" id="cdfdfdf" name="defds" class="form-control">
-                        
-                                </div>
 
 
 
@@ -825,17 +816,6 @@
 
                                 </hr>
 
-                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Rate Per unit in INR for Nameplates, Precision Parts, Elevator designer Sheets below MOQ </p>
-                                
-
-                                <div>
-                                    
-                                    <input type="checkbox" id="checkbox1">
-                                    <label for="checkbox1">0000</label>
-                        
-                                </div>
                                 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
     border-radius: 10px 10px 0px 0px;
@@ -844,6 +824,9 @@
                                 <div class="card">
 
                                     
+                                    <input type="radio" id="no_flim_charges1" value="no_flim_charges" name="flim_charges" required >
+                                    <label for="no_flim_charges1">No Charges</label>
+
                                     <input type="radio" id="flim_charges1" value="inclusive" name="flim_charges" required >
                                     <label for="flim_charges1">Inclusive</label>
 
@@ -858,23 +841,6 @@
 
                                 </div>
                     
-
-                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Min Font Height & Max Font Height </p>
-                                
-
-                                <div class="card">
-
-                                    
-                                    <input type="radio" id="min_font_height1" value="1mm" name="min_font_height" required>
-                                    <label for="min_font_height1">1mm</label>
-
-                                    <input type="radio" id="min_font_height2" value="600mm" name="min_font_height" required>
-                                    <label for="min_font_height2"> 600 mm </label>
-                        
-                                </div>
-
 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
     border-radius: 10px 10px 0px 0px;
@@ -910,6 +876,9 @@
 
                                 <div class="card">
                                     
+                                    <input type="radio" id="no_charges" value="no_charges" name="sample" required>
+                                    <label for="no_charges"> No Charges </label>
+
                                     <input type="radio" id="Free" value="Free_in_case_confirm_Order" name="sample" required>
                                     <label for="Free"> Free in case confirm Order </label>
 
@@ -1335,8 +1304,10 @@
 
                     <div class="card">                 
 
-                        <input type="radio" id="sudden_rise1" name="sudden_rise" value="yes">
-                        <label for="transportation_cost">Yes</label>
+                        <input type="radio" id="sudden_rise_no" name="sudden_rise" value="No">
+                        <label for="sudden_rise_no">No</label>
+                        <input type="radio" id="sudden_rise1" name="sudden_rise" value="Yes">
+                        <label for="sudden_rise1">Yes</label>
                         <input type="radio" id="sudden_rise2" name="sudden_rise" value="no">
                         <label for="radio1"> Price Rise in % </label>
                         <select id="sudden_rise_percent" name="sudden_rise_percent" class="from-control"> 
@@ -1432,7 +1403,6 @@
 </form>
 
 
-<button id="enable-notifications">Enable Notifications</button>
 
 
 </div>
@@ -1879,7 +1849,7 @@ function update_other_values(){
 const selectElement = document.getElementById("transportation_cost");
 
 // Add options to the select element
-for (let i = 100; i <= 10000; i += 100) {
+for (let i = 0; i <= 10000; i += 100) {
     const option = document.createElement("option");
     option.text = i;
     option.value = i;
