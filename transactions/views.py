@@ -171,6 +171,30 @@ def add_sales_customer(request):
         
 
 @login_required(login_url='login')
+def add_sales_customer_json(request):
+
+    if request.method == 'POST':
+
+        forms = sales_customer_Form(request.POST)
+
+        if forms.is_valid():
+            forms.save()
+            return JsonResponse({'customer': {'id': forms.instance.id, 'name': forms.instance.name, 'credit_limit': forms.instance.credit_limit}}, status=200)
+        else:
+            print(forms.errors)
+    
+    else:
+
+        forms = sales_customer_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'transactions/add_sales_customer.html', context)
+
+        
+
+@login_required(login_url='login')
 def update_sales_customer(request, sales_customer_id):
 
     if request.method == 'POST':

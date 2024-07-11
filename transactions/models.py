@@ -346,6 +346,7 @@ class sales_customer(models.Model):
     address = models.CharField(max_length=120, unique=False)
     mobile_no = models.IntegerField()
     client_gst = models.CharField(max_length=120, unique=False)
+    credit_limit = models.IntegerField()
     
     
     def __str__(self):
@@ -375,7 +376,6 @@ class order(models.Model):
     advance = models.IntegerField(null = True, blank = True)
     credit_in_days = models.IntegerField(null = True, blank = True)
     
-    credit_limit = models.IntegerField()
     rejection_acceptance = models.CharField(max_length=100, choices=REJECTION_ACCEPTANCE)
     
     offer_valid_date = models.DateField()
