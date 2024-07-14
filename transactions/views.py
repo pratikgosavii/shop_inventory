@@ -948,53 +948,6 @@ def delete_dashboard(request):
 # delete view
 
 
-def list_inward_delete(request):
-
-    data = inward.objects.all()
-
-
-    context = {
-        'data': data,
-    }
-
-    return render(request, 'delete/list_inward_delete.html', context)
-
-
-def list_outward_delete(request):
-
-    data = outward.objects.all()
-
-
-
-    context = {
-        'data': data,
-    }
-
-    return render(request, 'delete/list_outward_delete.html', context)
-
-def list_return_delete(request):
-
-    data = supply_return.objects.all()
-
-    # inward_filter_data = inward_filter()
-
-    print(data)
-
-    context = {
-        'data': data,
-        # 'filter_inward' : inward_filter_data
-    }
-
-    return render(request, 'delete/list_return_delete.html', context)
-
-
-
-
-
-
-
-
-
 
 
 @login_required(login_url='login')

@@ -132,10 +132,6 @@ urlpatterns = [
 
     path('delete-dashboard', delete_dashboard, name='delete_dashboard'),
     
-    path('list-inward-delete/', list_inward_delete, name='list_inward_delete'),
-    path('list-outward-delete/', list_outward_delete, name='list_outward_delete'),
-    path('list-return-delete/', list_return_delete, name='list_return_delete'),
-
 
 
 
