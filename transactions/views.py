@@ -375,6 +375,31 @@ def send_low_stock_notification(request, message_body):
 
     print(data.decode("utf-8"))
 
+def work_alert(request, message_body):
+
+
+    conn = http.client.HTTPSConnection("api.ultramsg.com",context = ssl._create_unverified_context())
+
+    payload = "token=e8uufg9ry2swd11a&"
+    
+    to = 'to=+919765054243'
+    body = '&'+ 'body=' + message_body
+
+    payload = payload + to + body
+
+    print(payload)
+
+    payload = payload.encode('utf8').decode('iso-8859-1') 
+
+    headers = { 'content-type': "application/x-www-form-urlencoded" }
+
+    conn.request("POST", "/instance89765/messages/chat", payload, headers)
+
+    res = conn.getresponse()
+    data = res.read()
+
+    print(data.decode("utf-8"))
+
 def add_order(request):
 
     if request.method == 'POST':
@@ -718,7 +743,7 @@ from django.conf import settings
 def script(request):
 
 
-    a = project.objects.all()
+    a = project.objects.filter(completed = False)
 
 
     for i in a:
@@ -727,7 +752,13 @@ def script(request):
 
         for z in b:
 
-            c = material_history.objects.filter(product_qr = z, project = b)
+            product_qr_instance = product_qr.objects.get(id = z)
+
+            c = material_history.objects.filter(product_qr = product_qr_instance, project = i)
+
+            message_body = "Project Id: " + a.id + " " + "Customer Name: " + a.customer.name + " " + "Sheet Id: " + b.id
+
+            work_alert(request, message_body)
 
 
 

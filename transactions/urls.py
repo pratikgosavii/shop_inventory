@@ -97,6 +97,7 @@ urlpatterns = [
 
     path('send_qutation_notification/<order_id>', send_qutation_notification, name='send_qutation_notification'),
     path('send_low_stock_notification/<message_body>', send_low_stock_notification, name='send_low_stock_notification'),
+    path('work_alert_notification/<message_body>', work_alert, name='work_alert'),
 
     path('add-order/', add_order, name='add_order'),
     path('update-order/<order_id>', update_order, name='update_order'),
