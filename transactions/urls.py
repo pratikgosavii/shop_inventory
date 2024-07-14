@@ -27,6 +27,10 @@ urlpatterns = [
     path('add-project-designer/<project_id>', add_project_designer, name='add_project_designer'),
     path('update-project/<project_id>', update_project, name='update_project'),
     path('get-sheet-details/', get_sheet_details, name='get_sheet_details'),
+
+    path('assign-matarial-qr/<project_id>', assign_matarial_qr, name='assign_matarial_qr'),
+    path('delete-matarial-qr/<assign_material_id>/<project_id>', delete_assign_material, name='delete_assign_material'),
+
     path('list-project/', list_project, name='list_project'),
     path('report-project/', project_report, name='project_report'),
     path('download-report-project/', download_project_report, name='download_project_report'),
@@ -39,8 +43,7 @@ urlpatterns = [
     path('close-project/<project_id>', close_project, name='close_project'),
     path('delete-project/<project_id>', delete_project, name='delete_project'),
 
-    path('assign-matarial-qr/<project_id>', assign_matarial_qr, name='assign_matarial_qr'),
-    path('delete-matarial-qr/<assign_material_id>/<project_id>', delete_assign_material, name='delete_assign_material'),
+   
     
     path('show-qr', show_scanner_assign_matarial_qr, name='show_scanner_assign_matarial_qr'),
     path('update-assign-matarial-qr/<product_qr_id>', update_assign_matarial_qr, name='update_assign_matarial_qr'),

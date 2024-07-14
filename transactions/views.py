@@ -1978,12 +1978,19 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                 stock_instance.save()
 
-                if stock_instance.quantity < 4:
+                check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness).Sum("quantity")
+                
+                check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness).aggregate(total_quantity=Sum('quantity'))
+                print(check_low_stock)
+                total_quantity = check_low_stock['total_quantity'] or 0  # Handle None case
+               
+                if total_quantity < 4:
 
 
-                    print('----------------------------------1----------------------')
+
+             
                     
-                    message_body =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + "Left :- " + str(stock_instance.quantity)
+                    message_body =  str(stock_instance.product.category)+ str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + "Left :- " + str(total_quantity)
 
                                     
                    
@@ -2032,9 +2039,17 @@ def update_assign_matarial_qr(request, product_qr_id):
                 stock_instance.quantity = stock_instance.quantity - 1
                 stock_instance.save()
 
-                if stock_instance.quantity < 4:
+                
+                check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness).aggregate(total_quantity=Sum('quantity'))
+                print(check_low_stock)
+                total_quantity = check_low_stock['total_quantity'] or 0  # Handle None case
+                if total_quantity < 4:
+
+
                     
-                    message_body =  str(stock_instance.product.category)+ " " + str(stock_instance.product.size)+ " " + str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + "Left :- " + str(stock_instance.quantity)
+
+                    message_body =  str(stock_instance.product.category)+ str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + "Left :- " + str(total_quantity)
+
 
                                     
                    
