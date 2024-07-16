@@ -1976,7 +1976,9 @@ def update_assign_matarial_qr(request, product_qr_id):
 
 
 
-        project_material_qr_instance = project_matarial_qr.objects.get(product_qr = product_qr_instance)
+
+
+        project_material_qr_instance = project_matarial_qr.objects.get(product_qr = product_qr_instance, project_material = project_matarial_qr_instance.project_material)
         
 
         project_material_qr_instance.is_cutting_done = True
