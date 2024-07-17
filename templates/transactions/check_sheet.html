@@ -1,0 +1,111 @@
+
+{% extends 'base/base.html' %}
+
+
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>My Django Template</title>
+</head>
+<body>
+    {% for item in data %}
+        <h3> {{ item.id }} </h3>
+        <h3> {{ item.product.size }}</h3>
+        {% for item1 in item.fdthfh.all %}
+        <ul>
+
+           
+            <li> {{ item1.previous_size }} </li>
+            <li> {{ item1.used_size }} </li>
+            <li> {{ item1.left_size }} </li>
+        </ul>
+        {% endfor %}
+    {% endfor %}
+</body>
+</html> {% endcomment %}
+
+
+{% block title %}Stock List{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="box-title">Stock List</h4>
+            </div>
+            <div class="card-body--">
+                <div class="table-stats order-table ov-h">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="serial">#</th>
+                                <th> Sheet No<input type="text" style="width: 124px;" id="filter-material"></th>
+                                <th>Deaed <input type="text" style="width: 124px;" id="filter-width"></th>
+                                <th>Alive <input type="text" style="width: 124px;" id="filter-length"></th>
+                                <th>Left Size <input type="text" style="width: 124px;" id="filter-size"></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                {% for item in data %}
+
+                                        <tr class="stock-row">
+                                            <td class="serial">{{ stock.id }}</td>
+                                            <td> {{ item.id }} </td>
+
+                                                {% if item.moved_to_scratch == True %}
+                                        
+
+                                                        <td> ✔ </td>
+
+                                                {% else %}
+
+                                                        <td> </td>
+
+                                                {% endif %}
+                                                
+                                                {% if item.moved_to_left_over == False and item.moved_to_scratch == False %}
+                                        
+
+                                                        <td> ✔ </td>
+
+                                                {% else %}
+
+                                                        <td> </td>
+
+                                                {% endif %}
+
+                                                {% if item.moved_to_left_over == True %}
+                                        
+
+                                                        <td> ✔ </td>
+
+                                                {% else %}
+
+                                                        <td> </td>
+
+                                                {% endif %}
+
+                                            <td>{{ item.product.size }}</td>
+                                        </tr>
+                                        <!-- Add an accordion row for sheet numbers -->
+                                        
+                                       
+                                {% endfor %}
+                           
+
+                          
+                        </tbody>
+                    </table>
+                </div> <!-- /.table-stats -->
+            </div>
+        </div> <!-- /.card -->
+    </div>  <!-- /.col-xl-12 -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+</script>
+{% endblock content %}

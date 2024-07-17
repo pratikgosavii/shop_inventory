@@ -2880,6 +2880,18 @@ def delete_history(request, history_id):
 
 
 
+def check_sheet(request):
+
+    data = product_qr.objects.all()
+
+    context = {
+           
+            'data': data,
+        }
+
+    return render(request, 'transactions/check_sheet.html', context)
+
+
 def assign_values_to_qr_page(request):
 
     scanned_value = request.POST.get("scanned_value")

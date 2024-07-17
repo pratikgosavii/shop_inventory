@@ -70,6 +70,8 @@ urlpatterns = [
     path('delete-history/<history_id>', delete_history, name='delete_history'),
 
 
+    path('check-sheet/', check_sheet, name='check_sheet'),
+
     path('list-stock/', list_stock, name='list_stock'),
     path('list-left-over-stock/', list_left_over_stock, name='list_left_over_stock'),
     path('list-dead-stock/', list_dead_stock, name='list_dead_stock'),
