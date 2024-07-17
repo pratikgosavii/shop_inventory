@@ -2,28 +2,6 @@
 {% extends 'base/base.html' %}
 
 
-{% comment %} <!DOCTYPE html>
-<html>
-<head>
-    <title>My Django Template</title>
-</head>
-<body>
-    {% for item in data %}
-        <h3> {{ item.id }} </h3>
-        <h3> {{ item.product.size }}</h3>
-        {% for item1 in item.fdthfh.all %}
-        <ul>
-
-           
-            <li> {{ item1.previous_size }} </li>
-            <li> {{ item1.used_size }} </li>
-            <li> {{ item1.left_size }} </li>
-        </ul>
-        {% endfor %}
-    {% endfor %}
-</body>
-</html> {% endcomment %}
-
 
 {% block title %}Stock List{% endblock title %}
 
@@ -108,4 +86,4 @@
 <script>
 
 </script>
-{% endblock content %}
+{% endblock content %} 

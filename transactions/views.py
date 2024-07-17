@@ -2011,7 +2011,6 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                 stock_instance.save()
 
-                check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness).Sum("quantity")
                 
                 check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness).aggregate(total_quantity=Sum('quantity'))
                 print(check_low_stock)
