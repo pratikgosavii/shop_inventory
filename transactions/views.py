@@ -322,83 +322,126 @@ def send_notification():
 import http.client
 import ssl 
 
-def send_qutation_notification(request, order_id):
+
+access_token = "EAALeGznz5UwBO9cCf9mrwEd1vHBgB8neIziWXhS4AKGY02ZCVbfb5bTnSK7TCX6Qo1V0MZCHg7hNHQJYsNIZB17zlXaXFLv4HWJFWHZA0zeK57eZCClKyKxeAROKBh0kWB9PtjGbJeJsDWQSdqIjr20xrOBvk09nfWZCRn4xi5MTuyhco7C3U9P4OZBRbADDzLfKwZDZD"
+recipient_number = "8237377298"
+template_name = "qutation_added"
+language_code = "en"
+
+def send_qutation_notification(request, token, recipient_number, template_name, language_code, parameter_value):
 
 
-    try:
-        # Define the URL and payload
-        url = "https://api.ultramsg.com/instance89765/messages/chat"
-        payload = {
-            "token": "e8uufg9ry2swd11a",
-            "to": "+918237377298",
-            "body": f"New Qutation added. Click https://shopinventory.pythonanywhere.com/transactions/{order_id}"
+
+
+    url = "https://graph.facebook.com/v20.0/363920080139942/messages"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "messaging_product": "whatsapp",
+        "to": recipient_number,
+        "type": "template",
+        "template": {
+            "name": template_name,
+            "language": {
+                "code": language_code
+            },
+            "components": [
+                {
+                    "type": "button",
+                    "sub_type": "url",
+                    "index": 0,
+                    "parameters": [
+                        {
+                            "type": "text",
+                            "text": parameter_value
+                        }
+                    ]
+                }
+            ]
         }
-        
-        # Define headers
-        headers = {
-            'content-type': "application/x-www-form-urlencoded"
+    }
+    
+    response = requests.post(url, headers=headers, data=json.dumps(payload))
+    return response.json()
+
+
+
+
+
+def send_low_stock_notification(request, token, recipient_number, template_name, language_code, dynamic_value):
+
+
+    url = "https://graph.facebook.com/v20.0/363920080139942/messages"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "messaging_product": "whatsapp",
+        "to": recipient_number,
+        "type": "template",
+        "template": {
+            "name": template_name,
+            "language": {
+                "code": language_code
+            },
+            "components": [
+                {
+                    "type": "body",
+                    "parameters": [
+                        {
+                            "type": "text",
+                            "text": dynamic_value
+                        }
+                    ]
+                }
+            ]
         }
-        
-        # Send the POST request
-        response = requests.post(url, data=payload, headers=headers)
-
-        # Print the response
-        print('done')
-        print(response.status_code, response.text)
-    except requests.RequestException as e:
-        print(f"Request error occurred: {e}")
-
-
-
-def send_low_stock_notification(request, message_body):
-
-
-    conn = http.client.HTTPSConnection("api.ultramsg.com",context = ssl._create_unverified_context())
-
-    payload = "token=e8uufg9ry2swd11a&"
+    }
     
-    to = 'to=+919765054243'
-    body = '&'+ 'body=' + message_body
+    response = requests.post(url, headers=headers, data=json.dumps(payload))
+    print(response)
+    return response.json()
 
-    payload = payload + to + body
-
-    print(payload)
-
-    payload = payload.encode('utf8').decode('iso-8859-1') 
-
-    headers = { 'content-type': "application/x-www-form-urlencoded" }
-
-    conn.request("POST", "/instance89765/messages/chat", payload, headers)
-
-    res = conn.getresponse()
-    data = res.read()
-
-    print(data.decode("utf-8"))
-
-def work_alert(request, message_body):
+def work_alert(request, token, recipient_number, template_name, language_code, param1, param2):
 
 
-    conn = http.client.HTTPSConnection("api.ultramsg.com",context = ssl._create_unverified_context())
-
-    payload = "token=e8uufg9ry2swd11a&"
+    url = "https://graph.facebook.com/v20.0/363920080139942/messages"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "messaging_product": "whatsapp",
+        "to": recipient_number,
+        "type": "template",
+        "template": {
+            "name": template_name,
+            "language": {
+                "code": language_code
+            },
+            "components": [
+                {
+                    "type": "body",
+                    "parameters": [
+                        {
+                            "type": "text",
+                            "text": param1
+                        },
+                        {
+                            "type": "text",
+                            "text": param2
+                        }
+                    ]
+                }
+            ]
+        }
+    }
     
-    to = 'to=+919765054243'
-    body = '&'+ 'body=' + message_body
-
-    payload = payload + to + body
-
-    print(payload)
-
-    payload = payload.encode('utf8').decode('iso-8859-1') 
-
-    headers = { 'content-type': "application/x-www-form-urlencoded" }
-
-    conn.request("POST", "/instance89765/messages/chat", payload, headers)
-
-    res = conn.getresponse()
-    data = res.read()
-
-    print(data.decode("utf-8"))
+    response = requests.post(url, headers=headers, data=json.dumps(payload))
+    return response.json()
 
 def add_order(request):
 
@@ -434,7 +477,7 @@ def add_order(request):
 
                     print(forms.errors)
 
-            send_qutation_notification(request, forms_order.instance.id)
+            send_qutation_notification(request, access_token, recipient_number, template_name, language_code, forms_order.instance.id)
 
             return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
 
@@ -739,6 +782,9 @@ from django.conf import settings
 
 
 
+from datetime import datetime, timedelta
+
+
 
 def script(request):
 
@@ -752,13 +798,22 @@ def script(request):
 
         for z in b:
 
-            product_qr_instance = product_qr.objects.get(id = z)
+            product_qr_instance = product_qr.objects.get(id = z.sheet_no)
 
-            c = material_history.objects.filter(product_qr = product_qr_instance, project = i)
+            current_date = datetime.now().date()
+            two_days_ago = current_date - timedelta(days=2)
 
-            message_body = "Project Id: " + a.id + " " + "Customer Name: " + a.customer.name + " " + "Sheet Id: " + b.id
+            # Check if the given date has exceeded 2 days from the current date
+            if i.DC_date < two_days_ago:
 
-            work_alert(request, message_body)
+                c = material_history.objects.filter(product_qr = product_qr_instance, project = i)
+
+                if not c:
+                    
+                    message_body = "Prjoect Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name) + "sheet_no " + str(z.sheet_no)
+                    print(message_body)
+
+            # work_alert(request, access_token, recipient_number, 'work_alert', language_code, message_body, b.id)
 
 
 
@@ -2001,7 +2056,7 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                 print('----------------------------------2----------------------')
 
-            
+                print(product_instance.id)
                 stock_instance = stock.objects.get(product = product_instance)
                 stock_instance.quantity = stock_instance.quantity - 1
                 
@@ -2015,23 +2070,28 @@ def update_assign_matarial_qr(request, product_qr_id):
                 check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness).aggregate(total_quantity=Sum('quantity'))
                 print(check_low_stock)
                 total_quantity = check_low_stock['total_quantity'] or 0  # Handle None case
-               
+                print(total_quantity)
                 if total_quantity < 4:
+                    
 
+                    print('-------------------1------------------')
 
 
              
                     
-                    message_body =  str(stock_instance.product.category)+ str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + "Left :- " + str(total_quantity)
+                    message_body =  str(stock_instance.product.category) + + " " +str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + " " + str(total_quantity) + " "
 
                                     
                    
-                    # send_low_stock_notification(request, message_body)
+                    send_low_stock_notification(request, access_token, recipient_number, 'stock_alert', language_code, message_body)
                     
 
                     
               
             else:
+
+                print('-------------------2------------------')
+
                 
                 left_over_instance =  left_over_stock.objects.get(product = product_qr_instance.product)
 
@@ -2075,17 +2135,20 @@ def update_assign_matarial_qr(request, product_qr_id):
                 check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness).aggregate(total_quantity=Sum('quantity'))
                 print(check_low_stock)
                 total_quantity = check_low_stock['total_quantity'] or 0  # Handle None case
+                print(total_quantity)
                 if total_quantity < 4:
 
+                    print('------------------1----------------------')
 
                     
 
-                    message_body =  str(stock_instance.product.category)+ str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + "Left :- " + str(total_quantity)
+                    message_body =  str(stock_instance.product.category) + + " " +str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + " " + str(total_quantity) + " "
 
 
                                     
                    
-                    # send_low_stock_notification(request, message_body)
+                    send_low_stock_notification(request, access_token, recipient_number, 'stock_alert', language_code, message_body)
+
 
 
                 product_qr_instance.moved_to_left_over = True
@@ -2883,12 +2946,15 @@ def check_sheet(request):
 
     data = product_qr.objects.all()
 
-    context = {
-           
-            'data': data,
-        }
+    for i in data:
 
-    return render(request, 'transactions/check_sheet.html', context)
+        if i.moved_to_left_over == "None"  and i.moved_to_scratch == "None":
+            if i.product:
+                print(i.id, ' ', i.moved_to_left_over, ' ', i.moved_to_scratch, ' ', 'True', ' ', i.product.size)
+        else:
+            if i.product:
+                print(i.id, ' ', i.moved_to_left_over, ' ', i.moved_to_scratch, ' ', 'False', ' ', i.product.size)
+
 
 
 def assign_values_to_qr_page(request):
