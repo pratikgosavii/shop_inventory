@@ -2032,7 +2032,6 @@ let orderIdCounter = 1; // Counter for unique order IDs
 function addOrder(orderData) {
     orderData.id = orderIdCounter++;
     orders.push(orderData);
-    alert(orders)
     renderOrders(); // Render submitted orders
     calculateTotal();
 
