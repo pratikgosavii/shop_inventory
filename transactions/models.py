@@ -514,12 +514,6 @@ FONT_HEIGHT_OPTION_CHOICES = (
 
 )
 
-MIN_FONT_HEIGHT_OPTION_CHOICES = (
-
-('1mm', '1mm'),
-('600mm', '600mm'),
-
-)
 
 THICKNESS_OPTION_CHOICES = (
 
@@ -587,7 +581,6 @@ class order_child(models.Model):
     color_count = models.CharField(max_length=50, choices=COLOR_COUNT_OPTION_CHOICES)
     color = models.CharField(max_length=50, choices=COLOR_OPTION_CHOICES)
     font_height = models.CharField(max_length=50, choices=FONT_HEIGHT_OPTION_CHOICES)
-    min_font_height = models.CharField(max_length=50, choices=MIN_FONT_HEIGHT_OPTION_CHOICES)
     thickness = models.CharField(max_length=50, choices=THICKNESS_OPTION_CHOICES)
     length = models.FloatField(null = True, blank = True)
     total_sq_inch = models.FloatField(null = True, blank = True)

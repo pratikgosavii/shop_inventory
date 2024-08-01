@@ -331,41 +331,45 @@ language_code = "en"
 def send_qutation_notification(request, token, recipient_number, template_name, language_code, parameter_value):
 
 
-
-
     url = "https://graph.facebook.com/v20.0/363920080139942/messages"
     headers = {
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json"
     }
-    payload = {
-        "messaging_product": "whatsapp",
-        "to": recipient_number,
-        "type": "template",
-        "template": {
-            "name": template_name,
-            "language": {
-                "code": language_code
-            },
-            "components": [
-                {
-                    "type": "button",
-                    "sub_type": "url",
-                    "index": 0,
-                    "parameters": [
-                        {
-                            "type": "text",
-                            "text": parameter_value
-                        }
-                    ]
-                }
-            ]
-        }
-    }
     
-    response = requests.post(url, headers=headers, data=json.dumps(payload))
-    print(response)
-    return response.json()
+    for number in recipient_number:
+        payload = {
+            "messaging_product": "whatsapp",
+            "to": number,
+            "type": "template",
+            "template": {
+                "name": template_name,
+                "language": {
+                    "code": language_code
+                },
+                "components": [
+                    {
+                        "type": "button",
+                        "sub_type": "url",
+                        "index": 0,
+                        "parameters": [
+                            {
+                                "type": "text",
+                                "text": parameter_value
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+        
+        response = requests.post(url, headers=headers, data=json.dumps(payload))
+        
+        if response.status_code != 200:
+            print(f"Error sending message to {number}: {response.status_code}")
+            print(f"Response: {response.text}")
+        else:
+            print(f"Message sent to {number}: {response.json()}")
 
 
 
@@ -457,7 +461,6 @@ def add_order(request):
         updated_request = request.POST.copy()
         updated_request.update({'user': request.user})
 
-        print(request.POST)
         forms_order = order_Form(updated_request)
 
         if forms_order.is_valid():
@@ -465,7 +468,7 @@ def add_order(request):
             forms_order.save()
             
             for item in orders_data:
-                print(item)
+               
                 item['order'] = forms_order.instance.id
                 forms = OrderChildForm(item)
                 if forms.is_valid():
