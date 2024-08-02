@@ -2105,15 +2105,7 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                 print('-------------------2------------------')
 
-                
-                left_over_instance =  left_over_stock.objects.get(product = product_qr_instance.product)
-
-
-                left_over_instance.quantity = left_over_instance.quantity - 1
-                left_over_instance.save()
-
-                product_qr_instance.moved_to_scratch = True
-                product_qr_instance.save()
+             
 
 
 
