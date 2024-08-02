@@ -324,12 +324,21 @@ import ssl
 
 
 access_token = "EAALeGznz5UwBO9cCf9mrwEd1vHBgB8neIziWXhS4AKGY02ZCVbfb5bTnSK7TCX6Qo1V0MZCHg7hNHQJYsNIZB17zlXaXFLv4HWJFWHZA0zeK57eZCClKyKxeAROKBh0kWB9PtjGbJeJsDWQSdqIjr20xrOBvk09nfWZCRn4xi5MTuyhco7C3U9P4OZBRbADDzLfKwZDZD"
-recipient_number = ["9765054243", "9823350315", "8237377298"]
+recipient_number = ["9765054243"]
 template_name = "qutation_added"
 language_code = "en"
 
 def send_qutation_notification(request, token, recipient_number, template_name, language_code, parameter_value):
 
+
+    print('-----------------------------------------------')
+    print('-----------------------------------------------')
+    print('-----------------------------------------------')
+    print('-----------------------------------------------')
+    print('-----------------------------------------------')
+    print('-----------------------------------------------')
+    print('-----------------------------------------------')
+    print('-----------------------------------------------')
 
     url = "https://graph.facebook.com/v20.0/363920080139942/messages"
     headers = {
