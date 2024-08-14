@@ -28,6 +28,8 @@ urlpatterns = [
     path('update-project/<project_id>', update_project, name='update_project'),
     path('get-sheet-details/', get_sheet_details, name='get_sheet_details'),
 
+    path('add-project-inward/<project_id>', add_project_inward, name='add_project_inward'),
+
     path('assign-matarial-qr/<project_id>', assign_matarial_qr, name='assign_matarial_qr'),
     path('delete-matarial-qr/<assign_material_id>/<project_id>', delete_assign_material, name='delete_assign_material'),
 

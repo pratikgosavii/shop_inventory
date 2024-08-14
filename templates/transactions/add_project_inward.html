@@ -1,0 +1,253 @@
+{% extends 'base/base.html' %}
+
+
+
+{% block title %}Create Product{% endblock title %}
+
+{% block head %}
+
+
+<style>
+
+        .select2-container{
+
+            width: 164.75px
+        }
+
+        .select2-container .select2-selection--single {
+            height: 37px !important;
+        }
+
+        #id_design_file {
+            display: none;
+        }
+
+
+
+        textarea {
+            font-size: 14px !important;
+        }
+
+
+
+
+</style>
+
+{% endblock head %}
+
+{% block content %}
+
+
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="icon-box">
+					<i class="material-icons">&#xE876;</i>
+				</div>				
+				<h4 class="modal-title w-100">Awesome!</h4>	
+			</div>
+			<div class="modal-body">
+				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>     
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Add Project Inward</strong>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form action="#" id="submitform" method="post">
+                            {% csrf_token %}
+
+                         
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Customer Name</label>
+                                {{ form.customer }}
+                               
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Purchase Order No </label>
+                                {{ form.order_id }}
+                               
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Description </label>
+                                {{ form.description }}
+                               
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Date</label>
+                                {{ form.DC_date }}
+                                
+                            </div>
+
+                            {% comment %} <div class="form-group">
+                                <label for="name" class="control-label mb-1">Design File</label>
+    Currently: <a href="{{ form.design_file.value.url }}">{{ form.design_file.value }}</a><br>
+                            </div> {% endcomment %}
+
+
+
+
+                            <hr>
+
+                            
+                            <label for="name" class="control-label mb-1"> Inward Material Details</label>
+
+                           
+                             
+
+
+ <table id="my-table">
+
+    <tr>
+        <td> Sr No </td>
+        <td> Invoice_no </td>
+        <td> Title </td>
+        <td> Quantity </td>
+        <td> Amount </td>
+        <td> Description </td>
+        <td> Date </td>
+
+        <td>  <button type="button" class="btn btn-success add-textbox" > <i class="fa fa-plus" aria-hidden="true"></i></button>  </td>
+    </tr>
+
+    {% for i in date %}
+
+    <tr>
+
+        <td> {{ forloop.counter }} </td>
+        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.invoice_no }}" placeholder="Invoice No" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.title }}" placeholder="Title" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.quantity }}" placeholder="Quantity" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.amount }}" placeholder="Amount" readonly> </td>
+        <td>   <textarea readonly> {{ i.description }} </textarea> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.date }}" placeholder="Date" readonly> </td>
+        <td> <a href="" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this entry?')"> Delete </a> </td>
+        
+
+        
+    </tr>
+
+    {% endfor %}
+
+    <tbody>
+    </tbody>
+
+</table>  
+ <br>
+ <div>
+    <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+        <span id="payment-button-amount">Add Inward To Project</span>
+    </button>
+</div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div> <!-- .card -->
+
+    </div><!--/.col-->
+</div>
+
+                            
+                           
+
+
+{% endblock content %}
+
+{% block js %}
+    
+
+<!-- Include Select2 JS -->
+<!-- Initialize Select2 -->
+
+<script>
+
+
+    $(document).ready(function() {
+
+    
+   $(document).ready(function() {
+    var max = 10000;
+    var cnt = 0;
+    $(".add-textbox").on("click", function(e){
+        e.preventDefault();
+        if(cnt < max){
+            cnt++;
+
+            const newRow = document.createElement('tr');
+            const tableBody = document.querySelector('#my-table tbody');
+
+            // Create your input elements here using Django template variables
+            newRow.innerHTML = `
+             <td> ${cnt}  </td>
+        <td>    <input type="text" class="form-control sheet-no" name="invoice_no"  placeholder="Invoice No"> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="title"  placeholder="Title"> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="quantity"  placeholder="Quantity"> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="amount"  placeholder="Amount"> </td>
+        <td>   <textarea  class="form-control sheet-no" name="description1" placeholder="Description" rows="4" cols="50" > </textarea> </td>
+        <td>   <input type="date" class="form-control sheet-no" name="date"  placeholder="amount"> </td>
+         </tr> <td style="margin-left : 10px;">  <span class="input-group-btn"> <button type="button" class="btn btn-danger remove-textbox"> <i class="fa fa-minus" aria-hidden="true"></i>  </td> </td>
+            `;
+            
+            
+                $(tableBody).append(newRow);
+                
+                disableDropdownsInTable('my-table');
+
+        }
+    });
+});
+
+const tableBody = document.querySelector('#my-table tbody');
+
+tableBody.addEventListener('click', function(event) {
+
+    const target = event.target;
+    if (target.classList.contains('remove-textbox')) {
+      const row = target.closest('tr'); // Find the parent row
+      if (row.parentNode.children.length > 1) {
+        row.remove(); // Remove the row from the table if there are more than one rows
+      }
+    }
+  });
+
+
+
+
+  
+
+
+
+});
+
+
+
+
+
+
+
+
+
+</script>
+
+{% endblock js %}

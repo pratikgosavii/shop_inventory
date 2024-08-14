@@ -324,7 +324,7 @@ import ssl
 
 
 access_token = "EAALeGznz5UwBO9cCf9mrwEd1vHBgB8neIziWXhS4AKGY02ZCVbfb5bTnSK7TCX6Qo1V0MZCHg7hNHQJYsNIZB17zlXaXFLv4HWJFWHZA0zeK57eZCClKyKxeAROKBh0kWB9PtjGbJeJsDWQSdqIjr20xrOBvk09nfWZCRn4xi5MTuyhco7C3U9P4OZBRbADDzLfKwZDZD"
-recipient_number = ["9765054243", "9823208347"]
+recipient_number = ["9765054243", "9823350315", "9823208347"]
 template_name = "qutation_added"
 language_code = "en"
 
@@ -378,7 +378,7 @@ def send_qutation_notification(request, token, recipient_number, template_name, 
             print(f"Error sending message to {number}: {response.status_code}")
             print(f"Response: {response.text}")
         else:
-            print(f"Message sent to {number}: {response.json()}")
+            print(f"Message sent to {number}: {response}")
 
 
 
@@ -1866,6 +1866,59 @@ def get_sheet_details(request):
 
 
 @login_required(login_url='login')
+def add_project_inward(request, project_id):
+
+    project_instance = project.objects.get(id = project_id)
+    
+    if request.method == 'POST':
+
+        invoice_no = request.POST.getlist("invoice_no")
+        title = request.POST.getlist("title")
+        quantity = request.POST.getlist("quantity")
+        amount = request.POST.getlist("amount")
+        description = request.POST.getlist("description1")
+        date = request.POST.getlist("DC_date")
+
+
+
+        print(request.POST)
+        print(invoice_no)
+        print(title)
+        print(quantity)
+        print(amount)
+        print(description)
+        print(date)
+
+
+        for a,b,c,d,e,f in zip(invoice_no, title, quantity, amount, description, date):
+
+            project_inward.objects.create(project = project_instance, invoice_no = a, amount = d, title = b, quantity = c, description = e, date = f)
+
+        
+        return redirect('list_project')
+
+    else:
+
+        forms = project_Form(instance = project_instance)
+                    
+        data_form = project_inward_Form()
+
+        date = project_inward.objects.filter(project = project_instance)
+
+        context = {
+            'form': forms,
+            'data_form': data_form,
+            'date': date,
+        }
+        return render(request, 'transactions/add_project_inward.html', context)
+
+
+
+
+
+
+
+@login_required(login_url='login')
 def assign_matarial_qr(request, project_id):
 
     print('hereeeeeeeeeeeeee')
@@ -2105,7 +2158,15 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                 print('-------------------2------------------')
 
-             
+                
+                left_over_instance =  left_over_stock.objects.get(product = product_qr_instance.product)
+
+
+                left_over_instance.quantity = left_over_instance.quantity - 1
+                left_over_instance.save()
+
+                product_qr_instance.moved_to_scratch = True
+                product_qr_instance.save()
 
 
 
@@ -2173,8 +2234,12 @@ def update_assign_matarial_qr(request, product_qr_id):
 
             else:
 
+                
+                print(product_instance.id)
+                left_over_instance = left_over_stock.objects.get(product = product_qr_instance.product)
+                left_over_instance.quantity = left_over_instance.quantity - 1
+                left_over_instance.save()
 
-               
                 instance, created = left_over_stock.objects.get_or_create(product = product_instance_new)
 
                 if instance:

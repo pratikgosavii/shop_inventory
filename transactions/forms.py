@@ -110,6 +110,41 @@ class project_matarial_Form(forms.ModelForm):
            
         }
 
+class project_inward_Form(forms.ModelForm):
+    class Meta:
+        model = project_inward
+        fields = '__all__'
+        widgets = {
+           
+            'quantity': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'bag_size'
+            }),
+            
+            'title': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'title'
+            }),
+
+            'invoice_no': forms.NumberInput(attrs={
+                'class': 'form-control', 'id': 'invoice_no'
+            }),
+
+            'amount': forms.NumberInput(attrs={
+                'class': 'form-control', 'id': 'amount'
+            }),
+
+            'description': forms.Textarea(attrs={
+                'class': 'form-control', 'id': 'description'
+            }),
+
+            'project': forms.Select(attrs={
+                'class': 'form-control', 'id': 'bag_size'
+            }),
+
+            'date': DateInput(attrs={ 'class': 'form-control dateclas', 'type': 'date'}, format = '%Y-%m-%d'),
+
+           
+        }
+
 class project_matarial_qr_Form(forms.ModelForm):
     class Meta:
         model = project_matarial_qr

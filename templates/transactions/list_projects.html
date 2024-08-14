@@ -148,6 +148,9 @@
                     
                     {% if request.user.is_superuser or request.user.is_reception %}
 
+                      <a href="{% url 'add_project_inward' i.id %}"> <i class="fa-sharp fa-thin fa-inbox-full" style="font-size: 1.5em;" aria-hidden="true"></i> 
+
+
                       <a href="{% url 'assign_matarial_qr' i.id %}"> <i class="fa fa-qrcode" style="font-size: 1.5em;" aria-hidden="true"></i> 
                     
                         {% endif %}

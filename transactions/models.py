@@ -75,6 +75,7 @@ class project_sheets_logs(models.Model):
     def __str__(self):
         return self.project
 
+
    
 class project_material(models.Model):
 
@@ -630,3 +631,19 @@ class notification_table(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     is_reported = models.BooleanField(default=False)
 
+
+
+
+
+class project_inward(models.Model):
+
+    project = models.ForeignKey(project , on_delete=models.CASCADE, related_name='dsdvvsdcx')
+    invoice_no = models.CharField( max_length=50)
+    title = models.CharField( max_length=50)
+    quantity = models.IntegerField()
+    amount = models.IntegerField()
+    description = models.CharField( max_length=50)
+    date = models.DateField(auto_now_add=False)
+
+    def __str__(self):
+        return self.project
