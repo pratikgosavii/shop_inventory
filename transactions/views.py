@@ -1992,98 +1992,104 @@ def add_project_outward(request, project_id):
 
 
 
-import barcode
-from barcode.writer import ImageWriter
 from io import BytesIO
-from django.http import HttpResponse
-from django.core.files.base import ContentFile
-from PIL import Image as PilImage
-from PIL import Image, ImageDraw, ImageFont
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from reportlab.graphics.barcode import code128
+from reportlab.lib.pagesizes import mm
 
 
 def generate_barcode(request, id):
-    # Choose the type of barcode you want to generate (e.g., Code128)
-    barcode_type = barcode.get_barcode_class('code128')
     
+    data = project_matarial_production.objects.get(id=id)
 
-    data = project_matarial_production.objects.get(id = id)
-    
-    # Generate the barcode
-    barcode_instance = barcode_type(str(data.id), writer=ImageWriter())
-    
-    # Create a BytesIO buffer to hold the image
-    buffer = BytesIO()
-    barcode_instance.write(buffer)
-    
-    # Rewind the buffer's position to the beginning
-    buffer.seek(0)
-    
-    # Open the image with PIL (Pillow)
-    img = PilImage.open(buffer)
-    
-    # Resize the image to 25mm x 38mm (approximately 95 x 144 pixels)
-    target_width = int(100 * 3.78)  # Convert mm to pixels
-    target_height = int(100 * 3.78)  # Convert mm to pixels
-    img = img.resize((target_width, target_height))
-    
-    # Prepare to draw text on the resized image
-    draw = ImageDraw.Draw(img)
-    
-    # Load a font, adjust the font size as needed
-    font = ImageFont.load_default()  # You can use a custom font if needed
-    
-    # Define the text fields for display
-    text_project_quantity = f"Project ID: {data.project.id}    | Quantity: {data.production_quantity}"
-    text_item_outward_id = f"Outward Item Code ID: {data.id}   | Item Code: {data.item_code.code}"
-    text_company_name = f"Company Name: {data.project.customer.name}"
-    
-    # Define positions for the text (you can adjust coordinates if needed)
-    text_position_1 = (10, img.height - 70)  # Position for project ID and quantity
-    text_position_2 = (10, img.height - 50)  # Position for item code and outward item code ID
-    text_position_3 = (10, img.height - 30)  # Position for company name (centered)
-    
-    # Draw the text on the image
-    draw.text(text_position_1, text_project_quantity, font=font, fill=(0, 0, 0))  # Black text color
-    draw.text(text_position_2, text_item_outward_id, font=font, fill=(0, 0, 0))  # Black text color
-    draw.text(text_position_3, text_company_name, font=font, fill=(0, 0, 0))  # Black text color
-    
-    # If you want to save the image to a ContentFile, convert it to PNG
-    output_buffer = BytesIO()
-    img.save(output_buffer, format="PNG")
-    barcode_image = ContentFile(output_buffer.getvalue(), name=f"barcode_{id}.png")
-    
-    # Return the image as an HTTP response
-    return HttpResponse(output_buffer.getvalue(), content_type='image/png')
+    # Create a PDF buffer with 45mm x 25mm page size
+    pdf_buffer = BytesIO()
+    pdf = canvas.Canvas(pdf_buffer, pagesize=(45 * mm, 25 * mm))
 
+    # Set the barcode value
+    barcode_value = str(data.id)
+    
+    # Increase the barcode width (barWidth increased, height kept standard)
+    barcode = code128.Code128(barcode_value, barWidth=0.45 * mm, barHeight=10 * mm)
+
+    # Set the position of the barcode (minimal margins)
+    barcode_x = 1  # 1mm from the left
+    barcode_y = 13  # Adjust position slightly from the bottom
+
+    # Draw the barcode on the PDF
+    barcode.drawOn(pdf, barcode_x * mm, barcode_y * mm)
+
+    # Optional: Add text below the barcode with smaller font size and reduced line spacing
+    pdf.setFont("Helvetica", 5)  # Set font size to 5 points
+
+    # Reduce line spacing and remove unnecessary info (SIZE removed)
+    pdf.setFont("Helvetica-Bold", 5)  # Set font size to 5 points, bold font for weight
+    left_margin = 5 * mm  # Adjust left margin as needed
+    pdf.drawString(left_margin, (barcode_y - 3) * mm, f"Project ID: {data.project.id} | Quantity: {data.production_quantity}")
+    pdf.drawString(left_margin, (barcode_y - 6) * mm, f"Item Code: {data.item_code.code}")
+    pdf.drawString(left_margin, (barcode_y - 9) * mm, f"Company Name: {data.project.customer.name}")
+
+    # Finalize the PDF
+    pdf.showPage()
+    pdf.save()
+
+    # Get the PDF content
+    pdf_buffer.seek(0)
+    response = HttpResponse(pdf_buffer, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="barcode_{id}.pdf"'
+
+    return response
 
 
 
 
 def generate_all_barcode(request, project_id):
     # Choose the type of barcode you want to generate (e.g., Code128)
-    barcode_type = barcode.get_barcode_class('code128')
     
-    # Generate the barcode
-    barcode_instance = barcode_type(str(project_id), writer=ImageWriter())
     
-    # Create a BytesIO buffer to hold the image
-    buffer = BytesIO()
-    barcode_instance.write(buffer)
     
-    # Rewind the buffer's position to the beginning
-    buffer.seek(0)
+    ids_list = project_matarial_production.objects.filter(project__id = project_id)
+    pdf_buffer = BytesIO()
     
-    # Open the image with PIL (Pillow)
-    img = PilImage.open(buffer)
+    # Create the PDF
+    pdf = canvas.Canvas(pdf_buffer, pagesize=(45 * mm, 25 * mm))
     
-    # If you want to save the image to a ContentFile, convert it to PNG
-    output_buffer = BytesIO()
-    img.save(output_buffer, format="PNG")
-    qr_code_image = ContentFile(output_buffer.getvalue(), name=f"barcode_{id}.png")
+    for id in ids_list:
+        data = project_matarial_production.objects.get(id=id.id)
+        
+        # Set the barcode value
+        barcode_value = str(data.id)
+        
+        # Increase the barcode width (barWidth increased, height kept standard)
+        barcode = code128.Code128(barcode_value, barWidth=0.45 * mm, barHeight=10 * mm)
+        
+        # Set the position of the barcode (minimal margins)
+        barcode_x = 1  # 1mm from the left
+        barcode_y = 13  # Adjust position slightly from the bottom
+        
+        # Draw the barcode on the PDF
+        barcode.drawOn(pdf, barcode_x * mm, barcode_y * mm)
+        
+        # Add text below the barcode with smaller font size and reduced line spacing
+        pdf.setFont("Helvetica-Bold", 5)  # Set font size to 5 points, bold font for weight
+        left_margin = 5 * mm  # Adjust left margin as needed
+        pdf.drawString(left_margin, (barcode_y - 3) * mm, f"Project ID: {data.project.id} | Quantity: {data.production_quantity}")
+        pdf.drawString(left_margin, (barcode_y - 6) * mm, f"Item Code: {data.item_code.code}")
+        pdf.drawString(left_margin, (barcode_y - 9) * mm, f"Company Name: {data.project.customer.name}")
+        
+        # Start a new page for the next barcode
+        pdf.showPage()
     
-    # Return the image as an HTTP response
-    return HttpResponse(output_buffer.getvalue(), content_type='image/png')
-
+    # Finalize the PDF
+    pdf.save()
+    
+    # Get the PDF content
+    pdf_buffer.seek(0)
+    response = HttpResponse(pdf_buffer, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="barcodes.pdf"'
+    
+    return response
 
 def scan_barcode(request):
     if request.method == 'POST':
