@@ -1926,6 +1926,18 @@ def confirm_outward(request, project_id):
 
 
 @login_required(login_url='login')
+def confirm_outward_json(request, production_material_id):
+
+    instance = project_matarial_production.objects.get(id = production_material_id)
+
+    instance.date_time = datetime.now()
+
+    instance.save()
+
+    return redirect('confirm_outward', project_id = instance.project.id)
+
+
+@login_required(login_url='login')
 def add_project_outward(request, project_id):
 
     project_instance = project.objects.get(id = project_id)

@@ -29,6 +29,7 @@ urlpatterns = [
     path('get-sheet-details/', get_sheet_details, name='get_sheet_details'),
 
     path('confirm-outward/<project_id>', confirm_outward, name='confirm_outward'),
+    path('confirm-outward-json/<production_material_id>', confirm_outward_json, name='confirm_outward_json'),
     path('add-project-outward/<project_id>', add_project_outward, name='add_project_outward'),
     path('generate-barcode/<int:id>/', generate_barcode, name='generate_barcode'),
     path('generate-all-barcode/<int:id>/', generate_all_barcode, name='generate_all_barcode'),
