@@ -2010,8 +2010,8 @@ def generate_barcode(request, id):
     img = PilImage.open(buffer)
     
     # Resize the image to 25mm x 38mm (approximately 95 x 144 pixels)
-    target_width = int(25 * 3.78)  # Convert mm to pixels
-    target_height = int(38 * 3.78)  # Convert mm to pixels
+    target_width = int(100 * 3.78)  # Convert mm to pixels
+    target_height = int(100 * 3.78)  # Convert mm to pixels
     img = img.resize((target_width, target_height))
     
     # Prepare to draw text on the resized image
