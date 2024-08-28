@@ -2158,16 +2158,6 @@ def outward_report(request):
 
 
 
-
-from openpyxl import Workbook
-from openpyxl.styles import PatternFill
-import os
-import mimetypes
-from django.http import HttpResponse
-from django.db.models import Sum
-
-
-from openpyxl import Workbook
 from openpyxl.styles import PatternFill, Font, Border, Side
 import os
 import mimetypes
@@ -2176,17 +2166,7 @@ from django.db.models import Sum
 
 
 
-from openpyxl import Workbook
-from openpyxl.styles import PatternFill
-import os
-import mimetypes
-from django.http import HttpResponse
-from django.db.models import Sum
-
-
-
 from django.core.mail import EmailMessage
-import os
 
 
 
