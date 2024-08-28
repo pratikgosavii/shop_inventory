@@ -67,6 +67,10 @@ class project_Form(forms.ModelForm):
             'order_id': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'order_id'
             }),
+           
+            'rra_invoice_no': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'rra_invoice'
+            }),
 
             'description': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'description'
@@ -119,13 +123,32 @@ class project_inward_Form(forms.ModelForm):
             'quantity': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'bag_size'
             }),
-            
-            'title': forms.TextInput(attrs={
-                'class': 'form-control', 'id': 'title'
+
+            'amount': forms.NumberInput(attrs={
+                'class': 'form-control', 'id': 'amount'
             }),
 
-            'invoice_no': forms.NumberInput(attrs={
-                'class': 'form-control', 'id': 'invoice_no'
+            'description': forms.Textarea(attrs={
+                'class': 'form-control', 'id': 'description'
+            }),
+
+            'project': forms.Select(attrs={
+                'class': 'form-control', 'id': 'bag_size'
+            }),
+
+            'date': DateInput(attrs={ 'class': 'form-control dateclas', 'type': 'date'}, format = '%Y-%m-%d'),
+
+           
+        }
+
+class project_outward_Form(forms.ModelForm):
+    class Meta:
+        model = project_outward
+        fields = '__all__'
+        widgets = {
+           
+            'quantity': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'bag_size'
             }),
 
             'amount': forms.NumberInput(attrs={

@@ -1,0 +1,55 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Stock List{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="box-title">Scan Barcode</h4>
+            </div>
+            <div class="card-body">
+                <!-- Credit Card -->
+                <div id="pay-invoice">
+                    <div class="card-body">
+                        <form method="post" action="{% url 'scan_barcode' %}">
+                            {% csrf_token %}
+
+                            
+                            <div class="form-group">
+                                <input type="text" style="width:300px;" class="form-control" id="barcode" name="barcode" autofocus>
+                            
+                            </div>
+
+                            <div>
+                                <button type="submit" class="btn btn-lg btn-info btn-block">
+                                    <span id="payment-button-amount">Submit Barcode</span>
+                                </button>
+                            </div>
+
+
+
+                        </form>
+                    
+                    </div>
+                </div>
+            </div>
+        </div> <!-- /.card -->
+    </div>  <!-- /.col-xl-12 -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    document.getElementById('barcode').addEventListener('input', function(e) {
+        if (e.target.value.length >= 12) {  // Assuming barcode length of 12
+            document.forms[0].submit();  // Automatically submit the form after scanning
+        }
+    });
+
+    
+    
+
+</script>
+{% endblock content %}

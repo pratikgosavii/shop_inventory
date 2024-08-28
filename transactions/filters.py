@@ -49,6 +49,91 @@ class project_filter(django_filters.FilterSet):
         fields = '__all__'
        
 
+class project_inward_filter(django_filters.FilterSet):
+
+   
+    project = django_filters.ModelChoiceFilter(
+        queryset=customer.objects.all(),
+        field_name='project__order_id',
+
+        widget=forms.Select(
+            attrs={
+                'class' : 'form-control',
+                'id' : 'project'
+            })
+    )
+   
+    customer = django_filters.ModelChoiceFilter(
+        queryset=customer.objects.all(),
+        field_name='customer__name',
+
+        widget=forms.Select(
+            attrs={
+                'class' : 'form-control',
+                'id' : 'customer'
+            })
+    )
+   
+    from_date = DateFilter(
+        field_name="date",  # Field name to filter on
+        lookup_expr='gte',  # 'gte' means greater than or equal to
+        widget=forms.DateInput(attrs={'id': 'from_datepicker', 'type': 'date', 'class': 'form-control date_css'}),
+    )
+    
+    to_date = DateFilter(
+        field_name="date",  # Field name to filter on
+        lookup_expr='lte',  # 'lte' means less than or equal to
+        widget=forms.DateInput(attrs={'id': 'to_datepicker', 'type': 'date', 'class': 'form-control date_css'}),
+    )
+
+
+    class Meta:
+        model = project_inward
+        fields = '__all__'
+
+class project_outward_filter(django_filters.FilterSet):
+
+   
+    project = django_filters.ModelChoiceFilter(
+        queryset=customer.objects.all(),
+        field_name='project__order_id',
+
+        widget=forms.Select(
+            attrs={
+                'class' : 'form-control',
+                'id' : 'project'
+            })
+    )
+   
+    customer = django_filters.ModelChoiceFilter(
+        queryset=customer.objects.all(),
+        field_name='customer__name',
+
+        widget=forms.Select(
+            attrs={
+                'class' : 'form-control',
+                'id' : 'customer'
+            })
+    )
+   
+    from_date = DateFilter(
+        field_name="date",  # Field name to filter on
+        lookup_expr='gte',  # 'gte' means greater than or equal to
+        widget=forms.DateInput(attrs={'id': 'from_datepicker', 'type': 'date', 'class': 'form-control date_css'}),
+    )
+    
+    to_date = DateFilter(
+        field_name="date",  # Field name to filter on
+        lookup_expr='lte',  # 'lte' means less than or equal to
+        widget=forms.DateInput(attrs={'id': 'to_datepicker', 'type': 'date', 'class': 'form-control date_css'}),
+    )
+
+
+    class Meta:
+        model = project_outward
+        fields = '__all__'
+       
+
 class order_filter(django_filters.FilterSet):
 
     customer = django_filters.ModelChoiceFilter(

@@ -31,6 +31,7 @@ class project(models.Model):
     DC_date = models.DateField(auto_now_add=False)
     description = models.CharField( max_length=50)
     order_id = models.CharField(unique=True, max_length=50)
+    rra_invoice_no = models.CharField(null=True, blank=True, max_length=100)
     completed = models.BooleanField(default=False)
     # design_file = models.FileField(upload_to='media/project_design/')
     # own_design_file = models.FileField(upload_to='media/project_design/', blank=True)
@@ -98,6 +99,7 @@ class project_matarial_production(models.Model):
 
     item_code = models.ForeignKey(item_code, on_delete=models.CASCADE, related_name = "item_code_re_1", null = True, blank = True)
     production_quantity = models.IntegerField(null = True, blank = True)
+    production_amount = models.IntegerField(null = True, blank = True)
     project = models.ForeignKey(project, on_delete=models.CASCADE, related_name = "project_production_n")
     
 
@@ -638,8 +640,6 @@ class notification_table(models.Model):
 class project_inward(models.Model):
 
     project = models.ForeignKey(project , on_delete=models.CASCADE, related_name='dsdvvsdcx')
-    invoice_no = models.CharField( max_length=50)
-    title = models.CharField( max_length=50)
     quantity = models.IntegerField()
     amount = models.IntegerField()
     description = models.CharField( max_length=50)
@@ -647,3 +647,19 @@ class project_inward(models.Model):
 
     def __str__(self):
         return self.project
+
+
+
+class project_outward(models.Model):
+
+    project = models.ForeignKey(project , on_delete=models.CASCADE, related_name='wedfdvcdsd')
+    quantity = models.IntegerField()
+    amount = models.IntegerField()
+    description = models.CharField( max_length=50)
+    date = models.DateField(auto_now_add=False)
+
+    def __str__(self):
+        return self.project
+    
+
+    

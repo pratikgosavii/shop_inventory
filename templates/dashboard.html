@@ -207,9 +207,15 @@ font-family: 'Montserrat', sans-serif;
         <br> <br>
 
         <div>
-        
+            
+            <div style="display:flex; gap:20px;">
+
             <a style="margin-left : 20px;" href="{% url 'scanner_page' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan QR </button> </a>
-        
+            <a style="margin-left : 20px;" href="{% url 'scan_barcode' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan Barcode </button> </a>
+                
+            </div>
+
+            
             {% endif %}
 
             {% if request.user.is_cutter or request.user.is_superuser %}

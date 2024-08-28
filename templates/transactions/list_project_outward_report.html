@@ -26,6 +26,8 @@
   .accordion-toggle.collapsed .expand-button:after {
     content: "+";
   }
+
+  
 </style>
 
 
@@ -46,8 +48,8 @@
     <div class="form-group" style="display: flex;
       gap: 14px;">
 
-      <label for="name" class="control-label mb-1" style="margin-left : 0px;">Item Code</label>
-              {{ project_filter.form.item_code }}
+      <label for="name" class="control-label mb-1" style="margin-left : 0px;">Project</label>
+              {{ project_filter.form.project }}
                   
               
       <label for="name" class="control-label mb-1" style="margin-left : 0px;">Customer </label>
@@ -74,10 +76,10 @@
 
 
 <div class="row">
-  <div class="col-xl-12">
+  <div class="col-xl-11">
     <div class="card">
       <div class="card-body">
-        <h4 class="box-title">Project List</h4>
+        <h4 class="box-title">Project Ouward Report </h4>
       </div>
       <div class="card-body--">
         <div class="table-stats order-table ov-h">
@@ -85,96 +87,56 @@
             <thead>
               <tr>
                 <th class="serial">#</th>
-                <th>Employee name</th>
-                <th>Customer Name</th>
-                <th>Order ID</th>
-                <th>Project ID</th>
-                <th>Description</th>
-                <th>RRA Invoice No</th>
                 <th>Date</th>
-                <th>Actions</th>
+                <th>Project Order No</th>
+                <th>RRA Invoice No</th>
+                <th>Customer Name</th>
               </tr>
             </thead>
             <tbody>
 
               {% for i in data %}
 
-
-              {% if i.completed == True %}
-
-              <tr
-                data-toggle="collapse"
-                data-target="#demo{{ forloop.counter }}"
-                class="accordion-toggle" style="background: #ffd890;"
-              >
-
-              {% else %}
-
-              <tr
-                data-toggle="collapse"
-                data-target="#demo{{ forloop.counter }}"
-                class="accordion-toggle"
-              >
-
-              {% endif %}
-                
-                <input type="hidden" value="{{ i.id }}" />
-                <td class="serial">{{ forloop.counter }}</td>
-                <td>{{ i.employee_name }}</td>
-                <td>{{ i.customer }}</td>
-                <td>{{ i.order_id }}</td>
-                <td>{{ i.id }}</td>
-                <td>{{ i.description }}</td>
-                <td>{{ i.rra_invoice_no }}</td>
-                <td>{{ i.DC_date }}</td>
-                <td style="display:flex; gap:10px;" >  {% if request.user.is_superuser %} 
-
-                  <a href="{% url 'add_project_designer' i.id %}">
-
-                    {% elif request.user.is_designer %}
-
-                  <a href="{% url 'add_project_designer' i.id %}">
-                    
-                    {% elif request.user.is_accounts %}
-
-                  <a href="{% url 'update_project_accountant' i.id %}">
-
-                    {% elif request.user.is_reception %}
-
-                  <a href="{% url 'assign_rfid_to_sheet_reception_page' i.id %}">
-
-                    {% endif %}
-                    
-                    
-                    <i class="fa fa-info-circle" style="font-size: 1.5em;" aria-hidden="true"> </i> </a> 
-                    
-                    {% if request.user.is_superuser or request.user.is_reception %}
-
-                    
-                    <a href="{% url 'assign_matarial_qr' i.id %}"> <i class="fa fa-qrcode" style="font-size: 1.5em;" aria-hidden="true"></i> 
-                    
-
-                      <a href="{% url 'confirm_outward' i.id %}"> <i class="fa fa-truck" style="font-size: 1.5em;" aria-hidden="true"></i> 
-                    
-                        {% endif %}
-
-
-                  {% if request.user.is_superuser %}
-
-                    <a href="#" onclick="confirmDelete({{ i.id }})">
-                      <i class="fa fa-trash" style="font-size: 1.5em;" aria-hidden="true"></i>
-                    </a>
-
-                  {% endif %}
-
-                </td>
-
+              <tr class="stock-row">
+                  <td class="serial">{{ forloop.counter }}</td>
+                  <td>{{ i.DC_date }}</td>
+                  <td>{{ i.order_id }}</td>
+                  <td>{{ i.rra_invoice_no }}</td>
+                  <td>{{ i.customer }}</td>
               </tr>
               
-              {% comment %} <a href="{% url 'close_project' i.id %}">   <i class="fa fa-info-circle" style="font-size: 1.5em;" aria-hidden="true"> </i> </a> {% endcomment %}
-
-
+              <tr class="sheet-numbers">
+                  <td colspan="6">
+                      <!-- Insert your sheet numbers here as a table -->
+                      <table style="margin: 0 auto;">
+                          <thead>
+                              <tr>
+                                  <th style="padding: 3px 6px;font-size: 12px;">Item Code</th>
+                                  <th style="padding: 3px 6px;font-size: 12px;">Quantity</th>
+                                  <th style="padding: 3px 6px;font-size: 12px;">Amount</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            {% for production in i.project_production_n.all %}
+                            <tr>
+                                <td>{{ production.item_code }}</td>
+                                <td>{{ production.production_quantity }}</td>
+                                <td>{{ production.production_amount }}</td>
+                            </tr>
+                        {% endfor %}
+                        <!-- Display totals for each project -->
+                        <tr>
+                            <td><strong>Project Total</strong></td>
+                            <td><strong>{{ i.total_quantity }}</strong></td>
+                            <td><strong>{{ i.total_amount }}</strong></td>
+                        </tr>
+                          </tbody>
+                      </table>
+                  </td>
+              </tr>
+              
               {% endfor %}
+              
 
             </tbody>
           </table>
@@ -263,6 +225,23 @@
         // You can optionally provide feedback to the user here
     }
 }
+
+
+$(document).ready(function () {
+  // Hide all sheet number rows initially
+  $(".sheet-numbers").hide();
+
+  // Add click event handler to each stock row
+  $(".stock-row").click(function () {
+      // Toggle the visibility of sheet numbers for the clicked row
+      $(this).next(".sheet-numbers").toggle();
+  });
+
+
+
+  });
+
+
   
     
 </script>

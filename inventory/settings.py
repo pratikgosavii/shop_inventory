@@ -169,6 +169,10 @@ PUSH_NOTIFICATIONS_SETTINGS = {
 
 
 
-# settings.py
-account_sid = 'ACe3a4c9baa947e9d32c1dce288a6f0382'
-auth_token = '82e2115f7bd7df27b29f915eb8885395'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # For Gmail, or your email provider's SMTP server
+EMAIL_PORT = 587  # For TLS
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'rradailyupdates@gmail.com'  # Your email
+EMAIL_HOST_PASSWORD = 'jhjhmcjctuyzngau'  # Your email password or app-specific password
+

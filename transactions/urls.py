@@ -28,7 +28,17 @@ urlpatterns = [
     path('update-project/<project_id>', update_project, name='update_project'),
     path('get-sheet-details/', get_sheet_details, name='get_sheet_details'),
 
-    path('add-project-inward/<project_id>', add_project_inward, name='add_project_inward'),
+    path('confirm-outward/<project_id>', confirm_outward, name='confirm_outward'),
+    path('add-project-outward/<project_id>', add_project_outward, name='add_project_outward'),
+    path('generate-barcode/<int:id>/', generate_barcode, name='generate_barcode'),
+    path('generate-all-barcode/<int:id>/', generate_all_barcode, name='generate_all_barcode'),
+    path('scan-barcode/', scan_barcode, name='scan_barcode'),
+
+    path('inward-report/', inward_report, name='inward_report'),
+    path('outward-report/', outward_report, name='outward_report'),
+    path('outward-report-csv/', outward_report_csv, name='outward_report_csv'),
+    path('outward-report-pdf/', send_outward_report_pdf, name='generate_outward_report_pdf'),
+    
 
     path('assign-matarial-qr/<project_id>', assign_matarial_qr, name='assign_matarial_qr'),
     path('delete-matarial-qr/<assign_material_id>/<project_id>', delete_assign_material, name='delete_assign_material'),
