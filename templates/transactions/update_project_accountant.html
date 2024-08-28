@@ -87,6 +87,7 @@
                             <label for="name" class="control-label mb-1"> Item Code Details</label>
                             <table id="my-table">
                                 <tr>
+                                    <td> ID </td>
                                     <td> Item Code </td>
                                     <td> Quantity </td>
                                     <td> Amount </td>
@@ -94,6 +95,9 @@
                                 </tr>
                                 {% for i in production_data %}
                                 <tr>
+                                    <td>
+                                        <input type="number" value="{{ i.id }}" style="width:110px;" name="" class="form-control" id="" readonly>
+                                    </td>
                                     <td>
                                         <select name="item_code" class="form-control" id="bag_size" required>
                                             <option value="{{  i.item_code.id }}" selected> {{ i.item_code }} </option>

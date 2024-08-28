@@ -2080,7 +2080,10 @@ def scan_barcode(request):
         try:
             # Look up the product by the scanned barcode
             product = project_matarial_production.objects.get(id=barcode)
-            return render(request, 'product_detail.html', {'product': product})
+
+            return redirect('confirm_outward', project_id=product.project.id)
+
+        
         except project_outward.DoesNotExist:
             return HttpResponse("Product not found.")
     
