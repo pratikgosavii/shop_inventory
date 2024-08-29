@@ -2329,6 +2329,15 @@ from django.db.models import Sum
 import os
 from reportlab.lib.units import cm
 
+from django.http import QueryDict
+
+
+
+def is_invalid_get_params(get_params):
+    # Check if 'undefined' exists and has no value, or if the GET request is empty
+    return not get_params or ('undefined' in get_params and len(get_params['undefined']) == 0)
+
+
 
 def generate_outward_report_pdf(request):
     # Create an in-memory buffer for the PDF file
@@ -2360,6 +2369,26 @@ def generate_outward_report_pdf(request):
 
     # Query data from the database
     projects = project.objects.all().order_by("-id")
+
+     # Check if request.GET is empty
+    if is_invalid_get_params(request.GET):
+        # Create a mutable copy of request.GET
+        default_params = QueryDict(mutable=True)
+        
+        # Set default parameters
+        default_params.update({
+            'from_DC_date': date.today(),
+            'to_DC_date': date.today()
+        })
+
+
+    else:
+
+        default_params = request.GET
+
+
+    projects = project_filter(request.GET, queryset = projects)
+    projects = projects.qs
 
     light_orange = colors.Color(1, 0.647, 0, alpha=1)  # RGB for light orange
 
