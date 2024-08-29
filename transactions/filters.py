@@ -32,13 +32,13 @@ class project_filter(django_filters.FilterSet):
     )
    
     from_DC_date = DateFilter(
-        field_name="project_material_re_1__DC_date",  # Field name to filter on
+        field_name="DC_date",  # Field name to filter on
         lookup_expr='gte',  # 'gte' means greater than or equal to
         widget=forms.DateInput(attrs={'id': 'from_datepicker', 'type': 'date', 'class': 'form-control date_css'}),
     )
     
     to_DC_date = DateFilter(
-        field_name="project_material_re_1__DC_date",  # Field name to filter on
+        field_name="DC_date",  # Field name to filter on
         lookup_expr='lte',  # 'lte' means less than or equal to
         widget=forms.DateInput(attrs={'id': 'to_datepicker', 'type': 'date', 'class': 'form-control date_css'}),
     )

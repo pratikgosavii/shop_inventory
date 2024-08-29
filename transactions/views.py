@@ -2387,7 +2387,7 @@ def generate_outward_report_pdf(request):
         default_params = request.GET
 
 
-    projects = project_filter(request.GET, queryset = projects)
+    projects = project_filter(default_params, queryset = projects)
     projects = projects.qs
 
     light_orange = colors.Color(1, 0.647, 0, alpha=1)  # RGB for light orange
@@ -2514,6 +2514,7 @@ def send_outward_report_pdf(request):
         body='Please find the attached outward report in PDF format.',
         from_email='rradailyupdates@gmail.com',
         to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+        # to=['pratikgosavi654@gmail.com'],
     )
 
     # Attach the generated PDF
