@@ -21,11 +21,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-from .views import dashboard
+from .views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', dashboard, name='dashboard'),
+    path('dashboard-working-order/', dashboard_working_order, name='dashboard_working_order'),
+    path('update_priority/', update_priority, name='update_priority'),
     path('users/', include('users.urls')),
     path('store/', include('store.urls')),
     path('transactions/', include('transactions.urls')),

@@ -1,5 +1,5 @@
 import django_filters
-from django_filters import DateFilter, CharFilter
+from django_filters import DateFilter, CharFilter, DateTimeFilter
 from django.forms.widgets import DateInput
 from django import forms
 
@@ -13,7 +13,7 @@ class project_filter(django_filters.FilterSet):
 
     item_code = django_filters.ModelChoiceFilter(
         queryset=item_code.objects.all(),  # Replace with your actual ItemCode queryset
-        field_name='project__project_material_re_1__project_material_re__project_matarial_qr_production__item_code',
+        field_name='item_code',
         to_field_name='code',  # Field used to compare with the selected value
         label='Item Code',
         widget=forms.Select(attrs={'class': 'form-control'})
@@ -22,7 +22,7 @@ class project_filter(django_filters.FilterSet):
    
     customer = django_filters.ModelChoiceFilter(
         queryset=customer.objects.all(),
-        field_name='project_material_re_1__employee_name',
+        field_name='customer',
 
         widget=forms.Select(
             attrs={
@@ -45,27 +45,27 @@ class project_filter(django_filters.FilterSet):
 
 
     class Meta:
-        model = project_matarial_production
+        model = project
         fields = '__all__'
        
 
-class project_inward_filter(django_filters.FilterSet):
+
+       
+
+class project_matarial_production_filter(django_filters.FilterSet):
+
+    item_code = django_filters.ModelChoiceFilter(
+        queryset=item_code.objects.all(),  # Replace with your actual ItemCode queryset
+        field_name='item_code',
+        to_field_name='code',  # Field used to compare with the selected value
+        label='Item Code',
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
 
    
     project = django_filters.ModelChoiceFilter(
-        queryset=customer.objects.all(),
-        field_name='project__order_id',
-
-        widget=forms.Select(
-            attrs={
-                'class' : 'form-control',
-                'id' : 'project'
-            })
-    )
-   
-    customer = django_filters.ModelChoiceFilter(
-        queryset=customer.objects.all(),
-        field_name='customer__name',
+        queryset=project.objects.all(),
+        field_name='project__customer__name',
 
         widget=forms.Select(
             attrs={
@@ -73,6 +73,39 @@ class project_inward_filter(django_filters.FilterSet):
                 'id' : 'customer'
             })
     )
+   
+    from_date_time = DateTimeFilter(
+        field_name="date_time",  # Field name in your model
+        lookup_expr='gte',  # 'gte' means greater than or equal to
+        widget=forms.DateTimeInput(attrs={
+            'id': 'from_datepicker', 
+            'type': 'datetime-local',  # Allows selection of both date and time
+            'class': 'form-control date_css'  # Add custom CSS class if needed
+        }),
+        input_formats=['%Y-%m-%dT%H:%M']  # Match the format for datetime-local
+    )
+    
+    to_date_time = DateTimeFilter(
+        field_name="date_time",  # Field name in your model
+        lookup_expr='lte',  # 'lte' means less than or equal to
+        widget=forms.DateTimeInput(attrs={
+            'id': 'to_datepicker', 
+            'type': 'datetime-local',  # Allows selection of both date and time
+            'class': 'form-control date_css'  # Add custom CSS class if needed
+        }),
+        input_formats=['%Y-%m-%dT%H:%M']  # Match the format for datetime-local
+    )
+
+
+
+
+    class Meta:
+        model = project_matarial_production
+        fields = '__all__'
+       
+
+
+class project_inward_filter(django_filters.FilterSet):
    
     from_date = DateFilter(
         field_name="date",  # Field name to filter on
@@ -90,6 +123,8 @@ class project_inward_filter(django_filters.FilterSet):
     class Meta:
         model = project_inward
         fields = '__all__'
+
+
 
 class project_outward_filter(django_filters.FilterSet):
 

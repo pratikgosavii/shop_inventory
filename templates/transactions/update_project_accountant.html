@@ -90,13 +90,12 @@
                                     <td> ID </td>
                                     <td> Item Code </td>
                                     <td> Quantity </td>
-                                    <td> Amount </td>
                                     <td> <button type="button" class="btn btn-success add-textbox"><i class="fa fa-plus" aria-hidden="true"></i></button> </td>
                                 </tr>
                                 {% for i in production_data %}
                                 <tr>
                                     <td>
-                                        <input type="number" value="{{ i.id }}" style="width:110px;" name="" class="form-control" id="" readonly>
+                                        <input type="number" value="{{ i.order_id }}" style="width:110px;" name="" class="form-control" id="" readonly>
                                     </td>
                                     <td>
                                         <select name="item_code" class="form-control" id="bag_size" required>
@@ -111,9 +110,7 @@
                                     <td>
                                         <input type="number" value="{{ i.production_quantity }}" name="production_quantity" class="form-control" id="bag_size" required>
                                     </td>
-                                    <td>
-                                        <input type="number" value="{{ i.production_amount }}" name="production_amount" class="form-control" id="bag_size">
-                                    </td>
+                                  
                                     <td>
 
                                         <div style="display:flex; gap:10px;">
@@ -175,6 +172,9 @@
                 // Example JavaScript code to clone and insert the row dynamically
                 const newRow = document.createElement('tr');
                 newRow.innerHTML = `
+                    <td>
+                        <input type="number" value="" style="width:110px;" name="" class="form-control" id="" readonly>
+                    </td>
                     <td>
                         <select name="item_code" class="form-control" id="bag_size" required>
                             <option value="">---------</option>

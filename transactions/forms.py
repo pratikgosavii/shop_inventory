@@ -124,6 +124,10 @@ class project_inward_Form(forms.ModelForm):
                 'class': 'form-control', 'id': 'bag_size'
             }),
 
+            'customer': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'customer'
+            }),
+
             'amount': forms.NumberInput(attrs={
                 'class': 'form-control', 'id': 'amount'
             }),
@@ -131,11 +135,7 @@ class project_inward_Form(forms.ModelForm):
             'description': forms.Textarea(attrs={
                 'class': 'form-control', 'id': 'description'
             }),
-
-            'project': forms.Select(attrs={
-                'class': 'form-control', 'id': 'bag_size'
-            }),
-
+            
             'date': DateInput(attrs={ 'class': 'form-control dateclas', 'type': 'date'}, format = '%Y-%m-%d'),
 
            
@@ -191,6 +191,15 @@ class project_matarial_qr_Form(forms.ModelForm):
 
 
 class project_matarial_production_Form(forms.ModelForm):
+
+    date_time = forms.DateTimeField(
+        widget=forms.DateTimeInput(attrs={
+            'class': 'form-control dateclas',
+            'type': 'datetime-local'  # Allows both date and time input
+        }),
+    )
+
+
     class Meta:
         model = project_matarial_production
         fields = '__all__'
@@ -199,9 +208,12 @@ class project_matarial_production_Form(forms.ModelForm):
             'item_code': forms.Select(attrs={
                 'class': 'form-control', 'name' : 'item_code'
             }),
-            
+
+
 
         }
+
+        
 
 
 

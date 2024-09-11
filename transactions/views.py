@@ -1445,12 +1445,10 @@ def add_project(request):
         quantity = request.POST.getlist('production_quantity')
         item_code_id = request.POST.getlist('item_code')
         production_id = request.POST.getlist('production_id')
-        amount = request.POST.getlist('production_amount')
 
         print(quantity)
         print(item_code_id)
         print(production_id)
-        print(amount)
 
 
         if forms.is_valid():
@@ -1460,7 +1458,7 @@ def add_project(request):
             print('valid')
 
 
-            for a, b, c, d in zip(production_id, item_code_id, quantity, amount):
+            for a, b, c in zip(production_id, item_code_id, quantity):
 
                 if a and a!= '0':
 
@@ -1473,7 +1471,6 @@ def add_project(request):
 
                     project_material_instnace.item_code = item_code_instance
                     project_material_instnace.production_quantity = c
-                    project_material_instnace.production_amount = d
                     
                     project_material_instnace.save()
 
@@ -1485,7 +1482,7 @@ def add_project(request):
 
                         
                     item_code_instance = item_code.objects.get(id = b)
-                    instance = project_matarial_production.objects.create(item_code = item_code_instance, production_quantity = c, project = project_instance, production_amount = d)
+                    instance = project_matarial_production.objects.create(item_code = item_code_instance, production_quantity = c, project = project_instance)
 
 
             a1212 = alert.objects.create(message = "new project created id" + order_id)
@@ -1545,7 +1542,6 @@ def update_project_accountant(request, project_id):
         quantity = request.POST.getlist('production_quantity')
         item_code_id = request.POST.getlist('item_code')
         production_id = request.POST.getlist('production_id')
-        production_amount = request.POST.getlist('production_amount')
         print('-----------------------')
         print(production_id)
         print(quantity)
@@ -1559,7 +1555,7 @@ def update_project_accountant(request, project_id):
             project_instance = forms.save()
 
 
-            for a, b, c, d in zip(production_id, item_code_id, quantity, production_amount):
+            for a, b, c in zip(production_id, item_code_id, quantity):
                 print('----------')
                 print(a)
                 if a and a != '0':
@@ -1571,7 +1567,6 @@ def update_project_accountant(request, project_id):
 
                     project_material_instnace.item_code = item_code_instance
                     project_material_instnace.production_quantity = c
-                    project_material_instnace.production_amount = d
                     
                     project_material_instnace.save()
 
@@ -1580,7 +1575,7 @@ def update_project_accountant(request, project_id):
                 else:
                         
                     item_code_instance = item_code.objects.get(id = b)
-                    instance = project_matarial_production.objects.create(item_code = item_code_instance, production_amount = d, project = project_instance)
+                    instance = project_matarial_production.objects.create(item_code = item_code_instance, project = project_instance, production_quantity = c)
 
                 
 
@@ -1881,47 +1876,19 @@ def confirm_outward(request, project_id):
 
     project_instance = project.objects.get(id = project_id)
     
-    if request.method == 'POST':
 
-        invoice_no = request.POST.getlist("invoice_no")
-        title = request.POST.getlist("title")
-        quantity = request.POST.getlist("quantity")
-        amount = request.POST.getlist("amount")
-        description = request.POST.getlist("description1")
-        date = request.POST.getlist("DC_date")
+    forms = project_Form(instance = project_instance)
+                
 
+    production_data = project_matarial_production.objects.filter(project = project_instance)
+    
 
-
-        print(request.POST)
-        print(invoice_no)
-        print(title)
-        print(quantity)
-        print(amount)
-        print(description)
-        print(date)
-
-
-        for a,b,c,d,e,f in zip(invoice_no, title, quantity, amount, description, date):
-
-            project_inward.objects.create(project = project_instance, invoice_no = a, amount = d, title = b, quantity = c, description = e, date = f)
-
-        
-        return redirect('list_project')
-
-    else:
-
-        forms = project_Form(instance = project_instance)
-                    
-
-        production_data = project_matarial_production.objects.filter(project = project_instance)
-        
-
-        context = {
-            'form': forms,
-            'production_data': production_data,
-            'project_id': project_id,
-        }
-        return render(request, 'transactions/confirm_outward.html', context)
+    context = {
+        'form': forms,
+        'production_data': production_data,
+        'project_id': project_id,
+    }
+    return render(request, 'transactions/confirm_outward.html', context)
 
 
 
@@ -1938,7 +1905,7 @@ def confirm_outward_json(request, production_material_id):
 
 
 @login_required(login_url='login')
-def add_project_outward(request, project_id):
+def add_project_inward(request, project_id):
 
     project_instance = project.objects.get(id = project_id)
     
@@ -1947,7 +1914,6 @@ def add_project_outward(request, project_id):
         invoice_no = request.POST.getlist("invoice_no")
         title = request.POST.getlist("title")
         quantity = request.POST.getlist("quantity")
-        amount = request.POST.getlist("amount")
         description = request.POST.getlist("description1")
         date = request.POST.getlist("DC_date")
 
@@ -1957,14 +1923,45 @@ def add_project_outward(request, project_id):
         print(invoice_no)
         print(title)
         print(quantity)
-        print(amount)
         print(description)
         print(date)
 
 
-        for a,b,c,d,e,f in zip(invoice_no, title, quantity, amount, description, date):
+        for a,b,c,d,e,f in zip(invoice_no, title, quantity, description, date):
 
-            project_outward.objects.create(project = project_instance, invoice_no = a, amount = d, title = b, quantity = c, description = e, date = f)
+            project_inward.objects.create(project = project_instance, invoice_no = a, title = b, quantity = c, description = e, date = f)
+
+        
+        return redirect('list_project')
+
+
+
+@login_required(login_url='login')
+def add_project_outward(request, project_id):
+
+    project_instance = project.objects.get(id = project_id)
+    
+    if request.method == 'POST':
+
+        invoice_no = request.POST.getlist("invoice_no")
+        title = request.POST.getlist("title")
+        quantity = request.POST.getlist("quantity")
+        description = request.POST.getlist("description1")
+        date = request.POST.getlist("DC_date")
+
+
+
+        print(request.POST)
+        print(invoice_no)
+        print(title)
+        print(quantity)
+        print(description)
+        print(date)
+
+
+        for a,b,c,d,e,f in zip(invoice_no, title, quantity, description, date):
+
+            project_outward.objects.create(project = project_instance, invoice_no = a, title = b, quantity = c, description = e, date = f)
 
             print('here')
 
@@ -2005,7 +2002,7 @@ def generate_barcode(request, id):
 
     # Create a PDF buffer with 45mm x 25mm page size
     pdf_buffer = BytesIO()
-    pdf = canvas.Canvas(pdf_buffer, pagesize=(45 * mm, 25 * mm))
+    pdf = canvas.Canvas(pdf_buffer, pagesize=(50 * mm, 30 * mm))
 
     # Set the barcode value
     barcode_value = str(data.id)
@@ -2015,7 +2012,7 @@ def generate_barcode(request, id):
 
     # Set the position of the barcode (minimal margins)
     barcode_x = 1  # 1mm from the left
-    barcode_y = 13  # Adjust position slightly from the bottom
+    barcode_y = 16  # Adjust position slightly from the bottom
 
     # Draw the barcode on the PDF
     barcode.drawOn(pdf, barcode_x * mm, barcode_y * mm)
@@ -2025,10 +2022,11 @@ def generate_barcode(request, id):
 
     # Reduce line spacing and remove unnecessary info (SIZE removed)
     pdf.setFont("Helvetica-Bold", 5)  # Set font size to 5 points, bold font for weight
-    left_margin = 5 * mm  # Adjust left margin as needed
-    pdf.drawString(left_margin, (barcode_y - 3) * mm, f"Project ID: {data.project.id} | Quantity: {data.production_quantity}")
+    left_margin = 1 * mm  # Adjust left margin as needed
+    pdf.drawString(left_margin, (barcode_y - 3) * mm, f"Project ID: {data.project.order_id} | Quantity: {data.production_quantity}")
     pdf.drawString(left_margin, (barcode_y - 6) * mm, f"Item Code: {data.item_code.code}")
     pdf.drawString(left_margin, (barcode_y - 9) * mm, f"Company Name: {data.project.customer.name}")
+    pdf.drawString(left_margin, (barcode_y - 12) * mm, f"Name: Ravi-Raj Anodisers")
 
     # Finalize the PDF
     pdf.showPage()
@@ -2065,19 +2063,24 @@ def generate_all_barcode(request, project_id):
         barcode = code128.Code128(barcode_value, barWidth=0.45 * mm, barHeight=10 * mm)
         
         # Set the position of the barcode (minimal margins)
+        # Set the position of the barcode (minimal margins)
         barcode_x = 1  # 1mm from the left
-        barcode_y = 13  # Adjust position slightly from the bottom
-        
+        barcode_y = 16  # Adjust position slightly from the bottom
+
         # Draw the barcode on the PDF
         barcode.drawOn(pdf, barcode_x * mm, barcode_y * mm)
-        
-        # Add text below the barcode with smaller font size and reduced line spacing
+
+        # Optional: Add text below the barcode with smaller font size and reduced line spacing
+        pdf.setFont("Helvetica", 5)  # Set font size to 5 points
+
+        # Reduce line spacing and remove unnecessary info (SIZE removed)
         pdf.setFont("Helvetica-Bold", 5)  # Set font size to 5 points, bold font for weight
-        left_margin = 5 * mm  # Adjust left margin as needed
-        pdf.drawString(left_margin, (barcode_y - 3) * mm, f"Project ID: {data.project.id} | Quantity: {data.production_quantity}")
+        left_margin = 1 * mm  # Adjust left margin as needed
+        pdf.drawString(left_margin, (barcode_y - 3) * mm, f"Project ID: {data.project.order_id} | Quantity: {data.production_quantity}")
         pdf.drawString(left_margin, (barcode_y - 6) * mm, f"Item Code: {data.item_code.code}")
         pdf.drawString(left_margin, (barcode_y - 9) * mm, f"Company Name: {data.project.customer.name}")
-        
+        pdf.drawString(left_margin, (barcode_y - 12) * mm, f"Name: Ravi-Raj Anodisers")
+            
         # Start a new page for the next barcode
         pdf.showPage()
     
@@ -2108,6 +2111,135 @@ def scan_barcode(request):
     return render(request, 'transactions/scan_barcode.html')  # Return scan page if no POST data
 
 
+
+
+@login_required(login_url='login')
+def add_inward(request):
+
+
+    if request.method == 'POST':
+
+        
+        # Deserialize the JSON data into a Python object
+        forms = project_inward_Form(request.POST, request.FILES)
+        
+
+        if forms.is_valid():
+
+            forms.save()
+
+            return redirect('list_inward')
+
+
+        else:
+                
+            print(forms.errors)
+            
+            data_form = project_inward_Form()
+
+            context = {
+                'form': forms,
+                'data_form': data_form,
+            }
+            return render(request, 'transactions/add_inward.html', context)
+
+
+    else:
+
+        forms = project_inward_Form()
+
+        context = {
+            'form': forms,
+        }
+        return render(request, 'transactions/add_inward.html', context)
+    
+
+@login_required(login_url='login')
+def update_inward(request, inward_id):
+
+    instance = project_inward.objects.get(id = inward_id)
+
+
+    if request.method == 'POST':
+
+        
+        # Deserialize the JSON data into a Python object
+        forms = project_inward_Form(request.POST, instance=instance)
+        
+
+        if forms.is_valid():
+
+            forms.save()
+
+            return redirect('list_inward')
+
+
+        else:
+                
+            print(forms.errors)
+            
+            data_form = project_inward_Form(instance=instance)
+
+            context = {
+                'form': forms,
+                'data_form': data_form,
+            }
+            return render(request, 'transactions/add_inward.html', context)
+
+
+    else:
+
+        forms = project_inward_Form(instance=instance)
+
+        context = {
+            'form': forms,
+        }
+        return render(request, 'transactions/add_inward.html', context)
+    
+
+
+
+@login_required(login_url='login')
+def list_inward(request):
+
+    data = project_inward.objects.all().order_by('-id')
+
+    data = project_inward_filter(request.GET, queryset=data)
+
+    data = data.qs
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(data, 50)
+
+    try:
+        data = paginator.page(page)
+    except PageNotAnInteger:
+        data = paginator.page(1)
+    except EmptyPage:
+        data = paginator.page(paginator.num_pages)
+
+    context = {
+        'data': data,
+        'project_filter': project_inward_filter(request.GET),
+       
+    }
+    
+
+
+    return render(request, 'transactions/list_inward.html', context)
+
+
+
+@login_required(login_url='login')
+def delete_inward(request, inward_id):
+
+    project_inward.objects.get(id = inward_id).delete()
+
+
+    return redirect('list_inward')
+
+
+
 @login_required(login_url='login')
 def inward_report(request):
 
@@ -2135,12 +2267,139 @@ def inward_report(request):
 
 
 
+
+def download_inward_report(request):
+
+      
+    data = project_inward.objects.all()
+    project_inward_filters = project_inward_filter(request.GET, queryset=data)
+    project_inward_filters_data1 = list(project_inward_filters.qs.values_list('customer', 'quantity', 'description', 'date'))
+    project_inward_filters_data = list(map(list, project_inward_filters_data1))
+
+    # Create an Excel workbook and sheet
+    wb = Workbook()
+    ws = wb.active
+    ws.title = 'Inward Report'
+
+    # Header information
+    ws.append([''])  # Empty row
+    ws.append(['Inward Report'])  # Title row
+    ws.append([''])  # Empty row
+    ws.append([''])  # Empty row
+
+    # Add table headers
+    headers = ["Sr No", "Customer", "Quantity", "Description", "Date"]
+    ws.append(headers)
+
+    # Apply light green color to header row
+    light_green_fill = PatternFill(start_color="90EE90", end_color="90EE90", fill_type="solid")
+
+    for cell in ws[ws.max_row]:  # Select the last added row (header row)
+        cell.fill = light_green_fill
+
+    # Append data to the Excel file
+    counteer = 1
+    for i in project_inward_filters_data:
+        ws.append([counteer, i[0], i[1], i[2], i[3]])
+        counteer += 1
+
+    # Save the workbook to a BytesIO stream
+    excel_file = BytesIO()
+    wb.save(excel_file)
+    excel_file.seek(0)
+
+    # Create a response for the file download
+    response = HttpResponse(excel_file, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="Inward_Report.xlsx"'
+
+    return response
+
+
+def download_inward_report_pdf(request):
+
+      
+    data = project_inward.objects.all()
+    project_inward_filters = project_inward_filter(request.GET, queryset=data)
+    project_inward_filters_data1 = list(project_inward_filters.qs.values_list('customer', 'quantity', 'description', 'date'))
+    project_inward_filters_data = list(map(list, project_inward_filters_data1))
+
+    # Add serial numbers to the data
+    formatted_data = [[idx + 1] + row for idx, row in enumerate(project_inward_filters_data)]
+
+    # Prepare the table data with headers
+    table_data = [['Sr No', 'Customer', 'Quantity', 'Description', 'Date']]  # Header row
+    table_data.extend(formatted_data)
+
+    # Set up the PDF
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=letter)
+
+    # Define the styles for the heading
+    styles = getSampleStyleSheet()
+    title_style = styles['Title']
+    
+    # Create the title
+    title = Paragraph("Inward Report", title_style)
+
+    # Spacer between the title and table
+    spacer = Spacer(1, 20)
+
+    # Create the table
+    table = Table(table_data)
+
+    # Add styling to the table
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgreen),  # Header row background
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),  # Header text color
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Center align all text
+        ('BACKGROUND', (1, 1), (-1, -1), colors.whitesmoke),  # Data row background
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Borders for table cells
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),  # Bold font for header
+    ]))
+
+    # Build the PDF
+    elements = [title, spacer, table]
+    doc.build(elements)
+
+    # Prepare PDF as response
+    buffer.seek(0)
+    return HttpResponse(buffer, content_type='application/pdf', headers={
+        'Content-Disposition': 'attachment; filename="inward_report.pdf"'
+    })
+
+
+
 @login_required(login_url='login')
 def outward_report(request):
 
 
-    data = project.objects.all().order_by("-id")
+    project_filter_data = project_filter(request.GET, queryset=project.objects.all())
+    production_filter = project_matarial_production_filter(request.GET, queryset=project_matarial_production.objects.all())
 
+
+    print(request.GET)
+
+    # Apply production filter and prefetch the filtered production data
+    project_qs = project_filter_data.qs  # Ensure this is a queryset
+    production_qs = production_filter.qs  # Ensure this is a queryset
+
+    print(production_qs)
+    print(project_qs)
+
+    # Prefetch the production data using the correct related_name for the relationship
+    projects = project_qs.filter(
+        project_production_n__in=production_qs  # Ensures only projects with related filtered production records
+    ).prefetch_related(
+        Prefetch('project_production_n', queryset=production_qs)  # Prefetch the filtered production data
+    ).distinct()
+
+    data = projects
+
+    print('-----------------------')
+    print('-----------------------')
+    print('-----------------------')
+    print('-----------------------')
+    print(projects)
     
     page = request.GET.get('page', 1)
     paginator = Paginator(data, 50)
@@ -2156,17 +2415,16 @@ def outward_report(request):
     for i in data:
         totals = i.project_production_n.aggregate(
             total_quantity=Sum('production_quantity'),
-            total_amount=Sum('production_amount')
         )
         
         # Add totals to i instance for template access
         i.total_quantity = totals['total_quantity'] or 0
-        i.total_amount = totals['total_amount'] or 0
 
 
     context = {
         'data': data,
-        'project_filter': project_filter(),
+        'project_filter': project_filter(request.GET),
+        'project_matarial_production_filter': project_matarial_production_filter(request.GET),
        
     }
 
@@ -2195,7 +2453,45 @@ from django.core.mail import EmailMessage
 def outward_report_csv(request):
 
 # Query data
-    data = project.objects.all().order_by("-id")
+    projects = project.objects.all().order_by("-id")
+
+     # Check if request.GET is empty
+    if is_invalid_get_params(request.GET):
+        # Create a mutable copy of request.GET
+        default_params = QueryDict(mutable=True)
+        
+        # Set default parameters
+
+        default_params.update({
+        'from_date_time': datetime.now().replace(hour=18, minute=0, second=0, microsecond=0) - timedelta(days=1),
+        'to_date_time': datetime.now().replace(hour=18, minute=0, second=0, microsecond=0)
+        })
+
+    else:
+
+        default_params = request.GET
+                
+    project_filter_data = project_filter(default_params, queryset=project.objects.all())
+    production_filter = project_matarial_production_filter(default_params, queryset=project_matarial_production.objects.all())
+
+
+    print(default_params)
+
+    # Apply production filter and prefetch the filtered production data
+    project_qs = project_filter_data.qs  # Ensure this is a queryset
+    production_qs = production_filter.qs  # Ensure this is a queryset
+
+    print(production_qs)
+    print(project_qs)
+
+    # Prefetch the production data using the correct related_name for the relationship
+    projects = project_qs.filter(
+        project_production_n__in=production_qs  # Ensures only projects with related filtered production records
+    ).prefetch_related(
+        Prefetch('project_production_n', queryset=production_qs)  # Prefetch the filtered production data
+    ).distinct()
+
+    data = projects
 
     # Create a workbook and select the active worksheet
     wb = Workbook()
@@ -2239,7 +2535,7 @@ def outward_report_csv(request):
         ])
 
         # Write nested table header for project productions
-        ws.append(["", "Item Code", "Quantity", "Amount"])
+        ws.append(["", "Item Code", "Quantity"])
         for cell in ws[ws.max_row]:
             cell.fill = light_orange_fill
 
@@ -2250,23 +2546,19 @@ def outward_report_csv(request):
                 "", 
                 str(i.item_code), 
                 str(i.production_quantity), 
-                str(i.production_amount)
             ])
 
         # Calculate totals
         totals = project_instance.project_production_n.aggregate(
             total_quantity=Sum('production_quantity'),
-            total_amount=Sum('production_amount')
         )
         total_quantity = totals['total_quantity'] or 0
-        total_amount = totals['total_amount'] or 0
 
         # Write the totals row
         ws.append([
             "", 
             "Project Total", 
             str(total_quantity), 
-            str(total_amount)
         ])
         for cell in ws[ws.max_row]:
             cell.font = bold_font
@@ -2295,24 +2587,18 @@ def outward_report_csv(request):
     wb.save(excel_file)
     excel_file.seek(0)
 
-    # Create email with attachment
-    email = EmailMessage(
-        subject="Material Outward Report",
-        body="Please find the attached Material Outward Report.",
-        from_email="sender@example.com",
-        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com'], 
+    excel_file = BytesIO()
+    wb.save(excel_file)
+    excel_file.seek(0)
+
+    # Create the response
+    response = HttpResponse(
+        excel_file.getvalue(), 
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
-
+    response['Content-Disposition'] = 'attachment; filename="outward_report.xlsx"'
     
-    # Attach the Excel file (from memory)
-    email.attach('outward_report.xlsx', excel_file.getvalue(), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-
-    # Send the email
-    email.send()
-
-
-
-    return HttpResponse("Email sent successfully.")
+    return response
 
 
 
@@ -2339,7 +2625,280 @@ def is_invalid_get_params(get_params):
 
 
 
+from django.db.models import Prefetch
+
+
 def generate_outward_report_pdf(request):
+
+     # Filter projects and production based on request parameters
+    project_filter = project_filter(request.GET, queryset=project.objects.all())
+    production_filter = project_matarial_production_filter(request.GET, queryset=project_matarial_production.objects.filter(date_time__gte=yesterday_6pm, date_time__lte=today_6pm))
+    
+    # Apply production filter and prefetch the filtered production data
+    projects = project_filter.qs.prefetch_related(
+        Prefetch('project_production_n', 
+                 queryset=production_filter.qs)
+    ).distinct()
+
+    context = {
+        'projects': projects,
+        'project_filter': project_filter,
+        'production_filter': production_filter
+    }
+    
+    return render(request, 'report_template.html', context)
+
+
+def generate_outward_report_daily_pdf(request):
+    # Create an in-memory buffer for the PDF file
+    
+   
+    # Create an in-memory buffer for the PDF file
+    buffer = BytesIO()
+
+    # Create a PDF document with minimal margins
+    pdf = SimpleDocTemplate(
+        buffer,
+        pagesize=A4,
+        rightMargin=20,
+        leftMargin=20,
+        topMargin=20,
+        bottomMargin=20
+    )
+    
+    elements = []
+
+    # Define styles
+    styles = getSampleStyleSheet()
+    title_style = styles['Title']
+    title_style.alignment = 1  # Centered
+
+    # Title of the PDF
+    title = Paragraph("Material Outward Report", title_style)
+    elements.append(title)
+
+    # Query data from the database
+    projects = project.objects.all().order_by("-id")
+
+     # Check if request.GET is empty
+        # Create a mutable copy of request.GET
+        
+        # Set default parameters
+                
+    yesterday_6pm = datetime.now().replace(hour=18, minute=0, second=0, microsecond=0) - timedelta(days=1)
+    today_6pm = datetime.now().replace(hour=18, minute=0, second=0, microsecond=0)
+
+
+    # Prefetch production data related to projects with filtering
+    projects = project.objects.prefetch_related(
+        Prefetch('project_production_n', 
+                queryset=project_matarial_production.objects.filter(date_time__gte=yesterday_6pm, date_time__lte=today_6pm))
+    ).filter(project_production_n__date_time__gte=yesterday_6pm, project_production_n__date_time__lte=today_6pm).distinct()
+
+    print(projects)
+
+      
+        # Update the parameters
+      
+
+
+    light_orange = colors.Color(1, 0.647, 0, alpha=1)  # RGB for light orange
+
+    for project_instance in projects:
+        # Data for the main table
+        main_table_data = [
+            ["#", "Date", "Project Order No", "RRA Invoice No", "Customer Name"],
+            [
+                str(project_instance.pk),
+                str(project_instance.DC_date),
+                str(project_instance.order_id),
+                str(project_instance.rra_invoice_no),
+                str(project_instance.customer),
+            ]
+        ]
+
+        # Create the main table
+        main_table = Table(main_table_data)
+        main_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgreen),  # Header row background
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),  # Header text color
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('BACKGROUND', (1, 1), (-1, -1), colors.whitesmoke),  # Data row background
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Borders for table cells
+        ]))
+
+        elements.append(main_table)
+
+        # Add an empty line for separation
+        elements.append(Paragraph(''))
+
+        # Nested table data
+        nested_table_data = [
+            ["#", "Item Code", "Quantity"]
+        ]
+
+        # Add data rows for each production
+        productions = project_instance.project_production_n.all()
+        for counter, production in enumerate(productions, start=1):
+            nested_table_data.append([
+                str(counter),
+                str(production.item_code),
+                str(production.production_quantity),
+            ])
+
+        # Add totals for this project
+        totals = project_instance.project_production_n.aggregate(
+            total_quantity=Sum('production_quantity'),
+        )
+        total_quantity = totals['total_quantity'] or 0
+        nested_table_data.append([
+            "",
+            "Project Total",
+            str(total_quantity),
+        ])
+
+        # Create the nested table
+        nested_table = Table(nested_table_data, colWidths=[40, 200, 100, 100])  # Adjusted width for Item Code
+        nested_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), light_orange),  # Header row background
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),  # Header text color
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('BACKGROUND', (1, 1), (-1, -1), colors.whitesmoke),  # Data row background
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Borders for table cells
+        ]))
+
+        # Center the nested table within the page
+        elements.append(Paragraph(''))  # Add a blank line for separation
+        elements.append(nested_table)
+
+        # Add an extra empty line for spacing between projects
+        elements.append(Paragraph(''))
+
+
+        # Add a blank line
+        elements.append(Spacer(1, 0.5 * cm))
+
+
+
+    # Build the PDF into the buffer
+    pdf.build(elements)
+
+    file_path = os.path.join(settings.MEDIA_ROOT, 'outward_report.pdf')
+
+
+    with open(file_path, 'wb') as f:
+        f.write(buffer.getvalue())
+
+    # Close the buffer
+    buffer.close()
+
+    return file_path
+
+
+
+
+# Function to send the PDF as an email attachment
+from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
+
+from django.http import HttpResponse
+from django.conf import settings
+import os
+
+
+
+
+def generate_inward_report_daily_pdf(request):
+
+
+    default_params = QueryDict(mutable=True)
+    
+    # Set default parameters
+
+    default_params.update({
+    'from_date_time': datetime.now().replace(hour=18, minute=0, second=0, microsecond=0) - timedelta(days=1),
+    'to_date_time': datetime.now().replace(hour=18, minute=0, second=0, microsecond=0)
+    })
+
+    data = project_inward.objects.all()
+    project_inward_filters = project_inward_filter(default_params, queryset=data)
+    project_inward_filters_data1 = list(project_inward_filters.qs.values_list('customer', 'quantity', 'description', 'date'))
+    project_inward_filters_data = list(map(list, project_inward_filters_data1))
+
+    # Add serial numbers to the data
+    formatted_data = [[idx + 1] + row for idx, row in enumerate(project_inward_filters_data)]
+
+    # Prepare the table data with headers
+    table_data = [['Sr No', 'Customer', 'Quantity', 'Description', 'Date']]  # Header row
+    table_data.extend(formatted_data)
+
+    # Set up the PDF file path
+    name = "inward_report.pdf"
+    file_path = os.path.join(settings.BASE_DIR, 'static', 'reports', name)  # Ensure the 'static/reports/' directory exists
+
+    # Create the PDF document and save it to the specified path
+    doc = SimpleDocTemplate(file_path, pagesize=letter)
+
+    # Define the styles for the heading
+    styles = getSampleStyleSheet()
+    title_style = styles['Title']
+    
+    # Create the title
+    title = Paragraph("Inward Report", title_style)
+
+    # Spacer between the title and table
+    spacer = Spacer(1, 20)
+
+    # Create the table
+    table = Table(table_data)
+
+    # Add styling to the table
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgreen),  # Header row background
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),  # Header text color
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Center align all text
+        ('BACKGROUND', (1, 1), (-1, -1), colors.whitesmoke),  # Data row background
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),  # Borders for table cells
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),  # Bold font for header
+    ]))
+
+    # Build the PDF
+    elements = [title, spacer, table]
+    doc.build(elements)
+
+    # Return the file path
+    return file_path
+
+def send_outward_report_pdf_email_daily(request):
+    # Generate and save the PDF
+    
+    
+    file_path = generate_outward_report_daily_pdf(request)
+    file_path2 = generate_inward_report_daily_pdf(request)
+
+    # Create the email
+    email = EmailMessage(
+        subject='Outward Report PDF',
+        body='Please find the attached outward report in PDF format.',
+        from_email='rradailyupdates@gmail.com',
+        # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+        to=['pratikgosavi654@gmail.com'],
+    )
+
+    # Attach the generated PDF
+    email.attach_file(file_path)
+    email.attach_file(file_path2)
+
+    # Send the email
+    email.send()
+
+    return HttpResponse("Email with PDF attachment sent successfully.")
+
+
+
+
+def generate_outward_report_pdf_email(request):
     # Create an in-memory buffer for the PDF file
     
    
@@ -2376,19 +2935,42 @@ def generate_outward_report_pdf(request):
         default_params = QueryDict(mutable=True)
         
         # Set default parameters
-        default_params.update({
-            'from_DC_date': date.today(),
-            'to_DC_date': date.today()
-        })
 
+        default_params.update({
+        'from_date_time': datetime.now().replace(hour=18, minute=0, second=0, microsecond=0) - timedelta(days=1),
+        'to_date_time': datetime.now().replace(hour=18, minute=0, second=0, microsecond=0)
+        })
 
     else:
 
         default_params = request.GET
+                
+    project_filter_data = project_filter(default_params, queryset=project.objects.all())
+    production_filter = project_matarial_production_filter(default_params, queryset=project_matarial_production.objects.all())
 
 
-    projects = project_filter(default_params, queryset = projects)
-    projects = projects.qs
+    print(default_params)
+
+    # Apply production filter and prefetch the filtered production data
+    project_qs = project_filter_data.qs  # Ensure this is a queryset
+    production_qs = production_filter.qs  # Ensure this is a queryset
+
+    print(production_qs)
+    print(project_qs)
+
+    # Prefetch the production data using the correct related_name for the relationship
+    projects = project_qs.filter(
+        project_production_n__in=production_qs  # Ensures only projects with related filtered production records
+    ).prefetch_related(
+        Prefetch('project_production_n', queryset=production_qs)  # Prefetch the filtered production data
+    ).distinct()
+
+
+
+      
+        # Update the parameters
+      
+
 
     light_orange = colors.Color(1, 0.647, 0, alpha=1)  # RGB for light orange
 
@@ -2422,7 +3004,7 @@ def generate_outward_report_pdf(request):
 
         # Nested table data
         nested_table_data = [
-            ["#", "Item Code", "Quantity", "Amount"]
+            ["#", "Item Code", "Quantity"]
         ]
 
         # Add data rows for each production
@@ -2432,21 +3014,17 @@ def generate_outward_report_pdf(request):
                 str(counter),
                 str(production.item_code),
                 str(production.production_quantity),
-                str(production.production_amount),
             ])
 
         # Add totals for this project
         totals = project_instance.project_production_n.aggregate(
             total_quantity=Sum('production_quantity'),
-            total_amount=Sum('production_amount')
         )
         total_quantity = totals['total_quantity'] or 0
-        total_amount = totals['total_amount'] or 0
         nested_table_data.append([
             "",
             "Project Total",
             str(total_quantity),
-            str(total_amount),
         ])
 
         # Create the nested table
@@ -2491,30 +3069,20 @@ def generate_outward_report_pdf(request):
 
 
 
-# Function to send the PDF as an email attachment
-from django.core.mail import EmailMessage
-from django.core.mail import EmailMessage
-from django.http import HttpResponse
 
-from django.http import HttpResponse
-from django.conf import settings
-import os
-
-
-
-def send_outward_report_pdf(request):
+def send_outward_report_pdf_email(request):
     # Generate and save the PDF
     
     
-    file_path = generate_outward_report_pdf(request)
+    file_path = generate_outward_report_pdf_email(request)
 
     # Create the email
     email = EmailMessage(
         subject='Outward Report PDF',
         body='Please find the attached outward report in PDF format.',
         from_email='rradailyupdates@gmail.com',
-        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
-        # to=['pratikgosavi654@gmail.com'],
+        # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+        to=['pratikgosavi654@gmail.com'],
     )
 
     # Attach the generated PDF
@@ -2524,6 +3092,28 @@ def send_outward_report_pdf(request):
     email.send()
 
     return HttpResponse("Email with PDF attachment sent successfully.")
+
+
+from django.http import FileResponse
+
+
+
+def download_outward_report_pdf(request):
+    # Generate and save the PDF
+    
+    
+    
+    
+    file_path = generate_outward_report_pdf_email(request)  # Assuming this function generates the PDF and returns the file path
+    
+    # Open the file in binary mode for reading
+    pdf_file = open(file_path, 'rb')
+    
+    # Return the file as a downloadable response
+    response = FileResponse(pdf_file, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="outward_report.pdf"'
+    
+    return response
 
 
 

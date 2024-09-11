@@ -35,10 +35,19 @@ urlpatterns = [
     path('generate-all-barcode/<int:project_id>/', generate_all_barcode, name='generate_all_barcode'),
     path('scan-barcode/', scan_barcode, name='scan_barcode'),
 
+    path('add-inward/', add_inward, name='add_inward'),
+    path('update-inward/<inward_id>', update_inward, name='update_inward'),
+    path('delete-inward/<inward_id>', delete_inward, name='delete_inward'),
+    path('list-inward', list_inward, name='list_inward'),
     path('inward-report/', inward_report, name='inward_report'),
+    path('inward-report-pdf/', download_inward_report_pdf, name='inward_report_download_pdf'),
+    path('inward-report_download/', download_inward_report, name='inward_report_download'),
+    
     path('outward-report/', outward_report, name='outward_report'),
     path('outward-report-csv/', outward_report_csv, name='outward_report_csv'),
-    path('outward-report-pdf/', send_outward_report_pdf, name='generate_outward_report_pdf'),
+    path('download-outward-report-pdf/', download_outward_report_pdf, name='generate_outward_report_pdf'),
+    path('outward-report-pdf-email/', send_outward_report_pdf_email, name='generate_outward_report_pdf_email'),
+    path('outward-report-pdf-email-daily/', send_outward_report_pdf_email_daily, name='generate_outward_report_pdf_email_daily'),
     
 
     path('assign-matarial-qr/<project_id>', assign_matarial_qr, name='assign_matarial_qr'),
