@@ -106,7 +106,7 @@ urlpatterns = [
 
 
     path('script', script, name='script'),
-
+                                                                                                            
 
 
     path('add-sales-customer/', add_sales_customer, name='add_sales_customer'),

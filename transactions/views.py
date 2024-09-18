@@ -813,18 +813,14 @@ def script(request):
 
             product_qr_instance = product_qr.objects.get(id = z.sheet_no)
 
-            current_date = datetime.now().date()
-            two_days_ago = current_date - timedelta(days=2)
+          
 
-            # Check if the given date has exceeded 2 days from the current date
-            if i.DC_date < two_days_ago:
+            c = material_history.objects.filter(product_qr = product_qr_instance, project = i)
 
-                c = material_history.objects.filter(product_qr = product_qr_instance, project = i)
-
-                if not c:
-                    
-                    message_body = "Prjoect Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name) + "sheet_no " + str(z.sheet_no)
-                    print(message_body)
+            if not c:
+                
+                message_body = "Prjoect Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name) + "sheet_no " + str(z.sheet_no)
+                print(message_body)
 
             # work_alert(request, access_token, recipient_number, 'work_alert', language_code, message_body, b.id)
 
@@ -3201,11 +3197,6 @@ def delete_assign_material(request, assign_material_id, project_id):
 
     desginer_name = project_instance.employee_name
 
-    project_sheets_logs.objects.create(
-                        project=project_instance,
-                        description='Designer ' + str(desginer_name) + 'new sheet add sheet no: ' + str(project_material_instance.sheet_no),
-                        )
-    
     project_material_instance.delete()
 
     # Assuming 'project_id' is the correct keyword argument for your 'update_project' view.
