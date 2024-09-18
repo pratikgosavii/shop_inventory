@@ -455,6 +455,10 @@ def work_alert(request, token, recipient_number, template_name, language_code, p
     }
     
     response = requests.post(url, headers=headers, data=json.dumps(payload))
+
+    print(response)
+
+    
     return response.json()
 
 def add_order(request):
