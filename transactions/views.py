@@ -458,7 +458,7 @@ def work_alert(request, token, recipient_number, template_name, language_code, p
 
     print(response)
 
-    
+
     return response.json()
 
 def add_order(request):
@@ -829,7 +829,7 @@ def script(request):
                     
                     message_body = "Prjoect Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name) + "sheet_no " + str(z.sheet_no)
 
-                    work_alert(request, access_token, recipient_number, 'work_alert', language_code, message_body, b.id)
+                    work_alert(request, access_token, recipient_number, 'work_alert', language_code, message_body, z.id)
 
 
 
