@@ -813,16 +813,19 @@ def script(request):
 
             product_qr_instance = product_qr.objects.get(id = z.sheet_no)
 
-          
+            current_date = datetime.now().date()
+            two_days_ago = current_date - timedelta(days=2)
 
-            c = material_history.objects.filter(product_qr = product_qr_instance, project = i)
+            # Check if the given date has exceeded 2 days from the current date
+            if i.DC_date < two_days_ago:
 
-            if not c:
-                
-                message_body = "Prjoect Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name) + "sheet_no " + str(z.sheet_no)
-                print(message_body)
+                c = material_history.objects.filter(product_qr = product_qr_instance, project = i)
 
-            # work_alert(request, access_token, recipient_number, 'work_alert', language_code, message_body, b.id)
+                if not c:
+                    
+                    message_body = "Prjoect Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name) + "sheet_no " + str(z.sheet_no)
+
+                    work_alert(request, access_token, recipient_number, 'work_alert', language_code, message_body, b.id)
 
 
 
