@@ -33,7 +33,6 @@ class project(models.Model):
     order_id = models.CharField(unique=True, max_length=50)
     rra_invoice_no = models.CharField(null=True, blank=True, max_length=100)
     completed = models.BooleanField(default=False)
-    order_id = models.IntegerField(null=True)
     # design_file = models.FileField(upload_to='media/project_design/')
     # own_design_file = models.FileField(upload_to='media/project_design/', blank=True)
     
@@ -44,7 +43,7 @@ class project(models.Model):
         ('completed', 'Completed'),
     ]
 
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending', null=True, blank=True)
 
 
     def save(self, *args, **kwargs):
