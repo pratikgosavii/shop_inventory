@@ -1662,19 +1662,7 @@ def add_project_designer(request, project_id):
         if forms.is_valid():
             
 
-            for field in forms.fields:
-                old_value = getattr(project_instance, field)
-                new_value = forms.cleaned_data[field]
-                
-                # Compare the old and new values
-                if old_value != new_value:
-                    # Create a ProjectLog entry to record the change
-                    project_logs.objects.create(
-                        project=project_instance,
-                        field_name=field,
-                        old_value=old_value,
-                        new_value=new_value
-                    )
+           
 
 
           
@@ -1687,10 +1675,7 @@ def add_project_designer(request, project_id):
                     print('in for')
                     try:
 
-                        project_sheets_logs.objects.create(
-                        project=project_instance,
-                        description='Designer ' + str(desginer_name) + 'new sheet add sheet no: ' + str(a),
-                        )
+                     
 
                         aa = product_qr.objects.get(id = a)
                         
