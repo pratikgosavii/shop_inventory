@@ -827,9 +827,10 @@ def script(request):
 
                 if not c:
                     
-                    message_body = "Prjoect Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name) + "sheet_no " + str(z.sheet_no)
+                    message_body += "Prjoect Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name) + "sheet_no " + str(z.sheet_no) + "\n"
 
-                    work_alert(request, access_token, recipient_number, 'work_alert', language_code, message_body, z.id)
+            
+    work_alert(request, access_token, recipient_number, 'work_alert', language_code, message_body, z.id)
 
 
 
