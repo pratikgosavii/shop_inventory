@@ -151,12 +151,12 @@
                                         <td>{{ data.product.grade }}</td>
                                         <td>{{ data.product.thickness }}</td>
                                         <td>
-                                            <input type="text" class="form-control used-length-input" placeholder="Length" inputmode="numeric">
+                                            <input type="text" class="form-control used-length-input" id="used-length" placeholder="Length" inputmode="numeric" readonly>
                                             X
-                                            <input type="text" class="form-control used-width-input" placeholder="Width" inputmode="numeric">
+                                            <input type="text" class="form-control used-width-input" id="used-width" placeholder="Width" inputmode="numeric" readonly>
 
                                             <br>
-                                            <input type="text" class="form-control used-sq-inch-input" id="used-sq-inch-input" placeholder="Used Square Inches" inputmode="numeric">
+                                            <input type="text" class="form-control used-sq-inch-input" id="used-sq-inch-input" placeholder="Used Square Inches" inputmode="numeric" readonly>
 
                                         </td>
                                         <td>
@@ -218,69 +218,22 @@
     updateSubmitButtonState();
 
     
-    document.querySelector("table").addEventListener("input", function (event) {
-        if (
-            event.target.classList.contains("used-length-input") ||
-            event.target.classList.contains("used-width-input") ||
-            event.target.classList.contains("used-sq-inch-input")
-        ) {
-            var row = event.target.closest(".stock-row");
-            var usedLengthInputs = row.querySelectorAll(".used-length-input");
-            var usedWidthInputs = row.querySelectorAll(".used-width-input");
-            var usedSqInchInput = row.querySelector(".used-sq-inch-input");
-            var remainingLengthInput = row.querySelector(".remaining-sq-inch-input");
-    
-            var totalUsedSqInch = 0;
-    
-            // Calculate the total used size in square millimeters based on length and width inputs
-            for (var i = 0; i < usedLengthInputs.length; i++) {
-                var usedLengthInput = parseFloat(usedLengthInputs[i].value);
-                var usedWidthInput = parseFloat(usedWidthInputs[i].value);
-    
-                if (!isNaN(usedLengthInput) && !isNaN(usedWidthInput)) {
-                    var usedSizeInSqMillimeters = usedLengthInput * usedWidthInput;
-                    totalUsedSqInch += usedSizeInSqMillimeters / (25.4 * 25.4); // Convert to square inches
-                }
-            }
-    
-            // Check if the entered value in "Used Square Inches" is a valid number
-            var enteredUsedSqInch = parseFloat(usedSqInchInput.value);
-    
-            if (event.target === usedSqInchInput) {
-                // If the input that triggered the event is the "Used Square Inches" input
-                // Handle the case where the entered value is not a valid number
-                if (isNaN(enteredUsedSqInch)) {
-                    usedSqInchInput.value = ""; // Clear the input
-                } else {
-                    // If a valid value is entered directly in "Used Square Inches" input
-                    // Use that value for calculations
-                    totalUsedSqInch = enteredUsedSqInch;
-    
-                    // Clear the "Used Length" and "Used Width" inputs
-                    for (var i = 0; i < usedLengthInputs.length; i++) {
-                        usedLengthInputs[i].value = "";
-                        usedWidthInputs[i].value = "";
-                    }
-                }
-            } else {
-                // If the event is triggered by changes in other inputs (length or width)
-                // Update the "Used Square Inches" input with the calculated value
-                usedSqInchInput.value = totalUsedSqInch.toFixed(2); // Display as two decimal places
-            }
-    
-            // Retrieve the product size in square millimeters from the second <td> (replace with your actual variable)
-            var productSizeInSqMillimeters = parseFloat(row.querySelectorAll("td")[1].textContent);
-    
-            // Calculate the remaining size in square millimeters
-            var remainingSizeInSqMillimeters = productSizeInSqMillimeters - totalUsedSqInch; // Convert to square millimeters
-    
-            // Update the "Remaining Length" input with the calculated value
-            remainingLengthInput.value = remainingSizeInSqMillimeters.toFixed(2); // Display as two decimal places
-        }
+    function update_remaining(){
+        
+           
+        var usedSqInchInput = document.getElementById("used-sq-inch-input");
+        var remainingLengthInput = document.getElementById("remaining-sq-inch-input");
+
+        var aushahs = {{ data.product.size }} - usedSqInchInput.value;
+
+        alert({{ data.product.size }})
+        alert(aushahs)
+
+        remainingLengthInput.value = aushahs
 
         updateSubmitButtonState();
 
-    });
+    }
     
     
     
@@ -363,6 +316,41 @@
         });
         }
 
+
+
+        $(document).ready(function() {
+            $('#order_id').on('change', function() {
+                var projectId = $(this).val();
+
+                var currentUrl = window.location.href;
+                var sheetId = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+
+
+              
+
+
+
+                alert(projectId)
+                // Trigger AJAX request when Project ID is changed
+                $.ajax({
+                    url: "{% url 'get_cutting_values' %}",  // Replace with your API endpoint
+                    method: 'GET',
+                    data: { project_id : projectId, sheet_id : sheetId },
+                    success: function(response) {
+                        // Assuming the API returns an object with length, width, and square_inch fields
+                        $('#used-length').val(response.length);
+                        $('#used-width').val(response.width);
+                        $('#used-sq-inch-input').val(response.used_sqinch);
+
+                        update_remaining();
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', error);
+                    }
+                });
+            });
+        });
 
 </script>
 

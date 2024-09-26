@@ -1641,10 +1641,13 @@ def add_project_designer(request, project_id):
 
         sheet_no_id = request.POST.getlist("no_need")
         order_id = request.POST.get("order_id")
-        employee_name = request.POST.get("employee_name")
+        length = request.POST.getlist("length")
+        width = request.POST.getlist("width")
 
-        desginer_name = project_instance.employee_name
+        print('-----------------')
 
+        print(length)
+        print(width)
 
         filtered_values = project_material.objects.filter(project = project_instance).values_list('sheet_no', flat=True)
 
@@ -1671,7 +1674,7 @@ def add_project_designer(request, project_id):
             if unique_values != ['']:
 
                 print('in')
-                for a in unique_values:
+                for a, b, c in zip(unique_values, length, width):
                     print('in for')
                     try:
 
@@ -1690,7 +1693,7 @@ def add_project_designer(request, project_id):
 
                         product_id = created
 
-                    project_material_instance = project_material.objects.create(product = product_id, project = project_instance, quantity = 1, sheet_no = a)
+                    project_material_instance = project_material.objects.create(product = product_id, project = project_instance, quantity = 1, sheet_no = a, length = b, width = c)
 
                     aaaas = project_matarial_qr.objects.create(project_material = project_material_instance)
                     print('-----------------')
@@ -3462,6 +3465,39 @@ def update_assign_matarial_qr(request, product_qr_id):
         }
 
         return render(request, 'transactions/update_assign_material_qr.html', context)
+
+
+
+
+
+
+
+def get_cutting_values(request):
+
+    project_id = request.GET.get('project_id')
+    product_qr_id = request.GET.get('sheet_id')
+    product_qr_instance = product_qr.objects.get(id = product_qr_id)
+
+    data = project_material.objects.get(project = project_id, sheet_no = product_qr_instance.id)
+
+    used_sqinch = data.length * data.width
+    used_sqinch += used_sqinch / (25.4 * 25.4)
+
+
+
+    # Round to 2 decimal places
+    used_sqinch = round(used_sqinch, 2)
+
+    data = {
+        'length': data.length,  # Replace with actual field names
+        'width': data.width,    # Replace with actual field names
+        'used_sqinch': used_sqinch  # Example calculation
+    }
+
+
+    
+
+    return JsonResponse(data)
 
 
 def delete_matarial_history(request, history_id):

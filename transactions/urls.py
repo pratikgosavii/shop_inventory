@@ -69,6 +69,7 @@ urlpatterns = [
     
     path('show-qr', show_scanner_assign_matarial_qr, name='show_scanner_assign_matarial_qr'),
     path('update-assign-matarial-qr/<product_qr_id>', update_assign_matarial_qr, name='update_assign_matarial_qr'),
+    path('get-cutting-values', get_cutting_values, name='get_cutting_values'),
     path('delete-matarial-history/<history_id>', delete_matarial_history, name='delete_matarial_history'),
     path('add_production/<project_id>', add_production, name='add_production'),
     path('delete_production/<project_id>/<production_id>', delete_production_entry, name='delete_production_entry'),

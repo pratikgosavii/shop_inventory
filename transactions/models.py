@@ -46,15 +46,6 @@ class project(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending', null=True, blank=True)
 
 
-    def save(self, *args, **kwargs):
-        if not self.order_id:  # Only set if it doesn't already exist
-            last_order = project.objects.order_by('order_id').last()
-            if last_order:
-                self.order_id = last_order.order_id + 1
-            else:
-                self.order_id = 600000  # Start from 600000 if no records exist
-        super(project, self).save(*args, **kwargs)
-
     def __str__(self):
         return self.description
     
@@ -120,6 +111,8 @@ class project_material(models.Model):
     quantity = models.IntegerField()
     product = models.ForeignKey(product, on_delete=models.CASCADE, related_name = "product_re")
     project = models.ForeignKey(project, on_delete=models.CASCADE, related_name = "project_material_re_1")
+    length = models.IntegerField()
+    width = models.IntegerField()
     
 
 class project_matarial_qr(models.Model):

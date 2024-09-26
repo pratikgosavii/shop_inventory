@@ -127,7 +127,6 @@
                                 <tr>
                                     <td> Item Code </td>
                                     <td> Quantity </td>
-                                    <td> Amount </td>
                                 </tr>
                             
                                 {% for i in production_data %}
@@ -174,6 +173,8 @@
         <td> Size </td>
         <td> Grade </td>
         <td> Thickness </td>
+        <td> Length </td>
+        <td> Width </td>
         <td>  <button type="button" class="btn btn-success add-textbox" > <i class="fa fa-plus" aria-hidden="true"></i></button>  </td>
     </tr>
 
@@ -188,6 +189,8 @@
         <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.product.size.name }}" placeholder="Sheet No" readonly> </td>
         <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.product.grade.name }}" placeholder="Sheet No" readonly> </td>
         <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.product.thickness.name }}" placeholder="Sheet No" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.length }}" placeholder="Sheet No" readonly> </td>
+        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.width }}" placeholder="Sheet No" readonly> </td>
         <td> <a href="{% url 'delete_assign_material' i.id project_id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this entry?')"> Delete </a> </td>
         
 
@@ -369,7 +372,16 @@
 
             // Create your input elements here using Django template variables
             newRow.innerHTML = `
-            <td> <input type="number" class="form-control sheet-no" name="no_need" placeholder="Sheet No"><div id="warning" style="color: red;"></div> </td> <td> {{ data_form.category }} </td> <td>{{ data_form.size }} </td> <td> {{ data_form.grade }} </td> <td>{{ data_form.thickness }} </td> <td> <button type="button" class="btn btn-info submit-button" data-sheet-no="">Submit</button> </td> </tr><td>  <span class="input-group-btn"><button type="button" class="btn btn-danger remove-textbox"> <i class="fa fa-minus" aria-hidden="true"></i>  </td> </td>
+            <td> <input type="number" class="form-control sheet-no" name="no_need" placeholder="Sheet No">
+                <div id="warning" style="color: red;"></div> 
+            </td> 
+                <td> {{ data_form.category }} </td> 
+                <td>{{ data_form.size }} </td> <td> {{ data_form.grade }} </td> <td>{{ data_form.thickness }} </td> 
+                <td>  <input type="text" name="length" class="form-control sheet-no" value="{{ i.length }}" placeholder="Cutting Length" required> </td> 
+                <td>  <input type="text" name="width" class="form-control sheet-no" value="{{ i.length }}" placeholder="Cutting Width" required> </td> 
+                <td> <button type="button" class="btn btn-info submit-button" data-sheet-no="">Submit</button> 
+                </td> </tr>
+            <td>  <span class="input-group-btn"><button type="button" class="btn btn-danger remove-textbox"> <i class="fa fa-minus" aria-hidden="true"></i>  </td> </td>
             `;
             
             
