@@ -3326,7 +3326,7 @@ def update_assign_matarial_qr(request, product_qr_id):
                 print(check_low_stock)
                 total_quantity = check_low_stock['total_quantity'] or 0  # Handle None case
                 print(total_quantity)
-                if total_quantity < 4:
+                if total_quantity < 5:
                     
 
                     print('-------------------1------------------')
@@ -3391,7 +3391,7 @@ def update_assign_matarial_qr(request, product_qr_id):
                 print(check_low_stock)
                 total_quantity = check_low_stock['total_quantity'] or 0  # Handle None case
                 print(total_quantity)
-                if total_quantity < 4:
+                if total_quantity < 5:
 
                     print('------------------1----------------------')
 
