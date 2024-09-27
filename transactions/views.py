@@ -3872,6 +3872,9 @@ def print_single_qr(request, product_qr_id):
 def print_label(request, project_id, product_qr_id):
 
     project_instance = project.objects.get(id = project_id)
+
+    data = project_material.objects.get(project = project_id, sheet_no = product_qr_id)
+
    
     context = {
         
@@ -3880,6 +3883,7 @@ def print_label(request, project_id, product_qr_id):
         # 'sqinch_alloted': product_qr_id,
         'date': datetime.now(),
         'project_name': project_instance.customer,
+        'cutting_size': data,
     }
 
     
