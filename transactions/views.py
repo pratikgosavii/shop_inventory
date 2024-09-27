@@ -808,6 +808,7 @@ def script(request):
 
     a = project.objects.filter(completed = False)
 
+    message_body = ""
 
     for i in a:
 
