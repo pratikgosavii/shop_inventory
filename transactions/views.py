@@ -324,8 +324,8 @@ import ssl
 
 
 access_token = "EAALeGznz5UwBO9cCf9mrwEd1vHBgB8neIziWXhS4AKGY02ZCVbfb5bTnSK7TCX6Qo1V0MZCHg7hNHQJYsNIZB17zlXaXFLv4HWJFWHZA0zeK57eZCClKyKxeAROKBh0kWB9PtjGbJeJsDWQSdqIjr20xrOBvk09nfWZCRn4xi5MTuyhco7C3U9P4OZBRbADDzLfKwZDZD"
-# recipient_number = ["8237377298"]
-recipient_number = ["8237377298", "9765054243", "9823350315"]
+recipient_number = ["8237377298"]
+# recipient_number = ["8237377298", "9765054243", "9823350315"]
 template_name = "qutation_added"
 language_code = "en"
 
@@ -831,10 +831,13 @@ def script(request):
 
                     print('messae--------------------------------------')
                     
-                    message_body += "Update: Prjoect Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name) + "Sheet No " + str(z.sheet_no)
+                    message_body = "Project Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name)
 
                             
                     work_alert(request, access_token, recipient_number, 'sheet_update', language_code, message_body, z.id)
+
+                   
+
 
     return JsonResponse({'message': 'response message'}, status=400)
 
