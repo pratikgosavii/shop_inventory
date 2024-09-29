@@ -212,11 +212,9 @@ font-family: 'Montserrat', sans-serif;
 
             <a style="margin-left : 20px;" href="{% url 'scanner_page' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan QR </button> </a>
             <a style="margin-left : 20px;" href="{% url 'scan_barcode' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan Barcode </button> </a>
-            {% if request.user.is_cutter or request.user.is_superuser %}
+            
 
-            <a style="margin-left : 20px;" href="{% url 'show_scanner_assign_matarial_qr' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Update QR </button> </a>
-
-            {% endif %}
+           
             </div>
 
             
@@ -225,6 +223,43 @@ font-family: 'Montserrat', sans-serif;
            
 
         </div>
+
+
+
+        {% if request.user.is_cutter or request.user.is_superuser %}
+
+
+
+        <div style="margin : 50px 0px; border:1px solid black; padding: 32px;
+    width: fit-content;">
+            
+
+    <h4>  Update sheet </h4>
+     <br>
+            <div style="display:flex; ">
+
+
+                <form id="scanning_form" onsubmit="redirectToPage(event)">
+
+                    <input type="text" id="parameterInput" class="form-control" placeholder="Scaner QR"> <br>
+
+                    <input type="submit" value="submit" class="btn btn-info">
+
+                </form>
+          
+
+
+            </div>
+
+            
+
+           
+
+        </div>
+
+        {% endif %}
+
+
 
     <hr>
     
@@ -467,6 +502,24 @@ font-family: 'Montserrat', sans-serif;
     </script>
 
     <script src="https://kit.fontawesome.com/8535745612.js" crossorigin="anonymous"></script>
+
+
+    <script>
+
+
+        function redirectToPage(event) {
+            event.preventDefault(); // Prevent the default form submission
+    
+            // Get the value from the form input or another source
+            var parameterValue = document.getElementById('parameterInput').value;
+    
+            // Redirect to the new URL with the dynamic parameter
+            window.location.href = '/transactions/update-assign-matarial-qr/' + parameterValue;
+        }
+
+    </script>
+
+
 
 
 

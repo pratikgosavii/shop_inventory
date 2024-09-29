@@ -324,7 +324,7 @@ import ssl
 
 
 access_token = "EAALeGznz5UwBO9cCf9mrwEd1vHBgB8neIziWXhS4AKGY02ZCVbfb5bTnSK7TCX6Qo1V0MZCHg7hNHQJYsNIZB17zlXaXFLv4HWJFWHZA0zeK57eZCClKyKxeAROKBh0kWB9PtjGbJeJsDWQSdqIjr20xrOBvk09nfWZCRn4xi5MTuyhco7C3U9P4OZBRbADDzLfKwZDZD"
-recipient_number = ["9765054243", "9823350315", "9823208347", "8237377298"]
+recipient_number = ["8237377298"]
 template_name = "qutation_added"
 language_code = "en"
 
@@ -421,7 +421,7 @@ def send_low_stock_notification(request, token, recipient_number, template_name,
 
 def work_alert(request, token, recipient_number, template_name, language_code, param1, param2):
 
-
+    
     url = "https://graph.facebook.com/v20.0/363920080139942/messages"
     headers = {
         "Authorization": f"Bearer {token}",
@@ -456,7 +456,7 @@ def work_alert(request, token, recipient_number, template_name, language_code, p
     
     response = requests.post(url, headers=headers, data=json.dumps(payload))
 
-    print(response)
+    print(response.json())
 
 
     return response.json()
@@ -827,11 +827,15 @@ def script(request):
                 c = material_history.objects.filter(product_qr = product_qr_instance, project = i)
 
                 if not c:
-                    
-                    message_body += "Prjoect Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name) + "sheet_no " + str(z.sheet_no) + "\n"
 
-            
-    work_alert(request, access_token, recipient_number, 'work_alert', language_code, message_body, z.id)
+                    print('messae--------------------------------------')
+                    
+                    message_body += "Update: Prjoect Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name) + "Sheet No " + str(z.sheet_no)
+
+                            
+                    work_alert(request, access_token, recipient_number, 'sheet_update', language_code, message_body, z.id)
+
+    return JsonResponse({'message': 'response message'}, status=400)
 
 
 
