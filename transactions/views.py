@@ -830,7 +830,7 @@ def script(request):
 
                     print('messae--------------------------------------')
                     
-                    message_body += "Update: Prjoect Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name) + "Sheet No " + str(z.sheet_no)
+                    message_body = "Update: Prjoect Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name) + "Sheet No " + str(z.sheet_no)
 
                             
                     work_alert(request, access_token, recipient_number, 'sheet_update', language_code, message_body, z.id)
