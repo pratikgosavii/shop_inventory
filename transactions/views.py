@@ -325,61 +325,66 @@ import ssl
 
 access_token = "EAALeGznz5UwBO9cCf9mrwEd1vHBgB8neIziWXhS4AKGY02ZCVbfb5bTnSK7TCX6Qo1V0MZCHg7hNHQJYsNIZB17zlXaXFLv4HWJFWHZA0zeK57eZCClKyKxeAROKBh0kWB9PtjGbJeJsDWQSdqIjr20xrOBvk09nfWZCRn4xi5MTuyhco7C3U9P4OZBRbADDzLfKwZDZD"
 # recipient_number = ["8237377298"]
-recipient_number = ["8237377298", "9765054243", "9823350315"]
+recipient_number = ["9765054243", "8767515210", "8237377298"]
 template_name = "qutation_added"
 language_code = "en"
 
 def send_qutation_notification(request, token, recipient_number, template_name, language_code, parameter_value):
 
 
-    print('-----------------------------------------------')
-    print('-----------------------------------------------')
-    print('-----------------------------------------------')
-    print('-----------------------------------------------')
-    print('-----------------------------------------------')
-    print('-----------------------------------------------')
-    print('-----------------------------------------------')
-    print('-----------------------------------------------')
-
-    url = "https://graph.facebook.com/v20.0/363920080139942/messages"
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json"
-    }
+   
+    # url = "https://graph.facebook.com/v20.0/363920080139942/messages"
+    # headers = {
+    #     "Authorization": f"Bearer {token}",
+    #     "Content-Type": "application/json"
+    # }
     
-    for number in recipient_number:
-        payload = {
-            "messaging_product": "whatsapp",
-            "to": number,
-            "type": "template",
-            "template": {
-                "name": template_name,
-                "language": {
-                    "code": language_code
-                },
-                "components": [
-                    {
-                        "type": "button",
-                        "sub_type": "url",
-                        "index": 0,
-                        "parameters": [
-                            {
-                                "type": "text",
-                                "text": parameter_value
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
+    # for number in recipient_number:
+    #     payload = {
+    #         "messaging_product": "whatsapp",
+    #         "to": number,
+    #         "type": "template",
+    #         "template": {
+    #             "name": template_name,
+    #             "language": {
+    #                 "code": language_code
+    #             },
+    #             "components": [
+    #                 {
+    #                     "type": "button",
+    #                     "sub_type": "url",
+    #                     "index": 0,
+    #                     "parameters": [
+    #                         {
+    #                             "type": "text",
+    #                             "text": parameter_value
+    #                         }
+    #                     ]
+    #                 }
+    #             ]
+    #         }
+    #     }
         
-        response = requests.post(url, headers=headers, data=json.dumps(payload))
+    #     response = requests.post(url, headers=headers, data=json.dumps(payload))
         
-        if response.status_code != 200:
-            print(f"Error sending message to {number}: {response.status_code}")
-            print(f"Response: {response.text}")
-        else:
-            print(f"Message sent to {number}: {response}")
+    #     if response.status_code != 200:
+    #         print(f"Error sending message to {number}: {response.status_code}")
+    #         print(f"Response: {response.text}")
+    #     else:
+    #         print(f"Message sent to {number}: {response}")
+
+    msg = "New Qutation Added Visit \n" + 'https://shopinventory.pythonanywhere.com/transactions/update-order/' + str(parameter_value)
+    email = EmailMessage(
+            subject='Outward Report PDF',
+            body=msg,
+            from_email='rradailyupdates@gmail.com',
+            # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+            to=['pratikgosavi654@gmail.com'],
+        )
+
+   
+    # Send the email
+    email.send()
 
 
 
@@ -387,80 +392,114 @@ def send_qutation_notification(request, token, recipient_number, template_name, 
 
 def send_low_stock_notification(request, token, recipient_number, template_name, language_code, dynamic_value):
 
+    # for i in recipient_number:
 
-    url = "https://graph.facebook.com/v20.0/363920080139942/messages"
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "messaging_product": "whatsapp",
-        "to": recipient_number,
-        "type": "template",
-        "template": {
-            "name": template_name,
-            "language": {
-                "code": language_code
-            },
-            "components": [
-                {
-                    "type": "body",
-                    "parameters": [
-                        {
-                            "type": "text",
-                            "text": dynamic_value
-                        }
-                    ]
-                }
-            ]
-        }
-    }
-    
-    response = requests.post(url, headers=headers, data=json.dumps(payload))
-    print(response)
-    return response.json()
+    #     print(i)
+
+    #     url = "https://graph.facebook.com/v20.0/363920080139942/messages"
+    #     headers = {
+    #         "Authorization": f"Bearer {token}",
+    #         "Content-Type": "application/json"
+    #     }
+    #     payload = {
+    #         "messaging_product": "whatsapp",
+    #         "to": [i],
+    #         "type": "template",
+    #         "template": {
+    #             "name": template_name,
+    #             "language": {
+    #                 "code": language_code
+    #             },
+    #             "components": [
+    #                 {
+    #                     "type": "body",
+    #                     "parameters": [
+    #                         {
+    #                             "type": "text",
+    #                             "text": dynamic_value
+    #                         }
+    #                     ]
+    #                 }
+    #             ]
+    #         }
+    #     }
+        
+    #     response = requests.post(url, headers=headers, data=json.dumps(payload))
+    #     print(response)
+    #     return response.json()
+
+
+
+    email = EmailMessage(
+            subject='Stock Alert',
+            body=dynamic_value,
+            from_email='rradailyupdates@gmail.com',
+            to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+            # to=['pratikgosavi654@gmail.com'],
+        )
+
+    email.send()
+
+     
+
 
 def work_alert(request, token, recipient_number, template_name, language_code, param1, param2):
 
     
-    url = "https://graph.facebook.com/v20.0/363920080139942/messages"
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "messaging_product": "whatsapp",
-        "to": recipient_number,
-        "type": "template",
-        "template": {
-            "name": template_name,
-            "language": {
-                "code": language_code
-            },
-            "components": [
-                {
-                    "type": "body",
-                    "parameters": [
-                        {
-                            "type": "text",
-                            "text": param1
-                        },
-                        {
-                            "type": "text",
-                            "text": param2
-                        }
-                    ]
-                }
-            ]
-        }
-    }
+    # url = "https://graph.facebook.com/v20.0/363920080139942/messages"
+    # headers = {
+    #     "Authorization": f"Bearer {token}",
+    #     "Content-Type": "application/json"
+    # }
     
-    response = requests.post(url, headers=headers, data=json.dumps(payload))
-
-    print(response.json())
+    # for number in recipient_number:
 
 
-    return response.json()
+    
+    #     payload = {
+    #         "messaging_product": "whatsapp",
+    #         "to": number,
+    #         "type": "template",
+    #         "template": {
+    #             "name": template_name,
+    #             "language": {
+    #                 "code": language_code
+    #             },
+    #             "components": [
+    #                 {
+    #                     "type": "body",
+    #                     "parameters": [
+    #                         {
+    #                             "type": "text",
+    #                             "text": param1
+    #                         },
+    #                         {
+    #                             "type": "text",
+    #                             "text": param2
+    #                         }
+    #                     ]
+    #                 }
+    #             ]
+    #         }
+    #     }
+        
+    #     response = requests.post(url, headers=headers, data=json.dumps(payload))
+
+    #     print(response.json())
+
+    email = EmailMessage(
+            subject='Work Alert',
+            body=param1,
+            from_email='rradailyupdates@gmail.com',
+            to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+            # to=['pratikgosavi654@gmail.com'],
+        )
+
+   
+    # Send the email
+    email.send()
+
+
 
 def add_order(request):
 
@@ -831,12 +870,13 @@ def script(request):
 
                     print('messae--------------------------------------')
                     
-                    message_body = "Project Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name)
+                    message_body += "Project Id: " + str(i.id) + " " + "Customer Name: " + str(i.customer.name) + " " + "Sheet no: " + str(z.sheet_no) + " Not updated from 2 days \n \n"
 
                             
-                    work_alert(request, access_token, recipient_number, 'sheet_update', language_code, message_body, z.id)
+    print(message_body)
+    
+    work_alert(request, access_token, recipient_number, 'sheet_update', language_code, message_body, 'z.sheet_no')
 
-                   
 
 
     return JsonResponse({'message': 'response message'}, status=400)
@@ -3343,7 +3383,7 @@ def update_assign_matarial_qr(request, product_qr_id):
 
              
                     
-                    message_body =  str(stock_instance.product.category) + " " +str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + " " + str(total_quantity) + " "
+                    message_body =  str(stock_instance.product.category) + " " +str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + " " + str(total_quantity) + " " + "quantity left."
 
                                     
                    
