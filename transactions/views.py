@@ -3530,8 +3530,9 @@ def get_cutting_values(request):
 
     data = project_material.objects.get(project = project_id, sheet_no = product_qr_instance.id)
 
-    used_sqinch = data.length * data.width
-    used_sqinch += used_sqinch / (25.4 * 25.4)
+    mm_length = data.length / 25.4
+    mm_width =  data.width / 25.4
+    used_sqinch = round(mm_length * mm_width, 2) 
 
 
 
