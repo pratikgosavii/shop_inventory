@@ -226,14 +226,10 @@
            
         var usedSqInchInput = document.getElementById("used-sq-inch-input");
         var remainingLengthInput = document.getElementById("remaining-sq-inch-input");
-
-        var aushahs = {{ data.product.size }} - usedSqInchInput.value;
-
-        alert('------------')
-        alert({{ data.product.size }})
-        alert(usedSqInchInput.value)
-
-
+        
+        var aushahs = ({{ data.product.size }} - usedSqInchInput.value).toFixed(2);  
+        
+       
         remainingLengthInput.value = aushahs
 
         updateSubmitButtonState();
