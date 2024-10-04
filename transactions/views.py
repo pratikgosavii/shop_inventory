@@ -3383,7 +3383,7 @@ def update_assign_matarial_qr(request, product_qr_id):
 
              
                     
-                    message_body =  str(stock_instance.product.category) + " " +str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + " " + str(total_quantity) + " " + "quantity left."
+                    message_body =  "Category: " + str(stock_instance.product.category) + " Thickness: " +str(stock_instance.product.thickness)+ " Grade: " + str(stock_instance.product.grade) + " Quantity: " + str(total_quantity) + " " + " left."
 
                                     
                    
@@ -3446,7 +3446,7 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                     
 
-                    message_body =  str(stock_instance.product.category) + " " +str(stock_instance.product.thickness)+ " " + str(stock_instance.product.grade) + " " + str(total_quantity) + " "
+                    message_body =  "Category: " + str(stock_instance.product.category) + " Thickness: " +str(stock_instance.product.thickness)+ " Grade: " + str(stock_instance.product.grade) + " Quantity: " + str(total_quantity) + " " + " left."
 
 
                                     
