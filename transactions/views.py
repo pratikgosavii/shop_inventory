@@ -378,8 +378,8 @@ def send_qutation_notification(request, token, recipient_number, template_name, 
             subject='Outward Report PDF',
             body=msg,
             from_email='rradailyupdates@gmail.com',
-            # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
-            to=['pratikgosavi654@gmail.com'],
+            to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
+            # to=['pratikgosavi654@gmail.com'],
         )
 
    
@@ -434,7 +434,7 @@ def send_low_stock_notification(request, token, recipient_number, template_name,
             subject='Stock Alert',
             body=dynamic_value,
             from_email='rradailyupdates@gmail.com',
-            to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+            to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
             # to=['pratikgosavi654@gmail.com'],
         )
 
@@ -491,7 +491,7 @@ def work_alert(request, token, recipient_number, template_name, language_code, p
             subject='Work Alert',
             body=param1,
             from_email='rradailyupdates@gmail.com',
-            to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+            to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
             # to=['pratikgosavi654@gmail.com'],
         )
 
@@ -2013,17 +2013,21 @@ def add_project_outward(request, project_id):
     else:
 
         forms = project_Form(instance = project_instance)
-                    
+
+        item_code_data = project_matarial_production.objects.filter(project = project_instance)
+
+        print(item_code_data)
+
+
         data_form = project_outward_Form()
 
-        data_inward = project_inward.objects.filter(project = project_instance)
-        data_outward = project_outward.objects.filter(project = project_instance)
+        data_outward = project_outward.objects.filter(project_matarial_production__project = project_instance)
 
         
         context = {
             'form': forms,
-            'data_inward': data_inward,
             'data_outward': data_outward,
+            'item_code_data': item_code_data,
         }
         return render(request, 'transactions/add_project_outward.html', context)
 
@@ -3371,7 +3375,18 @@ def update_assign_matarial_qr(request, product_qr_id):
                 stock_instance.save()
 
                 
-                check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness).aggregate(total_quantity=Sum('quantity'))
+                check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness)
+
+                print('--------------------------------')
+                print('--------------------------------')
+                print('--------------------------------')
+                print('--------------------------------')
+                print('--------------------------------')
+                print('--------------------------------')
+
+                for i in check_low_stock:
+
+                    print(i.quantity)
                 print(check_low_stock)
                 total_quantity = check_low_stock['total_quantity'] or 0  # Handle None case
                 print(total_quantity)
@@ -3436,10 +3451,19 @@ def update_assign_matarial_qr(request, product_qr_id):
                 stock_instance.save()
 
                 
-                check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness).aggregate(total_quantity=Sum('quantity'))
-                print(check_low_stock)
-                total_quantity = check_low_stock['total_quantity'] or 0  # Handle None case
-                print(total_quantity)
+                check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness)
+
+                print('--------------------------------')
+                print('--------------------------------')
+                print('--------------------------------')
+                print('--------------------------------')
+                print('--------------------------------')
+                print('--------------------------------')
+
+                for i in check_low_stock:
+
+                    print(i.id)
+
                 if total_quantity < 5:
 
                     print('------------------1----------------------')

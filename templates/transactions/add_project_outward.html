@@ -109,48 +109,7 @@
                             <hr>
 
                             
-                            <label for="name" class="control-label mb-1"> Inward Material Details</label>
-
-                           
-                             
-
-
- <table id="">
-
-    <tr>
-        <td> Sr No </td>
-        <td> Invoice_no </td>
-        <td> Title </td>
-        <td> Quantity </td>
-        <td> Amount </td>
-        <td> Description </td>
-        <td> Date </td>
-
-    </tr>
-
-    {% for i in data_inward %}
-
-    <tr>
-
-        <td> {{ forloop.counter }} </td>
-        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.invoice_no }}" placeholder="Invoice No" readonly> </td>
-        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.title }}" placeholder="Title" readonly> </td>
-        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.quantity }}" placeholder="Quantity" readonly> </td>
-        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.amount }}" placeholder="Amount" readonly> </td>
-        <td>   <textarea readonly> {{ i.description }} </textarea> </td>
-        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.date }}" placeholder="Date" readonly> </td>
-        
-
-        
-    </tr>
-
-    {% endfor %}
-
-    <tbody>
-    </tbody>
-
-</table>  
-
+                         
 
 <hr>
 
@@ -164,30 +123,33 @@
 
     <tr>
         <td> Sr No </td>
-        <td> Invoice_no </td>
-        <td> Title </td>
         <td> Quantity </td>
-        <td> Amount </td>
-        <td> Description </td>
-        <td> Date </td>
-        <td> Date </td>
+        <td> Barcode Count </td>
+        <td> Action </td>
 
-        <td>  <button type="button" class="btn btn-success add-textbox" > <i class="fa fa-plus" aria-hidden="true"></i></button>  </td>
     </tr>
 
-    {% for i in data_outward %}
+    {% for i in item_code_data %}
 
     <tr>
 
         <td> {{ forloop.counter }} </td>
-        <td>   <textarea readonly> {{ i.description }} </textarea> </td>
-        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.quantity }}" placeholder="Quantity" readonly> </td>
-        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.amount }}" placeholder="Amount" readonly> </td>
-        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.date }}" placeholder="Date" readonly> </td>
-        <td> <a href="" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this entry?')"> Delete </a> 
-         <a href="{% url 'generate_barcode' i.id %}" class="btn btn-info"> Barcode </a> </td>
-        
 
+        <td>   <input type="text" class="form-control sheet-no" name="" value="{{ i.production_quantity }}" placeholder="Quantity" readonly> </td>
+        <td>   <input type="number" class="form-control sheet-no" name="" value="" placeholder="Barcode Quantity"> </td>
+       
+        <td> <a href="" class="btn btn-info" onclick="return confirm('Please confrim!')"> Submit </a> 
+         </td>
+                
+        <!-- Nested loop for related fields -->
+        {% for related_item in i.outward_item_code_barcode.all %}
+        <tr>
+            <td> - </td>
+            <td>  </td>
+            <td> {{ related_item.quantity }} </td>
+            <td> <a href="{% url 'print_outward_label' %}" class="btn btn-info"> Print </a> </td>
+        </tr>
+        {% endfor %}
         
     </tr>
 
