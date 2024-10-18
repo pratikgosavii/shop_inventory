@@ -30,9 +30,9 @@ urlpatterns = [
 
     path('confirm-outward/<project_id>', confirm_outward, name='confirm_outward'),
     path('confirm-outward-json/<production_material_id>', confirm_outward_json, name='confirm_outward_json'),
-    path('add-project-outward/<project_id>', add_project_outward, name='add_project_outward'),
+    path('add-project-outward-new/<production_material_id>/<barcode_count>', add_project_outward_new, name='add_project_outward_new'),
     path('generate-barcode/<int:id>/', generate_barcode, name='generate_barcode'),
-    path('generate-all-barcode/<int:project_id>/', generate_all_barcode, name='generate_all_barcode'),
+    path('generate-all-barcode/<int:project_matarial_production_id>/', generate_all_barcode, name='generate_all_barcode'),
     path('scan-barcode/', scan_barcode, name='scan_barcode'),
 
     path('add-inward/', add_inward, name='add_inward'),

@@ -130,7 +130,7 @@ class project_matarial_production(models.Model):
     production_quantity = models.IntegerField(null = True, blank = True)
     project = models.ForeignKey(project, on_delete=models.CASCADE, related_name = "project_production_n")
     date_time = models.DateTimeField(auto_now=False, null = True, blank = True)
-    
+    barcode_count = models.BigIntegerField(default = 0, null = True, blank = True)
 
 
 from store.models import * 

@@ -185,114 +185,167 @@ font-family: 'Montserrat', sans-serif;
     {% endif %}
     
 
+    <div class="col-12" style="display : flex; GAP: 9px;">
+
+        <div class="col-6" style="border: 1px solid black;
+    padding: 9PX;">
 
 
-        {% if request.user.is_reception or request.user.is_superuser %}
+            {% if request.user.is_reception or request.user.is_superuser %}
 
-        <div class="col-8" style="display : flex;">
-
-            <form action="{% url 'generate_product_qr' %}" method="post" style="display: flex; gap: 40px;">
-
-                {% csrf_token %}
-
-                <input type="number" max="16" class="form-control" style="width : 263px;" name="quantity" placeholder="Enter Material Quantity" inputmode="numeric">
-                <button type="submit" class="btn btn-success form-input"> Generate QR </button>
-                
-            </form>
-
-            <a href="{% url 'generate_product_qr_with_values' %}" style="margin-left : 16px;">
-            <button type="submit" class="btn btn-success form-input"> Generate QR with values </button> </a>
-
-        </div>
-        <br> <br>
-
-        <div>
             
             <div style="display:flex; gap:20px;">
 
-            <a style="margin-left : 20px;" href="{% url 'scanner_page' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan QR </button> </a>
-            <a style="margin-left : 20px;" href="{% url 'scan_barcode' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan Barcode </button> </a>
-            
 
-           
+                <form action="{% url 'generate_product_qr' %}" method="post" style="display: flex; gap: 24px; height: max-content;">
+
+                    {% csrf_token %}
+
+                    <input type="number" max="16" class="form-control" style="width : 263px;" name="quantity" placeholder="Enter Material Quantity" inputmode="numeric">
+                    <button type="submit" class="btn btn-success form-input"> Generate QR </button>
+                    
+                </form>
+
+                <a href="{% url 'generate_product_qr_with_values' %}" style="">
+                <button type="submit" class="btn btn-success form-input"> Generate QR with values </button> </a>
+
+                
             </div>
 
+        
+            <br> <br>
+
+                
+
+            <div style="padding-left : 20px; padding-bottom : 20px">
+
+                <p>  For Reception Use </p>
+
+                <div style="display:flex; gap:10px; justify-content: center;
+    align-items: center;
+    margin: auto; ">
+                    
+                    <div style="margin: auto; margin: auto;
+    border-right: 1px solid black;
+    padding-right: 38px;">
+
+                        <h4> Update Sheet Details </h4> <br>
+
+                        
+
+
+                        <a style="" href="{% url 'scanner_page' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan QR </button> </a>
+                            
+
+                    </div>
+
+                    <div style="margin: auto;">
+
+                        <h4> Checkout Outward </h4> <br>
+
+                        
+
+
+                        <a style="" href="{% url 'scan_barcode' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan Barcode </button> </a>
+                            
+
+                    </div>
+                </div>
+
+            </div>
+
+                
+                
+                
+                
             
             {% endif %}
 
-           
 
-        </div>
-
+            {% if request.user.is_cutter or request.user.is_superuser %}
 
 
-        {% if request.user.is_cutter or request.user.is_superuser %}
-
-
-
-        <div style="margin : 50px 0px; border:1px solid black; padding: 32px;
-    width: fit-content;">
+            <hr style="border-top: 1px solid black;">
+            
+            <div style="margin : 50px 0px; padding-left: 20px; width: fit-content;">
+                
+            
             
 
-    <h4>  Update sheet </h4>
-     <br>
-            <div style="display:flex; ">
+                <p>  For Cutter Use </p>
+                <h4>  Update Sheet Size </h4>
+                <br>
+                <div style="display:flex; ">
 
 
-                <form id="scanning_form" onsubmit="redirectToPage(event)">
+                    <form id="scanning_form" onsubmit="redirectToPage(event)">
 
-                    <input type="text" id="parameterInput" class="form-control" placeholder="Scaner QR"> <br>
+                        <input type="text" id="parameterInput" class="form-control" placeholder="Scaner QR"> <br>
 
-                    <input type="submit" value="submit" class="btn btn-info">
+                        <input type="submit" value="submit" class="btn btn-info">
 
-                </form>
-          
+                    </form>
+            
 
+
+                </div>
+
+                        
+
+                    
 
             </div>
 
-            
-
-           
+            {% endif %}
 
         </div>
 
-        {% endif %}
+                
+
+        <hr>
+
+        <div class="col-6" style="border: 1px solid black;
+    padding: 9PX;">
+
+
+            <h3 style="font-size: 18px; font-weight: 600; margin-bottom : 9px;"> Calculator </h3> 
+
+            <h3 style="font-size: 18px; font-weight: 600;"> MM X MM to SQinch Calculator </h3> 
+
+            <br>
+
+
+            <br>
+
+
+            <div class="form-group" style="width : 50%">
+                
+                <div style="border: 1px solid black;padding: 17px;">
+                    
+                    <label for="lengthMm">Length (mm):</label>
+                    <input type="text" class="form-control used-length-input" id="used-length-input" placeholder="Length" inputmode="numeric">
+
+                    
+                    <label for="widthMm">Width (mm):</label>
+                    <input type="text" class="form-control used-width-input" id="used-width-input" placeholder="Width" inputmode="numeric">
+
+                    </div>
+                    <br>
+
+                    <label for="name" class="control-label mb-1">Size</label>
+                    <input type="text" class="form-control used-sq-inch-input" id="used-sq-inch-input" placeholder="Used Square Inches" inputmode="numeric">
+
+                </div>
+
+            </div>
+
+        </div>
+    <div>
 
 
 
-    <hr>
-    
-    <div class="col-6">
-
-        <h3 style="font-size: 18px; font-weight: 600;"> MM X MM to SQinch Calculator </h3> 
-
-        <br>
-
-
-    <br>
-
-
-    <div class="form-group" style="width : 50%">
-        <div style="border: 1px solid black;
-        padding: 17px;">
-        <label for="lengthMm">Length (mm):</label>
-        <input type="text" class="form-control used-length-input" id="used-length-input" placeholder="Length" inputmode="numeric">
 
         
-        <label for="widthMm">Width (mm):</label>
-        <input type="text" class="form-control used-width-input" id="used-width-input" placeholder="Width" inputmode="numeric">
-
-        </div>
-        <br>
-
-        <label for="name" class="control-label mb-1">Size</label>
-        <input type="text" class="form-control used-sq-inch-input" id="used-sq-inch-input" placeholder="Used Square Inches" inputmode="numeric">
-
-    </div>
-
-    </div>
-    <div>
 {% comment %} 
         {% if request.user.is_designer %}
 

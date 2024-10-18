@@ -378,8 +378,8 @@ def send_qutation_notification(request, token, recipient_number, template_name, 
             subject='Outward Report PDF',
             body=msg,
             from_email='rradailyupdates@gmail.com',
-            to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
-            # to=['pratikgosavi654@gmail.com'],
+            # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
+            to=['pratikgosavi654@gmail.com'],
         )
 
    
@@ -1977,62 +1977,40 @@ def add_project_inward(request, project_id):
 
 
 
-@login_required(login_url='login')
-def add_project_outward(request, project_id):
 
-    project_instance = project.objects.get(id = project_id)
+def add_project_outward_new(request, production_material_id, barcode_count):
+
+
+    project_matarial_production_instance = project_matarial_production.objects.get(id = production_material_id)
     
-    if request.method == 'POST':
-
-        invoice_no = request.POST.getlist("invoice_no")
-        title = request.POST.getlist("title")
-        quantity = request.POST.getlist("quantity")
-        description = request.POST.getlist("description1")
-        date = request.POST.getlist("DC_date")
+    project_outward.objects.filter(project_matarial_production = project_matarial_production_instance).delete()
 
 
+    project_matarial_production_instance.barcode_count = barcode_count
+    project_matarial_production_instance.save()
 
-        print(request.POST)
-        print(invoice_no)
-        print(title)
-        print(quantity)
-        print(description)
-        print(date)
-
-
-        for a,b,c,d,e,f in zip(invoice_no, title, quantity, description, date):
-
-            project_outward.objects.create(project = project_instance, invoice_no = a, title = b, quantity = c, description = e, date = f)
-
-            print('here')
-
-
-
-        return redirect('list_project')
-
-    else:
-
-        forms = project_Form(instance = project_instance)
-
-        item_code_data = project_matarial_production.objects.filter(project = project_instance)
-
-        print(item_code_data)
-
-
-        data_form = project_outward_Form()
-
-        data_outward = project_outward.objects.filter(project_matarial_production__project = project_instance)
-
+    total_quantity = project_matarial_production_instance.production_quantity
         
-        context = {
-            'form': forms,
-            'data_outward': data_outward,
-            'item_code_data': item_code_data,
-        }
-        return render(request, 'transactions/add_project_outward.html', context)
+    # Calculate the base quantity for each entry and the remainder
+    base_quantity = int(total_quantity) // int(barcode_count)  # Integer division
+    remainder = int(total_quantity) % int(barcode_count)  # Get the remainder
+
+    # Create new outward entries, distributing the remainder
+    for i in range(int(barcode_count)):
+        # Add 1 to the quantity for the first 'remainder' entries
+        quantity = base_quantity + (1 if i < remainder else 0)
+        
+        project_outward.objects.create(project_matarial_production=project_matarial_production_instance, quantity=quantity)
+
+    print('here')
 
 
 
+    return redirect('confirm_outward_json', production_material_id)
+    
+
+
+    
 
 from io import BytesIO
 from reportlab.lib.pagesizes import A4
@@ -2043,7 +2021,7 @@ from reportlab.lib.pagesizes import mm
 
 def generate_barcode(request, id):
     
-    data = project_matarial_production.objects.get(id=id)
+    data = project_outward.objects.get(id=id)
 
     # Create a PDF buffer with 45mm x 25mm page size
     pdf_buffer = BytesIO()
@@ -2068,9 +2046,9 @@ def generate_barcode(request, id):
     # Reduce line spacing and remove unnecessary info (SIZE removed)
     pdf.setFont("Helvetica-Bold", 5)  # Set font size to 5 points, bold font for weight
     left_margin = 1 * mm  # Adjust left margin as needed
-    pdf.drawString(left_margin, (barcode_y - 3) * mm, f"Project ID: {data.project.order_id} | Quantity: {data.production_quantity}")
-    pdf.drawString(left_margin, (barcode_y - 6) * mm, f"Item Code: {data.item_code.code}")
-    pdf.drawString(left_margin, (barcode_y - 9) * mm, f"Company Name: {data.project.customer.name}")
+    pdf.drawString(left_margin, (barcode_y - 3) * mm, f"Project ID: {data.project_matarial_production.project.order_id} | Quantity: {data.quantity}")
+    pdf.drawString(left_margin, (barcode_y - 6) * mm, f"Item Code: {data.project_matarial_production.item_code.code}")
+    pdf.drawString(left_margin, (barcode_y - 9) * mm, f"Company Name: {data.project_matarial_production.project.customer.name}")
     pdf.drawString(left_margin, (barcode_y - 12) * mm, f"Name: Ravi-Raj Anodisers")
 
     # Finalize the PDF
@@ -2087,22 +2065,21 @@ def generate_barcode(request, id):
 
 
 
-def generate_all_barcode(request, project_id):
+def generate_all_barcode(request, project_matarial_production_id):
     # Choose the type of barcode you want to generate (e.g., Code128)
     
     
     
-    ids_list = project_matarial_production.objects.filter(project__id = project_id)
+    ids_list = project_outward.objects.filter(project_matarial_production = project_matarial_production_id)
     pdf_buffer = BytesIO()
     
     # Create the PDF
     pdf = canvas.Canvas(pdf_buffer, pagesize=(45 * mm, 25 * mm))
     
     for id in ids_list:
-        data = project_matarial_production.objects.get(id=id.id)
         
         # Set the barcode value
-        barcode_value = str(data.id)
+        barcode_value = str(id)
         
         # Increase the barcode width (barWidth increased, height kept standard)
         barcode = code128.Code128(barcode_value, barWidth=0.45 * mm, barHeight=10 * mm)
@@ -2121,9 +2098,9 @@ def generate_all_barcode(request, project_id):
         # Reduce line spacing and remove unnecessary info (SIZE removed)
         pdf.setFont("Helvetica-Bold", 5)  # Set font size to 5 points, bold font for weight
         left_margin = 1 * mm  # Adjust left margin as needed
-        pdf.drawString(left_margin, (barcode_y - 3) * mm, f"Project ID: {data.project.order_id} | Quantity: {data.production_quantity}")
-        pdf.drawString(left_margin, (barcode_y - 6) * mm, f"Item Code: {data.item_code.code}")
-        pdf.drawString(left_margin, (barcode_y - 9) * mm, f"Company Name: {data.project.customer.name}")
+        pdf.drawString(left_margin, (barcode_y - 3) * mm, f"Project ID: {id.project_matarial_production.project.order_id} | Quantity: {id.quantity}")
+        pdf.drawString(left_margin, (barcode_y - 6) * mm, f"Item Code: {id.project_matarial_production.item_code.code}")
+        pdf.drawString(left_margin, (barcode_y - 9) * mm, f"Company Name: {id.project_matarial_production.project.customer.name}")
         pdf.drawString(left_margin, (barcode_y - 12) * mm, f"Name: Ravi-Raj Anodisers")
             
         # Start a new page for the next barcode
@@ -3375,7 +3352,7 @@ def update_assign_matarial_qr(request, product_qr_id):
                 stock_instance.save()
 
                 
-                check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness)
+                check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness).aggregate(total_quantity=Sum('quantity'))
 
                 print('--------------------------------')
                 print('--------------------------------')
@@ -3451,7 +3428,7 @@ def update_assign_matarial_qr(request, product_qr_id):
                 stock_instance.save()
 
                 
-                check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness)
+                check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness).aggregate(total_quantity=Sum('quantity'))
 
                 print('--------------------------------')
                 print('--------------------------------')
@@ -3460,9 +3437,8 @@ def update_assign_matarial_qr(request, product_qr_id):
                 print('--------------------------------')
                 print('--------------------------------')
 
-                for i in check_low_stock:
-
-                    print(i.id)
+                total_quantity = check_low_stock['total_quantity'] or 0  # Handle None case
+                print(total_quantity)
 
                 if total_quantity < 5:
 
