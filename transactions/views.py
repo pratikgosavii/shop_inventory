@@ -74,18 +74,54 @@ def demo(request):
 
 from .filters import *
 from django.db.models import Sum
+from django.db.models import Count
 
 @login_required(login_url='login')
 def list_stock(request):
 
    
-    data = stock.objects.filter(quantity__gt=0).prefetch_related('product__project_material_re').order_by('product__category', 'product__grade')
+    # data = stock.objects.filter(quantity__gt=0).prefetch_related('product__project_material_re').order_by('product__category', 'product__grade')
     
     
-    total_stock = data.aggregate(total_stock=Sum('quantity'))['total_stock']
+    # total_stock = data.aggregate(total_stock=Sum('quantity'))['total_stock']
+
+
+    data = product_qr.objects.filter(
+        moved_to_scratch=False,
+        moved_to_left_over=False,
+        product__isnull=False
+    ).values(
+        'product', 
+        'product__category__name', 
+        'product__size__mm1', 
+        'product__size__mm2', 
+        'product__size__name', 
+        'product__grade__name', 
+        'product__thickness__name'
+    ).annotate(total_quantity=Count('id')).order_by('product')
+
+    # Prepare final data with related product_qr entries
+    final_data = []
     
+    for stock in data:
+
+        # Get related product_qr entries for the specific product
+        product_qr_entries = product_qr.objects.filter(product=stock['product'])
+        print('------------------------------------')
+        print(product_qr_entries)
+
+        # Append the stock data and related product_qr entries
+        final_data.append({
+            'stock': stock,
+            'product_qr_entries': product_qr_entries
+        })
+
+    print(final_data)
+    
+    total_stock = data.aggregate(total_quantity1=Sum('total_quantity'))
+
     context = {
-        'data': data,
+        'data': final_data,
         'total_stock' : total_stock,
         
     }
@@ -96,10 +132,42 @@ def list_stock(request):
 def list_left_over_stock(request):
 
    
-    data = left_over_stock.objects.prefetch_related('product__project_material_re').filter(quantity__gt=0)
-   
+    data = product_qr.objects.filter(
+        moved_to_scratch=False,
+        moved_to_left_over=True,
+        product__isnull=False
+    ).values(
+        'product', 
+        'product__category__name', 
+        'product__size__name', 
+        'product__grade__name', 
+        'product__thickness__name'
+    ).annotate(total_quantity=Count('id')).order_by('product')
+
+    # Prepare final data with related product_qr entries
+    final_data = []
+    
+    for stock in data:
+
+        # Get related product_qr entries for the specific product
+        product_qr_entries = product_qr.objects.filter(product=stock['product'])
+        print('------------------------------------')
+        print(product_qr_entries)
+
+        # Append the stock data and related product_qr entries
+        final_data.append({
+            'stock': stock,
+            'product_qr_entries': product_qr_entries
+        })
+
+    print(final_data)
+    
+    total_stock = data.aggregate(total_quantity1=Sum('total_quantity'))
+
+    
     context = {
-        'data': data,
+        'data': final_data,
+        'total_stock' : total_stock,
         
     }
 
@@ -109,12 +177,45 @@ def list_left_over_stock(request):
 def list_dead_stock(request):
 
    
-    data = scratch_stock.objects.prefetch_related('product__project_material_re').filter(quantity__gt=0)
-   
+    data = product_qr.objects.filter(
+        moved_to_scratch=True,
+        moved_to_left_over=False,
+        product__isnull=False
+    ).values(
+        'product', 
+        'product__category__name', 
+        'product__size__name', 
+        'product__grade__name', 
+        'product__thickness__name'
+    ).annotate(total_quantity=Count('id')).order_by('product')
+
+    # Prepare final data with related product_qr entries
+    final_data = []
+    
+    for stock in data:
+
+        # Get related product_qr entries for the specific product
+        product_qr_entries = product_qr.objects.filter(product=stock['product'])
+        print('------------------------------------')
+        print(product_qr_entries)
+
+        # Append the stock data and related product_qr entries
+        final_data.append({
+            'stock': stock,
+            'product_qr_entries': product_qr_entries
+        })
+
+    print(final_data)
+    
+    total_stock = data.aggregate(total_quantity1=Sum('total_quantity'))
+
+    
     context = {
-        'data': data,
+        'data': final_data,
+        'total_stock' : total_stock,
         
     }
+
 
     return render(request, 'transactions/list_dead_stock.html', context)
 

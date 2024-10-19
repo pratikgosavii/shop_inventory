@@ -41,32 +41,34 @@
                                 <th>Size <input type="text" style="widht:124px;" id="filter-size"></th>
                                 <th>Grade <input type="text" style="widht:124px;" id="filter-grade"></th>
                                 <th>Thickness <input type="text" style="widht:124px;" id="filter-thickness"></th>
-                                <th> </th>
+                                <th>Quantity</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% if data %}
-                            {% for i in data %}
+                            {% for stock in data %}
                             <tr class="stock-row">
-                                <td class="serial">{{ i.id }}</td>
-                                <td>{{ i.product.category }}</td>
-                                <td>{{ i.product.size }}</td>
-                                <td>{{ i.product.grade }}</td>
-                                <td>{{ i.product.thickness }}</td>
-                                <td>{{ i.quantity }}</td>
+                                <td class="serial">{{ forloop.counter }}</td>
+                                <td>{{ stock.stock.product }}</td>
+                                <td>{{ stock.stock.product__size__name }}</td>
+                                <td>{{ stock.stock.product__grade__name }}</td>
+                                <td>{{ stock.stock.product__thickness__name }}</td>
+                                <td>{{ stock.stock.total_quantity }}</td>
                             </tr>
+                            <!-- Add an accordion row for sheet numbers -->
                             <tr class="sheet-numbers">
                                 <td colspan="6">
                                     <!-- Insert your sheet numbers here -->
                                     <ul>
-                                        {% for product_qr in i.product.project_material_re.all %}
-                                            {% if not product_qr.moved_to_scratch %}
-                                                <li>Sheet no: {{ product_qr.id }}</li>
-                                            {% endif %}
+                                        {% for product_qr in stock.product_qr_entries %}
+                                        
+                                        <li>Finish: {{ product_qr.finish }} &nbsp; &nbsp; Sheet no: {{ product_qr.id }}</li>
+                                    
                                         {% endfor %}
                                     </ul>
                                 </td>
                             </tr>
+
                             {% endfor %}
                             {% else %}
                                 <tr><td colspan="6">No Product Data</td></tr>
