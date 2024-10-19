@@ -49,7 +49,7 @@
                             {% for stock in data %}
                             <tr class="stock-row">
                                 <td class="serial">{{ forloop.counter }}</td>
-                                <td>{{ stock.stock.product }}</td>
+                                <td>{{ stock.stock.product__category__name }}</td>
                                 <td>{{ stock.stock.product__size__name }}</td>
                                 <td>{{ stock.stock.product__grade__name }}</td>
                                 <td>{{ stock.stock.product__thickness__name }}</td>
