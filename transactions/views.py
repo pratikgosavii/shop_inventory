@@ -106,7 +106,9 @@ def list_stock(request):
     for stock in data:
 
         # Get related product_qr entries for the specific product
-        product_qr_entries = product_qr.objects.filter(product=stock['product'])
+        product_qr_entries = product_qr.objects.filter(product=stock['product'],  moved_to_scratch=False,
+        moved_to_left_over=False,
+        product__isnull=False)
         print('------------------------------------')
         print(product_qr_entries)
 
@@ -150,7 +152,9 @@ def list_left_over_stock(request):
     for stock in data:
 
         # Get related product_qr entries for the specific product
-        product_qr_entries = product_qr.objects.filter(product=stock['product'])
+        product_qr_entries = product_qr.objects.filter(product=stock['product'], moved_to_scratch=False,
+        moved_to_left_over=True,
+        product__isnull=False)
         print('------------------------------------')
         print(product_qr_entries)
 
@@ -195,7 +199,9 @@ def list_dead_stock(request):
     for stock in data:
 
         # Get related product_qr entries for the specific product
-        product_qr_entries = product_qr.objects.filter(product=stock['product'])
+        product_qr_entries = product_qr.objects.filter(product=stock['product'],  moved_to_scratch=True,
+        moved_to_left_over=False,
+        product__isnull=False)
         print('------------------------------------')
         print(product_qr_entries)
 
