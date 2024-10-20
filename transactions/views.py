@@ -3450,7 +3450,7 @@ def update_assign_matarial_qr(request, product_qr_id):
                 print(product_instance.id)
                
                 
-                product_qr_instance.moved_to_scratch = False
+                product_qr_instance.moved_to_scratch = True
                 product_qr_instance.moved_to_left_over = False
                 product_qr_instance.save()
 
@@ -3491,12 +3491,7 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                 print('-------------------2------------------')
 
-                
-                left_over_instance =  left_over_stock.objects.get(product = product_qr_instance.product)
-
-
-                left_over_instance.quantity = left_over_instance.quantity - 1
-                left_over_instance.save()
+             
 
                 product_qr_instance.moved_to_scratch = True
                 product_qr_instance.save()
@@ -3512,16 +3507,8 @@ def update_assign_matarial_qr(request, product_qr_id):
             
             if product_qr_instance.moved_to_left_over != True:
                 
-                print('----------done----------------')
-                print(product_instance)
-                instance, created = left_over_stock.objects.get_or_create(product = product_instance_new)
+               
             
-                stock_instance = stock.objects.get(product = product_instance)
-                stock_instance.quantity = stock_instance.quantity - 1
-                stock_instance.save()
-
-                
-                
                 check_low_stock = product_qr.objects.filter(
                     moved_to_scratch=False,
                     moved_to_left_over=False,
@@ -3538,13 +3525,13 @@ def update_assign_matarial_qr(request, product_qr_id):
 
                 if total_quantity < 6:   #after moving this sheet -1 will happen so dont maake it 5
 
-                    
+
 
                     print('------------------1----------------------')
 
                     
 
-                    message_body =  "Category: " + str(stock_instance.product.category) + " Thickness: " +str(stock_instance.product.thickness)+ " Grade: " + str(stock_instance.product.grade) + " Quantity: " + str(total_quantity) + " " + " left."
+                    message_body =  "Category: " + str(product_qr_instance.product.category) + " Thickness: " +str(product_qr_instance.product.thickness)+ " Grade: " + str(product_qr_instance.product.grade) + " Quantity: " + str(total_quantity) + " " + " left."
 
 
                                     
@@ -3554,41 +3541,11 @@ def update_assign_matarial_qr(request, product_qr_id):
 
 
                 product_qr_instance.moved_to_left_over = True
+                product_qr_instance.moved_to_scratch = False
                 product_qr_instance.save()
 
-                if instance:
-
-                    instance.quantity = instance.quantity + 1
-                    instance.product_qr = product_qr_instance
-                    instance.save()
-
-                else:
-
-                    created.quantity = 1
-                    created.save()
-
-
-            else:
-
-                
-                print(product_instance.id)
-                left_over_instance = left_over_stock.objects.get(product = product_qr_instance.product)
-                left_over_instance.quantity = left_over_instance.quantity - 1
-                left_over_instance.save()
-
-                instance, created = left_over_stock.objects.get_or_create(product = product_instance_new)
-
-                if instance:
-
-                    instance.quantity = instance.quantity + 1
-                    instance.product_qr = product_qr_instance
-                    instance.save()
-
-                else:
-
-                    created.quantity = 1
-                    created.save()
-        
+           
+             
         
         print('---------------')
         print(product_instance_new)
