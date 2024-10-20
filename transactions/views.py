@@ -541,8 +541,8 @@ def send_low_stock_notification(request, token, recipient_number, template_name,
             subject='Stock Alert',
             body=dynamic_value,
             from_email='rradailyupdates@gmail.com',
-            to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
-            # to=['pratikgosavi654@gmail.com'],
+            # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
+            to=['pratikgosavi654@gmail.com'],
         )
 
     email.send()
@@ -3441,7 +3441,6 @@ def update_assign_matarial_qr(request, product_qr_id):
 
             print(' in scratch ')
 
-            instance, created = scratch_stock.objects.get_or_create(product = product_instance_new)
 
             if product_qr_instance.moved_to_left_over != True:
 
@@ -3449,32 +3448,29 @@ def update_assign_matarial_qr(request, product_qr_id):
                 print('----------------------------------2----------------------')
 
                 print(product_instance.id)
-                stock_instance = stock.objects.get(product = product_instance)
-                stock_instance.quantity = stock_instance.quantity - 1
+               
                 
-                product_qr_instance.moved_to_scratch = True
+                product_qr_instance.moved_to_scratch = False
                 product_qr_instance.moved_to_left_over = False
                 product_qr_instance.save()
 
-                stock_instance.save()
 
-                
-                check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness).aggregate(total_quantity=Sum('quantity'))
 
-                print('--------------------------------')
-                print('--------------------------------')
-                print('--------------------------------')
-                print('--------------------------------')
-                print('--------------------------------')
-                print('--------------------------------')
+                check_low_stock = product_qr.objects.filter(
+                    moved_to_scratch=False,
+                    moved_to_left_over=False,
+                    product__isnull=False, product = product_qr_instance.product
+                ).values(
+                    'product',
+                ).annotate(total_quantity=Count('id')).order_by('product').first()
 
-                for i in check_low_stock:
+                if check_low_stock:
+                    total_quantity = check_low_stock['total_quantity']   # Handle None case
+                else:
+                    total_quantity = 0
+             
 
-                    print(i.quantity)
-                print(check_low_stock)
-                total_quantity = check_low_stock['total_quantity'] or 0  # Handle None case
-                print(total_quantity)
-                if total_quantity < 5:
+                if total_quantity < 6:   #after moving this sheet -1 will happen so dont maake it 5
                     
 
                     print('-------------------1------------------')
@@ -3482,7 +3478,7 @@ def update_assign_matarial_qr(request, product_qr_id):
 
              
                     
-                    message_body =  "Category: " + str(stock_instance.product.category) + " Thickness: " +str(stock_instance.product.thickness)+ " Grade: " + str(stock_instance.product.grade) + " Quantity: " + str(total_quantity) + " " + " left."
+                    message_body =  "Category: " + str(product_qr_instance.product.category) + " Thickness: " +str(product_qr_instance.product.thickness)+ " Grade: " + str(product_qr_instance.product.grade) + " Quantity: " + str(total_quantity) + " " + " left."
 
                                     
                    
@@ -3507,16 +3503,6 @@ def update_assign_matarial_qr(request, product_qr_id):
 
 
 
-            if instance:
-
-                instance.quantity = instance.quantity + 1
-                instance.product_qr = product_qr_instance
-                instance.save()
-
-            else:
-
-                created.quantity = 1
-                created.save()
 
         else:
 
@@ -3535,19 +3521,24 @@ def update_assign_matarial_qr(request, product_qr_id):
                 stock_instance.save()
 
                 
-                check_low_stock = stock.objects.filter(product__category = stock_instance.product.category, product__thickness = stock_instance.product.thickness).aggregate(total_quantity=Sum('quantity'))
+                
+                check_low_stock = product_qr.objects.filter(
+                    moved_to_scratch=False,
+                    moved_to_left_over=False,
+                    product__isnull=False, product = product_qr_instance.product
+                ).values(
+                    'product',
+                ).annotate(total_quantity=Count('id')).order_by('product').first()
 
-                print('--------------------------------')
-                print('--------------------------------')
-                print('--------------------------------')
-                print('--------------------------------')
-                print('--------------------------------')
-                print('--------------------------------')
+                if check_low_stock:
+                    total_quantity = check_low_stock['total_quantity']   # Handle None case
+                else:
+                    total_quantity = 0
+             
 
-                total_quantity = check_low_stock['total_quantity'] or 0  # Handle None case
-                print(total_quantity)
+                if total_quantity < 6:   #after moving this sheet -1 will happen so dont maake it 5
 
-                if total_quantity < 5:
+                    
 
                     print('------------------1----------------------')
 
