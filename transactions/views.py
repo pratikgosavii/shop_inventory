@@ -541,8 +541,8 @@ def send_low_stock_notification(request, token, recipient_number, template_name,
             subject='Stock Alert',
             body=dynamic_value,
             from_email='rradailyupdates@gmail.com',
-            # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
-            to=['pratikgosavi654@gmail.com'],
+            to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
+            # to=['pratikgosavi654@gmail.com'],
         )
 
     email.send()
