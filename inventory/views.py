@@ -5,6 +5,8 @@ from transactions.models import *
 
 from store.models import *
 from django.db.models import Sum
+from django.db.models import Count
+
 
 
 @login_required(login_url='login')
@@ -14,7 +16,22 @@ def dashboard(request):
     godown_data = 4
     godiwn_count = 4
 
-    stock_count = stock.objects.aggregate(total_quantity=Sum('quantity'))['total_quantity']
+
+    data = product_qr.objects.filter(
+        moved_to_scratch=False,
+        moved_to_left_over=False,
+        product__isnull=False
+    ).values(
+        'product', 
+        'product__category__name', 
+        'product__size__mm1', 
+        'product__size__mm2', 
+        'product__size__name', 
+        'product__grade__name', 
+        'product__thickness__name'
+    ).annotate(total_quantity=Count('id')).order_by('product')
+
+    stock_count = data.aggregate(total_quantity1=Sum('total_quantity'))
 
 
     context = {
@@ -38,7 +55,21 @@ def dashboard_working_order(request):
     godown_data = 4
     godiwn_count = 4
 
-    stock_count = stock.objects.aggregate(total_quantity=Sum('quantity'))['total_quantity']
+    data = product_qr.objects.filter(
+        moved_to_scratch=False,
+        moved_to_left_over=False,
+        product__isnull=False
+    ).values(
+        'product', 
+        'product__category__name', 
+        'product__size__mm1', 
+        'product__size__mm2', 
+        'product__size__name', 
+        'product__grade__name', 
+        'product__thickness__name'
+    ).annotate(total_quantity=Count('id')).order_by('product')
+
+    stock_count = data.aggregate(total_quantity1=Sum('total_quantity'))
 
 
     context = {

@@ -43,33 +43,6 @@ def demo(request):
 
 
 
-    for ab in s:
-
-        a = inward.objects.filter(company__company_name = ab.company.company_name, company_goods__name = ab.company_goods.name, goods_company__goods_company_name = ab.goods_company.goods_company_name)
-        b = outward.objects.filter(company__company_name =  ab.company.company_name, company_goods__name = ab.company_goods.name, goods_company__goods_company_name = ab.goods_company.goods_company_name)
-
-        x = 0
-        y = 0
-        z = 0
-
-        for i in a:
-            x = x + i.bags
-            
-        for i in b:
-            y = y + i.bags
-
-        for i in c:
-            z = z + i.bags
-
-        
-
-        st = x - y + z
-
-
-        ab.total_bag = st
-        ab.save()
-
-
 
 
 from .filters import *
@@ -1542,10 +1515,6 @@ def close_project(request, project_id):
         quantity = request.POST.getlist('quantity[]')
         item_code = request.POST.getlist('item_code[]')
         material = request.POST.getlist('materialsId[]')
-
-        print('----------------------')
-        print(move_to_scratch)
-        print('----------------------')
 
 
 
@@ -3817,18 +3786,7 @@ def generate_product_qr_with_values(request):
 
         for i in range(int(quantity)):
             
-            instance, created = stock.objects.get_or_create(product = product_instance)
-                
-            if instance:
-
-                instance.quantity = instance.quantity + 1
-                instance.save()
-                print('valid4')
-
-            else:
-
-                created.quantity = 1
-                created.save()
+            
 
             supplier_instance= dealer.objects.get(id = supplier_id)
 
@@ -4144,37 +4102,6 @@ def assign_values_to_qr(request, product_qr_id):
                 print('valid3')
 
                 
-                if product_qr_old.is_fix:
-
-                    instance_previous_stock = stock.objects.get(product = product_qr_old.product)
-                    instance_previous_stock.quantity = instance_previous_stock.quantity - 1
-                    instance_previous_stock.save()
-                
-                    if instance_previous_stock.quantity < 4:
-                        
-                        a1212 = notification_table.objects.create(message =  str(instance_previous_stock.product.category)+ " " + str(instance_previous_stock.product.size)+ " " + str(instance_previous_stock.product.thickness)+ " " + str(instance_previous_stock.product.grade))
-                        pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
-                                                key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
-                                                secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
-                                                cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
-                                                ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
-
-                        pusher_client.trigger('alerts', 'new-notificatin', {'message': a1212.message})
-
-                instance, created = stock.objects.get_or_create(product = product_instance)
-                
-                if instance:
-
-                    instance.quantity = instance.quantity + 1
-                    instance.save()
-                    print('valid4')
-
-                else:
-
-                    created.quantity = 1
-                    created.save()
-
-
                 product_qr_instance.product = product_instance
                 product_qr_instance.is_fix = True
                 product_qr_instance.save()
