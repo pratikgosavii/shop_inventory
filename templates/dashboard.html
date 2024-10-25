@@ -185,7 +185,7 @@ font-family: 'Montserrat', sans-serif;
     {% endif %}
     
 
-    <div class="col-12" style="display : flex; GAP: 9px;">
+    <div class="col-12" style="padding: 0px; display : flex; GAP: 9px;">
 
         <div class="col-6" style="border: 1px solid black;
     padding: 9PX;">
@@ -194,7 +194,7 @@ font-family: 'Montserrat', sans-serif;
             {% if request.user.is_reception or request.user.is_superuser %}
 
             
-            <div style="display:flex; gap:20px;">
+            <div style="gap:20px;">
 
 
                 <form action="{% url 'generate_product_qr' %}" method="post" style="display: flex; gap: 24px; height: max-content;">
@@ -206,18 +206,24 @@ font-family: 'Montserrat', sans-serif;
                     
                 </form>
 
+                <hr style="border-top: 1px solid black;">
+
+                <div style="margin-top:20px;">
+
                 <a href="{% url 'generate_product_qr_with_values' %}" style="">
                 <button type="submit" class="btn btn-success form-input"> Generate QR with values </button> </a>
+
+                </div>
 
                 
             </div>
 
         
-            <br> <br>
+            <br>
 
                 
 
-            <div style="padding-left : 20px; padding-bottom : 20px">
+            <div style="padding-left : 20px; padding-bottom : 3px">
 
                 <p>  For Reception Use </p>
 
@@ -267,7 +273,7 @@ font-family: 'Montserrat', sans-serif;
 
             <hr style="border-top: 1px solid black;">
             
-            <div style="margin : 50px 0px; padding-left: 20px; width: fit-content;">
+            <div style="margin : 9px 0px; padding-left: 20px; width: fit-content;">
                 
             
             
