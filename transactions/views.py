@@ -580,7 +580,7 @@ def work_alert(request, token, recipient_number, template_name, language_code, p
     email.send()
 
 
-
+@login_required(login_url='login')
 def add_order(request):
 
     if request.method == 'POST':
@@ -3986,6 +3986,83 @@ def list_generated_product_qr(request):
     }
 
     return render(request, 'transactions/list_all_generated_qr.html', context)
+
+def sheet_report(request):
+
+    data = product_qr.objects.all().order_by("id")
+
+
+
+    
+    order_filters_data1 = list(data.values_list('id', 'moved_to_left_over', 'moved_to_scratch', 'product__size'))
+    order_filters_data = list(map(list, order_filters_data1))
+    
+
+    vals = []
+        
+    vals1 = []
+
+    
+    vals.append([''])
+    vals.append(['SHEETS REPORT'])
+    vals.append([''])
+    vals.append([''])
+    
+    vals1.append("Sr No")
+    vals1.append("Sheet Id")
+    vals1.append("New Sheet")
+    vals1.append("Leftover Sheet")
+    vals1.append("Dead Sheet")
+    vals1.append("Left SQinch")
+    vals.append(vals1)
+
+    counteer = 1
+
+    for i in order_filters_data:
+        vals1 = []
+        vals1.append(counteer)
+        counteer += 1
+        vals1.append(i[0])  # Sheet Id
+        
+        # Conditional logic for "New Sheet", "Leftover Sheet", and "Dead Sheet"
+        if i[1]:  # moved_to_left_over is True
+            vals1.append("No")  # New Sheet
+            vals1.append("Yes")  # Leftover Sheet
+            vals1.append("No")  # Dead Sheet
+        elif i[2]:  # moved_to_scratch is True
+            vals1.append("No")  # New Sheet
+            vals1.append("No")  # Leftover Sheet
+            vals1.append("Yes")  # Dead Sheet
+        else:  # Neither moved_to_left_over nor moved_to_scratch is True
+            vals1.append("Yes")  # New Sheet
+            vals1.append("No")  # Leftover Sheet
+            vals1.append("No")  # Dead Sheet
+        
+        vals1.append(i[3])  # Left SQinch
+        vals.append(vals1)
+
+
+    name = "Sales_Report.csv"
+    path = os.path.join(BASE_DIR) + '\static\csv\\' + name
+
+    
+    with open(path,  'w', newline="") as f:
+        writer = csv.writer(f)
+        writer.writerows(vals)
+
+
+        link = os.path.join(BASE_DIR) + '\static\csv\\' + name
+
+    with open(path,  'r', newline="") as f:
+        mime_type  = mimetypes.guess_type(link)
+
+        response = HttpResponse(f.read(), content_type=mime_type)
+        response['Content-Disposition'] = 'attachment;filename=' + str(link)
+
+        return response
+
+
+
 def scanner_page(request):
     
     product_id = request.POST.get('scanned_value')

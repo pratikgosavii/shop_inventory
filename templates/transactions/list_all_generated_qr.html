@@ -294,12 +294,13 @@
 
     function attach_rfid(sheet_id) {
         document.getElementById('overlay').style.display = 'flex';
+        
+        const resolvedSheetId = sheet_id ?? 'default_sheet_id';
 
         
-
-        $.ajax({                       // initialize an AJAX request
+        $.ajax({
             type: "POST",
-            url: '{% url "sheet_status_active" sheet_id %}',
+            url: `{% url "sheet_status_active" "placeholder" %}`.replace("placeholder", resolvedSheetId),
             data: {
                 'materialsId': [...materialsId_arr],       // add the country id to the POST parameters
                 'item_code': [...item_code_arr],       // add the country id to the POST parameters
