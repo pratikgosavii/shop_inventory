@@ -4434,8 +4434,11 @@ import openpyxl
 
 def demo(request):
 
+    logo_path = os.path.join(settings.BASE_DIR, 'static', 'csv.xlsx')  # Replace with the actual path to your logo
 
-    workbook = openpyxl.load_workbook('static/csv.xlsx')
+
+
+    workbook = openpyxl.load_workbook(logo_path)
     sheet = workbook.active  # Use the first sheet or specify the sheet name
 
     for row in sheet.iter_rows(min_row=2, values_only=True):  # Skip the header row
