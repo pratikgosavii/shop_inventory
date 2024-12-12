@@ -666,25 +666,39 @@ class notification_table(models.Model):
 
 
 
-class project_inward(models.Model):
-
-    customer = models.CharField( max_length=50)
-    quantity = models.IntegerField()
-    description = models.CharField( max_length=50)
-    date = models.DateField(auto_now_add=False)
-
-    def __str__(self):
-        return self.company
-
 
 
 class project_outward(models.Model):
 
     project_matarial_production = models.ForeignKey(project_matarial_production , on_delete=models.CASCADE, related_name='outward_item_code_barcode')
     quantity = models.IntegerField()
+    date_time = models.DateTimeField(auto_now=False, null = True, blank = True)
+
+
+class inward_item_code(models.Model):
+
+    item_code = models.CharField(max_length=50, unique=True)
+    description = models.CharField(max_length=50, null = True, blank = True)
 
     def __str__(self):
-        return self.project_matarial_production
+        return self.item_code
+    
+
+class inward_supplier(models.Model):
+
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
     
 
     
+class project_inward(models.Model):
+
+    inward_item_code = models.ForeignKey(inward_item_code, on_delete=models.CASCADE)
+    inward_supplier = models.ForeignKey(inward_supplier, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    date = models.DateField(auto_now_add=False)
+
+    def __str__(self):
+        return self.company

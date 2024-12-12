@@ -2010,15 +2010,15 @@ def confirm_outward(request, project_id):
 
 
 @login_required(login_url='login')
-def confirm_outward_json(request, production_material_id):
+def confirm_outward_json(request, project_outward_id):
 
-    instance = project_matarial_production.objects.get(id = production_material_id)
+    instance = project_outward.objects.get(id = project_outward_id)
 
     instance.date_time = datetime.now()
 
     instance.save()
 
-    return redirect('confirm_outward', project_id = instance.project.id)
+    return redirect('confirm_outward', project_id = instance.project_matarial_production.project.id)
 
 
 @login_required(login_url='login')
@@ -2099,33 +2099,58 @@ def generate_barcode(request, id):
     
     data = project_outward.objects.get(id=id)
 
-    # Create a PDF buffer with 45mm x 25mm page size
+    # Create a PDF buffer with 50mm x 50mm page size
     pdf_buffer = BytesIO()
-    pdf = canvas.Canvas(pdf_buffer, pagesize=(50 * mm, 30 * mm))
+    pdf = canvas.Canvas(pdf_buffer, pagesize=(50 * mm, 50 * mm))
+
+    # Load the logo
+    logo_path = os.path.join(settings.BASE_DIR, 'static', 'RAVIRAJ_LOGO.png')  # Replace with the actual path to your logo
+    logo_width = 30 * mm
+    logo_height = 9 * mm
+
+    # Center the logo at the top
+    logo_x = (50 * mm - logo_width) / 2
+    logo_y = 50 * mm - logo_height - 2 * mm  # 2mm margin from the top
+
+    # Draw the logo
+    pdf.drawImage(logo_path, logo_x, logo_y, width=logo_width, height=logo_height, preserveAspectRatio=True, mask='auto')
 
     # Set the barcode value
     barcode_value = str(data.id)
-    
-    # Increase the barcode width (barWidth increased, height kept standard)
-    barcode = code128.Code128(barcode_value, barWidth=0.45 * mm, barHeight=10 * mm)
 
-    # Set the position of the barcode (minimal margins)
-    barcode_x = 1  # 1mm from the left
-    barcode_y = 16  # Adjust position slightly from the bottom
+    # Create the barcode
+    barcode = code128.Code128(barcode_value, barWidth=0.5 * mm, barHeight=12 * mm)
 
-    # Draw the barcode on the PDF
-    barcode.drawOn(pdf, barcode_x * mm, barcode_y * mm)
+    # Center the barcode below the logo
+    barcode_x = (50 * mm - barcode.width) / 2
+    barcode_y = logo_y - barcode.height - 5 * mm  # Space below the logo
 
-    # Optional: Add text below the barcode with smaller font size and reduced line spacing
-    pdf.setFont("Helvetica", 5)  # Set font size to 5 points
+    # Draw the barcode
+    barcode.drawOn(pdf, barcode_x, barcode_y)
 
-    # Reduce line spacing and remove unnecessary info (SIZE removed)
-    pdf.setFont("Helvetica-Bold", 5)  # Set font size to 5 points, bold font for weight
-    left_margin = 1 * mm  # Adjust left margin as needed
-    pdf.drawString(left_margin, (barcode_y - 3) * mm, f"Project ID: {data.project_matarial_production.project.order_id} | Quantity: {data.quantity}")
-    pdf.drawString(left_margin, (barcode_y - 6) * mm, f"Item Code: {data.project_matarial_production.item_code.code}")
-    pdf.drawString(left_margin, (barcode_y - 9) * mm, f"Company Name: {data.project_matarial_production.project.customer.name}")
-    pdf.drawString(left_margin, (barcode_y - 12) * mm, f"Name: Ravi-Raj Anodisers")
+    # Set text font and size
+    pdf.setFont("Helvetica-Bold", 6)  # Adjust font size for better fit
+
+    # Prepare text lines
+    text_lines = [
+        f"Project ID: {data.project_matarial_production.project.order_id}",
+        f"Quantity: {data.quantity}",
+        f"Item Code: {data.project_matarial_production.item_code.code}",
+        f"Customer Name: {data.project_matarial_production.project.customer.name}",
+        f"Supplier Name: Ravi-Raj Anodisers"
+    ]
+
+    text_y_start = barcode_y - 5 * mm  # Space below the barcode
+
+    # Reduce line spacing to 3mm
+    line_spacing = 3 * mm
+
+    # Center-align each text line
+    for line in text_lines:
+        text_width = pdf.stringWidth(line, "Helvetica-Bold", 6)  # Adjust font size as needed
+        text_x = (50 * mm - text_width) / 2  # Center horizontally
+        pdf.drawString(text_x, text_y_start, line)
+        text_y_start -= line_spacing  # Minimal spacing between lines
 
     # Finalize the PDF
     pdf.showPage()
@@ -2140,7 +2165,6 @@ def generate_barcode(request, id):
 
 
 
-
 def generate_all_barcode(request, project_matarial_production_id):
     # Choose the type of barcode you want to generate (e.g., Code128)
     
@@ -2150,7 +2174,7 @@ def generate_all_barcode(request, project_matarial_production_id):
     pdf_buffer = BytesIO()
     
     # Create the PDF
-    pdf = canvas.Canvas(pdf_buffer, pagesize=(45 * mm, 25 * mm))
+    pdf = canvas.Canvas(pdf_buffer, pagesize=(50 * mm, 50 * mm))
     
     for id in ids_list:
         
@@ -2176,8 +2200,8 @@ def generate_all_barcode(request, project_matarial_production_id):
         left_margin = 1 * mm  # Adjust left margin as needed
         pdf.drawString(left_margin, (barcode_y - 3) * mm, f"Project ID: {id.project_matarial_production.project.order_id} | Quantity: {id.quantity}")
         pdf.drawString(left_margin, (barcode_y - 6) * mm, f"Item Code: {id.project_matarial_production.item_code.code}")
-        pdf.drawString(left_margin, (barcode_y - 9) * mm, f"Company Name: {id.project_matarial_production.project.customer.name}")
-        pdf.drawString(left_margin, (barcode_y - 12) * mm, f"Name: Ravi-Raj Anodisers")
+        pdf.drawString(left_margin, (barcode_y - 9) * mm, f"Customer Name: {id.project_matarial_production.project.customer.name}")
+        pdf.drawString(left_margin, (barcode_y - 12) * mm, f"Supplier Name: Ravi-Raj Anodisers")
             
         # Start a new page for the next barcode
         pdf.showPage()
@@ -2195,10 +2219,24 @@ def generate_all_barcode(request, project_matarial_production_id):
 def scan_barcode(request):
     if request.method == 'POST':
         barcode = request.POST.get('barcode')
+        print(barcode)
         
         try:
             # Look up the product by the scanned barcode
             product = project_matarial_production.objects.get(id=barcode)
+            print('-----------------------')
+            print('-----------------------')
+            print('-----------------------')
+            print('-----------------------')
+            print('-----------------------')
+            print('-----------------------')
+            print(product)
+            print(product.project.id)
+
+
+
+            print('-----------------------')
+
 
             return redirect('confirm_outward', project_id=product.project.id)
 
@@ -4390,3 +4428,21 @@ def verify_password(request):
 
         return JsonResponse({'status' : "wrong"})
 
+
+
+import openpyxl
+
+def demo(request):
+
+
+    workbook = openpyxl.load_workbook('static/csv.xlsx')
+    sheet = workbook.active  # Use the first sheet or specify the sheet name
+
+    for row in sheet.iter_rows(min_row=2, values_only=True):  # Skip the header row
+        item_code, description = row[0], row[1]  # Adjust indexes if necessary
+        
+        # Create or update the record
+        inward_item_code.objects.update_or_create(
+            item_code=item_code,
+            defaults={'description': description}
+        )

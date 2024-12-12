@@ -173,47 +173,40 @@
                         
                                 <tr class="dropdown-row" style="display:none;">
                                     <td colspan="6" style="padding-left: 60px; padding-top:10px;">
-                                        <table>
+                                        <table style="border-collapse: collapse; width: 100%;">
                                             <tr>
-                                                <th> Sr no </th>
-                                                <th> Barcode ID </th>
-                                                <th> Quantity </th>
-                                                <th> Action </th>
+                                                <th style="border: 1px solid black; padding: 5px;">Sr no</th>
+                                                <th style="border: 1px solid black; padding: 5px;">Barcode ID</th>
+                                                <th style="border: 1px solid black; padding: 5px;">Quantity</th>
+                                                <th style="border: 1px solid black; padding: 5px;">Action</th>
                                             </tr>
                                             {% for related_item in i.outward_item_code_barcode.all %}
                                             <tr>
-                                                <td> {{ forloop.counter }} </td>
-                                                <td> {{ related_item.id }} </td>
-                                                <td> {{ related_item.quantity }} </td>
-                                                <td>
+                                                <td style="border: 1px solid black; padding: 5px;">{{ forloop.counter }}</td>
+                                                <td style="border: 1px solid black; padding: 5px;">{{ i.id }}</td>
+                                                <td style="border: 1px solid black; padding: 5px;">{{ related_item.quantity }}</td>
+                                                <td style="border: 1px solid black; padding: 5px;">
                                                     <a href="{% url 'generate_barcode' related_item.id %}" class="btn btn-info">Print</a>
-                                                    {% if i.date_time %}
-                                                        <a href="{% url 'confirm_outward_json' i.id %}">
+                                                    {% if related_item.date_time %}
+                                                        <a href="{% url 'confirm_outward_json' related_item.id %}">
                                                             <input type="button" style="margin-left: 10px; background:green; border-color:green;" class="btn btn-success" value="&#10004; Confirm Outward">
                                                         </a>
                                                     {% else %}
-                                                        <a href="{% url 'confirm_outward_json' i.id %}">
+                                                        <a href="{% url 'confirm_outward_json' related_item.id %}">
                                                             <input type="button" style="margin-left: 10px; background:orange; border-color:orange;" class="btn btn-success" value="&#10004; Confirm Outward">
                                                         </a>
                                                     {% endif %}
                                                 </td>
                                             </tr>
                                             {% endfor %}
-
                                             <tr>
-
-                                                <td>
+                                                <td style="border: 1px solid black; padding: 5px;"></td>
+                                                <td style="border: 1px solid black; padding: 5px;"></td>
+                                                <td style="border: 1px solid black; padding: 5px;"></td>
+                                                <td style="border: 1px solid black; padding: 5px;">
+                                                    <a href="{% url 'generate_all_barcode' form.instance.id %}" style="background: orange; border: orange;" class="btn btn-info">Print All Barcode</a>
                                                 </td>
-                                                <td>
-                                                </td>
-                                                <td>
-                                                </td>
-                                                <td>
-                                <a href="{% url 'generate_all_barcode' form.instance.id %}" style="background: orange; border: orange;" class="btn btn-info" > Print All Barcode </a>
-
-                                                </td>
-
-
+                                            </tr>
                                         </table>
                                     </td>
                                 </tr>

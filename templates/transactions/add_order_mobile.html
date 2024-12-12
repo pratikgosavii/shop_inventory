@@ -528,7 +528,7 @@
                                     
                                     <div style="display: flex; gap : 20px;">
                                         <label for="length_a">Length</label>
-                                        <input type="textbox" name="length" class="form-control" id="length_a" required>
+                                        <input type="number" name="length" class="form-control" id="length_a" required>
                                         <select id="mm_inch_select"> 
                                             <option value="1"> MM </option>
                                             <option value="2"> Inch </option>
@@ -538,7 +538,7 @@
 
                                     <div style="display: flex; gap : 20px;">
                                         <label for="width_a">Width</label>
-                                        <input type="textbox" name="width" class="form-control" id="width_a" required>
+                                        <input type="number" name="width" class="form-control" id="width_a" required>
                                     </div>
                                     
 
@@ -1118,19 +1118,19 @@
 
                             <div class="card">
                                 <input type="radio" id="file_format1" name="file_format" value="cdr">
-                                <label for="radio1">CDR</label>
+                                <label for="file_format1">CDR</label>
                                 
                                 <input type="radio" id="file_format2" name="file_format" value="dxf">
-                                <label for="radio2">DXF</label>
+                                <label for="file_format2">DXF</label>
                                 
                                 <input type="radio" id="file_format3" name="file_format" value="ai">
-                                <label for="radio3">A.I</label>
+                                <label for="file_format3">A.I</label>
                                 
                                 <input type="radio" id="file_format4" name="file_format" value="pdf">
-                                <label for="radio4">PDF</label>
+                                <label for="file_format4">PDF</label>
                                 
                                 <input type="radio" id="file_format5" name="file_format" value="excel">
-                                <label for="radio5">Excel</label>
+                                <label for="file_format5">Excel</label>
                                 
                             </div>
 
@@ -1145,19 +1145,19 @@
                             <div class="card">
 
                           
-                                <input type="radio" id="inco_ex_works" name="incoterm" value="ex-works">
+                                <input type="radio" id="inco_ex_works" name="incoterm" value="ex-works" required>
                                 <label for="inco_ex_works">Ex-Works</label>
                             
-                                <input type="radio" id="inco_fob" name="incoterm" value="f.o.b.">
+                                <input type="radio" id="inco_fob" name="incoterm" value="f.o.b." required>
                                 <label for="inco_fob">F.O.B.</label>
                             
-                                <input type="radio" id="inco_c_and_f" name="incoterm" value="c_and_f">
+                                <input type="radio" id="inco_c_and_f" name="incoterm" value="c_and_f" required>
                                 <label for="inco_c_and_f">C & F</label>
                             
-                                <input type="radio" id="inco_cif" name="incoterm" value="cif">
+                                <input type="radio" id="inco_cif" name="incoterm" value="cif" required>
                                 <label for="inco_cif">CIF</label>
                             
-                                <input type="radio" id="inco_warehouse" name="incoterm" value="warehouse_to_warehouse">
+                                <input type="radio" id="inco_warehouse" name="incoterm" value="warehouse_to_warehouse" required>
                                 <label for="inco_warehouse">Warehouse to Warehouse</label>
                             </div>
 
@@ -1168,29 +1168,29 @@
                                                 
                             <div class="card">
 
-                                <input type="radio" id="transport_road" name="transportation_type" value="road">
+                                <input type="radio" id="transport_road" name="transportation_type" value="road" required>
                                 <label for="transport_road">Road</label>
 
-                                <input type="radio" id="transport_rail" name="transportation_type" value="rail">
+                                <input type="radio" id="transport_rail" name="transportation_type" value="rail" required>
                                 <label for="transport_rail">Rail</label>
 
-                                <input type="radio" id="transport_air" name="transportation_type" value="air">
+                                <input type="radio" id="transport_air" name="transportation_type" value="air" required>
                                 <label for="transport_air">Air</label>
 
-                                <input type="radio" id="transport_courier" name="transportation_type" value="courier">
+                                <input type="radio" id="transport_courier" name="transportation_type" value="courier" required>
                                 <label for="transport_courier">Courier</label>
 
-                                <input type="radio" id="transport_porter" name="transportation_type" value="porter">
+                                <input type="radio" id="transport_porter" name="transportation_type" value="porter" required>
                                 <label for="transport_porter">Porter</label>
 
-                                <input type="radio" id="transport_personal" name="transportation_type" value="personal_pick_up">
+                                <input type="radio" id="transport_personal" name="transportation_type" value="personal_pick_up" required>
                                 <label for="transport_personal">Personal Pick Up</label>
                             </div>
 
                             <div class="card">
 
                                 <label for="transportation_cost">Transportation Cost</label>
-                                <select id="transportation_cost" name="transportation_cost" class="form-control"></select>
+                                <select id="transportation_cost" name="transportation_cost" class="form-control" required></select>
 
                             </div>
 
@@ -1203,7 +1203,7 @@
                             <div>
 
                                 
-                                <input type="radio" id="advance_advance" value="advance" name="payment">
+                                <input type="radio" id="advance_advance" value="advance" name="payment" required>
 
                                 <label for="advance_advance"> Advance </label>
 
@@ -1218,11 +1218,11 @@
 
                             
                             <div class="card">
-                                <input type="radio" id="against_delivery" value="against_delivery" name="payment">
+                                <input type="radio" id="against_delivery" value="against_delivery" name="payment" required>
                                 <label for="against_delivery">Against Delivery</label>
-                                <input type="radio" id="proforma_invoice" value="proforma_invoice" name="payment">
+                                <input type="radio" id="proforma_invoice" value="proforma_invoice" name="payment" required>
                                 <label for="proforma_invoice"> Proforma Invoice </label>
-                                <input type="radio" id="credit_in_day" value="credit_in_day" name="payment">
+                                <input type="radio" id="credit_in_day" value="credit_in_day" name="payment" required>
                                 <label for="credit_in_day"> Credit in day </label>
 
                                 <input type="number" id="credit_in_days" name="credit_in_days" name="limit to 99" min="0" max="100">
@@ -1245,7 +1245,7 @@
                     <div class="card">                 
 
 
-                        <label for="checkbox1"> Amount <input type="number" id="credit_limit" name="credit_limit" class="form-control" readonly> 
+                        <label for="checkbox1"> Amount <input type="number" id="credit_limit" name="credit_limit" class="form-control" required readonly> 
                     </div>
 
                     <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
@@ -1291,9 +1291,9 @@
 
                     <div class="card">
                         <input type="radio" id="Acceptance1" name="Acceptance">
-                        <label for="transportation_cost">Yes</label>
-                        <input type="radio" id="Acceptance1" name="Acceptance">
-                        <label for="radio1"> No </label>
+                        <label for="Acceptance1">Yes</label>
+                        <input type="radio" id="Acceptance2" name="Acceptance">
+                        <label for="Acceptance2"> No </label>
                         
                     </div>
 
@@ -1306,12 +1306,12 @@
 
                     <div class="card">                 
 
-                        <input type="radio" id="sudden_rise_no" name="sudden_rise" value="No">
+                        <input type="radio" id="sudden_rise_no" name="sudden_rise" value="No" required>
                         <label for="sudden_rise_no">No</label>
-                        <input type="radio" id="sudden_rise1" name="sudden_rise" value="Yes">
+                        <input type="radio" id="sudden_rise1" name="sudden_rise" value="Yes" required>
                         <label for="sudden_rise1">Yes</label>
-                        <input type="radio" id="sudden_rise2" name="sudden_rise" value="no">
-                        <label for="radio1"> Price Rise in % </label>
+                        <input type="radio" id="sudden_rise2" name="sudden_rise" value="no" required>
+                        <label for="sudden_rise2"> Price Rise in % </label>
                         <select id="sudden_rise_percent" name="sudden_rise_percent" class="from-control"> 
                             <option value="1"> 0 </option>
                             <option value="2"> 1 </option>
@@ -2000,6 +2000,8 @@ function renderOrders() {
         Sample/Prototype: ${order.sample_price}<hr>
         With GST: ${order.total_amount_with_charges_type}<hr>
            </td>
+        <td> what will be here? </td>
+
         <td> ${order.quantity}</td>
         <td> ${order.rate_per_unit}</td>
         <td> ${order.final_item_total} </td>
@@ -2272,7 +2274,7 @@ $(document).ready(function(){
                             // Hide the modal
     
                             // Update the dropdown with the new customer
-                            const $dropdown = $('#customerDropdown');
+                            const $dropdown = $('#customer');
                             $dropdown.append(new Option(newCustomer.name, newCustomer.id));
                             alert(newCustomer.credit_limit)
 

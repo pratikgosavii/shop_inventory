@@ -120,22 +120,22 @@ class project_inward_Form(forms.ModelForm):
         fields = '__all__'
         widgets = {
            
+
+
+
+            'inward_item_code': forms.Select(attrs={
+                'class': 'form-control sele', 'id': 'bag_size'
+            }),
+
+            'inward_supplier': forms.Select(attrs={
+                'class': 'form-control sele', 'id': 'bag_size'
+            }),
+
             'quantity': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'bag_size'
             }),
 
-            'customer': forms.TextInput(attrs={
-                'class': 'form-control', 'id': 'customer'
-            }),
-
-            'amount': forms.NumberInput(attrs={
-                'class': 'form-control', 'id': 'amount'
-            }),
-
-            'description': forms.Textarea(attrs={
-                'class': 'form-control', 'id': 'description'
-            }),
-            
+          
             'date': DateInput(attrs={ 'class': 'form-control dateclas', 'type': 'date'}, format = '%Y-%m-%d'),
 
            

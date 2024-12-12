@@ -29,7 +29,7 @@ urlpatterns = [
     path('get-sheet-details/', get_sheet_details, name='get_sheet_details'),
 
     path('confirm-outward/<project_id>', confirm_outward, name='confirm_outward'),
-    path('confirm-outward-json/<production_material_id>', confirm_outward_json, name='confirm_outward_json'),
+    path('confirm-outward-json/<project_outward_id>', confirm_outward_json, name='confirm_outward_json'),
     path('add-project-outward-new/<production_material_id>/<barcode_count>', add_project_outward_new, name='add_project_outward_new'),
     path('generate-barcode/<int:id>/', generate_barcode, name='generate_barcode'),
     path('generate-all-barcode/<int:project_matarial_production_id>/', generate_all_barcode, name='generate_all_barcode'),
@@ -139,6 +139,7 @@ urlpatterns = [
 
 
     path('download', download, name='download'),
+    path('demo', demo, name='demo'),
     
     path('assign-rfid-to-sheet-reception_page/<project_id>', assign_rfid_to_sheet_reception_page, name='assign_rfid_to_sheet_reception_page'), #for assigining rfid to sheet
     path('values-to-assign-rfid-to-sheet/<project_id>/<sheet_id>', values_to_assign_rfid_to_sheet, name='values_to_assign_rfid_to_sheet'), #for assigining rfid to sheet

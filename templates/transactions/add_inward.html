@@ -8,6 +8,91 @@
 
 {% endblock breadcrumbs %}
 
+{% block head %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    <!-- imp -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script> 
+
+
+<style>
+
+    
+
+
+
+
+    
+    .select2-container {
+        min-width: 200px !important;
+     }
+     
+
+     
+
+     .selection{
+       height: 50px;
+   display: grid;
+     }
+
+
+     .select2-container--default .select2-results__option[aria-selected=true] {
+       background-color: #fff;
+     }
+     .select2-container--default .select2-results__option--highlighted[aria-selected] {
+       background-color: #eaeaeb;
+       color: #272727;
+     }
+     .select2-container--default .select2-selection--multiple {
+       margin-bottom: 10px;
+     }
+     .select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple {
+       border-radius: 4px;
+     }
+     .select2-container--default.select2-container--focus .select2-selection--multiple {
+       border-color: #f77750;
+       border-width: 2px;
+     }
+     .select2-container--default .select2-selection--multiple {
+       border-width: 2px;
+     }
+     .select2-container--open .select2-dropdown--below {
+       
+       border-radius: 6px;
+       box-shadow: 0 0 10px rgba(0,0,0,0.5);
+       width: max-content !important;
+     }
+     .select2-selection .select2-selection--multiple:after {
+       content: 'hhghgh';
+     }
+     /* select with icons badges single*/
+     .select-icon .select2-selection__placeholder .badge {
+       display: none;
+     }
+     .select-icon .placeholder {
+       display: none;
+     }
+   
+
+
+
+     .select2-container .select2-selection--single {
+       height: 38px;
+     }
+
+     .logged-in {
+       color: orange;
+       font-size: 21px;
+     }
+
+
+     
+
+</style>
+
+
+{% endblock head %}
+
 {% block content %}
 <div class="row">
     <div class="col-lg-12">
@@ -27,8 +112,13 @@
                         
 
                             <div class="form-group">
-                                <label for="name" class="control-label mb-1">Customer</label>
-                                {{ form.customer }}
+                                <label for="name" class="control-label mb-1">Inward Suplier Name</label>
+                                {{ form.inward_supplier }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label mb-1">Item Code</label>
+                                {{ form.inward_item_code }}
                             </div>
 
                             <div class="form-group">
@@ -36,11 +126,7 @@
                                 {{ form.quantity }}
                             </div>
 
-                            <div class="form-group">
-                                <label for="name" class="control-label mb-1">Description</label>
-                                {{ form.description }}
-                            </div>
-
+                        
                             <div class="form-group">
                                 <label for="name" class="control-label mb-1">Date</label>
                                 {{ form.date }}
@@ -67,6 +153,11 @@
     {% block js %}
 
         <script>
+
+  $('.sele').select2();
+
+
+  
 
             $('.cal').keyup(function(){
                 var textone;

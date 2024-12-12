@@ -28,3 +28,5 @@ admin.site.register(sales_customer)
 
 admin.site.register(project_working_order)
 admin.site.register(project_outward)
+admin.site.register(inward_supplier)
+admin.site.register(inward_item_code)
