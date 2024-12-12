@@ -2082,7 +2082,7 @@ def add_project_outward_new(request, production_material_id, barcode_count):
 
 
 
-    return redirect('confirm_outward_json', production_material_id)
+    return redirect('confirm_outward', project_matarial_production_instance.project.id)
     
 
 
