@@ -154,3 +154,13 @@ class product_qr_shelf(models.Model):
     shelf = models.ForeignKey(shelf, on_delete=models.CASCADE, null=True, blank=True)
     
     
+
+
+
+
+class inward_supplier(models.Model):
+
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name

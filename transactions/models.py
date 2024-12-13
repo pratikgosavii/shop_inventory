@@ -685,13 +685,6 @@ class inward_item_code(models.Model):
         return self.item_code
     
 
-
-class inward_supplier(models.Model):
-
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
     
 
     

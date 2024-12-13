@@ -710,6 +710,83 @@ def list_size(request):
 
     return render(request, 'store/list_size.html', context)
 
+@login_required(login_url='login')
+def add_inward_supplier(request):
+    
+    if request.method == 'POST':
+
+        forms = inward_supplier_Form(request.POST)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_inward_supplier')
+        else:
+            print(forms.errors)
+            return redirect('list_inward_supplier')
+    
+    else:
+
+        forms = inward_supplier_Form()
+        
+        grade_data = grade.objects.all()
+
+        
+        context = {
+            'form': forms,
+            'grade_data': grade_data,
+        }
+
+        return render(request, 'store/add_inward_supplier.html', context)
+
+@login_required(login_url='login')
+def update_inward_supplier(request, update_inward_supplier_id):
+
+    if request.method == 'POST':
+
+        instance = inward_supplier.objects.get(id=update_inward_supplier_id)
+
+        forms = inward_supplier_Form(request.POST, instance = instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_inward_supplier')
+    
+    else:
+
+        instance = inward_supplier.objects.get(id=update_inward_supplier_id)
+
+        
+
+        forms = inward_supplier_Form(instance = instance)
+
+        context = {
+            'form': forms,
+        }
+
+        return render(request, 'store/add_inward_supplier.html', context)
+
+
+@login_required(login_url='login')
+def delete_inward_supplier(request, thickness_id):
+    
+    inward_supplier.objects.get(id=thickness_id).delete()
+
+    return HttpResponseRedirect(reverse('list_inward_supplier'))
+
+
+@login_required(login_url='login')
+def list_inward_supplier(request):
+    
+     
+    data = inward_supplier.objects.all().order_by('name')
+
+    context = {
+            'data': data
+        }
+
+
+    return render(request, 'store/list_size.html', context)
+
 
 
 @login_required(login_url='login')

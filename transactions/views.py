@@ -2168,52 +2168,149 @@ def generate_barcode(request, id):
 def generate_all_barcode(request, project_matarial_production_id):
     # Choose the type of barcode you want to generate (e.g., Code128)
     
-    
-    
-    ids_list = project_outward.objects.filter(project_matarial_production = project_matarial_production_id)
+     # Filter the relevant records
+    ids_list = project_matarial_production.objects.get(id=project_matarial_production_id)
+    ids_list = project_outward.objects.filter(project_matarial_production=ids_list)
+
+    if not ids_list.exists():
+        return HttpResponse("No data available to generate barcodes.", status=400)
+
+    # Initialize the PDF buffer and canvas
     pdf_buffer = BytesIO()
-    
-    # Create the PDF
     pdf = canvas.Canvas(pdf_buffer, pagesize=(50 * mm, 50 * mm))
-    
+
+    # Set the logo path
+    logo_path = os.path.join(settings.BASE_DIR, 'static', 'RAVIRAJ_LOGO.png')
+    if not os.path.exists(logo_path):
+        return HttpResponse("Logo not found.", status=404)
+
+    # Logo dimensions
+    logo_width = 30 * mm
+    logo_height = 9 * mm
+    logo_x = (50 * mm - logo_width) / 2
+    logo_y = 50 * mm - logo_height - 2 * mm  # Top margin of 2mm
+
+    # Loop through each record and create a separate page for each sticker
     for id in ids_list:
-        
-        # Set the barcode value
-        barcode_value = str(id)
-        
-        # Increase the barcode width (barWidth increased, height kept standard)
-        barcode = code128.Code128(barcode_value, barWidth=0.45 * mm, barHeight=10 * mm)
-        
-        # Set the position of the barcode (minimal margins)
-        # Set the position of the barcode (minimal margins)
-        barcode_x = 1  # 1mm from the left
-        barcode_y = 16  # Adjust position slightly from the bottom
+        # Draw the logo
+        pdf.drawImage(logo_path, logo_x, logo_y, width=logo_width, height=logo_height, preserveAspectRatio=True, mask='auto')
 
-        # Draw the barcode on the PDF
-        barcode.drawOn(pdf, barcode_x * mm, barcode_y * mm)
+        # Generate the barcode
+        barcode_value = str(id.id)  # Ensure the barcode value is valid
+        barcode = code128.Code128(barcode_value, barWidth=0.5 * mm, barHeight=12 * mm)
+        barcode_x = (50 * mm - barcode.width) / 2
+        barcode_y = logo_y - barcode.height - 5 * mm  # Space below the logo
+        barcode.drawOn(pdf, barcode_x, barcode_y)
 
-        # Optional: Add text below the barcode with smaller font size and reduced line spacing
-        pdf.setFont("Helvetica", 5)  # Set font size to 5 points
+        # Add text below the barcode
+        pdf.setFont("Helvetica-Bold", 6)  # Font size for text
+        text_lines = [
+            f"Project ID: {id.project_matarial_production.project.order_id}",
+            f"Quantity: {id.quantity}",
+            f"Item Code: {id.project_matarial_production.item_code.code}",
+            f"Customer Name: {id.project_matarial_production.project.customer.name}",
+            f"Supplier Name: Ravi-Raj Anodisers"
+        ]
+        text_y_start = barcode_y - 5 * mm  # Space below the barcode
+        line_spacing = 3 * mm
 
-        # Reduce line spacing and remove unnecessary info (SIZE removed)
-        pdf.setFont("Helvetica-Bold", 5)  # Set font size to 5 points, bold font for weight
-        left_margin = 1 * mm  # Adjust left margin as needed
-        pdf.drawString(left_margin, (barcode_y - 3) * mm, f"Project ID: {id.project_matarial_production.project.order_id} | Quantity: {id.quantity}")
-        pdf.drawString(left_margin, (barcode_y - 6) * mm, f"Item Code: {id.project_matarial_production.item_code.code}")
-        pdf.drawString(left_margin, (barcode_y - 9) * mm, f"Customer Name: {id.project_matarial_production.project.customer.name}")
-        pdf.drawString(left_margin, (barcode_y - 12) * mm, f"Supplier Name: Ravi-Raj Anodisers")
-            
-        # Start a new page for the next barcode
+        for line in text_lines:
+            text_width = pdf.stringWidth(line, "Helvetica-Bold", 6)
+            text_x = (50 * mm - text_width) / 2  # Center-align text
+            pdf.drawString(text_x, text_y_start, line)
+            text_y_start -= line_spacing  # Decrease y-coordinate for next line
+
+        # Finish the current page and start a new one
         pdf.showPage()
-    
+
     # Finalize the PDF
     pdf.save()
+    pdf_buffer.seek(0)
+
+    # Return the generated PDF as a response
+    response = HttpResponse(pdf_buffer, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="barcodes.pdf"'
+    return response
+
+
+
+
+
+def generate_final_barcode(request, project_matarial_production_id):
     
+    
+    
+    data = project_matarial_production.objects.get(id=project_matarial_production_id)
+
+    # Initialize the PDF buffer and canvas
+    pdf_buffer = BytesIO()
+    pdf = canvas.Canvas(pdf_buffer, pagesize=(50 * mm, 50 * mm))
+
+    # Set the logo path
+    logo_path = os.path.join(settings.BASE_DIR, 'static', 'RAVIRAJ_LOGO.png')
+    logo_width = 30 * mm
+    logo_height = 9 * mm
+
+    # Center the logo at the top
+    logo_x = (50 * mm - logo_width) / 2
+    logo_y = 50 * mm - logo_height - 2 * mm  # 2mm margin from the top
+
+    # Draw the logo
+    pdf.drawImage(logo_path, logo_x, logo_y, width=logo_width, height=logo_height, preserveAspectRatio=True, mask='auto')
+
+    # Set the barcode value
+    barcode_value = str(data.id)
+
+    # Create the barcode
+    barcode = code128.Code128(barcode_value, barWidth=0.5 * mm, barHeight=12 * mm)
+
+    # Center the barcode below the logo
+    barcode_x = (50 * mm - barcode.width) / 2
+    barcode_y = logo_y - barcode.height - 5 * mm  # Space below the logo
+
+    # Draw the barcode
+    barcode.drawOn(pdf, barcode_x, barcode_y)
+
+    # Set text font and size
+    pdf.setFont("Helvetica-Bold", 6)  # Adjust font size for better fit
+
+    # Prepare text lines
+    text_lines = [
+        f"Project ID: {data.project.order_id}",
+        f"Quantity: {data.production_quantity}",
+        f"Item Code: {data.item_code.code}",
+        f"Customer Name: {data.project.customer.name}",
+        f"Supplier Name: Ravi-Raj Anodisers"
+    ]
+
+    # Space below the barcode for text
+    text_y_start = barcode_y - 5 * mm
+    line_spacing = 3 * mm  # Reduce line spacing to 3mm
+
+    # Center-align each text line
+    for line in text_lines:
+        text_width = pdf.stringWidth(line, "Helvetica-Bold", 6)
+        text_x = (50 * mm - text_width) / 2
+        pdf.drawString(text_x, text_y_start, line)
+        text_y_start -= line_spacing
+
+    # Add a small-font note below the main text
+    note = "* This is main box label with total itemcode quantity"
+    pdf.setFont("Helvetica", 4)  # Smaller font size
+    note_width = pdf.stringWidth(note, "Helvetica", 4)
+    note_x = (50 * mm - note_width) / 2
+    note_y = 3 * mm  # 2mm spacing below the last line of text
+    pdf.drawString(note_x, note_y, note)
+
+    # Finalize the PDF
+    pdf.showPage()
+    pdf.save()
+
     # Get the PDF content
     pdf_buffer.seek(0)
     response = HttpResponse(pdf_buffer, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="barcodes.pdf"'
-    
+    response['Content-Disposition'] = f'attachment; filename="main_box_label_{data.id}.pdf"'
+
     return response
 
 def scan_barcode(request):

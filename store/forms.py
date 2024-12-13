@@ -44,6 +44,21 @@ class category_Form(forms.ModelForm):
             
         }
 
+class inward_supplier_Form(forms.ModelForm):
+    class Meta:
+        model = inward_supplier
+        fields = '__all__'
+        widgets = {
+           
+            'name': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'name'
+            }),
+            
+           
+     
+            
+        }
+
 class dealer_Form(forms.ModelForm):
     class Meta:
         model = dealer

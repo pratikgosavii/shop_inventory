@@ -57,6 +57,11 @@ urlpatterns = [
     path('update-size/<update_size_id>', update_size, name='update_size'),
     path('delete-size/<update_size_id>', delete_size, name='delete_size'),
     path('list-size/', list_size, name='list_size'),
+    
+    path('add-inward-supplier/', add_inward_supplier, name='add_inward_supplier'),
+    path('update-inward-supplier/<update_inward_supplier_id>', update_inward_supplier, name='update_inward_supplier'),
+    path('delete-inward-supplier/<update_inward_supplier_id>', delete_inward_supplier, name='delete_inward_supplier'),
+    path('list-inward-supplier/', list_inward_supplier, name='list_inward_supplier'),
 
     #delete urls 
 
