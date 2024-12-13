@@ -124,7 +124,7 @@ class project_inward_Form(forms.ModelForm):
 
 
             'inward_item_code': forms.Select(attrs={
-                'class': 'form-control sele', 'id': 'bag_size'
+                'class': 'form-control sele', 'id': 'inward_item_code_id'
             }),
 
             'inward_supplier': forms.Select(attrs={

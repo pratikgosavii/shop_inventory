@@ -2286,12 +2286,30 @@ def add_inward(request):
     else:
 
         forms = project_inward_Form()
+        item_code_data = inward_item_code.objects.all()
 
+         
         context = {
             'form': forms,
+                'item_code_data': item_code_data,
+
         }
         return render(request, 'transactions/add_inward.html', context)
     
+
+
+@login_required(login_url='login')
+
+def inward_itemcode_description(request):
+    item_code_id = request.GET.get('item_code_id')
+    try:
+        item = inward_item_code.objects.get(pk=item_code_id)
+        return JsonResponse({
+            'description': item.description,
+        })
+    except inward_item_code.DoesNotExist:
+        return JsonResponse({'error': 'Item not found'}, status=404)
+
 
 @login_required(login_url='login')
 def update_inward(request, inward_id):

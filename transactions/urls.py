@@ -36,6 +36,7 @@ urlpatterns = [
     path('scan-barcode/', scan_barcode, name='scan_barcode'),
 
     path('add-inward/', add_inward, name='add_inward'),
+    path('inward-itemcode-description/', inward_itemcode_description, name='inward_itemcode_description'),
     path('update-inward/<inward_id>', update_inward, name='update_inward'),
     path('delete-inward/<inward_id>', delete_inward, name='delete_inward'),
     path('list-inward', list_inward, name='list_inward'),
