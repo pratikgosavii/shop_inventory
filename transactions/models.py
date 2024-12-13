@@ -700,5 +700,3 @@ class project_inward(models.Model):
     quantity = models.IntegerField()
     date = models.DateField(auto_now_add=False)
 
-    def __str__(self):
-        return self.company
