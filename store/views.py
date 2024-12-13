@@ -710,6 +710,8 @@ def list_size(request):
 
     return render(request, 'store/list_size.html', context)
 
+from .forms import inward_supplier_Form
+
 @login_required(login_url='login')
 def add_inward_supplier(request):
     
