@@ -148,7 +148,7 @@
                     
                     <i class="fa fa-info-circle" style="font-size: 1.5em;" aria-hidden="true"> </i> </a> 
                     
-                    {% if request.user.is_superuser or request.user.is_reception %}
+                    {% if request.user.is_superuser or request.user.is_reception or request.user.is_accounts %}
 
                     
                     <a href="{% url 'assign_matarial_qr' i.id %}"> <i class="fa fa-qrcode" style="font-size: 1.5em;" aria-hidden="true"></i> 

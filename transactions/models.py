@@ -679,10 +679,12 @@ class inward_item_code(models.Model):
 
     item_code = models.CharField(max_length=50, unique=True)
     description = models.CharField(max_length=50, null = True, blank = True)
+    
 
     def __str__(self):
         return self.item_code
     
+
 
 class inward_supplier(models.Model):
 

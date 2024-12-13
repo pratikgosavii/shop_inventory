@@ -2273,9 +2273,12 @@ def add_inward(request):
             
             data_form = project_inward_Form()
 
+            item_code_data = inward_item_code.objects.all()
+
             context = {
                 'form': forms,
                 'data_form': data_form,
+                'item_code_data': item_code_data,
             }
             return render(request, 'transactions/add_inward.html', context)
 
