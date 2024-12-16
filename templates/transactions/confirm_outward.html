@@ -174,9 +174,10 @@
                                 </tr>
                         
 
-                                <p> List Small labels </p>
+                                
                                 <tr class="dropdown-row" style="display:none;">
                                     <td colspan="6" style="padding-left: 60px; padding-top:10px;">
+                                        <p> List Small labels </p>
                                         <table style="border-collapse: collapse; width: 100%;">
                                             <tr>
                                                 <th style="border: 1px solid black; padding: 5px;">Sr no</th>
@@ -208,20 +209,17 @@
                                                 <td style="border: 1px solid black; padding: 5px;"></td>
                                                 <td style="border: 1px solid black; padding: 5px;"></td>
                                                 <td style="border: 1px solid black; padding: 5px;">
-                                                    <a href="{% url 'generate_final_barcode' i.id %}" class="btn btn-info">Print Final Barcode</a>
-                                                    <a href="{% url 'generate_all_barcode' i.id %}" class="btn btn-info">Print All Barcode</a>
+                                                    <a href="{% url 'generate_all_barcode' i.id %}" class="btn btn-info">Print All Small Label</a>
                                                 </td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
 
-
-
-                                <p> List Main labels </p>
-
+                                
                                 <tr class="dropdown-row" style="display:none;">
                                     <td colspan="6" style="padding-left: 60px; padding-top:10px;">
+                                        <p>List Main labels</p>
                                         <table style="border-collapse: collapse; width: 100%;">
                                             <tr>
                                                 <th style="border: 1px solid black; padding: 5px;">Sr no m</th>
@@ -253,8 +251,10 @@
                                                 <td style="border: 1px solid black; padding: 5px;"></td>
                                                 <td style="border: 1px solid black; padding: 5px;"></td>
                                                 <td style="border: 1px solid black; padding: 5px;">
-                                                    <a href="{% url 'generate_final_barcode' i.id %}" class="btn btn-info">Print Final Barcode</a>
-                                                    <a href="{% url 'generate_all_final_barcode' i.id %}" class="btn btn-info">Print All Barcode</a>
+                                                    <a href="{% url 'generate_all_final_barcode' i.id %}" class="btn btn-info">Print All Main Label</a>
+                                                </td>
+                                                <td style="border: 1px solid black; padding: 5px;">
+                                                    <a href="{% url 'generate_all_final_barcode' i.id %}" class="btn btn-info">Print All  Label</a>
                                                 </td>
                                             </tr>
                                         </table>
