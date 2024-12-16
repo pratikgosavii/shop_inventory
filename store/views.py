@@ -137,6 +137,29 @@ def add_item_code(request):
         
 
 @login_required(login_url='login')
+def activate_item_code(request, item_code_id):
+
+
+    instance = item_code.objects.get(id=item_code_id)
+
+    instance.status = 1
+    instance.save()
+
+    return redirect('list_item_code')
+
+@login_required(login_url='login')
+def deactivate_item_code(request, item_code_id):
+
+
+    instance = item_code.objects.get(id=item_code_id)
+
+    instance.status = 0
+    instance.save()
+
+    return redirect('list_item_code')
+
+
+@login_required(login_url='login')
 def update_item_code(request, item_code_id):
 
     if request.method == 'POST':

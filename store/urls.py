@@ -13,6 +13,8 @@ urlpatterns = [
     
 
     path('add-item_code/', add_item_code, name='add_item_code'),
+    path('activate-item_code/<item_code_id>', activate_item_code, name='activate_item_code'),
+    path('deactivate-item_code/<item_code_id>', deactivate_item_code, name='deactivate_item_code'),
     path('update-item_code/<item_code_id>', update_item_code, name='update_item_code'),
     path('delete-item_code/<item_code_id>', delete_item_code, name='delete_item_code'),
     path('list-item_code/', list_item_code, name='list_item_code'),

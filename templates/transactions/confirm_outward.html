@@ -148,7 +148,8 @@
                                     <th> ID </th>
                                     <th> Item Code </th>
                                     <th> Quantity </th>
-                                    <th> Barcode Count </th>
+                                    <th> Small Label Count </th>
+                                    <th> Main Label Count </th>
                                     <th> Action </th>
                                 </tr>
                             
@@ -161,7 +162,8 @@
                                     <td> <input type="number" value="{{ i.id }}" style="width:110px;" class="form-control" readonly> </td>
                                     <td> <input type="text" value="{{ i.item_code }}" class="form-control" readonly> </td>
                                     <td> <input type="number" value="{{ i.production_quantity }}" class="form-control" readonly> </td>
-                                    <td> <input type="number" value="{{ i.barcode_count }}" id="barcodeQuantity_{{ i.id }}" class="form-control sheet-no" placeholder="Barcode Quantity"> </td>
+                                    <td> <input type="number" value="{{ i.barcode_count }}" id="small_label_count_{{ i.id }}" class="form-control sheet-no" placeholder="Barcode Quantity"> </td>
+                                    <td> <input type="number" value="{{ i.main_label }}" id="main_label_count_{{ i.id }}" class="form-control sheet-no" placeholder="Barcode Quantity"> </td>
                                     <td> <a href="#" class="btn btn-info" onclick="confirmAndRedirect({{ i.id }})">Submit</a> 
                                         
                                         <button type="button" class="toggle-row-btn" style="background:none;border:none;">
@@ -171,6 +173,8 @@
                                 </td>
                                 </tr>
                         
+
+                                <p> List Small labels </p>
                                 <tr class="dropdown-row" style="display:none;">
                                     <td colspan="6" style="padding-left: 60px; padding-top:10px;">
                                         <table style="border-collapse: collapse; width: 100%;">
@@ -183,7 +187,7 @@
                                             {% for related_item in i.outward_item_code_barcode.all %}
                                             <tr>
                                                 <td style="border: 1px solid black; padding: 5px;">{{ forloop.counter }}</td>
-                                                <td style="border: 1px solid black; padding: 5px;">{{ i.id }}</td>
+                                                <td style="border: 1px solid black; padding: 5px;">{{ related_item.id }}</td>
                                                 <td style="border: 1px solid black; padding: 5px;">{{ related_item.quantity }}</td>
                                                 <td style="border: 1px solid black; padding: 5px;">
                                                     <a href="{% url 'generate_barcode' related_item.id %}" class="btn btn-info">Print</a>
@@ -211,6 +215,52 @@
                                         </table>
                                     </td>
                                 </tr>
+
+
+
+                                <p> List Main labels </p>
+
+                                <tr class="dropdown-row" style="display:none;">
+                                    <td colspan="6" style="padding-left: 60px; padding-top:10px;">
+                                        <table style="border-collapse: collapse; width: 100%;">
+                                            <tr>
+                                                <th style="border: 1px solid black; padding: 5px;">Sr no m</th>
+                                                <th style="border: 1px solid black; padding: 5px;">Barcode ID</th>
+                                                <th style="border: 1px solid black; padding: 5px;">Quantity</th>
+                                                <th style="border: 1px solid black; padding: 5px;">Action</th>
+                                            </tr>
+                                            {% for related_item in i.outward_item_code_main_label.all %}
+                                            <tr>
+                                                <td style="border: 1px solid black; padding: 5px;">{{ forloop.counter }}</td>
+                                                <td style="border: 1px solid black; padding: 5px;">{{ related_item.id }}</td>
+                                                <td style="border: 1px solid black; padding: 5px;">{{ related_item.quantity }}</td>
+                                                <td style="border: 1px solid black; padding: 5px;">
+                                                    <a href="{% url 'generate_barcode' related_item.id %}" class="btn btn-info">Print</a>
+                                                    {% if related_item.date_time %}
+                                                        <a href="{% url 'confirm_outward_json' related_item.id %}">
+                                                            <input type="button" style="margin-left: 10px; background:green; border-color:green;" class="btn btn-success" value="&#10004; Confirm Outward">
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="{% url 'confirm_outward_json' related_item.id %}">
+                                                            <input type="button" style="margin-left: 10px; background:orange; border-color:orange;" class="btn btn-success" value="&#10004; Confirm Outward">
+                                                        </a>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            <tr>
+                                                <td style="border: 1px solid black; padding: 5px;"></td>
+                                                <td style="border: 1px solid black; padding: 5px;"></td>
+                                                <td style="border: 1px solid black; padding: 5px;"></td>
+                                                <td style="border: 1px solid black; padding: 5px;">
+                                                    <a href="{% url 'generate_final_barcode' i.id %}" class="btn btn-info">Print Final Barcode</a>
+                                                    <a href="{% url 'generate_all_final_barcode' i.id %}" class="btn btn-info">Print All Barcode</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
                             {% endfor %}
                         </table>
  <br>
@@ -319,27 +369,39 @@ $(document).ready(function() {
 
 document.querySelectorAll('.toggle-row-btn').forEach(button => {
     button.addEventListener('click', function() {
-        const dropdownRow = this.closest('tr').nextElementSibling;
-        if (dropdownRow.style.display === "none") {
-            dropdownRow.style.display = "table-row"; // Show the dropdown row
-            this.innerHTML = "&#9650;"; // Change to up arrow
-        } else {
-            dropdownRow.style.display = "none"; // Hide the dropdown row
-            this.innerHTML = "&#9660;"; // Change back to down arrow
+        // Get the current row
+        const currentRow = this.closest('tr');
+
+        // Get the next two siblings
+        const firstDropdownRow = currentRow.nextElementSibling;
+        const secondDropdownRow = firstDropdownRow?.nextElementSibling;
+
+        // Check if the rows exist and toggle their visibility
+        if (firstDropdownRow && secondDropdownRow) {
+            const isHidden = firstDropdownRow.style.display === "none";
+
+            // Toggle both rows
+            firstDropdownRow.style.display = isHidden ? "table-row" : "none";
+            secondDropdownRow.style.display = isHidden ? "table-row" : "none";
+
+            // Update the button icon
+            this.innerHTML = isHidden ? "&#9650;" : "&#9660;"; // Up arrow when rows are shown, down arrow when hidden
         }
     });
 });
+
 
 
 function confirmAndRedirect (id) {
 
     if (confirm('Please confirm!')) {
         // Get the barcode quantity value from the input field
-        var barcodeQuantity = document.getElementById('barcodeQuantity_' + id).value;
+        var small_label_count = document.getElementById('small_label_count_' + id).value;
+        var main_label_count = document.getElementById('main_label_count_' + id).value;
         
 
         // Redirect to the new URL
-        window.location.href = `{% url 'add_project_outward_new' 'ID_PLACEHOLDER' 'BARCODE_PLACEHOLDER' %}`.replace('ID_PLACEHOLDER', id).replace('BARCODE_PLACEHOLDER', barcodeQuantity);
+        window.location.href = `{% url 'add_project_outward_new' 'ID_PLACEHOLDER' 'BARCODE_PLACEHOLDER1' 'BARCODE_PLACEHOLDER2' %}`.replace('ID_PLACEHOLDER', id).replace('BARCODE_PLACEHOLDER1', small_label_count).replace('BARCODE_PLACEHOLDER2', main_label_count);
     }
 }
 

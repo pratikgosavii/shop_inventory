@@ -2054,29 +2054,38 @@ def add_project_inward(request, project_id):
 
 
 
-def add_project_outward_new(request, production_material_id, barcode_count):
+def add_project_outward_new(request, production_material_id, small_label, main_label):
 
 
     project_matarial_production_instance = project_matarial_production.objects.get(id = production_material_id)
     
     project_outward.objects.filter(project_matarial_production = project_matarial_production_instance).delete()
+    project_outward_main_label.objects.filter(project_matarial_production = project_matarial_production_instance).delete()
 
 
-    project_matarial_production_instance.barcode_count = barcode_count
+    project_matarial_production_instance.barcode_count = small_label
+    project_matarial_production_instance.main_label = main_label
     project_matarial_production_instance.save()
 
     total_quantity = project_matarial_production_instance.production_quantity
         
     # Calculate the base quantity for each entry and the remainder
-    base_quantity = int(total_quantity) // int(barcode_count)  # Integer division
-    remainder = int(total_quantity) % int(barcode_count)  # Get the remainder
+    base_quantity = int(total_quantity) // int(small_label)  # Integer division
+    remainder = int(total_quantity) % int(small_label)  # Get the remainder
 
     # Create new outward entries, distributing the remainder
-    for i in range(int(barcode_count)):
+    for i in range(int(small_label)):
         # Add 1 to the quantity for the first 'remainder' entries
         quantity = base_quantity + (1 if i < remainder else 0)
         
         project_outward.objects.create(project_matarial_production=project_matarial_production_instance, quantity=quantity)
+
+    # Create new outward entries, distributing the remainder
+    for i in range(int(main_label)):
+        # Add 1 to the quantity for the first 'remainder' entries
+        quantity = base_quantity + (1 if i < remainder else 0)
+        
+        project_outward_main_label.objects.create(project_matarial_production=project_matarial_production_instance, quantity=quantity)
 
     print('here')
 
@@ -2236,11 +2245,12 @@ def generate_all_barcode(request, project_matarial_production_id):
 
 
 
+
 def generate_final_barcode(request, project_matarial_production_id):
     
     
     
-    data = project_matarial_production.objects.get(id=project_matarial_production_id)
+    data = project_outward_main_label.objects.get(id=project_matarial_production_id)
 
     # Initialize the PDF buffer and canvas
     pdf_buffer = BytesIO()
@@ -2304,6 +2314,79 @@ def generate_final_barcode(request, project_matarial_production_id):
 
     # Finalize the PDF
     pdf.showPage()
+    pdf.save()
+
+    # Get the PDF content
+    pdf_buffer.seek(0)
+    response = HttpResponse(pdf_buffer, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="main_box_label_{data.id}.pdf"'
+
+    return response
+
+    
+
+def generate_all_final_barcode(request, project_matarial_production_id):
+    
+    
+    
+    data = project_matarial_production.objects.get(id=project_matarial_production_id)
+    ids_list = project_outward_main_label.objects.filter(project_matarial_production=data)
+
+    # Initialize the PDF buffer and canvas
+    pdf_buffer = BytesIO()
+    pdf = canvas.Canvas(pdf_buffer, pagesize=(50 * mm, 50 * mm))
+
+    # Set the logo path
+    logo_path = os.path.join(settings.BASE_DIR, 'static', 'RAVIRAJ_LOGO.png')
+    logo_width = 30 * mm
+    logo_height = 9 * mm
+
+    # Center the logo at the top
+    logo_x = (50 * mm - logo_width) / 2
+    logo_y = 50 * mm - logo_height - 2 * mm  # 2mm margin from the top
+
+     # Loop through each record and create a separate page for each sticker
+    for id in ids_list:
+        # Draw the logo
+        pdf.drawImage(logo_path, logo_x, logo_y, width=logo_width, height=logo_height, preserveAspectRatio=True, mask='auto')
+
+        # Generate the barcode
+        barcode_value = str(id.id)  # Ensure the barcode value is valid
+        barcode = code128.Code128(barcode_value, barWidth=0.5 * mm, barHeight=12 * mm)
+        barcode_x = (50 * mm - barcode.width) / 2
+        barcode_y = logo_y - barcode.height - 5 * mm  # Space below the logo
+        barcode.drawOn(pdf, barcode_x, barcode_y)
+
+        # Add text below the barcode
+        pdf.setFont("Helvetica-Bold", 6)  # Font size for text
+        text_lines = [
+            f"Project ID: {id.project_matarial_production.project.order_id}",
+            f"Quantity: {id.quantity}",
+            f"Item Code: {id.project_matarial_production.item_code.code}",
+            f"Customer Name: {id.project_matarial_production.project.customer.name}",
+            f"Supplier Name: Ravi-Raj Anodisers"
+        ]
+        text_y_start = barcode_y - 5 * mm  # Space below the barcode
+        line_spacing = 3 * mm
+
+        for line in text_lines:
+            text_width = pdf.stringWidth(line, "Helvetica-Bold", 6)
+            text_x = (50 * mm - text_width) / 2  # Center-align text
+            pdf.drawString(text_x, text_y_start, line)
+            text_y_start -= line_spacing  # Decrease y-coordinate for next line
+
+   
+        # Add a small-font note below the main text
+        note = "* This is main box label with total itemcode quantity"
+        pdf.setFont("Helvetica", 4)  # Smaller font size
+        note_width = pdf.stringWidth(note, "Helvetica", 4)
+        note_x = (50 * mm - note_width) / 2
+        note_y = 3 * mm  # 2mm spacing below the last line of text
+        pdf.drawString(note_x, note_y, note)
+
+        # Finalize the PDF
+        pdf.showPage()
+        
     pdf.save()
 
     # Get the PDF content

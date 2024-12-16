@@ -131,6 +131,7 @@ class project_matarial_production(models.Model):
     project = models.ForeignKey(project, on_delete=models.CASCADE, related_name = "project_production_n")
     date_time = models.DateTimeField(auto_now=False, null = True, blank = True)
     barcode_count = models.BigIntegerField(default = 0, null = True, blank = True)
+    main_label = models.BigIntegerField(default = 0, null = True, blank = True)
 
 
 from store.models import * 
@@ -671,6 +672,12 @@ class notification_table(models.Model):
 class project_outward(models.Model):
 
     project_matarial_production = models.ForeignKey(project_matarial_production , on_delete=models.CASCADE, related_name='outward_item_code_barcode')
+    quantity = models.IntegerField()
+    date_time = models.DateTimeField(auto_now=False, null = True, blank = True)
+
+class project_outward_main_label(models.Model):
+
+    project_matarial_production = models.ForeignKey(project_matarial_production , on_delete=models.CASCADE, related_name='outward_item_code_main_label')
     quantity = models.IntegerField()
     date_time = models.DateTimeField(auto_now=False, null = True, blank = True)
 

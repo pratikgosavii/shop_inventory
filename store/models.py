@@ -106,6 +106,7 @@ class dealer(models.Model):
 class item_code(models.Model):
 
     code = models.CharField(max_length=120, unique=False)
+    status = models.BooleanField(default=0)
     
     
     def __str__(self):
