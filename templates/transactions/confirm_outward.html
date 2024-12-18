@@ -235,11 +235,11 @@
                                                 <td style="border: 1px solid black; padding: 5px;">
                                                     <a href="{% url 'generate_barcode' related_item.id %}" class="btn btn-info">Print</a>
                                                     {% if related_item.date_time %}
-                                                        <a href="{% url 'confirm_outward_json' related_item.id %}">
+                                                        <a href="{% url 'confirm_main_outward_json' related_item.id %}">
                                                             <input type="button" style="margin-left: 10px; background:green; border-color:green;" class="btn btn-success" value="&#10004; Confirm Outward">
                                                         </a>
                                                     {% else %}
-                                                        <a href="{% url 'confirm_outward_json' related_item.id %}">
+                                                        <a href="{% url 'confirm_main_outward_json' related_item.id %}">
                                                             <input type="button" style="margin-left: 10px; background:orange; border-color:orange;" class="btn btn-success" value="&#10004; Confirm Outward">
                                                         </a>
                                                     {% endif %}

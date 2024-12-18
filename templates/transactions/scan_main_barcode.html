@@ -7,13 +7,13 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="box-title">Scan Barcode</h4>
+                <h4 class="box-title">Scan Main Barcode</h4>
             </div>
             <div class="card-body">
                 <!-- Credit Card -->
                 <div id="pay-invoice">
                     <div class="card-body">
-                        <form method="post" action="{% url 'scan_barcode' %}">
+                        <form method="post" action="{% url 'scan_main_barcode' %}">
                             {% csrf_token %}
 
                             
@@ -23,9 +23,9 @@
                                     <input type="text" style="width:300px;" class="form-control" id="barcode" name="barcode" autofocus>
 
                                     <p> OR </p>
-                                    <a href={% url 'scan_main_barcode' %}>
+                                    <a href={% url 'scan_barcode' %}>
                                     <button type="button" class="btn btn-lg btn-info btn-block" style="width: 250px; background-color : orange; border-color : orange">
-                                        <span id="payment-button-amount">Scan Main Barcode</span>
+                                        <span id="payment-button-amount">Scan Small Barcode</span>
                                     </button> </a>
 
                                 </div>
@@ -34,7 +34,7 @@
 
                             <div>
                                 <button type="submit" class="btn btn-lg btn-info btn-block">
-                                    <span id="payment-button-amount">Submit Barcode</span>
+                                    <span id="payment-button-amount">Submit Main Barcode</span>
                                 </button>
                             </div>
 

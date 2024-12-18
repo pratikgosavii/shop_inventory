@@ -2020,6 +2020,73 @@ def confirm_outward_json(request, project_outward_id):
 
     return redirect('confirm_outward', project_id = instance.project_matarial_production.project.id)
 
+@login_required(login_url='login')
+def confirm_main_outward_json(request, project_outward_id):
+
+    instance = project_outward_main_label.objects.get(id = project_outward_id)
+
+    data1 = project_outward_main_label.objects.filter(project_matarial_production = instance.project_matarial_production).order_by("id")
+    data = project_outward.objects.filter(project_matarial_production = instance.project_matarial_production).order_by("id")
+    
+
+    print(instance.id)
+
+    for i in data1:
+        print(i.id)
+    serial_number = None
+    total_count = 0
+    range_end = 0
+    range_start = 0
+
+    for index, obj in enumerate(data1, start=1):
+        print('------------------dds-------------------')
+
+        print(obj.id)
+        print(instance.id)
+
+        if obj.id == instance.id:
+            print('------------------inhere-------------------')
+            if index == 1:
+
+                range_start = 1
+            range_end = index
+            break
+        total_count = total_count + obj.quantity
+
+     # Define the range of serial numbers for which to assign datetime
+    if range_start != 1:
+        range_start = total_count
+    range_end = total_count + range_end
+
+    print('--------------------------')
+    print('--------------------------')
+    print('--------------------------')
+    print('--------------------------')
+    print('--------------------------')
+
+    print(range_start)
+    print(range_end)
+
+
+    print('--------------------------')
+    print('--------------------------')
+    print('--------------------------')
+    print('--------------------------')
+    print('--------------------------')
+
+
+    # Assign datetime only to objects within the range
+    for index, obj in enumerate(data, start=1):
+        if range_start <= index <= range_end:
+            obj.date_time = datetime.now()  # Assign current datetime
+            obj.save()  # Save the updated object
+
+    instance.date_time = datetime.now()
+
+    instance.save()
+
+    return redirect('confirm_outward', project_id = instance.project_matarial_production.project.id)
+
 
 @login_required(login_url='login')
 def add_project_inward(request, project_id):
@@ -2428,6 +2495,31 @@ def scan_barcode(request):
             return HttpResponse("Product not found.")
     
     return render(request, 'transactions/scan_barcode.html')  # Return scan page if no POST data
+
+
+def scan_main_barcode(request):
+
+    if request.method == 'POST':
+
+        barcode = request.POST.get('barcode')
+        print(barcode)
+
+        data = project_outward_main_label.objects.get(id = barcode)
+        
+        try:
+            # Look up the product by the scanned barcode
+
+            return redirect('confirm_outward', project_id=data.project_matarial_production.project.id)
+
+        
+        except project_outward.DoesNotExist:
+            return HttpResponse("Product not found.")
+    
+
+    else:
+       
+    
+        return render(request, 'transactions/scan_main_barcode.html')  # Return scan page if no POST data
 
 
 

@@ -680,7 +680,7 @@ class project_outward_main_label(models.Model):
     project_matarial_production = models.ForeignKey(project_matarial_production , on_delete=models.CASCADE, related_name='outward_item_code_main_label')
     quantity = models.IntegerField()
     date_time = models.DateTimeField(auto_now=False, null = True, blank = True)
-
+    sr_no = models.IntegerField()
 
 class inward_item_code(models.Model):
 
