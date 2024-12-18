@@ -2415,25 +2415,13 @@ def scan_barcode(request):
     if request.method == 'POST':
         barcode = request.POST.get('barcode')
         print(barcode)
+
+        data = project_outward.objects.get(id = barcode)
         
         try:
             # Look up the product by the scanned barcode
-            product = project_matarial_production.objects.get(id=barcode)
-            print('-----------------------')
-            print('-----------------------')
-            print('-----------------------')
-            print('-----------------------')
-            print('-----------------------')
-            print('-----------------------')
-            print(product)
-            print(product.project.id)
 
-
-
-            print('-----------------------')
-
-
-            return redirect('confirm_outward', project_id=product.project.id)
+            return redirect('confirm_outward', project_id=data.project_matarial_production.project.id)
 
         
         except project_outward.DoesNotExist:
