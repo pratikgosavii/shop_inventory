@@ -253,9 +253,9 @@
                                                 <td style="border: 1px solid black; padding: 5px;">
                                                     <a href="{% url 'generate_all_final_barcode' i.id %}" class="btn btn-info">Print All Main Label</a>
                                                 </td>
-                                                <td style="border: 1px solid black; padding: 5px;">
+                                                {% comment %} <td style="border: 1px solid black; padding: 5px;">
                                                     <a href="{% url 'generate_all_final_barcode' i.id %}" class="btn btn-info">Print All  Label</a>
-                                                </td>
+                                                </td> {% endcomment %}
                                             </tr>
                                         </table>
                                     </td>
