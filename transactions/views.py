@@ -2080,7 +2080,22 @@ def add_project_outward_new(request, production_material_id, small_label, main_l
         
         project_outward.objects.create(project_matarial_production=project_matarial_production_instance, quantity=quantity)
 
+    print('-------------------------')
+    print('-------------------------')
+    print('-------------------------')
+    print('-------------------------')
+
+
+    print(main_label)
+
+    
+    print('-------------------------')
+    print('-------------------------')
+    print('-------------------------')
+    print('-------------------------')
     # Create new outward entries, distributing the remainder
+    base_quantity = int(total_quantity) // int(main_label)  # Integer division
+    remainder = int(total_quantity) % int(main_label) 
     for i in range(int(main_label)):
         # Add 1 to the quantity for the first 'remainder' entries
         quantity = base_quantity + (1 if i < remainder else 0)
