@@ -1991,6 +1991,7 @@ def get_sheet_details(request):
 @login_required(login_url='login')
 def confirm_outward(request, project_id):
 
+
     project_instance = project.objects.get(id = project_id)
     
 
@@ -2020,70 +2021,51 @@ def confirm_outward_json(request, project_outward_id):
 
     return redirect('confirm_outward', project_id = instance.project_matarial_production.project.id)
 
+
+
+@login_required(login_url='login')
+def submit_invoice_json(request, project_outward_main_label_id, invoiceId):
+
+    print('------------here-------------')
+
+
+
+    print(invoiceId)
+
+    instance = project_outward_main_label.objects.get(id = project_outward_main_label_id)
+
+    instance.invoice_no = invoiceId
+
+    instance.save()
+
+    return redirect('confirm_outward', project_id = instance.project_matarial_production.project.id)
+
+
+
+
+
+
 @login_required(login_url='login')
 def confirm_main_outward_json(request, project_outward_id):
 
     instance = project_outward_main_label.objects.get(id = project_outward_id)
-
-    data1 = project_outward_main_label.objects.filter(project_matarial_production = instance.project_matarial_production).order_by("id")
-    data = project_outward.objects.filter(project_matarial_production = instance.project_matarial_production).order_by("id")
     
-
-    print(instance.id)
-
-    for i in data1:
-        print(i.id)
-    serial_number = None
-    total_count = 0
-    range_end = 0
-    range_start = 0
-
-    for index, obj in enumerate(data1, start=1):
-        print('------------------dds-------------------')
-
-        print(obj.id)
-        print(instance.id)
-
-        if obj.id == instance.id:
-            print('------------------inhere-------------------')
-            if index == 1:
-
-                range_start = 1
-            range_end = index
-            break
-        total_count = total_count + obj.quantity
-
-     # Define the range of serial numbers for which to assign datetime
-    if range_start != 1:
-        range_start = total_count
-    range_end = total_count + range_end
-
-    print('--------------------------')
-    print('--------------------------')
-    print('--------------------------')
-    print('--------------------------')
-    print('--------------------------')
-
-    print(range_start)
-    print(range_end)
-
-
-    print('--------------------------')
-    print('--------------------------')
-    print('--------------------------')
-    print('--------------------------')
-    print('--------------------------')
-
-
-    # Assign datetime only to objects within the range
-    for index, obj in enumerate(data, start=1):
-        if range_start <= index <= range_end:
-            obj.date_time = datetime.now()  # Assign current datetime
-            obj.save()  # Save the updated object
-
     instance.date_time = datetime.now()
-
     instance.save()
+
+    data = project_outward.objects.filter(main_label = instance)
+    
+    print('-------------------------')
+    print('-------------------------')
+    print('-------------------------')
+    print(data)
+
+    for i in data:
+
+
+        i.date_time = datetime.now()
+
+        i.save()
 
     return redirect('confirm_outward', project_id = instance.project_matarial_production.project.id)
 
@@ -2123,53 +2105,51 @@ def add_project_inward(request, project_id):
 
 def add_project_outward_new(request, production_material_id, small_label, main_label):
 
+    main_label = int(main_label)
 
-    project_matarial_production_instance = project_matarial_production.objects.get(id = production_material_id)
+    project_matarial_production_instance = project_matarial_production.objects.get(id=production_material_id)
     
-    project_outward.objects.filter(project_matarial_production = project_matarial_production_instance).delete()
-    project_outward_main_label.objects.filter(project_matarial_production = project_matarial_production_instance).delete()
+    # Clear existing entries
+    project_outward.objects.filter(project_matarial_production=project_matarial_production_instance).delete()
+    project_outward_main_label.objects.filter(project_matarial_production=project_matarial_production_instance).delete()
 
-
+    # Update production instance
     project_matarial_production_instance.barcode_count = small_label
-    project_matarial_production_instance.main_label = main_label
+    project_matarial_production_instance.main_label_count = main_label
     project_matarial_production_instance.save()
 
     total_quantity = project_matarial_production_instance.production_quantity
-        
-    # Calculate the base quantity for each entry and the remainder
-    base_quantity = int(total_quantity) // int(small_label)  # Integer division
-    remainder = int(total_quantity) % int(small_label)  # Get the remainder
 
-    # Create new outward entries, distributing the remainder
-    for i in range(int(small_label)):
-        # Add 1 to the quantity for the first 'remainder' entries
-        quantity = base_quantity + (1 if i < remainder else 0)
-        
-        project_outward.objects.create(project_matarial_production=project_matarial_production_instance, quantity=quantity)
+    # Create main label entries
+    base_main_quantity = int(total_quantity) // int(main_label)
+    main_remainder = int(total_quantity) % int(main_label)
 
-    print('-------------------------')
-    print('-------------------------')
-    print('-------------------------')
-    print('-------------------------')
+    main_label_entries = []
+    for i in range(main_label):
+        main_quantity = base_main_quantity + (1 if i < main_remainder else 0)
+        main_entry = project_outward_main_label.objects.create(
+            project_matarial_production=project_matarial_production_instance, 
+            quantity=main_quantity
+        )
+        main_label_entries.append(main_entry)
 
+    # Distribute small labels within main labels
+    small_label = int(small_label)
+    small_label_per_main = small_label // main_label
+    small_remainder = small_label % main_label
 
-    print(main_label)
+    for idx, main_entry in enumerate(main_label_entries):
+        small_count_for_this_main = small_label_per_main + (1 if idx < small_remainder else 0)
+        small_base_quantity = main_entry.quantity // small_count_for_this_main
+        small_remainder_quantity = main_entry.quantity % small_count_for_this_main
 
-    
-    print('-------------------------')
-    print('-------------------------')
-    print('-------------------------')
-    print('-------------------------')
-    # Create new outward entries, distributing the remainder
-    base_quantity = int(total_quantity) // int(main_label)  # Integer division
-    remainder = int(total_quantity) % int(main_label) 
-    for i in range(int(main_label)):
-        # Add 1 to the quantity for the first 'remainder' entries
-        quantity = base_quantity + (1 if i < remainder else 0)
-        
-        project_outward_main_label.objects.create(project_matarial_production=project_matarial_production_instance, quantity=quantity)
-
-    print('here')
+        for i in range(small_count_for_this_main):
+            quantity = small_base_quantity + (1 if i < small_remainder_quantity else 0)
+            project_outward.objects.create(
+                project_matarial_production=project_matarial_production_instance,
+                main_label=main_entry,
+                quantity=quantity
+            )
 
 
 

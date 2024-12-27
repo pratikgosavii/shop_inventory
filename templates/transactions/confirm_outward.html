@@ -119,32 +119,27 @@
                                 
                             <label for="name" class="control-label mb-1"> Item Code Details</label>
 
-                           
-                             
-
-
-
                             <table>
 
                                 
-    <p style="font-size: 14px;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
-    line-height: 24px;
-    color: black;
-    "> Note* :- <span style="width: 17px;
-    height: 17px;
-    display: inline-flex;
-    color: orange;
-    background: orange;"> </span> Orange = Not Confirmed, <span style="width: 17px;
-    height: 17px;
-    display: inline-flex;
-    color: orange;
-    background: green;"> </span> Green = Confirmed Outward</p>
+                                <p style="font-size: 14px;
+                                font-family: 'Open Sans', sans-serif;
+                                font-weight: 600;
+                                line-height: 24px;
+                                color: black;
+                                "> Note* :- <span style="width: 17px;
+                                height: 17px;
+                                display: inline-flex;
+                                color: orange;
+                                background: orange;"> </span> Orange = Not Confirmed, <span style="width: 17px;
+                                height: 17px;
+                                display: inline-flex;
+                                color: orange;
+                                background: green;"> </span> Green = Confirmed Outward</p>
 
 
                                 <tr>
-                                    <th> Sr no </th>
+                                    <th> # </th>
                                     <th> ID </th>
                                     <th> Item Code </th>
                                     <th> Quantity </th>
@@ -154,115 +149,113 @@
                                 </tr>
                             
                                 {% for i in production_data %}
-                                <tr class="main-row">
-                                    <td> 
-                                        
-                                        {{ forloop.counter }} 
+                                    <tr class="main-row">
+                                        <td> 
+                                            
+                                            {{ forloop.counter }} 
+                                        </td>
+                                        <td> <input type="number" value="{{ i.id }}" style="width:110px;" class="form-control" readonly> </td>
+                                        <td> <input type="text" value="{{ i.item_code }}" class="form-control" readonly> </td>
+                                        <td> <input type="number" value="{{ i.production_quantity }}" class="form-control" readonly> </td>
+                                        <td> <input type="number" value="{{ i.barcode_count }}" id="small_label_count_{{ i.id }}" class="form-control sheet-no" placeholder="Barcode Quantity"> </td>
+                                        <td> <input type="number" value="{{ i.main_label_count }}" id="main_label_count_{{ i.id }}" class="form-control sheet-no" placeholder="Barcode Quantity"> </td>
+                                        <td> <a href="#" class="btn btn-info" onclick="confirmAndRedirect({{ i.id }})">Submit</a> 
+                                            
+                                            <button type="button" class="toggle-row-btn" style="background:none;border:none;">
+                                            &#9660; <!-- Down arrow icon -->
+                                        </button>
+                                    
                                     </td>
-                                    <td> <input type="number" value="{{ i.id }}" style="width:110px;" class="form-control" readonly> </td>
-                                    <td> <input type="text" value="{{ i.item_code }}" class="form-control" readonly> </td>
-                                    <td> <input type="number" value="{{ i.production_quantity }}" class="form-control" readonly> </td>
-                                    <td> <input type="number" value="{{ i.barcode_count }}" id="small_label_count_{{ i.id }}" class="form-control sheet-no" placeholder="Barcode Quantity"> </td>
-                                    <td> <input type="number" value="{{ i.main_label }}" id="main_label_count_{{ i.id }}" class="form-control sheet-no" placeholder="Barcode Quantity"> </td>
-                                    <td> <a href="#" class="btn btn-info" onclick="confirmAndRedirect({{ i.id }})">Submit</a> 
-                                        
-                                        <button type="button" class="toggle-row-btn" style="background:none;border:none;">
-                                        &#9660; <!-- Down arrow icon -->
-                                    </button>
-                                
-                                </td>
-                                </tr>
+                                    </tr>
                         
+                                
+                                    <tr class="dropdown-row" style="display:none;">
+                                        <td colspan="6" style="padding-left: 60px; padding-top:10px;">
+                                            <p> List Labels </p>
+                                            <table style="border-collapse: collapse; width: 100%;">
+                                            
+                                                <tr>
+                                                    <th style="border: 1px solid black; padding: 5px;">#</th>
+                                                    <th style="border: 1px solid black; padding: 5px;">Invoice</th>
+                                                    <th style="border: 1px solid black; padding: 5px;">Barcode ID</th>
+                                                    <th style="border: 1px solid black; padding: 5px;">Quantity</th>
+                                                    <th style="border: 1px solid black; padding: 5px;">Action</th>
+                                                </tr>
+
+                                                {% for i in i.outward_item_code_main_label.all %}
+                                                
+                                                    <tr>
+                                                        <td style="border: 1px solid black; padding: 5px;">{{ i.id }}</td>
+                                                        <td style="border: 1px solid black; padding: 5px;"><input type="text" value="{{ i.invoice_no }}" id="invoice{{ i.id }}" class="form-control sheet-no" placeholder="Invoice"></td>
+                                                        <td style="border: 1px solid black; padding: 5px;">{{ i.id }}</td>
+                                                        <td style="border: 1px solid black; padding: 5px;">{{ i.quantity }}</td>
+                                                        <td style="border: 1px solid black; padding: 5px; display: flex; gap: 10px;">
+                                                            <a href="{% url 'generate_barcode' i.id %}" class="btn btn-info">Print</a>
+                                                            {% if i.date_time %}
+                                                                <a href="{% url 'confirm_main_outward_json' i.id %}">
+                                                                    <input type="button" style="background:green; border-color:green;" class="btn btn-success" value="&#10004; Confirm Outward">
+                                                                </a>
+                                                            {% else %}
+                                                                <a href="{% url 'confirm_main_outward_json' i.id %}">
+                                                                    <input type="button" style="background:orange; border-color:orange;" class="btn btn-success" value="&#10004; Confirm Outward">
+                                                                </a>
+                                                            {% endif %}
+                                                          
+
+                                                            <button id="submitInvoiceBtn" onclick="submitInvoice({{ i.id }})" class="btn btn-info">
+                                                                Submit Invoice
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="border: 1px solid black; padding: 5px;">#</th>
+                                                        <th style="border: 1px solid black; padding: 5px;">Barcode ID</th>
+                                                        <th style="border: 1px solid black; padding: 5px;">Quantity</th>
+                                                        <th style="border: 1px solid black; padding: 5px;">Action</th>
+                                                    </tr>
+
+                                                    {% for related_item1 in i.main_label_re.all %}
+                                                    
+                                                        <tr>
+                                                            <td style="border: 1px solid black; padding: 5px;">{{ forloop.counter }}</td>
+                                                            <td style="border: 1px solid black; padding: 5px;">{{ related_item1.id }}</td>
+                                                            <td style="border: 1px solid black; padding: 5px;">{{ related_item1.quantity }}</td>
+                                                            <td style="border: 1px solid black; padding: 5px; display: flex; gap: 10px;">
+                                                                <a href="{% url 'generate_barcode' related_item1.id %}" class="btn btn-info">Print</a>
+                                                                {% if related_item1.date_time %}
+                                                                    <a href="{% url 'confirm_outward_json' related_item1.id %}">
+                                                                        <input type="button" style="background:green; border-color:green;" class="btn btn-success" value="&#10004; Confirm Outward">
+                                                                    </a>
+                                                                {% else %}
+                                                                    <a href="{% url 'confirm_outward_json' related_item1.id %}">
+                                                                        <input type="button" style="background:orange; border-color:orange;" class="btn btn-success" value="&#10004; Confirm Outward">
+                                                                    </a>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+
+                                                    {% endfor %}
+                                                {% endfor %}
+
+                                                <tr>
+                                                    <td style="border: 1px solid black; padding: 5px;"></td>
+                                                    <td style="border: 1px solid black; padding: 5px;"></td>
+                                                    <td style="border: 1px solid black; padding: 5px;"></td>
+                                                    <td style="border: 1px solid black; padding: 5px;">
+                                                        <a href="{% url 'generate_all_barcode' i.id %}" class="btn btn-info">Print All Small Label</a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
 
                                 
-                                <tr class="dropdown-row" style="display:none;">
-                                    <td colspan="6" style="padding-left: 60px; padding-top:10px;">
-                                        <p> List Small labels </p>
-                                        <table style="border-collapse: collapse; width: 100%;">
-                                            <tr>
-                                                <th style="border: 1px solid black; padding: 5px;">Sr no</th>
-                                                <th style="border: 1px solid black; padding: 5px;">Barcode ID</th>
-                                                <th style="border: 1px solid black; padding: 5px;">Quantity</th>
-                                                <th style="border: 1px solid black; padding: 5px;">Action</th>
-                                            </tr>
-                                            {% for related_item in i.outward_item_code_barcode.all %}
-                                            <tr>
-                                                <td style="border: 1px solid black; padding: 5px;">{{ forloop.counter }}</td>
-                                                <td style="border: 1px solid black; padding: 5px;">{{ related_item.id }}</td>
-                                                <td style="border: 1px solid black; padding: 5px;">{{ related_item.quantity }}</td>
-                                                <td style="border: 1px solid black; padding: 5px;">
-                                                    <a href="{% url 'generate_barcode' related_item.id %}" class="btn btn-info">Print</a>
-                                                    {% if related_item.date_time %}
-                                                        <a href="{% url 'confirm_outward_json' related_item.id %}">
-                                                            <input type="button" style="margin-left: 10px; background:green; border-color:green;" class="btn btn-success" value="&#10004; Confirm Outward">
-                                                        </a>
-                                                    {% else %}
-                                                        <a href="{% url 'confirm_outward_json' related_item.id %}">
-                                                            <input type="button" style="margin-left: 10px; background:orange; border-color:orange;" class="btn btn-success" value="&#10004; Confirm Outward">
-                                                        </a>
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                            <tr>
-                                                <td style="border: 1px solid black; padding: 5px;"></td>
-                                                <td style="border: 1px solid black; padding: 5px;"></td>
-                                                <td style="border: 1px solid black; padding: 5px;"></td>
-                                                <td style="border: 1px solid black; padding: 5px;">
-                                                    <a href="{% url 'generate_all_barcode' i.id %}" class="btn btn-info">Print All Small Label</a>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-
-                                
-                                <tr class="dropdown-row" style="display:none;">
-                                    <td colspan="6" style="padding-left: 60px; padding-top:10px;">
-                                        <p>List Main labels</p>
-                                        <table style="border-collapse: collapse; width: 100%;">
-                                            <tr>
-                                                <th style="border: 1px solid black; padding: 5px;">Sr no m</th>
-                                                <th style="border: 1px solid black; padding: 5px;">Barcode ID</th>
-                                                <th style="border: 1px solid black; padding: 5px;">Quantity</th>
-                                                <th style="border: 1px solid black; padding: 5px;">Action</th>
-                                            </tr>
-                                            {% for related_item in i.outward_item_code_main_label.all %}
-                                            <tr>
-                                                <td style="border: 1px solid black; padding: 5px;">{{ forloop.counter }}</td>
-                                                <td style="border: 1px solid black; padding: 5px;">{{ related_item.id }}</td>
-                                                <td style="border: 1px solid black; padding: 5px;">{{ related_item.quantity }}</td>
-                                                <td style="border: 1px solid black; padding: 5px;">
-                                                    <a href="{% url 'generate_barcode' related_item.id %}" class="btn btn-info">Print</a>
-                                                    {% if related_item.date_time %}
-                                                        <a href="{% url 'confirm_main_outward_json' related_item.id %}">
-                                                            <input type="button" style="margin-left: 10px; background:green; border-color:green;" class="btn btn-success" value="&#10004; Confirm Outward">
-                                                        </a>
-                                                    {% else %}
-                                                        <a href="{% url 'confirm_main_outward_json' related_item.id %}">
-                                                            <input type="button" style="margin-left: 10px; background:orange; border-color:orange;" class="btn btn-success" value="&#10004; Confirm Outward">
-                                                        </a>
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                            <tr>
-                                                <td style="border: 1px solid black; padding: 5px;"></td>
-                                                <td style="border: 1px solid black; padding: 5px;"></td>
-                                                <td style="border: 1px solid black; padding: 5px;"></td>
-                                                <td style="border: 1px solid black; padding: 5px;">
-                                                    <a href="{% url 'generate_all_final_barcode' i.id %}" class="btn btn-info">Print All Main Label</a>
-                                                </td>
-                                                {% comment %} <td style="border: 1px solid black; padding: 5px;">
-                                                    <a href="{% url 'generate_all_final_barcode' i.id %}" class="btn btn-info">Print All  Label</a>
-                                                </td> {% endcomment %}
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-
-                            {% endfor %}
+                              
                         </table>
+
+                        
  <br>
 
 
@@ -369,20 +362,19 @@ $(document).ready(function() {
 
 document.querySelectorAll('.toggle-row-btn').forEach(button => {
     button.addEventListener('click', function() {
+
         // Get the current row
         const currentRow = this.closest('tr');
 
         // Get the next two siblings
         const firstDropdownRow = currentRow.nextElementSibling;
-        const secondDropdownRow = firstDropdownRow?.nextElementSibling;
 
         // Check if the rows exist and toggle their visibility
-        if (firstDropdownRow && secondDropdownRow) {
+        if (firstDropdownRow) {
             const isHidden = firstDropdownRow.style.display === "none";
 
             // Toggle both rows
             firstDropdownRow.style.display = isHidden ? "table-row" : "none";
-            secondDropdownRow.style.display = isHidden ? "table-row" : "none";
 
             // Update the button icon
             this.innerHTML = isHidden ? "&#9650;" : "&#9660;"; // Up arrow when rows are shown, down arrow when hidden
@@ -405,6 +397,58 @@ function confirmAndRedirect (id) {
     }
 }
 
+
+
+
+function submitInvoice(project_outward_main_label_id) {
+    // Get the value of the invoice textbox
+
+    const invoiceElementId = "invoice" + project_outward_main_label_id;
+
+    // Get the value of the invoice textbox using the dynamic ID
+    const invoiceId = document.getElementById(invoiceElementId).value;
+
+    // Check if the invoice ID is provided
+    if (!invoiceId) {
+        alert('Please enter an invoice ID.');
+        return;
+    }
+
+    // Construct the URL dynamically
+    const url = `/transactions/submit-invoice-json/${project_outward_main_label_id}/${invoiceId}`;
+
+    alert(url); // Debugging - Check the constructed URL
+
+    // Perform the POST request
+    $.ajax({
+        type: 'POST',
+        url: url,
+        headers: { 
+            'X-CSRFToken': getCookie('csrftoken') // Include CSRF token
+        },
+        success: function(response) {
+            console.log('Success:', response);
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            console.error('Error:', textStatus, errorThrown);
+        }
+    });
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
 
 </script>
