@@ -80,51 +80,16 @@
 
                    
                     
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Customer </a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_customer' %}">Add</a></li>
-                        <li><i class="fa fa-th"></i><a href="{% url 'list_customer' %}">View</a></li>
-                    </ul>
-                </li>
+                
 
 
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Sales Customer </a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_sales_customer' %}">Add</a></li>
-                        <li><i class="fa fa-th"></i><a href="{% url 'list_sales_customer' %}">View</a></li>
-                    </ul>
-                </li>
+               
 
 
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Sales Customer </a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_inward_supplier' %}">Add</a></li>
-                        <li><i class="fa fa-th"></i><a href="{% url 'list_inward_supplier' %}">View</a></li>
-                    </ul>
-                </li>
 
-
-                {% endif %}
-
-                {% if request.user.is_designer %}
-
-                <li class="menu-title">Setting</li><!-- /.menu-title -->
-
-
-                    <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>All Materials </a>
-                        <ul class="sub-menu children dropdown-menu">
-                            <li><i class="fa fa-id-card-o"></i><a href="{% url 'list_generated_product_qr' %}">View</a></li>
-                        </ul>
-                    </li>
-
-                    {% endif %}
 
                 
-                {% if request.user.is_superuser %}
+              
 
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>All Materials </a>
@@ -142,7 +107,24 @@
                 </li>
 
                 <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Project Customer </a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_customer' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_customer' %}">View</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Sales Customer </a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_sales_customer' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_sales_customer' %}">View</a></li>
+                    </ul>
+                </li>
+
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i> Inward Suppiler </a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_inward_supplier' %}">Add</a></li>
                         <li><i class="fa fa-th"></i><a href="{% url 'list_inward_supplier' %}">View</a></li>
@@ -150,13 +132,30 @@
                 </li>
 
                 {% endif %}
+
+                
+                {% if request.user.is_designer %}
+
+                <li class="menu-title">Setting</li><!-- /.menu-title -->
+
+
+                    <li class="menu-item-has-children dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>All Materials </a>
+                        <ul class="sub-menu children dropdown-menu">
+                            <li><i class="fa fa-id-card-o"></i><a href="{% url 'list_generated_product_qr' %}">View</a></li>
+                        </ul>
+                    </li>
+
+                    {% endif %}
+
+
                 
                 {% if request.user.is_accounts %}
     
                 <li class="menu-title">Setting</li><!-- /.menu-title -->
                     
                     <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Customer </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Project Customer </a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_customer' %}">Add</a></li>
                             <li><i class="fa fa-th"></i><a href="{% url 'list_customer' %}">View</a></li>
@@ -182,7 +181,7 @@
 
 
                 <li class="">
-                    <a href="{% url 'sales_report' %}"><i class="menu-icon fa fa-laptop"></i>Sales Software </a>
+                    <a href="{% url 'sales_report' %}"><i class="menu-icon fa fa-laptop"></i>Sales Report </a>
                 </li>
                 
                 <li class="">
@@ -248,7 +247,7 @@
                 <li class="menu-title">Setting</li><!-- /.menu-title -->
 
                 <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Sales Customer </a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i> Inward Suppiler </a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_inward_supplier' %}">Add</a></li>
                         <li><i class="fa fa-th"></i><a href="{% url 'list_inward_supplier' %}">View</a></li>

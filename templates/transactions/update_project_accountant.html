@@ -95,7 +95,7 @@
                                 {% for i in production_data %}
                                 <tr>
                                     <td>
-                                        <input type="number" value="{{ i.order_id }}" style="width:110px;" name="" class="form-control" id="" readonly>
+                                        <input type="number" value="{{ forloop.counter }}" style="width:110px;" name="" class="form-control" id="" readonly>
                                     </td>
                                     <td>
                                         <select name="item_code" class="form-control" id="bag_size" required>
