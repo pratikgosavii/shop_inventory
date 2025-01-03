@@ -1,0 +1,29 @@
+$(document).on("click", ".confirm-outward", function (event) {
+    event.preventDefault(); // Prevent default action (link behavior)
+
+    const url = $(this).data("url"); // Get the URL from the button's data-url attribute
+    const smallButton = $(this); // Reference to the clicked button
+
+    $.ajax({
+        type: "GET", // HTTP method
+        url: url, // URL to confirm outward
+        success: function (response) {
+            console.log("Outward confirmed successfully:", response);
+            alert(response.message || "Outward confirmed successfully!");
+
+            // Update the clicked 'confirm-outward-small' button
+            
+                    // Change the Confirm Outward button color to green
+                    this.style.backgroundColor = "green";
+                    this.style.borderColor = "green";
+                    // Optionally, disable the button to prevent multiple submissions
+                    makegreenbutton(this.id, document.querySelectorAll(".confirm-outward").length);
+        
+        },
+        error: function (xhr, status, error) {
+            console.log("Error confirming outward:", error);
+            alert("Error: Unable to confirm outward.");
+        }
+    });
+
+});

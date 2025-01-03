@@ -111,7 +111,7 @@
                                         <input type="number" value="{{ i.production_quantity }}" name="production_quantity" class="form-control" id="bag_size" required>
                                     </td>
                                   
-                                    <td>
+                                    {% comment %} <td>
 
                                         <div style="display:flex; gap:10px;">
 
@@ -121,7 +121,7 @@
                                         
                                         </div>
 
-                                    </td>
+                                    </td> {% endcomment %}
                                 </tr>
                                 {% endfor %}
 
@@ -135,13 +135,13 @@
 
                             </table>
 
-
+{% comment %} 
                             <div style="display:flex; gap:10px; margin:30px; margin-right:80px; float:right;">
 
                                 <a href="{% url 'generate_all_barcode' form.instance.id %}" style="background: orange; border: orange;" class="btn btn-info" > Print All Barcode </a>
                             
                             
-                            </div>
+                            </div> {% endcomment %}
 
 
                             <br>

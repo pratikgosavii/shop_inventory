@@ -29,14 +29,19 @@ urlpatterns = [
     path('get-sheet-details/', get_sheet_details, name='get_sheet_details'),
 
     path('confirm-outward/<project_id>', confirm_outward, name='confirm_outward'),
-    path('confirm-outward-json/<project_outward_id>', confirm_outward_json, name='confirm_outward_json'),
-    path('submit-invoice-json/<project_outward_main_label_id>/<invoiceId>', submit_invoice_json, name='submit_invoice_json'),
+    
+    path('confirm-small-outward-json/<project_outward_id>', confirm_small_outward_json, name='confirm_small_outward_json'),
     path('confirm-main-outward-json/<project_outward_id>', confirm_main_outward_json, name='confirm_main_outward_json'),
+
     path('add-project-outward-new/<production_material_id>/<small_label>/<main_label>', add_project_outward_new, name='add_project_outward_new'),
-    path('generate-barcode/<int:id>/', generate_barcode, name='generate_barcode'),
-    path('generate-all-barcode/<int:project_matarial_production_id>/', generate_all_barcode, name='generate_all_barcode'),
+    
+    path('generate-small-barcode/<int:id>/', generate_small_barcode, name='generate_small_barcode'),
     path('generate-final-barcode/<int:project_matarial_production_id>/', generate_final_barcode, name='generate_final_barcode'),
-    path('generate-all-final-barcode/<int:project_matarial_production_id>/', generate_all_final_barcode, name='generate_all_final_barcode'),
+    path('generate-all-barcode/<int:project_matarial_production_id>/', generate_all_barcode, name='generate_all_barcode'),
+    # path('generate-all-final-barcode/<int:project_matarial_production_id>/', generate_all_final_barcode, name='generate_all_final_barcode'),
+    
+    path('submit-invoice-json/<project_outward_main_label_id>/<invoiceId>', submit_invoice_json, name='submit_invoice_json'),
+
     path('scan-barcode/', scan_barcode, name='scan_barcode'),
     path('scan-main-barcode/', scan_main_barcode, name='scan_main_barcode'),
 
