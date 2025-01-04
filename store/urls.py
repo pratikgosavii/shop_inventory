@@ -19,7 +19,7 @@ urlpatterns = [
     path('delete-item_code/<item_code_id>', delete_item_code, name='delete_item_code'),
     path('list-item_code/', list_item_code, name='list_item_code'),
     
-    path('add-customer/', add_customer, name='add_customer'),
+    path('add-custommer/', add_customer, name='add_customer'),
     path('update-customer/<customer_id>', update_customer, name='update_customer'),
     path('delete-customer/<customer_id>', delete_customer, name='delete_customer'),
     path('list-customer/', list_customer, name='list_customer'),

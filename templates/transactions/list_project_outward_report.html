@@ -12,6 +12,11 @@
     padding: 0;
   }
 
+  .cus_dro{
+    width: 400px !important;
+  }
+
+
   .expand-button {
     position: relative;
   }
@@ -43,13 +48,10 @@
 <div class="row">
   <div class="col-xl-12">
 
-<form method="get"  >
+<form method="get">
 
-    <div class="form-group" style="display: flex;
-      gap: 14px;">
+      <div class="form-group" style="display: flex;gap: 14px;">
 
-          
-                
         <label for="name" class="control-label mb-1" style="margin-left : 0px;">Customer </label>
           {{ project_filter.form.customer }}
               
@@ -59,28 +61,21 @@
         <label for="name" class="control-label mb-1" style="margin-left : 0px;">To Date </label>
           {{ project_filter.form.to_DC_date }}
 
-    
-            
-    
-            
-       
-        
-     
-
       </div>
 
-       <div class="form-group" style="display: flex; gap: 14px;">
+      <div class="form-group" style="display: flex; gap: 14px;">
 
 
-      <label for="name" class="control-label mb-1" style="margin-left : 0px;">Outward From Date </label>
-      {{ project_matarial_production_filter.form.from_date_time }}
-          
-    <label for="name" class="control-label mb-1" style="margin-left : 0px;">OutwardTo Date </label>
-      {{ project_matarial_production_filter.form.to_date_time }}
+        <label for="name" class="control-label mb-1" style="margin-left : 0px;">Outward From Date </label>
+        {{ project_matarial_production_filter.form.from_date_time }}
+            
+        <label for="name" class="control-label mb-1" style="margin-left : 0px;">OutwardTo Date </label>
+          {{ project_matarial_production_filter.form.to_date_time }}
 
-    
-      <button class="btn btn-primary" type="submit" > Submit </button>
-    </div>
+      
+        <button class="btn btn-primary" type="submit" > Submit </button>
+
+      </div>
 
   </form>
 
@@ -97,6 +92,11 @@
     <a class="dropdown-item" href="{% url 'generate_outward_report_pdf_email_daily' %}?{% for key, value in request.GET.items %}{{ key }}={{ value }}&{% endfor %}">Send Email</a>
   </div>
 </div>
+
+
+
+</br>
+
 
 
 <div class="row">

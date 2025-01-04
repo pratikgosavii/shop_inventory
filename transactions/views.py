@@ -1399,6 +1399,7 @@ def download_project_report(request):
 
 
 
+
 @login_required(login_url='login')
 def sales_report(request):
 
@@ -2843,33 +2844,68 @@ def download_inward_report_pdf(request):
 def outward_report(request):
 
 
-    project_filter_data = project_filter(request.GET, queryset=project.objects.all())
-    production_filter = project_matarial_production_filter(request.GET, queryset=project_matarial_production.objects.all())
+    projects = project.objects.all().order_by("-id")
+
+     # Check if request.GET is empty
+    if is_invalid_get_params(request.GET):
+        # Create a mutable copy of request.GET
+        default_params = QueryDict(mutable=True)
+        
+        # Set default parameters
+
+        default_params.update({
+        'from_date_time': datetime.now().replace(hour=18, minute=0, second=0, microsecond=0) - timedelta(days=1),
+        'to_date_time': datetime.now().replace(hour=18, minute=0, second=0, microsecond=0)
+        })
+
+    else:
+
+        from_date_time = unquote(request.GET.get('from_date_time'))
+        to_date_time = unquote(request.GET.get('to_date_time'))
+
+        try:
+            # Parse the datetime strings into datetime objects
+            from_date_time_obj = datetime.strptime(from_date_time, '%Y-%m-%dT%H:%M')
+            to_date_time_obj = datetime.strptime(to_date_time, '%Y-%m-%dT%H:%M')
+        except ValueError:
+            return HttpResponse("Invalid datetime format", status=400)
+
+        
+    default_params = request.GET.copy()  
+
+   
+    default_params.update({
+        'from_main_label_date': from_date_time_obj.isoformat(),
+        'to_main_label_date': to_date_time_obj.isoformat()
+    })
 
 
-    print(request.GET)
+    print('--------------------------------------')
+    print(default_params)
+    print('--------------------------------------')
+            
+    project_filter_data = project_filter(default_params, queryset=project.objects.all())
+    production_filter = ProjectOutwardMainLabelFilter(default_params, queryset=project_matarial_production.objects.all())
+
+
+    print(default_params)
 
     # Apply production filter and prefetch the filtered production data
     project_qs = project_filter_data.qs  # Ensure this is a queryset
     production_qs = production_filter.qs  # Ensure this is a queryset
 
+    print('production_qs')
     print(production_qs)
+    print('project_qs')
     print(project_qs)
 
     # Prefetch the production data using the correct related_name for the relationship
-    projects = project_qs.filter(
+    data = project_qs.filter(
         project_production_n__in=production_qs  # Ensures only projects with related filtered production records
     ).prefetch_related(
         Prefetch('project_production_n', queryset=production_qs)  # Prefetch the filtered production data
     ).distinct()
 
-    data = projects
-
-    print('-----------------------')
-    print('-----------------------')
-    print('-----------------------')
-    print('-----------------------')
-    print(projects)
     
     page = request.GET.get('page', 1)
     paginator = Paginator(data, 50)
@@ -2918,6 +2954,9 @@ from django.db.models import Sum
 from django.core.mail import EmailMessage
 
 
+from urllib.parse import unquote
+
+# Decode the datetime string
 
 
 def outward_report_csv(request):
@@ -2939,7 +2978,27 @@ def outward_report_csv(request):
 
     else:
 
-        default_params = request.GET
+        from_date_time = unquote(request.GET.get('from_date_time'))
+        to_date_time = unquote(request.GET.get('to_date_time'))
+
+        try:
+            # Parse the datetime strings into datetime objects
+            from_date_time_obj = datetime.strptime(from_date_time, '%Y-%m-%dT%H:%M')
+            to_date_time_obj = datetime.strptime(to_date_time, '%Y-%m-%dT%H:%M')
+        except ValueError:
+            return HttpResponse("Invalid datetime format", status=400)
+
+        # You can use the parsed datetime objects now
+        # For example, filtering or other operations based on the parsed datetime
+        # Assuming you may want to update default_params with the valid parsed times
+        default_params = request.GET.copy()  # Use a mutable copy if you want to modify it
+
+        # Optional: You can update `default_params` with the parsed values if needed
+        default_params.update({
+            'from_date_time': from_date_time_obj.strftime('%Y-%m-%dT%H:%M'),
+            'to_date_time': to_date_time_obj.strftime('%Y-%m-%dT%H:%M')
+        })
+
                 
     project_filter_data = project_filter(default_params, queryset=project.objects.all())
     production_filter = project_matarial_production_filter(default_params, queryset=project_matarial_production.objects.all())
@@ -4359,7 +4418,119 @@ def list_generated_product_qr(request):
 
     return render(request, 'transactions/list_all_generated_qr.html', context)
 
+
+
+@login_required(login_url='login')
 def sheet_report(request):
+
+    filter_set = product_qr_filter(request.GET, queryset=product_qr.objects.all())
+    data = filter_set.qs
+
+    sheet_count = data.count()
+
+    print('-------------------------')
+    print(filter_set)
+    print('-------------------------')
+
+
+    context = {
+        
+        'sheet_filter': filter_set,
+        'data': data,
+        'sheet_count': sheet_count,
+    }
+
+    return render(request, 'transactions/sheet_report.html', context)
+
+
+
+
+def sheet_report_downlaod(request):
+
+    filter_set = product_qr_filter(request.GET, queryset=product_qr.objects.all())
+    data = filter_set.qs
+
+    
+    order_filters_data1 = list(data.values_list('id', 'product__category', 'product__size', 'product__grade', 'product__thickness', 'finish', 'date', 'moved_to_left_over', 'moved_to_scratch', 'product__size'))
+    order_filters_data = list(map(list, order_filters_data1))
+    
+
+    vals = []
+        
+    vals1 = []
+
+    
+    vals.append([''])
+    vals.append(['SHEETS REPORT'])
+    vals.append([''])
+    vals.append([''])
+    vals1.append("Sr No")
+    vals1.append("Sheet Id")
+    vals1.append("Matrial Name")
+    vals1.append("Size")
+    vals1.append("Grade")
+    vals1.append("Thickness")
+    vals1.append("Finish")
+    vals1.append("Date")
+    vals1.append("New Sheet")
+    vals1.append("Leftover Sheet")
+    vals1.append("Dead Sheet")
+    vals1.append("Left SQinch")
+    vals.append(vals1)
+
+    counteer = 1
+
+    for i in order_filters_data:
+        vals1 = []
+        vals1.append(counteer)
+        counteer += 1
+        vals1.append(i[0])  # Sheet Id
+        vals1.append(i[1])  # Sheet Id
+        vals1.append(i[2])  # Sheet Id
+        vals1.append(i[3])  # Sheet Id
+        vals1.append(i[4])  # Sheet Id
+        vals1.append(i[5])  # Sheet Id
+        vals1.append(i[6])  # Sheet Id
+        
+        # Conditional logic for "New Sheet", "Leftover Sheet", and "Dead Sheet"
+        if i[7]:  # moved_to_left_over is True
+            vals1.append("No")  # New Sheet
+            vals1.append("Yes")  # Leftover Sheet
+            vals1.append("No")  # Dead Sheet
+        elif i[8]:  # moved_to_scratch is True
+            vals1.append("No")  # New Sheet
+            vals1.append("No")  # Leftover Sheet
+            vals1.append("Yes")  # Dead Sheet
+        else:  # Neither moved_to_left_over nor moved_to_scratch is True
+            vals1.append("Yes")  # New Sheet
+            vals1.append("No")  # Leftover Sheet
+            vals1.append("No")  # Dead Sheet
+        
+        vals.append(vals1)
+
+
+    name = "Sales_Report.csv"
+    path = os.path.join(BASE_DIR) + '\static\csv\\' + name
+
+    
+    with open(path,  'w', newline="") as f:
+        writer = csv.writer(f)
+        writer.writerows(vals)
+
+
+        link = os.path.join(BASE_DIR) + '\static\csv\\' + name
+
+    with open(path,  'r', newline="") as f:
+        mime_type  = mimetypes.guess_type(link)
+
+        response = HttpResponse(f.read(), content_type=mime_type)
+        response['Content-Disposition'] = 'attachment;filename=' + str(link)
+
+        return response
+
+
+
+def sheet_status_report(request):
 
     data = product_qr.objects.all().order_by("id")
 

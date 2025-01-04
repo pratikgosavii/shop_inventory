@@ -47,26 +47,32 @@
 <div class="row">
   <div class="col-xl-12">
 
-    <form method="get" action="{% url 'project_report' %}">
+    <form method="get" action="{% url 'sheet_report' %}">
 
       <div class="form-group" style="display: flex;
         gap: 14px;">
 
-        <label for="name" class="control-label mb-1" style="margin-left : 0px;">Customer</label>
-                {{ order_filter.form.customer }}
+        <label for="name" class="control-label mb-1" style="margin-left : 0px;">moved_to_scratch</label>
+                {{ sheet_filter.form.moved_to_scratch }}
                     
                 
-        <label for="name" class="control-label mb-1" style="margin-left : 0px;">User</label>
-          {{ order_filter.form.user }}
+        <label for="name" class="control-label mb-1" style="margin-left : 0px;">moved_to_left_over</label>
+          {{ sheet_filter.form.moved_to_left_over }}
               
+    </div>
+
+    <div class="form-group" style="display: flex;
+        gap: 14px;">
         <label for="name" class="control-label mb-1" style="margin-left : 0px;">From Date </label>
-          {{ order_filter.form.date_start }}
+          {{ sheet_filter.form.date_start }}
               
         <label for="name" class="control-label mb-1" style="margin-left : 0px;">To Date </label>
-          {{ order_filter.form.date_end }}
+          {{ sheet_filter.form.date_end }}
               
-          
-      
+              
+        <label for="name" class="control-label mb-1" style="margin-left : 0px;"> Finish </label>
+          {{ sheet_filter.form.finish }}
+              
 
         <br>
 
@@ -80,8 +86,11 @@
 
 
 <button class="btn btn-primary" onclick="report();" type="submit">
-  Download Sales Report
+  Download Sheet Report
 </button> 
+
+</br>
+</br>
 
 <div class="row">
   <div class="col-xl-12">
@@ -95,33 +104,57 @@
             <thead>
               <tr>
                 <th class="serial">#</th>
-                <th>Customer</th>
-                <th>User</th>
-                <th>Total Sqinch</th>
-                <th>Final Amount</th>
+                <th>Sheet Id</th>
+                <th>Matrial Name</th>
+                <th>Size</th>
+                <th>Grade</th>
+                <th>Thickness</th>
+                <th>Finish</th>
                 <th>Date</th>
               </tr>
             </thead>
             <tbody>
 
+              {% if data %}
               {% for i in data %}
 
+              {% if i.status == True %}
 
+              <tr style="background: #ec9bec;">
 
-              <tr>
-
-                <input type="hidden" value="{{ i.id }}" />
-                <td class="serial">{{ forloop.counter }}</td>
-                <td>{{ i.customer }}</td>
-                <td>{{ i.user }}</td>
-                <td>{{ i.total_sqinch }}</td>
-                <td>{{ i.final_amount }}</td>
-                <td>{{ i.date }}</td>
-
-              </tr>
               
-              {% endfor %}
+              {% elif i.moved_to_scratch %}
 
+              <tr style="background: #ffc5c5;">
+
+              {% elif i.moved_to_left_over %}
+
+              <tr style="background: #ffd890;">
+
+                 
+              
+                  {% else %}
+
+              <tr style="background: #b0ffb0">
+
+                  {% endif %}
+
+                  <td class="serial">{{ forloop.counter }}</td>
+                  <td>{{ i.id }}</td>
+                  <td>{{ i.product.category }}</td>
+                  <td>{{ i.product.size }}</td>
+                  <td>{{ i.product.grade }}</td>
+                  <td>{{ i.product.thickness }}</td>
+                  <td>{{ i.finish }}</td>
+                  <td>{{ i.date }}</td>
+                  
+                 
+                 
+              </tr>
+              {% endfor %}
+              {% else %}
+                  <tr><td>No Product Data</td></tr>
+              {% endif %}
             </tbody>
           </table>
 
@@ -130,13 +163,9 @@
                 <div class="row">
                     
                     <p style="font-weight: 700;
-                    color: black;;margin-left:30px;border : 1px solid grey;padding : 10px;">  Total Sqinch : {{ total_sqinch }} </p>
+                    color: black;;margin-left:30px;border : 1px solid grey;padding : 10px;">  Total Sheet : {{ sheet_count }} </p>
                   </div>
-                <div class="row">
-                    
-                    <p style="font-weight: 700;
-                    color: black;;margin-left:30px;border : 1px solid grey;padding : 10px;">  Total Amount : {{ final_amount }} </p>
-                  </div>
+               
 
                 
                 
@@ -216,7 +245,7 @@
     
     url = url[1]
     
-    url = "{% url 'download_sales_report' %}" + '?' + url
+    url = "{% url 'download_sheet_report' %}" + '?' + url
     
     window.location = url
     
