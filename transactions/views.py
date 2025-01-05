@@ -2278,10 +2278,10 @@ def generate_final_barcode(request, project_matarial_production_id):
 
     # Prepare text lines
     text_lines = [
-        f"Project ID: {data.project.order_id}",
-        f"Quantity: {data.production_quantity}",
-        f"Item Code: {data.item_code.code}",
-        f"Customer Name: {data.project.customer.name}",
+        f"Project ID: {data.project_matarial_production.project.order_id}",
+        f"Quantity: {data.quantity}",
+        f"Item Code: {data.project_matarial_production.item_code.code}",
+        f"Customer Name: {data.project_matarial_production.project.customer.name}",
         f"Supplier Name: Ravi-Raj Anodisers"
     ]
 
@@ -4428,11 +4428,7 @@ def sheet_report(request):
 
     sheet_count = data.count()
 
-    print('-------------------------')
-    print(filter_set)
-    print('-------------------------')
-
-
+   
     context = {
         
         'sheet_filter': filter_set,
