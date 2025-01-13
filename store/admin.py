@@ -12,6 +12,7 @@ class BuyerAdmin(admin.ModelAdmin):
 
 admin.site.register(category)
 admin.site.register(size)
+admin.site.register(thickness)
 admin.site.register(godown)
 admin.site.register(customer)
 admin.site.register(product_qr)

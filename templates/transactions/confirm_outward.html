@@ -185,8 +185,6 @@
                                                             {% else %}
                                                                 <input type="button" class="btn btn-success confirm-outward" style="background:orange; border-color:orange;" data-url="{% url 'confirm_main_outward_json' z.id %}" value="Confirm Outward" />
                                                             {% endif %}
-                                                        </td>
-                                                        <td>
                                                             <button id="submitInvoiceBtn" onclick="submitInvoice({{ z.id }})" class="btn btn-info">Submit Invoice</button>
                                                         </td>
                                                     </tr>
@@ -194,6 +192,7 @@
                                                     {% for related_item1 in z.main_label_re.all %}
                                                         <tr class="child-row" data-parent-id="{{ z.id }}">
                                                             <td style="border: 1px solid black; padding: 5px;">{{ forloop.counter }}</td>
+                                                            <td> </td>
                                                             <td style="border: 1px solid black; padding: 5px;">{{ related_item1.id }}</td>
                                                             <td style="border: 1px solid black; padding: 5px;">{{ related_item1.quantity }}</td>
                                                             <td style="border: 1px solid black; padding: 5px; display: flex; gap: 10px;">

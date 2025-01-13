@@ -226,121 +226,6 @@ def low_stock_report(request, notification_id):
 
 
 
-@login_required(login_url='login')
-def add_sales_customer(request):
-
-    if request.method == 'POST':
-
-        forms = sales_customer_Form(request.POST)
-
-        if forms.is_valid():
-            forms.save()
-            return redirect('list_sales_customer')
-        else:
-            print(forms.errors)
-    
-    else:
-
-        forms = sales_customer_Form()
-
-        context = {
-            'form': forms
-        }
-        return render(request, 'transactions/add_sales_customer.html', context)
-
-        
-
-@login_required(login_url='login')
-def add_sales_customer_json(request):
-
-    if request.method == 'POST':
-
-        forms = sales_customer_Form(request.POST)
-
-        if forms.is_valid():
-            forms.save()
-            return JsonResponse({'customer': {'id': forms.instance.id, 'name': forms.instance.name, 'credit_limit': forms.instance.credit_limit}}, status=200)
-        else:
-            print(forms.errors)
-    
-    else:
-
-        forms = sales_customer_Form()
-
-        context = {
-            'form': forms
-        }
-        return render(request, 'transactions/add_sales_customer.html', context)
-
-
-
-@login_required(login_url='login')
-def get_customer_details(request, customer_id):
-
-    try:
-        customer_instance = sales_customer.objects.get(id=customer_id)
-        customer_data = {
-            'credit_limit': customer_instance.credit_limit,
-        }
-        return JsonResponse({'customer': customer_data}, status=200)
-    except sales_customer.DoesNotExist:
-        return JsonResponse({'error': 'Customer not found'}, status=404)
-
-
-
-@login_required(login_url='login')
-def update_sales_customer(request, sales_customer_id):
-
-    if request.method == 'POST':
-
-        instance = sales_customer.objects.get(id=sales_customer_id)
-
-        forms = sales_customer_Form(request.POST, instance=instance)
-
-        if forms.is_valid():
-            forms.save()
-            return redirect('list_sales_customer')
-        else:
-            print(forms.errors)
-    
-    else:
-
-        instance = sales_customer.objects.get(id=sales_customer_id)
-        forms = sales_customer_Form(instance=instance)
-
-        context = {
-            'form': forms
-        }
-        return render(request, 'transactions/add_sales_customer.html', context)
-
-        
-
-@login_required(login_url='login')
-def delete_sales_customer(request, sales_customer_id):
-
-    sales_customer.objects.get(id=sales_customer_id).delete()
-
-    return HttpResponseRedirect(reverse('list_sales_customer'))
-
-
-        
-
-def gettoken(request):
-
-
-    return render(request, 'transactions/gettoken.html')
-
-
-@login_required(login_url='login')
-def list_sales_customer(request):
-
-    data = sales_customer.objects.all()
-
-    context = {
-        'data': data
-    }
-
-    return render(request, 'transactions/list_sales_customer.html', context)
 
 @login_required(login_url='login')
 def delete_images(request):
@@ -352,10 +237,6 @@ def delete_images(request):
 
         i.qr_code.delete()
    
-    context = {
-        'data': data,
-        
-    }
 
     return redirect('list_generated_product_qr')
 
@@ -408,63 +289,6 @@ access_token = "EAALeGznz5UwBO9cCf9mrwEd1vHBgB8neIziWXhS4AKGY02ZCVbfb5bTnSK7TCX6
 recipient_number = ["9765054243", "8767515210", "8237377298"]
 template_name = "qutation_added"
 language_code = "en"
-
-def send_qutation_notification(request, token, recipient_number, template_name, language_code, parameter_value):
-
-
-   
-    # url = "https://graph.facebook.com/v20.0/363920080139942/messages"
-    # headers = {
-    #     "Authorization": f"Bearer {token}",
-    #     "Content-Type": "application/json"
-    # }
-    
-    # for number in recipient_number:
-    #     payload = {
-    #         "messaging_product": "whatsapp",
-    #         "to": number,
-    #         "type": "template",
-    #         "template": {
-    #             "name": template_name,
-    #             "language": {
-    #                 "code": language_code
-    #             },
-    #             "components": [
-    #                 {
-    #                     "type": "button",
-    #                     "sub_type": "url",
-    #                     "index": 0,
-    #                     "parameters": [
-    #                         {
-    #                             "type": "text",
-    #                             "text": parameter_value
-    #                         }
-    #                     ]
-    #                 }
-    #             ]
-    #         }
-    #     }
-        
-    #     response = requests.post(url, headers=headers, data=json.dumps(payload))
-        
-    #     if response.status_code != 200:
-    #         print(f"Error sending message to {number}: {response.status_code}")
-    #         print(f"Response: {response.text}")
-    #     else:
-    #         print(f"Message sent to {number}: {response}")
-
-    msg = "New Qutation Added Visit \n" + 'https://shopinventory.pythonanywhere.com/transactions/update-order/' + str(parameter_value)
-    email = EmailMessage(
-            subject='Outward Report PDF',
-            body=msg,
-            from_email='rradailyupdates@gmail.com',
-            # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
-            to=['pratikgosavi654@gmail.com'],
-        )
-
-   
-    # Send the email
-    email.send()
 
 
 
@@ -580,83 +404,6 @@ def work_alert(request, token, recipient_number, template_name, language_code, p
     email.send()
 
 
-@login_required(login_url='login')
-def add_order(request):
-
-    if request.method == 'POST':
-
-
-        print('-----------')
-
-        orders_data_json = request.POST.get('orders', '[]')
-        orders_data = json.loads(orders_data_json)
-
-        updated_request = request.POST.copy()
-        updated_request.update({'user': request.user})
-
-        forms_order = order_Form(updated_request)
-
-        if forms_order.is_valid():
-
-            forms_order.save()
-            
-            for item in orders_data:
-               
-                item['order'] = forms_order.instance.id
-                forms = OrderChildForm(item)
-                if forms.is_valid():
-
-                    forms.save()
-
-                    
-
-                else:
-
-                    print(forms.errors)
-
-            send_qutation_notification(request, access_token, recipient_number, template_name, language_code, forms_order.instance.id)
-
-            return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
-
-
-        else:
-
-            print(forms_order.errors)
-
-      
-        
-        # forms = order_child_Form(request.POST)
-
-        # if forms.is_valid():
-        #     forms.save()
-        #     return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
-        # else:
-        #     print(forms.errors)
-    
-    else:
-
-      
-        forms = order_Form()
-
-        context = {
-            'form': forms,
-            'order_no' : '1',
-            'date' : datetime.now()
-                              
-        }
-
-         # Check if the request is coming from a mobile device
-        user_agent = request.META.get('HTTP_USER_AGENT', '')
-        is_mobile = 'Mobile' in user_agent
-
-        if is_mobile:
-            
-            return render(request, 'transactions/add_order_mobile.html', context)
-
-        else:
-
-            return render(request, 'transactions/add_order.html', context)
-
         
 
 
@@ -702,156 +449,8 @@ from django.forms.models import model_to_dict
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import timezone
 
-
-@login_required(login_url='login')
-def update_order(request, order_id):
-
-    instance = order.objects.get(id = order_id)
-
-    if request.method == 'POST':
-
-        print('-----------------------')
-        print('-----------------------')
-        print('-----------------------')
-        print('-----------------------')
-        print('-----------------------')
-
-        orders_data_json = request.POST.get('orders', '[]')
-        deletedOrderIdss = request.POST.get('deletedOrderIds')
-        orders_data = json.loads(orders_data_json)
-        deleted_order_ids = json.loads(deletedOrderIdss)
-
-        print(deleted_order_ids)
-
-        for i in deleted_order_ids:
-
-            print(i)
-
-            order_child.objects.get(id = i).delete()
-
-        updated_request = request.POST.copy()
-        updated_request.update({'user': request.user})
-
-        print(request.POST)
-        forms_order = order_Form(updated_request, instance = instance)
-
-        if forms_order.is_valid():
-
-            forms_order.save()
-
-            for item in orders_data:
-
-
-                order_child_instance = order_child.objects.get(id = item['pk'])
-                item['order'] = forms_order.instance.id
-                
-                forms = OrderChildForm(item, instance = order_child_instance)
-                if forms.is_valid():
-
-                    forms.save()
-
-
-
-                else:
-
-                    return JsonResponse({'status' : 'error'})
-
-        
-            return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
-
-
-        else:
-
-            print(forms_order.errors)
-
-      
-        
-    else:
-
-
-        instance = order.objects.get(id=order_id)
-        forms = order_Form(instance=instance)
-        order_child_instance = order_child.objects.filter(order=instance)
-        order_child_instance_copy = copy.copy(order_child_instance)
-        # Convert date fields to string representations
-        instance_dict = model_to_dict(instance)
-        order_child_instance_list = [model_to_dict(child) for child in order_child_instance]
-
-        print(order_child_instance_copy)
-
-
-        
-        context = {
-            'form': forms,
-            'instance': instance,
-            'order_child_instance_dict': json.dumps(order_child_instance_list, cls=DjangoJSONEncoder),
-            'instance_json': json.dumps(instance_dict, cls=DjangoJSONEncoder),  # Convert instance to JSON string
-            'order_child_instance_copy': order_child_instance_copy,  # Convert instance to JSON string
-        }
-        return render(request, 'transactions/update_order.html', context)
-
-        
-
-@login_required(login_url='login')
-def delete_order(request, order_id):
-
-    order.objects.get(id=order_id).delete()
-
-    return HttpResponseRedirect(reverse('list_order'))
-
-
-        
-
-@login_required(login_url='login')
-def list_order(request):
-
-    if request.user.is_superuser:
-        data = order.objects.all()
-    else:
-        data = order.objects.filter(user = request.user)
-
-    page = request.GET.get('page', 1)
-    paginator = Paginator(data, 20)
-
-    try:
-        data = paginator.page(page)
-    except PageNotAnInteger:
-        data = paginator.page(1)
-    except EmptyPage:
-        data = paginator.page(paginator.num_pages)
-
-    context = {
-        'data': data
-    }
-
-    return render(request, 'transactions/list_orders.html', context)
-
-def print_order(request, order_id):
-
-    order_data = order.objects.get(id = order_id)
-    order_child_data = order_child.objects.filter(order = order_data)
-
-    print(order_child_data)
-
-    
-    context = {
-        'order_data': order_data,
-        'order_child_data': order_child_data
-    }
-
-    return render(request, 'transactions/print_orders.html', context)
-
-
-def approve_order(request, order_id):
-
-    order_instance = order.objects.get(id = order_id)
-    order_instance.is_approved = True
-    order_instance.save()
-
-    return redirect('list_order')
-
-
-
+ 
+       
 
 # views.py
 
@@ -1400,93 +999,6 @@ def download_project_report(request):
 
 
 
-@login_required(login_url='login')
-def sales_report(request):
-
-    data = order.objects.all()
-   
-
-
-    order_filters = order_filter(request.GET, queryset=data)
-
-    filter_data = order_filters.qs
-
-    final_amount = filter_data.aggregate(Sum('final_amount'))['final_amount__sum']
-    total_sqinch = filter_data.aggregate(Sum('total_sqinch'))['total_sqinch__sum']
-
-    context = {
-        'data': filter_data,
-        'final_amount': final_amount,
-        'total_sqinch': total_sqinch,
-        'order_filter': order_filters,
-       
-    }
-
-    return render(request, 'transactions/sales_report.html', context)
-
-def download_sales_report(request):
-
-      
-    data = order.objects.all()
-   
-    order_filters = order_filter(request.GET, queryset=data)
-
-    order_filters_data1 = list(order_filters.qs.values_list('customer__name', 'user__username', 'date', 'total_sqinch', 'final_amount'))
-    order_filters_data = list(map(list, order_filters_data1))
-    
-
-    vals = []
-        
-    vals1 = []
-
-    
-    vals.append([''])
-    vals.append(['SALES REPORT'])
-    vals.append([''])
-    vals.append([''])
-    
-    vals1.append("Sr No")
-    vals1.append("Customer")
-    vals1.append("User")
-    vals1.append("Date")
-    vals1.append("Total SQinch")
-    vals1.append("Final Amount")
-    vals.append(vals1)
-
-    counteer = 1
-
-    for i in order_filters_data:
-        vals1 = []
-        vals1.append(counteer)
-        counteer = counteer + 1
-        vals1.append(i[0])
-        vals1.append(i[1])
-        vals1.append(i[2])
-        vals1.append(i[3])
-        vals1.append(i[4])
-        
-        vals.append(vals1)
-
-
-
-    name = "Sales_Report.csv"
-    path = os.path.join(BASE_DIR) + '\static\csv\\' + name
-
-    
-    with open(path,  'w', newline="") as f:
-        writer = csv.writer(f)
-        writer.writerows(vals)
-
-
-        link = os.path.join(BASE_DIR) + '\static\csv\\' + name
-
-    with open(path,  'r', newline="") as f:
-        mime_type  = mimetypes.guess_type(link)
-
-        response = HttpResponse(f.read(), content_type=mime_type)
-        response['Content-Disposition'] = 'attachment;filename=' + str(link)
-
-        return response
 
 
 from openpyxl import Workbook
@@ -2839,6 +2351,155 @@ def download_inward_report_pdf(request):
     })
 
 
+from django.utils import timezone
+
+from collections import defaultdict
+
+
+@login_required(login_url='login')
+def confrim_outward_report(request):
+    today = timezone.now().date()
+    
+    # Filter project_outward entries for today
+    outward_today = project_outward.objects.filter(date_time__date=today)
+
+    # Collect related project instances
+    related_projects = {outward.project_matarial_production.project for outward in outward_today}
+
+    # Aggregate quantity by item code
+    item_code_totals = defaultdict(int)
+    for outward in outward_today:
+        print(outward.quantity)
+        item_code = outward.project_matarial_production.item_code
+        item_code_totals[item_code] += outward.quantity
+
+    # Prepare data for the PDF
+    buffer = BytesIO()
+    pdf = SimpleDocTemplate(
+        buffer,
+        pagesize=A4,
+        rightMargin=20,
+        leftMargin=20,
+        topMargin=20,
+        bottomMargin=20
+    )
+    
+    elements = []
+    styles = getSampleStyleSheet()
+    title_style = styles['Title']
+    title_style.alignment = 1
+
+    # Title
+    title = Paragraph("Material Outward Report", title_style)
+    elements.append(title)
+
+    light_orange = colors.Color(1, 0.647, 0, alpha=1)  # RGB for light orange
+
+
+    # Loop over each related project
+    for project_instance in related_projects:
+        main_table_data = [
+            ["#", "Date", "Project Order No", "RRA Invoice No", "Customer Name"],
+            [
+                str(project_instance.id),
+                str(project_instance.DC_date),
+                str(project_instance.order_id),
+                str(project_instance.rra_invoice_no),
+                str(project_instance.customer),
+            ]
+        ]
+
+        # Create the main table
+        main_table = Table(main_table_data)
+        main_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgreen),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('BACKGROUND', (1, 1), (-1, -1), colors.whitesmoke),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+
+        elements.append(main_table)
+        elements.append(Spacer(1, 0.5 * cm))
+
+        # Nested table for item codes and quantities
+        nested_table_data = [["#", "Item Code", "Quantity"]]
+        for counter, (item_code, total_quantity) in enumerate(item_code_totals.items(), start=1):
+            nested_table_data.append([
+                str(counter),
+                str(item_code),
+                str(total_quantity),
+            ])
+
+        nested_table = Table(nested_table_data, colWidths=[40, 200, 100])
+        nested_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), light_orange),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('BACKGROUND', (1, 1), (-1, -1), colors.whitesmoke),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+
+        elements.append(nested_table)
+        elements.append(Spacer(1, 0.5 * cm))
+
+    # Build and save the PDF
+    pdf.build(elements)
+    file_path = os.path.join(settings.MEDIA_ROOT, 'outward_report.pdf')
+    with open(file_path, 'wb') as f:
+        f.write(buffer.getvalue())
+    buffer.close()
+
+
+
+    # Create the email
+    email = EmailMessage(
+        subject='Outward Report PDF',
+        body='Please find the attached outward report in PDF format.',
+        from_email='rradailyupdates@gmail.com',
+        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+        # to=['pratikgosavi654@gmail.com'],
+    )
+
+    # Attach the generated PDF
+    email.attach_file(file_path)
+
+    # Send the email
+    email.send()
+
+    return HttpResponse("Email with PDF attachment sent successfully.")
+
+    # Apply production filter and prefetch the filtered production data
+    # data = project_filter_data  # Ensure this is a queryset
+
+    
+    # page = request.GET.get('page', 1)
+    # paginator = Paginator(data, 50)
+
+    # try:
+    #     data = paginator.page(page)
+    # except PageNotAnInteger:
+    #     data = paginator.page(1)
+    # except EmptyPage:
+    #     data = paginator.page(paginator.num_pages)
+
+
+
+
+    # context = {
+    #     'data': data,
+    #     'project_filter': ProjectOutwardMainLabelFilter(request.GET),
+       
+    # }
+
+      
+
+   
+
+
+    # return render(request, 'transactions/list_confrim_project_outward_report.html', context)
+
+
 
 @login_required(login_url='login')
 def outward_report(request):
@@ -2933,10 +2594,6 @@ def outward_report(request):
         'project_matarial_production_filter': project_matarial_production_filter(request.GET),
        
     }
-
-      
-
-   
 
 
     return render(request, 'transactions/list_project_outward_report.html', context)

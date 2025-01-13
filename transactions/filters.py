@@ -160,44 +160,6 @@ class project_outward_filter(django_filters.FilterSet):
         fields = '__all__'
        
 
-class order_filter(django_filters.FilterSet):
-
-    customer = django_filters.ModelChoiceFilter(
-        queryset=sales_customer.objects.all(),
-        widget=forms.Select(
-            attrs={
-                'class' : 'form-control',
-                'id' : 'customer'
-            })
-    )
-
-    user = django_filters.ModelChoiceFilter(
-        queryset=User.objects.all(),
-        widget=forms.Select(
-            attrs={
-                'class' : 'form-control sele',
-                'id' : 'user'
-            })
-    )
-
-   
-    date_start = DateFilter(field_name="date", lookup_expr='gte', widget=forms.DateInput(
-            attrs={
-                'id': 'datepicker1212',
-                'type': 'date',
-                'class' : 'form-control date_css'
-            }
-        ))
-
-
-    date_end = DateFilter(field_name="date", lookup_expr='lte', widget=forms.DateInput(
-            attrs={
-            'id': 'datepicker1212',
-            'type': 'date',
-                'class' : 'form-control date_css'
-            }
-        ))
-
 class product_qr_filter(django_filters.FilterSet):
 
     moved_to_scratch = django_filters.BooleanFilter(

@@ -1,0 +1,147 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Create Product{% endblock title %}
+
+{% block breadcrumbs %}
+{% endblock breadcrumbs %}
+
+{% block head %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+<style>
+  /* Your custom styles here */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  .select2-container {
+    width: 100% !important;
+  }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-12">
+      <div class="card">
+          <div class="card-header">
+              <strong class="card-title">Add Quotation Values</strong>
+          </div>
+          <div class="card-body">
+              <div id="pay-invoice">
+                  <div class="card-body">
+                    <!-- First Form: Select Thickness and Category -->
+                    <form method="get" action="{% url 'update_psi' %}">
+                      {% csrf_token %}
+                      
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="thickness">Select Thickness:</label>
+                          <select name="thickness_id" id="thickness" class="form-control">
+                              {% for thickness in thicknesses %}
+                              <option value="{{ thickness.id }}" {% if thickness.id == thickness.id %} Selected {% endif %} >{{ thickness.name }}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                          <label for="category">Select Category:</label>
+                          <select name="category_id" id="category" class="form-control">
+                              {% for category in categories %}
+                              <option value="{{ category.id }}" {% if category.id == category.id %} Selected {% endif %} >{{ category.name }}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="etching_id">Select Etching:</label>
+                          <select name="etching_id" id="etching" class="form-control">
+                              {% for etching in etchings %}
+                              <option value="{{ etching.id }}" {% if etching.id == etching.id %} Selected {% endif %} >{{ etching.name }}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                          <label for="color_id">Select Color:</label>
+                          <select name="color_id" id="color" class="form-control">
+                              {% for color in colors %}
+                              <option value="{{ color.id }}" {% if color.id == color.id %} Selected {% endif %} >{{ color.name }}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="text_id">Select Text:</label>
+                          <select name="text_id" id="text" class="form-control">
+                              {% for text in texts %}
+                              <option value="{{ text.id }}" {% if text.id == text.id %} Selected {% endif %} >{{ text.name }}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Load Table</button>
+                      </div>
+                    </form>
+
+                    <!-- Second Form: Submit PSI Data -->
+                    <form method="post">
+                      {% csrf_token %}
+                      
+                      <!-- Include hidden fields for thickness and category -->
+                      <input type="hidden" name="thickness" value="{{ thickness.id }}">
+                      <input type="hidden" name="category" value="{{ category.id }}">
+                      <input type="hidden" name="etching" value="{{ etching.id }}">
+                      <input type="hidden" name="color" value="{{ color.id }}">
+                      <input type="hidden" name="text" value="{{ text.id }}">
+
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label> Range 576 </label>
+                          {{ form.range_576 }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label> Range 720-1728 </label>
+                          {{ form.range_720_1728 }}
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label> Range 1872-2880 </label>
+                          {{ form.range_1872_2880 }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label> Range 3024-4032 </label>
+                          {{ form.range_3024_4032 }}
+                        </div>
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label> Range 4608 </label>
+                          {{ form.range_4608 }}
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div> <!-- .card -->
+</div><!--/.col-->
+</div>
+
+{% block js %}
+<!-- Your custom JS here -->
+{% endblock js %}
+{% endblock content %}

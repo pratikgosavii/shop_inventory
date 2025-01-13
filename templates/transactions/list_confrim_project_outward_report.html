@@ -1,0 +1,270 @@
+{% extends 'base/base.html' %} {% block title %}Product List{% endblock title %}
+{% block head %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    <!-- imp -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script> 
+
+
+
+<style>
+  tr.hide-table-padding td {
+    padding: 0;
+  }
+
+  .cus_dro{
+    width: 400px !important;
+  }
+
+
+  .expand-button {
+    position: relative;
+  }
+
+  .accordion-toggle .expand-button:after {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translate(0, -50%);
+    content: "-";
+  }
+  .accordion-toggle.collapsed .expand-button:after {
+    content: "+";
+  }
+
+  
+</style>
+
+
+
+  </style>
+
+
+
+{% endblock head %} {% block content %}  
+
+
+
+<div class="row">
+  <div class="col-xl-12">
+
+<form method="get">
+
+      <div class="form-group" style="display: flex;gap: 14px;">
+
+        <label for="name" class="control-label mb-1" style="margin-left : 0px;">Customer </label>
+          {{ project_filter.form.customer }}
+              
+        <label for="name" class="control-label mb-1" style="margin-left : 0px;">From Date </label>
+          {{ project_filter.form.from_DC_date }}
+              
+        <label for="name" class="control-label mb-1" style="margin-left : 0px;">To Date </label>
+          {{ project_filter.form.to_DC_date }}
+
+      </div>
+
+      <div class="form-group" style="display: flex; gap: 14px;">
+
+
+        <label for="name" class="control-label mb-1" style="margin-left : 0px;">Outward From Date </label>
+        {{ project_matarial_production_filter.form.from_date_time }}
+            
+        <label for="name" class="control-label mb-1" style="margin-left : 0px;">OutwardTo Date </label>
+          {{ project_matarial_production_filter.form.to_date_time }}
+
+      
+        <button class="btn btn-primary" type="submit" > Submit </button>
+
+      </div>
+
+  </form>
+
+<br />
+
+
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Download options
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="{% url 'outward_report_csv' %}?{% for key, value in request.GET.items %}{{ key }}={{ value }}&{% endfor %}">Download Excel</a>
+    <a class="dropdown-item" href="{% url 'generate_outward_report_pdf' %}?{% for key, value in request.GET.items %}{{ key }}={{ value }}&{% endfor %}">Download PDF</a>
+    <a class="dropdown-item" href="{% url 'generate_outward_report_pdf_email_daily' %}?{% for key, value in request.GET.items %}{{ key }}={{ value }}&{% endfor %}">Send Email</a>
+  </div>
+</div>
+
+
+
+</br>
+
+
+
+<div class="row">
+  <div class="col-xl-11">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="box-title">Project Ouward Report </h4>
+      </div>
+      <div class="card-body--">
+        <div class="table-stats order-table ov-h">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="serial">#</th>
+                <th>Date</th>
+                <th>Project Order No</th>
+                <th>RRA Invoice No</th>
+                <th>Customer Name</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for i in data %}
+
+              <tr class="stock-row">
+                  <td class="serial">{{ forloop.counter }}</td>
+                  <td>{{ i.DC_date }}</td>
+                  <td>{{ i.order_id }}</td>
+                  <td>{{ i.rra_invoice_no }}</td>
+                  <td>{{ i.customer }}</td>
+              </tr>
+              
+              <tr class="sheet-numbers">
+                  <td colspan="6">
+                      <!-- Insert your sheet numbers here as a table -->
+                      <table style="margin: 0 auto;">
+                          <thead>
+                              <tr>
+                                  <th style="padding: 3px 6px;font-size: 12px;">Item Code</th>
+                                  <th style="padding: 3px 6px;font-size: 12px;">Quantity</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            {% for production in i.project_production_n.all %}
+                            <tr>
+                                <td>{{ production.item_code }}</td>
+                                <td>{{ production.production_quantity }}</td>
+                            </tr>
+                        {% endfor %}
+                        <!-- Display totals for each project -->
+                        <tr>
+                            <td><strong>Project Total</strong></td>
+                            <td><strong>{{ i.total_quantity }}</strong></td>
+                        </tr>
+                          </tbody>
+                      </table>
+                  </td>
+              </tr>
+              
+              {% endfor %}
+              
+
+            </tbody>
+          </table>
+
+          {% if data.has_other_pages %}
+          <nav>
+            <ul class="pagination justify-content-center">
+              {% if data.has_previous %}
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  href="?page={{ data.previous_page_number }}"
+                  aria-label="Previous"
+                >
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&laquo;</span>
+              </li>
+              {% endif %} 
+              {% for p in data.paginator.page_range %} 
+              {% if data.number == p %}
+              <li class="page-item">
+                <a class="page-link" style="color: red" href="#">{{ p }}</a>
+              </li>
+              {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+              </li>
+              {% endif %} 
+              {% endfor %} {% if data.has_next %}
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  href="?page={{ data.next_page_number }}"
+                  aria-label="Next"
+                >
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&raquo;</span>
+              </li>
+              {% endif %}
+            </ul>
+          </nav>
+          {% endif %}
+        </div>
+        <!-- /.table-stats -->
+      </div>
+    </div>
+    <!-- /.card -->
+  </div>
+  <!-- /.col-lg-8 -->
+</div>
+
+<script>
+  
+
+  
+
+  
+
+  $("#year").change(function () {
+    url = window.location.href;
+    url = url.split("?")[0];
+    url = url + "?year=" + $(this).val();
+    location.href = url;
+  });
+
+
+
+
+  function confirmDelete(projectId) {
+    // Show a confirmation dialog
+    if (confirm("Are you sure you want to delete this project?")) {
+        // If the user confirms, construct the delete URL
+        const deleteUrl = "{% url 'delete_project' 0 %}".replace("0", projectId);
+        // Redirect to the delete URL
+        window.location.href = deleteUrl;
+    } else {
+        // If the user cancels, do nothing
+        // You can optionally provide feedback to the user here
+    }
+}
+
+
+$(document).ready(function () {
+  // Hide all sheet number rows initially
+  $(".sheet-numbers").hide();
+
+  // Add click event handler to each stock row
+  $(".stock-row").click(function () {
+      // Toggle the visibility of sheet numbers for the clicked row
+      $(this).next(".sheet-numbers").toggle();
+  });
+
+
+
+  });
+
+
+  
+    
+</script>
+
+{% endblock content %}

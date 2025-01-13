@@ -22,10 +22,6 @@ admin.site.register(notification_table)
 admin.site.register(demo)
 admin.site.register(sheets_rifd)
 
-admin.site.register(order_child)
-admin.site.register(order)
-admin.site.register(sales_customer)
-
 admin.site.register(project_working_order)
 admin.site.register(project_outward)
 admin.site.register(inward_supplier)
