@@ -2468,7 +2468,8 @@ def confrim_outward_report(request):
         subject='Outward Report PDF',
         body='Please find the attached outward report in PDF format.',
         from_email='rradailyupdates@gmail.com',
-        to=['pratikgosavi654@gmail.com'],
+        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+        # to=['pratikgosavi654@gmail.com'],
     )
 
     # Attach the generated PDF
