@@ -2356,6 +2356,17 @@ from django.utils import timezone
 from collections import defaultdict
 
 
+from collections import defaultdict
+from io import BytesIO
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer
+from django.utils import timezone
+from django.conf import settings
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
+
 @login_required(login_url='login')
 def confrim_outward_report(request):
     today = timezone.now().date()
@@ -2365,14 +2376,7 @@ def confrim_outward_report(request):
 
     # Collect related project instances
     related_projects = {outward.project_matarial_production.project for outward in outward_today}
-
-    # Aggregate quantity by item code
-    item_code_totals = defaultdict(int)
-    for outward in outward_today:
-        print(outward.quantity)
-        item_code = outward.project_matarial_production.item_code
-        item_code_totals[item_code] += outward.quantity
-
+    
     # Prepare data for the PDF
     buffer = BytesIO()
     pdf = SimpleDocTemplate(
@@ -2395,9 +2399,18 @@ def confrim_outward_report(request):
 
     light_orange = colors.Color(1, 0.647, 0, alpha=1)  # RGB for light orange
 
-
     # Loop over each related project
     for project_instance in related_projects:
+        # Filter outward entries specific to this project
+        project_outward_entries = outward_today.filter(project_matarial_production__project=project_instance)
+
+        # Aggregate quantity by item code for this project
+        item_code_totals = defaultdict(int)
+        for outward in project_outward_entries:
+            item_code = outward.project_matarial_production.item_code
+            item_code_totals[item_code] += outward.quantity
+
+        # Main table for project details
         main_table_data = [
             ["#", "Date", "Project Order No", "RRA Invoice No", "Customer Name"],
             [
@@ -2450,15 +2463,12 @@ def confrim_outward_report(request):
         f.write(buffer.getvalue())
     buffer.close()
 
-
-
     # Create the email
     email = EmailMessage(
         subject='Outward Report PDF',
         body='Please find the attached outward report in PDF format.',
         from_email='rradailyupdates@gmail.com',
-        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
-        # to=['pratikgosavi654@gmail.com'],
+        to=['pratikgosavi654@gmail.com'],
     )
 
     # Attach the generated PDF
@@ -2467,7 +2477,7 @@ def confrim_outward_report(request):
     # Send the email
     email.send()
 
-    return HttpResponse("Email with PDF attachment sent successfully.")
+    return JsonResponse({'message': 'response message'}, status=400)
 
     # Apply production filter and prefetch the filtered production data
     # data = project_filter_data  # Ensure this is a queryset
