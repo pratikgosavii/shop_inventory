@@ -54,7 +54,7 @@ urlpatterns = [
     path('inward-report-pdf/', download_inward_report_pdf, name='inward_report_download_pdf'),
     path('inward-report_download/', download_inward_report, name='inward_report_download'),
     
-    path('confrim-outward-report/', confrim_outward_report, name='confrim_outward_report'),
+    path('confirm-outward-report/', confrim_outward_report, name='confrim_outward_report'),
     path('outward-report/', outward_report, name='outward_report'),
     path('outward-report-csv/', outward_report_csv, name='outward_report_csv'),
     path('download-outward-report-pdf/', download_outward_report_pdf, name='generate_outward_report_pdf'),
