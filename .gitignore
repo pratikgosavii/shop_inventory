@@ -132,3 +132,5 @@ dmypy.json
 # Editor
 .vscode/
 .backup
+
+media/outward_report.pdf
