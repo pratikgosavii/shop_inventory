@@ -2367,7 +2367,6 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 
-@login_required(login_url='login')
 def confrim_outward_report(request):
     today = timezone.now().date()
     
