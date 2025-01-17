@@ -2443,7 +2443,7 @@ def confrim_outward_report(request):
                 str(total_quantity),
             ])
 
-        nested_table = Table(nested_table_data, colWidths=[40, 200, 100])
+        nested_table = Table(nested_table_data, colWidths=[40, 400, 100])
         nested_table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), light_orange),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
