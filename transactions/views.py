@@ -2654,7 +2654,8 @@ def confrim_outward_report(request):
         elements.append(Spacer(1, 0.5 * cm))
 
     # Build and save the PDF
-    pdf.build(elements)
+    pdf.build(elements, onFirstPage=draw_border, onLaterPages=draw_border)
+
     file_path = os.path.join(settings.MEDIA_ROOT, 'outward_report.pdf')
     with open(file_path, 'wb') as f:
         f.write(buffer.getvalue())
