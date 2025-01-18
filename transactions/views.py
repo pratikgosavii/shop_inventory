@@ -2450,6 +2450,16 @@ from django.utils import timezone
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import Paragraph
+
+def draw_border(canvas, doc):
+    width, height = A4  # Get the width and height of the page
+    canvas.saveState()
+    canvas.setStrokeColor(colors.black)  # Set border color
+    canvas.setLineWidth(1)  # Set border width
+    canvas.rect(10, 10, width-20, height-20)  # Draw the rectangle border
+    canvas.restoreState()
 
 def email_inward_report(request):
     today = timezone.now().date()
@@ -2472,12 +2482,27 @@ def email_inward_report(request):
     
     elements = []
     styles = getSampleStyleSheet()
+
+    # Modify the 'Title' style for the main title
     title_style = styles['Title']
     title_style.alignment = 1
+    title_style.fontSize = 14
+
+    # Create a new style for the secondary title
+    title_style2 = ParagraphStyle(
+        'Title2',
+        parent=styles['Title'],
+        alignment=1,
+        fontSize=12
+    )
 
     # Title
-    title = Paragraph("Inward Report", title_style)
+    title = Paragraph("Ravi Raj Anodisers", title_style)
     elements.append(title)
+
+    # Secondary Title
+    title2 = Paragraph("Inward Report", title_style2)
+    elements.append(title2)
 
     counteer = 1
     # Loop over each related project
@@ -2487,9 +2512,11 @@ def email_inward_report(request):
 
         # Main table for project details
         main_table_data = [
-            ["#", "Customer", "Quantity", "Description", "Date"],
+            ["#", "Item Code", "Item Code Description", "Supplier", "Quantity", "Description", "Date"],
             [   
                 str(counteer),
+                str(i.inward_item_code.item_code),
+                str(i.inward_item_code.description),
                 str(i.inward_supplier),
                 str(i.quantity),
                 str(i.description),
@@ -2500,13 +2527,14 @@ def email_inward_report(request):
         counteer += 1
 
         # Create the main table
-        main_table = Table(main_table_data, colWidths=[30, 150, 100, 200, 100])
+        main_table = Table(main_table_data, colWidths=[30, 50, 120, 100, 50, 150, 50])
         main_table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.lightgreen),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
             ('BACKGROUND', (1, 1), (-1, -1), colors.whitesmoke),
             ('GRID', (0, 0), (-1, -1), 1, colors.black),
+            ('FONTSIZE', (0, 0), (-1, -1), 8),  # Set font size for all cells
         ]))
 
         elements.append(main_table)
@@ -2514,7 +2542,7 @@ def email_inward_report(request):
 
        
     # Build and save the PDF
-    pdf.build(elements)
+    pdf.build(elements, onFirstPage=draw_border, onLaterPages=draw_border)
     file_path = os.path.join(settings.MEDIA_ROOT, 'Inward_report.pdf')
     with open(file_path, 'wb') as f:
         f.write(buffer.getvalue())
