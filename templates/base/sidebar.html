@@ -106,6 +106,24 @@
                     </ul>
                 </li>
 
+                
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Inward Item Code </a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_inward_item_code' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_inward_item_code' %}">View</a></li>
+                    </ul>
+                </li>
+
+                
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i> Inward Suppiler </a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_inward_supplier' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_inward_supplier' %}">View</a></li>
+                    </ul>
+                </li>
+
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Project Customer </a>
                     <ul class="sub-menu children dropdown-menu">
@@ -123,13 +141,6 @@
                 </li>
 
 
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i> Inward Suppiler </a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_inward_supplier' %}">Add</a></li>
-                        <li><i class="fa fa-th"></i><a href="{% url 'list_inward_supplier' %}">View</a></li>
-                    </ul>
-                </li>
 
                 {% endif %}
 
@@ -167,6 +178,14 @@
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_item_code' %}">Add</a></li>
                         <li><i class="fa fa-th"></i><a href="{% url 'list_item_code' %}">View</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Inward Item Code </a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_inward_item_code' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_inward_item_code' %}">View</a></li>
                     </ul>
                 </li>
 

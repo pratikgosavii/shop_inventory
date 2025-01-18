@@ -2076,6 +2076,78 @@ def scan_main_barcode(request):
 
 
 @login_required(login_url='login')
+def add_inward_item_code(request):
+
+    if request.method == 'POST':
+
+        forms = inward_item_code_Form(request.POST)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_inward_item_code')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        forms = inward_item_code_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'transactions/add_inward_item_code.html', context)
+
+        
+
+@login_required(login_url='login')
+def update_inward_item_code(request, inward_item_code_id):
+
+    if request.method == 'POST':
+
+        instance = inward_item_code.objects.get(id=inward_item_code_id)
+
+        forms = inward_item_code_Form(request.POST, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_inward_item_code')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        instance = inward_item_code.objects.get(id=inward_item_code_id)
+        forms = inward_item_code_Form(instance=instance)
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'transactions/add_inward_item_code.html', context)
+
+        
+
+@login_required(login_url='login')
+def delete_inward_item_code(request, inward_item_code_id):
+
+    inward_item_code.objects.get(id=inward_item_code_id).delete()
+
+    return HttpResponseRedirect(reverse('list_inward_item_code'))
+
+
+@login_required(login_url='login')
+def list_inward_item_code(request):
+
+    data = inward_item_code.objects.all()
+    context = {
+        'data': data
+    }
+    return render(request, 'transactions/list_inward_item_code.html', context)
+
+
+
+
+
+@login_required(login_url='login')
 def add_inward(request):
 
 

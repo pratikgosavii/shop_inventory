@@ -45,6 +45,11 @@ urlpatterns = [
     path('scan-barcode/', scan_barcode, name='scan_barcode'),
     path('scan-main-barcode/', scan_main_barcode, name='scan_main_barcode'),
 
+    path('add-inward-item-code/', add_inward_item_code, name='add_inward_item_code'),
+    path('update-inward-item-code/<inward_item_code_id>', update_inward_item_code, name='update_inward_item_code'),
+    path('list-inward-item-code/', list_inward_item_code, name='list_inward_item_code'),
+    path('delete-inward-item-code/<inward_item_code_id>', delete_inward_item_code, name='delete_inward_item_code'),
+
     path('add-inward/', add_inward, name='add_inward'),
     path('inward-itemcode-description/', inward_itemcode_description, name='inward_itemcode_description'),
     path('update-inward/<inward_id>', update_inward, name='update_inward'),

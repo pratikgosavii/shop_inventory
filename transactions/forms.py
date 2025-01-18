@@ -243,3 +243,28 @@ class product_qr_Form(forms.ModelForm):
         }
 
 
+
+
+class inward_item_code_Form(forms.ModelForm):
+
+    uploaded_file = forms.FileField(label='Select a file', required=False)
+    
+    class Meta:
+        model = inward_item_code
+        fields = '__all__'
+        widgets = {
+          
+           
+
+            'item_code': forms.Select(attrs={
+                'class': 'form-control', 'id': 'item_code'
+            }),
+
+            'description': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'description',
+            }),
+
+
+        }
+
+
