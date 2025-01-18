@@ -256,7 +256,7 @@ class inward_item_code_Form(forms.ModelForm):
           
            
 
-            'item_code': forms.Select(attrs={
+            'item_code': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'item_code'
             }),
 

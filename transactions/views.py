@@ -2137,7 +2137,19 @@ def delete_inward_item_code(request, inward_item_code_id):
 @login_required(login_url='login')
 def list_inward_item_code(request):
 
-    data = inward_item_code.objects.all()
+    data = inward_item_code.objects.all()  
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(data, 50)
+
+    try:
+        data = paginator.page(page)
+    except PageNotAnInteger:
+        data = paginator.page(1)
+    except EmptyPage:
+        data = paginator.page(paginator.num_pages)
+
+
     context = {
         'data': data
     }
