@@ -135,6 +135,10 @@ class project_inward_Form(forms.ModelForm):
                 'class': 'form-control', 'id': 'bag_size'
             }),
 
+            'description': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'description'
+            }),
+
           
             'date': DateInput(attrs={ 'class': 'form-control dateclas', 'type': 'date'}, format = '%Y-%m-%d'),
 

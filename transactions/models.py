@@ -433,5 +433,6 @@ class project_inward(models.Model):
     inward_item_code = models.ForeignKey(inward_item_code, on_delete=models.CASCADE)
     inward_supplier = models.ForeignKey(inward_supplier, on_delete=models.CASCADE)
     quantity = models.IntegerField()
+    description = models.CharField(max_length=500)
     date = models.DateField(auto_now_add=False)
 

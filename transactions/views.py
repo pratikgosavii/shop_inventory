@@ -2387,7 +2387,7 @@ def download_inward_report_pdf(request):
       
     data = project_inward.objects.all()
     project_inward_filters = project_inward_filter(request.GET, queryset=data)
-    project_inward_filters_data1 = list(project_inward_filters.qs.values_list('customer', 'quantity', 'description', 'date'))
+    project_inward_filters_data1 = list(project_inward_filters.qs.values_list('inward_supplier', 'quantity', 'inward_item_code__description', 'date'))
     project_inward_filters_data = list(map(list, project_inward_filters_data1))
 
     # Add serial numbers to the data
@@ -2450,6 +2450,92 @@ from django.utils import timezone
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
+
+def email_inward_report(request):
+    today = timezone.now().date()
+    
+    # Filter project_outward entries for today
+    outward_today = project_inward.objects.filter(date = today)
+
+    # Collect related project instances
+    
+    # Prepare data for the PDF
+    buffer = BytesIO()
+    pdf = SimpleDocTemplate(
+        buffer,
+        pagesize=A4,
+        rightMargin=20,
+        leftMargin=20,
+        topMargin=20,
+        bottomMargin=20
+    )
+    
+    elements = []
+    styles = getSampleStyleSheet()
+    title_style = styles['Title']
+    title_style.alignment = 1
+
+    # Title
+    title = Paragraph("Inward Report", title_style)
+    elements.append(title)
+
+    counteer = 1
+    # Loop over each related project
+    for i in outward_today:
+    # Filter outward entries specific to this project
+      
+
+        # Main table for project details
+        main_table_data = [
+            ["#", "Customer", "Quantity", "Description", "Date"],
+            [   
+                str(counteer),
+                str(i.inward_supplier),
+                str(i.quantity),
+                str(i.description),
+                str(i.date),
+            ]
+        ]
+
+        counteer += 1
+
+        # Create the main table
+        main_table = Table(main_table_data, colWidths=[30, 150, 100, 200, 100])
+        main_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgreen),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('BACKGROUND', (1, 1), (-1, -1), colors.whitesmoke),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ]))
+
+        elements.append(main_table)
+        elements.append(Spacer(1, 0.5 * cm))
+
+       
+    # Build and save the PDF
+    pdf.build(elements)
+    file_path = os.path.join(settings.MEDIA_ROOT, 'Inward_report.pdf')
+    with open(file_path, 'wb') as f:
+        f.write(buffer.getvalue())
+    buffer.close()
+
+    # Create the email
+    email = EmailMessage(
+        subject='Inward Report PDF',
+        body='Please find the attached Inward Report in PDF format.',
+        from_email='rradailyupdates@gmail.com',
+        # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+        to=['pratikgosavi654@gmail.com'],
+    )
+
+    # Attach the generated PDF
+    email.attach_file(file_path)
+
+    # Send the email
+    email.send()
+
+    return JsonResponse({'message': 'response message'}, status=400)
 
 def confrim_outward_report(request):
     today = timezone.now().date()

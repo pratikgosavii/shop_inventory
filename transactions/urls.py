@@ -58,6 +58,7 @@ urlpatterns = [
     path('inward-report/', inward_report, name='inward_report'),
     path('inward-report-pdf/', download_inward_report_pdf, name='inward_report_download_pdf'),
     path('inward-report_download/', download_inward_report, name='inward_report_download'),
+    path('inward-report-email/', email_inward_report, name='inward_report_email'),
     
     path('confirm-outward-report/', confrim_outward_report, name='confrim_outward_report'),
     path('outward-report/', outward_report, name='outward_report'),
