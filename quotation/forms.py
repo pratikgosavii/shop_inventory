@@ -76,6 +76,45 @@ class sales_customer_Form(forms.ModelForm):
 
 
 
+        
+class color_Form(forms.ModelForm):
+    class Meta:
+        model = color
+        
+        fields = ['name']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'name'
+            }),
+            
+        }
+
+        
+class etching_Form(forms.ModelForm):
+    class Meta:
+        model = etching
+        
+        fields = ['name']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'name'
+            }),
+            
+        }
+
+        
+class text_matter_Form(forms.ModelForm):
+    class Meta:
+        model = text_matter
+        
+        fields = ['name']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'name'
+            }),
+            
+        }
+
 
 
 from django import forms
@@ -84,7 +123,7 @@ from .models import PSI
 class PSIForm(forms.ModelForm):
     class Meta:
         model = PSI
-        fields = ['etching', 'category', 'thickness', 'color', 'text', 'range_576', 'range_720_1728', 'range_1872_2880', 'range_3024_4032', 'range_4608']
+        fields = ['etching', 'category', 'thickness', 'color', 'text_matter', 'range_576', 'range_720_1728', 'range_1872_2880', 'range_3024_4032', 'range_4608']
 
 
 

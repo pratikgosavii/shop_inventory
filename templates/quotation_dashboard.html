@@ -1,0 +1,652 @@
+{% extends 'base/quotation_base.html' %}
+
+{% block title %} Quotation Dashboard{% endblock title %}
+
+
+{% block head %}
+
+
+<style>
+
+    ul#notificationList {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    ul#notificationList li {
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        margin: 5px;
+        padding: 10px;
+    }
+
+
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+
+.container1212{
+  font-family: 'Montserrat', sans-serif;
+font-family: 'Montserrat', sans-serif;
+
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+}
+.container1212:before{
+    content: '';
+    position: absolute;
+    height: 450px;
+    top: -6rem;
+    left: -4.5rem;
+    opacity: .3;
+}
+.container1212:after{
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 350px;
+    border-radius: 50% 33% 50% 50%;
+    top: -5rem;
+    right: -4rem;
+    z-index: -1;
+    opacity: .5;
+}
+.container1212 > .box1, .container >.box2{
+    padding: 1rem 1rem 2rem;
+    position: relative;
+    border-radius: 10px;
+    background-color:#ffffff ;
+    box-shadow: 0 0 10px #f8f4ff, 0 0 10px #b5a6c1;
+    overflow: hidden;
+}
+.container1212 .xmark-box{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: #f9f9fb;
+    color: #555662;
+    width: 20px;
+    height: 20px;
+    border-radius: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2.5px #f9f9fb;
+    text-align: center;
+    transition: all .2s;
+    cursor: pointer;
+}
+.container1212 .xmark-box:hover{
+    opacity: .8;
+}
+.container1212 > .box1 > .caption-box, .container1212 > .box2 > .caption-box{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    position: relative;
+}
+.container1212 > .box1:after{
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 100px;
+    background-color: #d6ebf4;
+    opacity: .4;
+    border-radius: 50%;
+    top: 1.5rem;
+    left: -9rem;
+    rotate: 92deg;
+}
+.container1212 > .box2:after{
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 100px;
+    background-color: #facaf3;
+    opacity: .4;
+    border-radius: 50%;
+    top: 1.5rem;
+    left: -9rem;
+    rotate: 92deg;
+}
+.container1212 img{
+    width: 30px;
+    height: 30px;
+}
+.container1212 .caption-box{
+    margin-top: .8rem;
+}
+.container1212 .caption{
+    margin-left: .7rem;
+}
+.container1212 .caption h5 {
+    margin: 1rem 0 .5rem;
+    font-size: 15px;
+}
+.container1212 .caption p{
+    font-size: 14px;
+}
+
+
+
+</style>
+
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+
+{% endblock head %}
+
+{% block content %}
+
+{% comment %} 
+    <a href="{% url 'report_daily' %}"> <button class="btn btn-primary" type="submit">
+        Daily Report
+    </button> </a>
+    
+    <a href="{% url 'generate_report_main' %}"> <button class="btn btn-primary" type="submit">
+        Monthly Report
+    </button> </a><br><br> {% endcomment %}
+
+    <!-- Widgets  -->
+
+    
+        <div class="container1212" style="margin-bottom: 15px;" id="notificationDiv">
+           
+        </div>
+        
+    
+    
+    
+        {% if request.user.is_reception or request.user.is_superuser %}
+    
+    
+    <div class="row">
+       
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stat-widget-five">
+                        <div class="stat-icon dib flat-color-1">
+                            <i class="fa fa-cart-plus"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="text-left dib">
+                                <div class="stat-text"><span class="count">{{ stock }}</span></div>
+                                <div class="stat-heading">Stock</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+
+    {% endif %}
+    
+
+    <div class="col-12" style="padding: 0px; display : flex; GAP: 9px;">
+
+        <div class="col-6" style="border: 1px solid black;
+    padding: 9PX;">
+
+
+            {% if request.user.is_reception or request.user.is_superuser %}
+
+            
+            <div style="gap:20px;">
+
+
+                <form action="{% url 'generate_product_qr' %}" method="post" style="display: flex; gap: 24px; height: max-content;">
+
+                    {% csrf_token %}
+
+                    <input type="number" max="16" class="form-control" style="width : 263px;" name="quantity" placeholder="Enter Material Quantity" inputmode="numeric">
+                    <button type="submit" class="btn btn-success form-input"> Generate QR </button>
+                    
+                </form>
+
+                <hr style="border-top: 1px solid black;">
+
+                <div style="margin-top:20px;">
+
+                <a href="{% url 'generate_product_qr_with_values' %}" style="">
+                <button type="submit" class="btn btn-success form-input"> Generate QR with values </button> </a>
+
+                </div>
+
+                
+            </div>
+
+        
+            <br>
+
+                
+
+            <div style="padding-left : 20px; padding-bottom : 3px">
+
+                <p>  For Reception Use </p>
+
+                <div style="display:flex; gap:10px; justify-content: center;
+    align-items: center;
+    margin: auto; ">
+                    
+                    <div style="margin: auto; margin: auto;
+    border-right: 1px solid black;
+    padding-right: 38px;">
+
+                        <h4> Update Sheet Details </h4> <br>
+
+                        
+
+
+                        <a style="" href="{% url 'scanner_page' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan QR </button> </a>
+                            
+
+                    </div>
+
+                    <div style="margin: auto;">
+
+                        <h4> Checkout Outward </h4> <br>
+
+                        
+
+
+                        <a style="" href="{% url 'scan_barcode' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan Barcode </button> </a>
+                            
+
+                    </div>
+                </div>
+
+            </div>
+
+                
+                
+                
+                
+            
+            {% endif %}
+
+
+            {% if request.user.is_cutter or request.user.is_superuser %}
+
+
+            <hr style="border-top: 1px solid black;">
+            
+            <div style="margin : 9px 0px; padding-left: 20px; width: fit-content;">
+                
+            
+            
+
+                <p>  For Cutter Use </p>
+                <h4>  Update Sheet Size </h4>
+                <br>
+                <div style="display:flex; ">
+
+
+                    <form id="scanning_form" onsubmit="redirectToPage(event)">
+
+                        <input type="text" id="parameterInput" class="form-control" placeholder="Scaner QR"> <br>
+
+                        <input type="submit" value="submit" class="btn btn-info">
+
+                    </form>
+            
+
+
+                </div>
+
+                        
+
+                    
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+                
+
+        <hr>
+
+        <div class="col-6" style="border: 1px solid black;
+    padding: 9PX;">
+
+
+            <h3 style="font-size: 18px; font-weight: 600; margin-bottom : 9px;"> Calculator </h3> 
+
+            <h3 style="font-size: 18px; font-weight: 600;"> MM X MM to SQinch Calculator </h3> 
+
+            <br>
+
+
+            <br>
+
+
+            <div class="form-group" style="width : 50%">
+                
+                <div style="border: 1px solid black;padding: 17px;">
+                    
+                    <label for="lengthMm">Length (mm):</label>
+                    <input type="text" class="form-control used-length-input" id="used-length-input" placeholder="Length" inputmode="numeric">
+
+                    
+                    <label for="widthMm">Width (mm):</label>
+                    <input type="text" class="form-control used-width-input" id="used-width-input" placeholder="Width" inputmode="numeric">
+
+                    </div>
+                    <br>
+
+                    <label for="name" class="control-label mb-1">Size</label>
+                    <input type="text" class="form-control used-sq-inch-input" id="used-sq-inch-input" placeholder="Used Square Inches" inputmode="numeric">
+
+                </div>
+
+            </div>
+
+        </div>
+    <div>
+
+
+
+
+        
+{% comment %} 
+        {% if request.user.is_designer %}
+
+        {% endif %} {% endcomment %}
+
+
+        
+
+    <!-- /Widgets -->
+    
+    <div class="clearfix"></div>
+
+    <!-- Orders -->
+    {% comment %} <div class="orders">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="box-title">Orders </h4>
+                    </div>
+                    <div class="card-body--">
+                        <div class="table-stats order-table ov-h">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th class="serial">#</th>
+                                        <th>Supplier</th>
+                                        <th>Product</th>
+                                        <th>Design</th>
+                                        <th>Color</th>
+                                        <th>Buyer</th>
+                                        <th>Season</th>
+                                        <th>Drop</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if orders %}
+                                    {% for order in orders %}
+                                    <tr>
+                                        <td class="serial">{{ forloop.counter }}</td>
+                                        <td>{{ order.supplier }}</td>
+                                        <td>{{ order.product }}</td>
+                                        <td>{{ order.design }}</td>
+                                        <td>{{ order.color }}</td>
+                                        <td>{{ order.buyer }}</td>
+                                        <td>{{ order.season }}</td>
+                                        <td>{{ order.drop }}</td>
+                                        <td>{{ order.created_date }}</td>
+                                        <td>
+                                            {% if order.status == 'pending' %}
+                                                <a class="btn btn-warning" href="">{{ order.status }}</a>
+                                            {% elif order.status == 'decline' %}
+                                                <a class="btn btn-danger" href="">{{ order.status }}</a>
+                                            {% elif order.status == 'complete' %}
+                                                <a class="btn btn-success" href="">{{ order.status }}</a>
+                                            {% elif order.status == 'approved' %}
+                                                <a class="btn btn-primary" href="">{{ order.status }}</a>
+                                            {% elif order.status == 'bulk' %}
+                                                <a class="btn btn-secondary" href="">{{ order.status }}</a>
+                                            {% else %}
+                                                <a class="btn btn-info" href="">{{ order.status }}</a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                        <tr><td>No Order Data</td></tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div> <!-- /.table-stats -->
+                    </div>
+                </div> <!-- /.card -->
+            </div>  <!-- /.col-lg-8 -->
+
+            
+        </div>
+    </div> {% endcomment %}
+    <!-- /.orders -->
+
+    <button id="enable-sound-button" style="background: orange; border: orange;" class="btn btn-success form-input">Enable Sound</button>
+<audio id="audio-element" muted autoplay>
+    <source src="static/audio/popup.wav" type="audio/mpeg">
+</audio>
+
+
+
+    
+{% endblock content %}
+
+
+{% block js %}
+
+
+    <script>
+
+
+
+
+
+        function calculateSqIn() {
+            // Get the length and width in mm from the input fields
+            const lengthMm = parseFloat(document.getElementById('used-length-input').value);
+            const widthMm = parseFloat(document.getElementById('used-width-input').value);
+            
+            // Check if the inputs are valid numbers
+            if (!isNaN(lengthMm) && !isNaN(widthMm)) {
+                // Convert mm to inches (1 inch = 25.4 mm)
+                const lengthIn = lengthMm / 25.4;
+                const widthIn = widthMm / 25.4;
+                
+                // Calculate square inches
+                const sqIn = lengthIn * widthIn;
+                
+                // Display the result in the "size" input field
+                document.getElementById('used-sq-inch-input').value = sqIn.toFixed(2);
+            } else {
+                // Display an error message if inputs are not valid numbers
+                
+            }
+        }
+        
+        // Add event listeners to the input fields to trigger the calculation
+        document.getElementById('used-length-input').addEventListener('input', calculateSqIn);
+        document.getElementById('used-width-input').addEventListener('input', calculateSqIn);
+        
+        document.getElementById('used-sq-inch-input').addEventListener('input', function() {
+            document.getElementById('lengthMm').value = '';
+            document.getElementById('widthMm').value = '';
+        });
+    
+        // Calculate initially when the page loads
+        calculateSqIn();
+    
+
+    
+        const channel = pusher.subscribe('alerts');
+        channel.bind('new-alert', function (data) {
+            const message = data.message;
+            const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
+
+            
+            
+            
+            var currentUser = "{{ request.user.is_reception }}";
+            var notificationDiv = document.getElementById('notificationDiv');
+            var closeNotificationButton = document.getElementById('closeNotification'); // Get the close button by its ID
+
+            var userStatusElement = document.getElementById('userStatus');
+            if (currentUser == "True") {
+                // Create a new div for the notification
+                var notificationDiv = document.getElementById('notificationDiv');
+
+            // Create a new div for the notification
+            var notificationItem = document.createElement('div');
+            notificationItem.className = 'box1';
+
+            // Add content to the notification div
+            var notificationContent = `
+                <div class="xmark-box">
+                    <i class="fa-solid fa-x" id="closeNotification"></i>
+                </div>
+                <div class="caption-box">
+                    <img src="https://www.pngall.com/wp-content/uploads/2/Approved-PNG-Download-Image.png" alt="approveimg">
+                    <div class="caption">
+                        <h5>HI,</h5>
+                        <p>${message}</p>
+                    </div>
+                </div>
+            `;
+            notificationItem.innerHTML = notificationContent;
+
+            notificationDiv.appendChild(notificationItem);
+            
+            if (soundEnabled) {
+                // Play the sound without asking for permission
+                const audio = new Audio('static/audio/popup.wav');
+                audio.play();
+            }
+
+            else{
+                alert('please enable sound')
+            }
+
+
+            }
+            // Add a click event listener to the close button
+            var closeButton = notificationItem.querySelector('#closeNotification');
+            closeButton.addEventListener('click', function () {
+                // Remove the notification item when the close button is clicked
+                notificationDiv.removeChild(notificationItem);
+            });
+
+            // Append the notification item to the notificationDiv
+          
+        });
+
+
+    
+
+
+
+
+        
+    </script>
+
+    <script src="https://kit.fontawesome.com/8535745612.js" crossorigin="anonymous"></script>
+
+
+    <script>
+
+
+        function redirectToPage(event) {
+            event.preventDefault(); // Prevent the default form submission
+    
+            // Get the value from the form input or another source
+            var parameterValue = document.getElementById('parameterInput').value;
+    
+            // Redirect to the new URL with the dynamic parameter
+            window.location.href = '/transactions/update-assign-matarial-qr/' + parameterValue;
+        }
+
+
+        const enableSoundButton = document.getElementById('enable-sound-button');
+        const audioElement = document.getElementById('audio-element');
+        
+        enableSoundButton.addEventListener('click', () => {
+            audioElement.play().then(() => {
+                // Autoplay is allowed, store user's preference
+                localStorage.setItem('soundEnabled', 'true');
+                enableSoundButton.style.display = 'none';
+            }).catch((error) => {
+                // Autoplay was denied by the user
+                console.error('Autoplay permission denied:', error);
+            });
+        });
+        
+        
+        // In the 'enable-sound-button' click handler
+        localStorage.setItem('soundEnabled', 'true');
+        
+                  if ('Notification' in window) {
+                    Notification.requestPermission().then(permission => {
+                      if (permission === 'granted') {
+                        enableSoundButton.style.display = 'none';// Permission granted, you can now send notifications (including sound) without asking again until revoked.
+                      } else if (permission === 'denied') {
+                        // Permission denied, handle accordingly.
+                      } else {
+                        // Permission dismissed or unavailable, handle accordingly.
+                      }
+                    });
+                  }
+        
+                 
+                  const pusher = new Pusher('bc5ccb3b5fa0e00f91e5', {
+                    cluster: 'ap2',
+                    encrypted: true,
+                });
+                 
+                  const channel2 = pusher.subscribe('alerts');
+                channel2.bind('new-notificatin', function (data) {
+                    const message = data.message;
+        
+                    alert('here')
+                    alert(message)
+        
+                    const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
+        
+                    if (soundEnabled) {
+                        // Play the sound without asking for permission
+                        const audio = new Audio('static/audio/notification.wav');
+                        audio.play();
+                    }
+        
+                    else{
+                        alert('please enable sound')
+                    }
+        
+        
+        
+                    // To show all elements with the class "notification-badge"
+                    document.getElementById('notification-badge').style.display = 'flex';
+        
+        
+                });
+        
+
+                
+
+    </script>
+
+
+
+
+
+{% endblock js %}

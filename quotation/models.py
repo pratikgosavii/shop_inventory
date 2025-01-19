@@ -484,7 +484,7 @@ class color(models.Model):
     def __str__(self):
         return self.name
 
-class text(models.Model):
+class text_matter(models.Model):
     name = models.CharField(max_length=50)  # E.g., 'STANDARD', 'non standard text for nameplates & tags'
 
     def __str__(self):
@@ -496,7 +496,7 @@ class PSI(models.Model):
     thickness = models.ForeignKey(thickness, on_delete=models.CASCADE)
     etching = models.ForeignKey(etching, on_delete=models.CASCADE)
     color = models.ForeignKey(color, on_delete=models.CASCADE)
-    text = models.ForeignKey(text, on_delete=models.CASCADE)
+    text_matter = models.ForeignKey(text_matter, on_delete=models.CASCADE)
     range_576 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     range_720_1728 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     range_1872_2880 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
@@ -506,7 +506,7 @@ class PSI(models.Model):
 
 
     class Meta:
-        unique_together = ('category', 'thickness', 'etching', 'color', 'text')
+        unique_together = ('category', 'thickness', 'etching', 'color', 'text_matter')
 
 
 

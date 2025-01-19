@@ -52,6 +52,13 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 @login_required(login_url='login')
+def quotation_dashboard(request):
+
+    return render(request, 'quotation_dashboard.html')
+
+
+
+@login_required(login_url='login')
 def add_sales_customer(request):
 
     if request.method == 'POST':
@@ -71,7 +78,7 @@ def add_sales_customer(request):
         context = {
             'form': forms
         }
-        return render(request, 'transactions/add_sales_customer.html', context)
+        return render(request, 'quotation/add_sales_customer.html', context)
 
         
 
@@ -95,7 +102,7 @@ def add_sales_customer_json(request):
         context = {
             'form': forms
         }
-        return render(request, 'transactions/add_sales_customer.html', context)
+        return render(request, 'quotation/add_sales_customer.html', context)
 
 
 
@@ -136,7 +143,7 @@ def update_sales_customer(request, sales_customer_id):
         context = {
             'form': forms
         }
-        return render(request, 'transactions/add_sales_customer.html', context)
+        return render(request, 'quotation/add_sales_customer.html', context)
 
         
 
@@ -160,7 +167,235 @@ def list_sales_customer(request):
         'data': data
     }
 
-    return render(request, 'transactions/list_sales_customer.html', context)
+    return render(request, 'quotation/list_sales_customer.html', context)
+
+
+@login_required(login_url='login')
+def add_color(request):
+
+    if request.method == 'POST':
+
+        forms = color_Form(request.POST)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_color')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        forms = color_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'quotation/add_color.html', context)
+
+        
+
+
+@login_required(login_url='login')
+def update_color(request, color_id):
+
+    if request.method == 'POST':
+
+        instance = color.objects.get(id=color_id)
+
+        forms = color_Form(request.POST, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_color')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        instance = color.objects.get(id=color_id)
+        forms = color_Form(instance=instance)
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'quotation/add_color.html', context)
+
+        
+
+@login_required(login_url='login')
+def delete_color(request, color_id):
+
+    color.objects.get(id=color_id).delete()
+
+    return HttpResponseRedirect(reverse('list_color'))
+
+
+        
+
+
+@login_required(login_url='login')
+def list_color(request):
+
+    data = color.objects.all()
+
+    context = {
+        'data': data
+    }
+
+    return render(request, 'quotation/list_color.html', context)
+
+
+@login_required(login_url='login')
+def add_etching(request):
+
+    if request.method == 'POST':
+
+        forms = etching_Form(request.POST)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_etching')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        forms = etching_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'quotation/add_etching.html', context)
+
+        
+
+
+@login_required(login_url='login')
+def update_etching(request, etching_id):
+
+    if request.method == 'POST':
+
+        instance = etching.objects.get(id=etching_id)
+
+        forms = etching_Form(request.POST, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_etching')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        instance = etching.objects.get(id=etching_id)
+        forms = etching_Form(instance=instance)
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'quotation/add_etching.html', context)
+
+        
+
+@login_required(login_url='login')
+def delete_etching(request, etching_id):
+
+    etching.objects.get(id=etching_id).delete()
+
+    return HttpResponseRedirect(reverse('list_etching'))
+
+
+        
+
+
+@login_required(login_url='login')
+def list_etching(request):
+
+    data = etching.objects.all()
+
+    context = {
+        'data': data
+    }
+
+    return render(request, 'quotation/list_etching.html', context)
+
+
+@login_required(login_url='login')
+def add_text_matter(request):
+
+    if request.method == 'POST':
+
+        forms = text_matter_Form(request.POST)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_text_matter')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        forms = text_matter_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'quotation/add_text_matter.html', context)
+
+        
+
+
+@login_required(login_url='login')
+def update_text_matter(request, text_matter_id):
+
+    if request.method == 'POST':
+
+        instance = text_matter.objects.get(id=text_matter_id)
+
+        forms = text_matter_Form(request.POST, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_text_matter')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        instance = text_matter.objects.get(id=text_matter_id)
+        forms = text_matter_Form(instance=instance)
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'quotation/add_text_matter.html', context)
+
+        
+
+@login_required(login_url='login')
+def delete_text_matter(request, text_matter_id):
+
+    text_matter.objects.get(id=text_matter_id).delete()
+
+    return HttpResponseRedirect(reverse('list_text_matter'))
+
+
+        
+
+
+@login_required(login_url='login')
+def list_text_matter(request):
+
+    data = text_matter.objects.all()
+
+    context = {
+        'data': data
+    }
+
+    return render(request, 'quotation/list_text_matter.html', context)
+
+
+
 
 
 def gettoken(request):
@@ -275,11 +510,11 @@ def add_order(request):
 
         if is_mobile:
             
-            return render(request, 'transactions/add_order_mobile.html', context)
+            return render(request, 'quotation/add_order_mobile.html', context)
 
         else:
 
-            return render(request, 'transactions/add_order.html', context)
+            return render(request, 'quotation/add_order.html', context)
 
 
 
@@ -371,7 +606,7 @@ def update_order(request, order_id):
             'instance_json': json.dumps(instance_dict, cls=DjangoJSONEncoder),  # Convert instance to JSON string
             'order_child_instance_copy': order_child_instance_copy,  # Convert instance to JSON string
         }
-        return render(request, 'transactions/update_order.html', context)
+        return render(request, 'quotation/update_order.html', context)
 
        
 
@@ -410,7 +645,7 @@ def list_order(request):
         'data': data
     }
 
-    return render(request, 'transactions/list_orders.html', context)
+    return render(request, 'quotation/list_orders.html', context)
 
 def print_order(request, order_id):
 
@@ -425,7 +660,7 @@ def print_order(request, order_id):
         'order_child_data': order_child_data
     }
 
-    return render(request, 'transactions/print_orders.html', context)
+    return render(request, 'quotation/print_orders.html', context)
 
 
 def approve_order(request, order_id):
@@ -548,7 +783,7 @@ def update_psi(request):
     categories = category.objects.all()
     etchings = etching.objects.all()
     colors = color.objects.all()
-    texts = text.objects.all()
+    texts = text_matter.objects.all()
     
     if request.method == 'POST':
 
@@ -556,7 +791,7 @@ def update_psi(request):
         category_id = request.POST.get('category')
         etching_id = request.POST.get('etching')
         color_id = request.POST.get('color')
-        text_id = request.POST.get('text')
+        text_matter_id = request.POST.get('text_matter')
 
         print(request.POST)
 
@@ -564,10 +799,10 @@ def update_psi(request):
         category_data = get_object_or_404(category, id=category_id)
         etching_data = get_object_or_404(etching, id=etching_id)
         color_data = get_object_or_404(color, id=color_id)
-        text_data = get_object_or_404(text, id=text_id)
+        text_matter_data = get_object_or_404(text_matter, id=text_matter_id)
 
         try:
-            PSI_instance = PSI.objects.get(thickness=thickness_data, category=category_data, etching = etching_data, color = color_data, text = text_data)
+            PSI_instance = PSI.objects.get(thickness=thickness_data, category=category_data, etching = etching_data, color = color_data, text_matter = text_matter_data)
             form = PSIForm(request.POST, instance=PSI_instance)
 
         except PSI.DoesNotExist:
@@ -576,7 +811,7 @@ def update_psi(request):
         if form.is_valid():
             form.save()  # Save the form data
             url = reverse('update_psi')  # Get the base URL for the view
-            query_params = urlencode({'thickness_id': thickness_id, 'category_id': category_id, 'etching_id' : etching_id, 'color_id' : color_id, 'text_id' : text_id})  # Encode parameters
+            query_params = urlencode({'thickness_id': thickness_id, 'category_id': category_id, 'etching_id' : etching_id, 'color_id' : color_id, 'text_matter_id' : text_matter_id})  # Encode parameters
             return redirect(f"{url}?{query_params}")
         else:
             print('Form is not valid')
@@ -588,7 +823,7 @@ def update_psi(request):
                 'category': category_data,
                 'etching': etching_data,
                 'color': color_data,
-                'text': text_data,
+                'text': text_matter_data,
                 'thicknesses': thicknesses,
                 'categories': categories,
                 'etchings': etchings,
@@ -596,7 +831,7 @@ def update_psi(request):
                 'texts': texts,
             }
 
-            return render(request, 'transactions/update_psi.html', context)
+            return render(request, 'quotation/update_psi.html', context)
 
     else: 
 
@@ -604,9 +839,9 @@ def update_psi(request):
         category_id = request.GET.get('category_id')
         etching_id = request.GET.get('etching_id')
         color_id = request.GET.get('color_id')
-        text_id = request.GET.get('text_id')
+        text_matter_id = request.GET.get('text_matter_id')
 
-        if thickness_id and category_id and etching_id and color_id and text_id:
+        if thickness_id and category_id and etching_id and color_id and text_matter_id:
 
             print('-------------------------')
 
@@ -615,11 +850,11 @@ def update_psi(request):
             category_data = get_object_or_404(category, id=category_id)
             etching_data = get_object_or_404(etching, id=etching_id)
             color_data = get_object_or_404(color, id=color_id)
-            text_data = get_object_or_404(text, id=text_id)
+            text_matter_data = get_object_or_404(text_matter, id=text_matter_id)
 
             
             try:
-                PSI_instance = PSI.objects.get(thickness=thickness_data, category=category_data, etching = etching_data, color = color_data, text = text_data)
+                PSI_instance = PSI.objects.get(thickness=thickness_data, category=category_data, etching = etching_data, color = color_data, text_matter = text_matter_data)
                 forms = PSIForm(instance=PSI_instance)  # Render an empty form for GET requests
                 print('--------------1---------------')
 
@@ -630,6 +865,8 @@ def update_psi(request):
 
             # Create the form instance with the submitted data
             
+            print(category_data.id)
+            print(text_matter_data.id)
 
             context = {
                 'form': forms,
@@ -637,7 +874,7 @@ def update_psi(request):
                 'category': category_data,
                 'etching': etching_data,
                 'color': color_data,
-                'text': text_data,
+                'text': text_matter_data,
                 'thicknesses': thicknesses,
                 'categories': categories,
                 'etchings': etchings,
@@ -645,7 +882,7 @@ def update_psi(request):
                 'texts': texts,
             }
 
-            return render(request, 'transactions/update_psi.html', context)
+            return render(request, 'quotation/update_psi.html', context)
         
         else:
 
@@ -658,7 +895,7 @@ def update_psi(request):
                 'texts': texts,
             }
 
-            return render(request, 'transactions/update_psi.html', context)
+            return render(request, 'quotation/update_psi.html', context)
         
 
 

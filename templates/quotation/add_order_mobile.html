@@ -1,6 +1,6 @@
-{% extends 'base/base.html' %}
+{% extends 'base/quotation_base.html' %}
 
-
+{% load static %}
 
 {% block title %}Create Product{% endblock title %}
 
@@ -11,8 +11,27 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+
 <style>
+
+
+    .ssdsds {
+        background-color: #b0ffb0;;
+    }
+
+    .ssdsds{
+    color: black;
+    font-weight: 600;
+    margin-left: 18px;
+    left: 10px;
+
+    background-color: #f3f3f3;
+}
+
 
 
     #video {
@@ -20,42 +39,7 @@
     }
 
 
-    .table {
-        width: 100%;
-        max-width: 100%;
-        margin-bottom: 1rem;
-        background-color: transparent;
-    }
-    
-    
-    .table th, .table thead th {
-        font-weight: 500;
-    }
-    
-    
-    .table thead th {
-        vertical-align: bottom;
-        border-bottom: 2px solid #dee2e6;
-    }
-    
-    
-    .table th {
-        padding: 1rem;
-        vertical-align: top;
-        border-top: 1px solid #dee2e6;
-    }
-    
-    
-    .table th, .table thead th {
-        font-weight: 500;
-    }
-    
-    
-    th {
-        text-align: inherit;
-    }
-    
-
+  
     .form-group {
         display: flex;
         align-items: center;
@@ -114,8 +98,52 @@
             margin-left: 0px !important;
         }
 
+
+        .no-print {
+            display: none !important;
+          }
+
+
+          th, td {
+            -webkit-print-color-adjust: exact; 
+            print-color-adjust: exact;
+          }
+
+
     }
     
+
+
+    label {
+        flex: 1;
+        margin-bottom: 0;
+        font-weight: 600 !important;
+    }
+
+    .card {
+        display: flow;
+        padding: 10px;
+        border-radius: 12px;
+        margin-bottom: 0.6em;
+    }
+
+    @media print {
+        body {
+          -webkit-print-color-adjust: exact; /* For WebKit browsers */
+          color-adjust: exact; /* For other browsers */
+        }
+      
+        .printable {
+          background-color: #f0f0f0;
+          color: #333;
+          padding: 10px;
+          border: 1px solid #ccc;
+        }
+      
+        .no-print {
+          display: none;
+        }
+      }
     
     
 </style>
@@ -148,103 +176,107 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <div class="card">
+        <div class="">
+
+            <h1 id="messagingSenderId"> </h1>
             
-            <div class="container">
-                <div class="row">
-                  <div class="col-12" style="font-size: 23px;
-                  border: 1px solid black;
-                  text-align: center;
-                  padding: 10px;">
-                    Techno - Commerical Offer
-                  </div>
-                
-                </div>
+            <div class="col-12">
+
+                    <div class="col-3">
+                        <img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 96px; margin-right: 10px;">
+                    </div>
+
+                    <div class="col-9 card" style="font-size: 23px; border: 1px solid black; text-align: center; padding: 10px; color: white; font-weight: bolder; background: #003366; display: flex; align-items: center; justify-content: center;">
+                        Techno - Commercial Offer
+                    </div>
             </div>
+            
 
               <br>
 
             <div class="row">
-                <div class="col-12" style="display : flex;">
+                <div class="col-12" style="">
                     <form id="form3" style="display: contents; comehere">
                         {% csrf_token %}
 
-                    <div class="col-6" style="justify-content: left;">
+                        <h1 id="token"> </h1>
 
-                        <div style="border: 1px solid black; padding: 9px 6px;">
+                        <div class="" style="justify-content: left;">
 
-                            <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="customer" class="control-label mb-1">Customer Name</label>
-                                {{ form.customer }}
-                            </div>
-                            
-                         
-                            
-                            <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="contance_person_no" class="control-label mb-1">Contact Person Name</label>
-                                <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" name="contance_person_no" id="contance_person_no" type="text" value="" class="form-control" >
-                            </div>
-                            
-                            <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="contact_no" class="control-label mb-1">Mobile Number</label>
-                                <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" name="contact_no" id="contact_no" type="text" value="" class="form-control" >
-                            </div>
-                            
-                            <div style="display:flex;">
-                                <label style="margin: 10px 0px !important;" for="email" class="control-label mb-1">Contact Email</label>
-                                <!-- Use the  attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" name="email" id="email" type="text" value="" class="form-control" >
-                            </div>
-                            
+                            <div class="card" style="border: 1px solid black; padding: 9px 6px;">
 
+                                <div style="display:flex;">
+                                    <label style="margin: 10px 0px !important;" for="customer" class="control-label mb-1">Customer Name</label>
+                                    {{ form.customer }}     <input type="button" style="background: #003366; color:white; margin:10px;" value="Add" id="addButton">
+                                </div>
+                                
+                            
+                                
+                                <div style="display:flex;">
+                                    <label style="margin: 10px 0px !important;" for="contance_person_no" class="control-label mb-1">Contact Person Name</label>
+                                    <!-- Use the  attribute to make the input field read-only -->
+                                    <input style="margin-left:10px !important;" name="contance_person_no" id="contance_person_no" type="text" value="" class="form-control" >
+                                </div>
+                                
+                                <div style="display:flex;">
+                                    <label style="margin: 10px 0px !important;" for="contact_no" class="control-label mb-1">Mobile Number</label>
+                                    <!-- Use the  attribute to make the input field read-only -->
+                                    <input style="margin-left:10px !important;" name="contact_no" id="contact_no" type="text" value="" class="form-control" >
+                                </div>
+                                
+                                <div style="display:flex;">
+                                    <label style="margin: 10px 0px !important;" for="email" class="control-label mb-1">Contact Email</label>
+                                    <!-- Use the  attribute to make the input field read-only -->
+                                    <input style="margin-left:10px !important;" name="email" id="email" type="text" value="" class="form-control" >
+                                </div>
+                                
+
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-6" style="justify-content: right;">
-
-
-                        <div style="">
-
-                            {% comment %} <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
-                                <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer No</label>
-                                <input type="text" style="margin-left:10px !important;" value="{{ form.order_id.value }}" class="form-control" readonly>
-                            </div> {% endcomment %}
-
-                            <div style="display: flex; border: 1px solid black; padding: 9px 6px;">
-                                <label style="margin: 10px 0px !important;" for="date" class="control-label mb-1">Offer Date</label>
-                                <!-- Use the readonly attribute to make the input field read-only -->
-                                <input style="margin-left:10px !important;" name="date" id="date" type="datetime-local" value="{{ date|date:'Y-m-d\TH:i' }}" class="form-control" readonly>
-                            </div>
-                            
+                        <div class="" style="justify-content: right;">
 
 
-                            <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
-                                <label style="margin: 10px 0px !important;" for="reference_from" class="control-label mb-1">Reference From</label>
+                            <div style="" class="card">
 
-                                <div>
-                                        
-                                    <div>
+                                {% comment %} <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
+                                    <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer No</label>
+                                    <input type="text" style="margin-left:10px !important;" value="{{ form.order_id.value }}" class="form-control" readonly>
+                                </div> {% endcomment %}
 
-                                        <input type="radio" id="conctc" value="Direct_Contact" name="reference_from">
-                                        <label style="margin: 10px 0px !important;"  for="conctc">Direct Contact</label>
-                                    </div>
+                                <div style="display: flex; border: 1px solid black; padding: 9px 6px;">
+                                    <label style="margin: 10px 0px !important;" for="date" class="control-label mb-1">Offer Date</label>
+                                    <!-- Use the readonly attribute to make the input field read-only -->
+                                    <input style="margin-left:10px !important;" name="date" id="date" type="datetime-local" value="{{ date|date:'Y-m-d\TH:i' }}" class="form-control" readonly>
+                                </div>
+                                
+
+
+                                <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
+                                    <label style="margin: 10px 0px !important;" for="reference_from" class="control-label mb-1">Reference From</label>
 
                                     <div>
-                                        <input type="radio" id="webs" value="Webiste" name="reference_from">
-                                        <label style="margin: 10px 0px !important;"  for="webs">Webiste</label>
-                                    </div>
+                                            
+                                        <div>
 
-                                    <div>
-                                        <input type="radio" id="mailrt" value="Mailer" name="reference_from">
-                                        <label style="margin: 10px 0px !important;" for="mailrt">Mailer</label>
-                                    </div>
+                                            <input type="radio" id="conctc" value="Direct_Contact" name="reference_from">
+                                            <label style="margin: 10px 0px !important;"  for="conctc">Direct Contact</label>
+                                        </div>
 
+                                        <div>
+                                            <input type="radio" id="webs" value="Webiste" name="reference_from">
+                                            <label style="margin: 10px 0px !important;"  for="webs">Webiste</label>
+                                        </div>
+
+                                        <div>
+                                            <input type="radio" id="mailrt" value="Mailer" name="reference_from">
+                                            <label style="margin: 10px 0px !important;" for="mailrt">Mailer</label>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
 
                     </div>
                 </div>
@@ -252,33 +284,32 @@
             </div>
 
             
-                <div class="">
-                    <div class="col-12" style="display:flex;">
+                <div style="justify-content: center;display: grid;" class="no-print">
+                    <div class="col-12">
                         <form id="orderForm" style="display: contents; comehere">
                             {% csrf_token %}
-                        <div class="col-6">
                             
 
                                 
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Item Code/ Drawing Number/ Project Number </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;border-radius: 10px 10px 0px 0px;padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Item Code/ Drawing Number/ Project Number </p>
 
-                                <div>
-                                    <input type="textbox" name="item_code" id="item_code" class="form-control" id="checkbox1" required>
-                                </div>
+                            <div class="card">
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Materials </p>
+                                <input type="textbox" name="item_code" id="item_code" class="form-control" id="checkbox1" required>
+                            </div>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;border-radius: 10px 10px 0px 0px;padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Materials </p>
                                 
-                                <input type="hidden" style="margin-left:10px !important;" name="order" value="{{ form.order_id.value }}">
+                            <input type="hidden" style="margin-left:10px !important;" name="order" value="{{ form.order_id.value }}">
 
 
-                                <input type="hidden" id="editOrderId">
+                            <input type="hidden" id="editOrderId">
 
 
-                                <div>
+                            <div class="card">
 
-                                    <input type="radio" id="ss_304" value="ss_304" name="material" required>
-                                    <label for="ss_304">SS 304</label>
+                                <input type="radio" id="ss_304" value="ss_304" name="material" required>
+                                <label for="ss_304">SS 304</label>
 
                                     <input type="radio" id="ss_316" value="ss_316" name="material" required>
                                     <label for="ss_316">SS 316</label>
@@ -317,11 +348,12 @@
                                     <input type="textbox" name="other_material" class="form-control" id="checkbox1">
 
                                 </div>
+                                </div>
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Process </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;border-radius: 10px 10px 0px 0px; left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Process </p>
                             
-
-                                <div>
+                                {% comment %} #2b1b83 {% endcomment %}
+                                <div class="card">
 
                                     <input type="radio" id="chemical_etching" value="chemical_etching" name="process" required>
                                     <label for="chemical_etching">Chemical Etching</label>
@@ -355,11 +387,13 @@
 
                                 </div>
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> MOQ For nameplates in sq. inch </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+                    border-radius: 10px 10px 0px 0px;
+                    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> MOQ For nameplates in sq. inch </p>
                                 
 
                                 <div>
-                                    <div>
+                                    <div class="card">
 
                                         <input type="radio" id="checkbox144" value="144" name="sqinch" required>
                                         <label for="checkbox144">144</label>
@@ -373,14 +407,14 @@
                                     
                                     </div>
 
-                                    <div>
+                                    <div class="card">
 
                                         <input type="radio" id="checkbox3" value="576" name="sqinch" required>
                                         <label for="checkbox3">576</label>
                                         
                                     </div>
                                                             
-                                    <div>
+                                    <div class="card">
 
                                         <input type="radio" id="checkbox4" value="720" name="sqinch" required>
                                         <label for="checkbox4">720</label>
@@ -409,7 +443,7 @@
                                     </div>
 
                                                                 
-                                    <div>
+                                    <div class="card">
 
                                         <input type="radio" id="checkbox10" value="1872" name="sqinch" required>
                                         <label for="checkbox10">1872</label>
@@ -438,7 +472,7 @@
                                     </div>
 
                                                                 
-                                    <div>
+                                    <div class="card">
 
                                         <input type="radio" id="checkbox18" value="3024" name="sqinch" required>
                                         <label for="checkbox18">3024</label>
@@ -476,7 +510,8 @@
                                     </div>
                                         
 
-                                    <div>
+                                    <div class="card">                 
+
 
                                         <input type="radio" id="checkbox27" value="4608" name="sqinch" required>
                                         <label for="checkbox27">4608</label> <span style="color: red;font-weight: bolder;font-size: 20px;"> || </span> 
@@ -484,14 +519,16 @@
 
                                 </div>
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Size of Nameplate , Precision Parts & Laser Cutting in Inch </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Size of Nameplate , Precision Parts & Laser Cutting in Inch </p>
                         
 
-                                <div>
+                                <div class="card">
                                     
                                     <div style="display: flex; gap : 20px;">
                                         <label for="length_a">Length</label>
-                                        <input type="textbox" name="length" class="form-control" id="length_a" required>
+                                        <input type="number" name="length" class="form-control" id="length_a" required>
                                         <select id="mm_inch_select"> 
                                             <option value="1"> MM </option>
                                             <option value="2"> Inch </option>
@@ -501,7 +538,7 @@
 
                                     <div style="display: flex; gap : 20px;">
                                         <label for="width_a">Width</label>
-                                        <input type="textbox" name="width" class="form-control" id="width_a" required>
+                                        <input type="number" name="width" class="form-control" id="width_a" required>
                                     </div>
                                     
 
@@ -513,18 +550,24 @@
 
                                 </div>
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Text Matter </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Text Matter </p>
                                                     
+                                <div  class="card">
                                 
-                                <input type="radio" id="standard_text_matter" value="standard_text_matter" name="text_matter" required>
-                                <label for="standard_text_matter">Standard Text Matter</label>
+                                    <input type="radio" id="standard_text_matter" value="standard_text_matter" name="text_matter" required>
+                                    <label for="standard_text_matter">Standard Text Matter</label>
 
-                                <input type="radio" id="variable_text_matter_text_matter" value="variable_text_matter" name="text_matter" required>
-                                <label for="variable_text_matter_text_matter">Variable Text Matter</label>
-                                    
+                                    <input type="radio" id="variable_text_matter_text_matter" value="variable_text_matter" name="text_matter" required>
+                                    <label for="variable_text_matter_text_matter">Variable Text Matter</label>
+                                </div>       
                                 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">Type of Etching </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">Type of Etching </p>
                                                         
+                                <div  class="card">
                                     
                                 <input type="radio" id="deep_etching" value="deep_etching" name="etching" required>
                                 <label for="deep_etching">Deep Etching</label>
@@ -532,10 +575,16 @@
                                 <input type="radio" id="embossed_etching" value="embossed_etching" name="etching" required>
                                 <label for="embossed_etching">Embossed Etching</label>
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Color Avaiable for Nameplate, Metal Business Card </p>
+
+                                </div>
+
+
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Color Avaiable for Nameplate, Metal Business Card </p>
                                                     
                             
-                                <div>
+                                <div class="card">
         
                                     <input type="radio" value="1" id="color_count1" name="color_count" required>
                                     <label for="color_count1">1</label>
@@ -551,10 +600,12 @@
                                             
                         
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Color (Silk Screen Printed Or Power Coated for Metal Business Card) on Nameplate , Metal Business Card </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Color (Silk Screen Printed Or Power Coated for Metal Business Card) on Nameplate , Metal Business Card </p>
                         
 
-                                <div>
+                                <div class="card">
 
                                     <input type="radio" id="color_choose1" value="black" name="color" required>
                                     <label for="color_choose1">Black</label>
@@ -573,10 +624,12 @@
                                 
                                 </div>
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">   Font height in mm for all types of Nameplate </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Font height in mm for all types of Nameplate </p>
                             
 
-                                <div>
+                                <div class="card">
                                     
                                     <input type="radio" id="font_heightid1" value="1" name="font_height" required>
                                     <label for="font_heightid1">1</label>
@@ -613,10 +666,12 @@
                                 </div>
 
                             
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Thickness </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Thickness </p>
                                                 
                         
-                                <div>
+                                <div class="card">
         
                                     <input type="radio" value="0.1" id="thickness1" name="thickness" required>
                                     <label for="thickness1" value="checkbox1">0.1</label>
@@ -668,9 +723,11 @@
                             
 
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplate , As per MOQ</p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplate , As per MOQ</p>
                         
-                                <div>
+                                <div class="card">
                                     
                                     <input type="textbox" id="ssdsdsd" name="dsd"  class="form-control">
                                     
@@ -678,18 +735,13 @@
                                     
                                 </div>
                 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Blank Tags, As per MOQ</p>
-        
-                                <div>
-                                    
-                                    <input type="textbox" id="cdfdfdf" name="defds" class="form-control">
-                        
-                                </div>
 
 
 
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Below MOQ for  Nameplates, Precision Parts in sq. inch </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Below MOQ for  Nameplates, Precision Parts in sq. inch </p>
 
                                 <div>
                                     
@@ -703,9 +755,12 @@
 
                     
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplates, As per MOQ</p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplates, As per MOQ</p>
 
-                                <div>
+                                <div class="card">
+
                                     
                                     <input type="textbox" name="rate_per_unit" id="total_rate" class="form-control">
 
@@ -713,6 +768,8 @@
 
                                         <label for="total_basic_amount"> Basic Amount</label>
 
+                                        <input type="hidden" name="rate" id="rate" >
+                                        
                                         <input type="textbox" name="basic_amount" id="total_basic_amount" class="form-control" required>
 
                                     </div>
@@ -720,7 +777,12 @@
 
                         
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> GST (IGST, SGST)</p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> GST (IGST, SGST)</p>
+
+                                <div  class="card">
+
 
                                     <div>
                                         <input type="radio" id="with_material_gst" value="with_gst" name="charges_type_group" required>
@@ -739,32 +801,33 @@
                                             <input type="text" name="total_with_job_shop" id="total_with_job_shop" class="form-control" readonly>
                                         </div>
                                     </div>
+                                    </div>
+
+                                    <div class="card">
                                         
-                                <label for="checkbox1"> Total Amount </label>
+                                <label for="total_amount_with_charges_type"> Total Amount </label>
+                                
                                 <input type="text" name="total_amount_with_charges_type" id="total_amount_with_charges_type" class="form-control">
                             
 
 
-
+                                    </div>
                         
                             
 
                                 </hr>
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Rate Per unit in INR for Nameplates, Precision Parts, Elevator designer Sheets below MOQ </p>
                                 
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Film Charges / Development Charges </p>
+                                
+                                <div class="card">
 
-                                <div>
                                     
-                                    <input type="checkbox" id="checkbox1">
-                                    <label for="checkbox1">0000</label>
-                        
-                                </div>
-                                
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Film Charges / Development Charges </p>
-                                
-                                <div>
-                                    
+                                    <input type="radio" id="no_flim_charges1" value="no_flim_charges" name="flim_charges" required >
+                                    <label for="no_flim_charges1">No Charges</label>
+
                                     <input type="radio" id="flim_charges1" value="inclusive" name="flim_charges" required >
                                     <label for="flim_charges1">Inclusive</label>
 
@@ -779,25 +842,15 @@
 
                                 </div>
                     
-
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Min Font Height & Max Font Height </p>
                                 
 
-                                <div>
-                                    
-                                    <input type="radio" id="min_font_height1" value="1mm" name="min_font_height" required>
-                                    <label for="min_font_height1">1mm</label>
-
-                                    <input type="radio" id="min_font_height2" value="600mm" name="min_font_height" required>
-                                    <label for="min_font_height2"> 600 mm </label>
-                        
-                                </div>
-
-
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">   Material Test Certificate ( MTC ) </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Material Test Certificate ( MTC ) </p>
                                 
 
-                                <div>
+                                <div class="card">
+
                                     
                                     <input type="radio" id="certificate_cost_free" value="Free_along_with_invoice" name="certificate_cost" required>
                                     <label for="certificate_cost_free"> Free along with invoice</label>
@@ -818,11 +871,16 @@
                                 </div>
 
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Samples or Proto Type </p>
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Samples or Proto Type </p>
                                 
 
-                                <div>
+                                <div class="card">
                                     
+                                    <input type="radio" id="no_charges" value="no_charges" name="sample" required>
+                                    <label for="no_charges"> No Charges </label>
+
                                     <input type="radio" id="Free" value="Free_in_case_confirm_Order" name="sample" required>
                                     <label for="Free"> Free in case confirm Order </label>
 
@@ -836,7 +894,8 @@
 
                                 <br>
 
-                                <div>
+                                <div class="card">
+
                                     
 
                                     
@@ -851,7 +910,7 @@
                                 <br>
 
 
-                                <input type="submit" id="submitButton" class="btn btn-info"  value="Add Item Code Order"> 
+                                <input type="submit" id="submitButton" style="background : #7b7e80; border : none; border-radius : 5px;" class="btn btn-info"  value="Add Item Code Order"> 
 
                                 <br>
                                 <br>
@@ -863,8 +922,11 @@
                             
                             </form>
 
-                            <div class="row" id="submittedOrders">
                                 <!-- Cards will be dynamically appended here -->
+
+                           
+
+
                             </div>
 
                         </div>
@@ -872,20 +934,42 @@
                                 
 
 
-                
+                        <h1 style="font-size: 18px;
+                        font-weight: 700;
+                        text-align: center;
+                        margin-bottom: 14px;"> Item Orders Description </h1>
+
+                        <div class="table-stats order-table ov-h" style="overflow: scroll;">
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th class="serial">#</th>
+                                        <th>Description</th>
+                                        <th>Quantity </th>
+                                        <th>Per Unit Amount</th>
+                                        <th>Final Amount</th>
+                                        <th class="no-print">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="submittedOrders">
+                                  
+                                </tbody>
+                            </table>
 
 
 
-                        <div class="col-6">
+                        <div class="">
 
                             <form id="form2">
 
                                 {% csrf_token %}
 
-                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Industry </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Industry </p>
                                 
 
-                            <div>
+                            <div class="card">
 
                                 <input type="radio" id="industry1" name="industry" value="automotive">
                                 <label for="industry1">Automotive</label>
@@ -932,183 +1016,192 @@
 
                             </div>
 
-                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Product </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Product </p>
                                 
 
-                            <div>
+                            <div class="card">
 
-                                <input type="radio" id="checkbox1" name="product" value="nameplate">
-                                <label for="checkbox1">Nameplate</label>
+                                <input type="radio" id="product1" name="product" value="nameplate">
+                                <label for="product1">Nameplate</label>
                                 
-                                <input type="radio" id="checkbox2" name="product" value="front_pannel">
-                                <label for="checkbox2">Front Panel</label>
+                                <input type="radio" id="product2" name="product" value="front_pannel">
+                                <label for="product2">Front Panel</label>
                                 
-                                <input type="radio" id="checkbox3" name="product" value="nameplate_with_qr_code">
-                                <label for="checkbox3">Nameplate with QR Code</label>
+                                <input type="radio" id="product3" name="product" value="nameplate_with_qr_code">
+                                <label for="product3">Nameplate with QR Code</label>
                                 
-                                <input type="radio" id="checkbox4" name="product" value="project_based_cable_tags">
-                                <label for="checkbox4">Project Based Cable Tags</label>
+                                <input type="radio" id="product4" name="product" value="project_based_cable_tags">
+                                <label for="product4">Project Based Cable Tags</label>
                                 
-                                <input type="radio" id="checkbox5" name="product" value="schematic_drg">
-                                <label for="checkbox5">Schematic Drg</label>
+                                <input type="radio" id="product5" name="product" value="schematic_drg">
+                                <label for="product5">Schematic Drg</label>
                                 
-                                <input type="radio" id="checkbox6" name="product" value="thin_shim_and_spacer">
-                                <label for="checkbox6">Thin Shim & Spacer</label>
+                                <input type="radio" id="product6" name="product" value="thin_shim_and_spacer">
+                                <label for="product6">Thin Shim & Spacer</label>
                                 
-                                <input type="radio" id="checkbox7" name="product" value="proto_type_stator_and_rotar_lamination">
-                                <label for="checkbox7">Proto type Stator & Rotar Lamination</label>
+                                <input type="radio" id="product7" name="product" value="proto_type_stator_and_rotar_lamination">
+                                <label for="product7">Proto type Stator & Rotar Lamination</label>
                                 
-                                <input type="radio" id="checkbox8" name="product" value="regular_thin_mesh">
-                                <label for="checkbox8">Regular Thin Mesh</label>
+                                <input type="radio" id="product8" name="product" value="regular_thin_mesh">
+                                <label for="product8">Regular Thin Mesh</label>
                                 
-                                <input type="radio" id="checkbox9" name="product" value="customized_mesh">
-                                <label for="checkbox9">Customized Mesh</label>
+                                <input type="radio" id="product9" name="product" value="customized_mesh">
+                                <label for="product9">Customized Mesh</label>
                                 
-                                <input type="radio" id="checkbox10" name="product" value="encoder_disc">
-                                <label for="checkbox10">Encoder Disc</label>
+                                <input type="radio" id="product10" name="product" value="encoder_disc">
+                                <label for="product10">Encoder Disc</label>
                                 
-                                <input type="radio" id="checkbox11" name="product" value="aperture_and_pin_holes">
-                                <label for="checkbox11">Aperture & Pin Holes</label>
+                                <input type="radio" id="product11" name="product" value="aperture_and_pin_holes">
+                                <label for="product11">Aperture & Pin Holes</label>
                                 
-                                <input type="radio" id="checkbox12" name="product" value="texturing">
-                                <label for="checkbox12">Texturing</label>
+                                <input type="radio" id="product12" name="product" value="texturing">
+                                <label for="product12">Texturing</label>
                                 
-                                <input type="radio" id="checkbox13" name="product" value="speaker_grill">
-                                <label for="checkbox13">Speaker Grill</label>
+                                <input type="radio" id="product13" name="product" value="speaker_grill">
+                                <label for="product13">Speaker Grill</label>
                                 
-                                <input type="radio" id="checkbox14" name="product" value="contact_connector_and_terminals">
-                                <label for="checkbox14">Contact, Connector & Terminals</label>
+                                <input type="radio" id="product14" name="product" value="contact_connector_and_terminals">
+                                <label for="product14">Contact, Connector & Terminals</label>
                                 
-                                <input type="radio" id="checkbox15" name="product" value="valve_and_compressor_plate">
-                                <label for="checkbox15">Valve & Compressor Plate</label>
+                                <input type="radio" id="product15" name="product" value="valve_and_compressor_plate">
+                                <label for="product15">Valve & Compressor Plate</label>
                                 
-                                <input type="radio" id="checkbox16" name="product" value="diaphragm">
-                                <label for="checkbox16">Diaphragm</label>
+                                <input type="radio" id="product16" name="product" value="diaphragm">
+                                <label for="product16">Diaphragm</label>
                                 
-                                <input type="radio" id="checkbox17" name="product" value="emi_rfi_shielding">
-                                <label for="checkbox17">EMI / RFI Shielding</label>
+                                <input type="radio" id="product17" name="product" value="emi_rfi_shielding">
+                                <label for="product17">EMI / RFI Shielding</label>
                                 
-                                <input type="radio" id="checkbox18" name="product" value="filteration">
-                                <label for="checkbox18">Filteration</label>
+                                <input type="radio" id="product18" name="product" value="filteration">
+                                <label for="product18">Filteration</label>
                                 
-                                <input type="radio" id="checkbox19" name="product" value="battery_contact">
-                                <label for="checkbox19">Battery Contact</label>
+                                <input type="radio" id="product19" name="product" value="battery_contact">
+                                <label for="product19">Battery Contact</label>
                                 
-                                <input type="radio" id="checkbox20" name="product" value="antenna_tele_communication">
-                                <label for="checkbox20">Antenna Tele Communication</label>
+                                <input type="radio" id="product20" name="product" value="antenna_tele_communication">
+                                <label for="product20">Antenna Tele Communication</label>
                                 
-                                <input type="radio" id="checkbox21" name="product" value="bipolar_plate_pem">
-                                <label for="checkbox21">Bipolar Plate PEM</label>
+                                <input type="radio" id="product21" name="product" value="bipolar_plate_pem">
+                                <label for="product21">Bipolar Plate PEM</label>
                                 
-                                <input type="radio" id="checkbox22" name="product" value="flat_spring_u_spring_v_spring">
-                                <label for="checkbox22">Flat Spring, U Spring, V Spring</label>
+                                <input type="radio" id="product22" name="product" value="flat_spring_u_spring_v_spring">
+                                <label for="product22">Flat Spring, U Spring, V Spring</label>
                                 
-                                <input type="radio" id="checkbox23" name="product" value="metal_business_card_with_nfc_chip">
-                                <label for="checkbox23">Metal Business Card with NFC Chip</label>
+                                <input type="radio" id="product23" name="product" value="metal_business_card_with_nfc_chip">
+                                <label for="product23">Metal Business Card with NFC Chip</label>
                                 
-                                <input type="radio" id="checkbox24" name="product" value="metal_business_card_without_chip">
-                                <label for="checkbox24">Metal Business Card without Chip</label>
+                                <input type="radio" id="product24" name="product" value="metal_business_card_without_chip">
+                                <label for="product24">Metal Business Card without Chip</label>
                                 
-                                <input type="radio" id="checkbox25" name="product" value="book_mark_and_product_model">
-                                <label for="checkbox25">Book Mark & Product Model</label>
+                                <input type="radio" id="product25" name="product" value="book_mark_and_product_model">
+                                <label for="product25">Book Mark & Product Model</label>
                                 
-                                <input type="radio" id="checkbox26" name="product" value="designer_stainless_steel_sheet">
-                                <label for="checkbox26">Designer Stainless Steel Sheet</label>
+                                <input type="radio" id="product26" name="product" value="designer_stainless_steel_sheet">
+                                <label for="product26">Designer Stainless Steel Sheet</label>
                                 
-                                <input type="radio" id="checkbox27" name="product" value="designer_stainless_steel_sheet_with_elevator_cabinet">
-                                <label for="checkbox27">Designer Stainless Steel Sheet with Elevator Cabinet</label>
+                                <input type="radio" id="product27" name="product" value="designer_stainless_steel_sheet_with_elevator_cabinet">
+                                <label for="product27">Designer Stainless Steel Sheet with Elevator Cabinet</label>
                                 
-                                <input type="radio" id="checkbox28" name="product" value="designer_stainless_steel_sheet_with_elevator_cabinet_roof_and_bottom">
-                                <label for="checkbox28">Designer Stainless Steel Sheet with Elevator Cabinet, Roof & Bottom</label>
+                                <input type="radio" id="product28" name="product" value="designer_stainless_steel_sheet_with_elevator_cabinet_roof_and_bottom">
+                                <label for="product28">Designer Stainless Steel Sheet with Elevator Cabinet, Roof & Bottom</label>
                                 
                             </div>
 
 
                                 
-                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> Design format accepted </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Design format accepted </p>
                                 
 
-                            <div>
+                            <div class="card">
                                 <input type="radio" id="file_format1" name="file_format" value="cdr">
-                                <label for="radio1">CDR</label>
+                                <label for="file_format1">CDR</label>
                                 
                                 <input type="radio" id="file_format2" name="file_format" value="dxf">
-                                <label for="radio2">DXF</label>
+                                <label for="file_format2">DXF</label>
                                 
                                 <input type="radio" id="file_format3" name="file_format" value="ai">
-                                <label for="radio3">A.I</label>
+                                <label for="file_format3">A.I</label>
                                 
                                 <input type="radio" id="file_format4" name="file_format" value="pdf">
-                                <label for="radio4">PDF</label>
+                                <label for="file_format4">PDF</label>
                                 
                                 <input type="radio" id="file_format5" name="file_format" value="excel">
-                                <label for="radio5">Excel</label>
+                                <label for="file_format5">Excel</label>
                                 
                             </div>
 
 
 
 
-                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">    IncoTerm </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    IncoTerm </p>
                                                     
                             
-                            <div>
+                            <div class="card">
 
-                                <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600;">Incoterms</p>
-                                <input type="radio" id="inco_ex_works" name="incoterm" value="ex-works">
+                          
+                                <input type="radio" id="inco_ex_works" name="incoterm" value="ex-works" required>
                                 <label for="inco_ex_works">Ex-Works</label>
                             
-                                <input type="radio" id="inco_fob" name="incoterm" value="f.o.b.">
+                                <input type="radio" id="inco_fob" name="incoterm" value="f.o.b." required>
                                 <label for="inco_fob">F.O.B.</label>
                             
-                                <input type="radio" id="inco_c_and_f" name="incoterm" value="c_and_f">
+                                <input type="radio" id="inco_c_and_f" name="incoterm" value="c_and_f" required>
                                 <label for="inco_c_and_f">C & F</label>
                             
-                                <input type="radio" id="inco_cif" name="incoterm" value="cif">
+                                <input type="radio" id="inco_cif" name="incoterm" value="cif" required>
                                 <label for="inco_cif">CIF</label>
                             
-                                <input type="radio" id="inco_warehouse" name="incoterm" value="warehouse_to_warehouse">
+                                <input type="radio" id="inco_warehouse" name="incoterm" value="warehouse_to_warehouse" required>
                                 <label for="inco_warehouse">Warehouse to Warehouse</label>
                             </div>
 
-                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">    Mode of Transport </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Mode of Transport </p>
                                                                         
                                                 
-                            <div>
+                            <div class="card">
 
-                                <input type="radio" id="transport_road" name="transportation_type" value="road">
-    <label for="transport_road">Road</label>
+                                <input type="radio" id="transport_road" name="transportation_type" value="road" required>
+                                <label for="transport_road">Road</label>
 
-    <input type="radio" id="transport_rail" name="transportation_type" value="rail">
-    <label for="transport_rail">Rail</label>
+                                <input type="radio" id="transport_rail" name="transportation_type" value="rail" required>
+                                <label for="transport_rail">Rail</label>
 
-    <input type="radio" id="transport_air" name="transportation_type" value="air">
-    <label for="transport_air">Air</label>
+                                <input type="radio" id="transport_air" name="transportation_type" value="air" required>
+                                <label for="transport_air">Air</label>
 
-    <input type="radio" id="transport_courier" name="transportation_type" value="courier">
-    <label for="transport_courier">Courier</label>
+                                <input type="radio" id="transport_courier" name="transportation_type" value="courier" required>
+                                <label for="transport_courier">Courier</label>
 
-    <input type="radio" id="transport_porter" name="transportation_type" value="porter">
-    <label for="transport_porter">Porter</label>
+                                <input type="radio" id="transport_porter" name="transportation_type" value="porter" required>
+                                <label for="transport_porter">Porter</label>
 
-    <input type="radio" id="transport_personal" name="transportation_type" value="personal_pick_up">
-    <label for="transport_personal">Personal Pick Up</label>
-</div>
+                                <input type="radio" id="transport_personal" name="transportation_type" value="personal_pick_up" required>
+                                <label for="transport_personal">Personal Pick Up</label>
+                            </div>
 
-<div>
-    <label for="transportation_cost">Transportation Cost</label>
-    <select id="transportation_cost" name="transportation_cost" class="form-control"></select>
+                            <div class="card">
+
+                                <label for="transportation_cost">Transportation Cost</label>
+                                <select id="transportation_cost" name="transportation_cost" class="form-control" required></select>
 
                             </div>
 
                             
 
-                            <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Payment </p>
-                                                    
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px; border-radius: 10px 10px 0px 0px; padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Payment </p>
+                            <div class="card">                 
                             <div>
 
                                 
-                                <input type="radio" id="advance_advance" value="advance" name="payment">
+                                <input type="radio" id="advance_advance" value="advance" name="payment" required>
 
                                 <label for="advance_advance"> Advance </label>
 
@@ -1119,14 +1212,15 @@
                                 <label for="checkbox1" name="payment">    % of Advance </label>  
                                 
                             </div>
+                            </div>
 
                             
-                            <div>
-                                <input type="radio" id="against_delivery" value="against_delivery" name="payment">
+                            <div class="card">
+                                <input type="radio" id="against_delivery" value="against_delivery" name="payment" required>
                                 <label for="against_delivery">Against Delivery</label>
-                                <input type="radio" id="proforma_invoice" value="proforma_invoice" name="payment">
+                                <input type="radio" id="proforma_invoice" value="proforma_invoice" name="payment" required>
                                 <label for="proforma_invoice"> Proforma Invoice </label>
-                                <input type="radio" id="credit_in_day" value="credit_in_day" name="payment">
+                                <input type="radio" id="credit_in_day" value="credit_in_day" name="payment" required>
                                 <label for="credit_in_day"> Credit in day </label>
 
                                 <input type="number" id="credit_in_days" name="credit_in_days" name="limit to 99" min="0" max="100">
@@ -1141,19 +1235,25 @@
 
 
 
-                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">   Credit Limit in INR </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Credit Limit in INR </p>
                             
 
-                    <div>
+                    <div class="card">                 
 
-                        <label for="checkbox1"> Amount <input type="number" id="credit_limit" name="credit_limit" class="form-control"> 
+
+                        <label for="checkbox1"> Amount <input type="number" id="credit_limit" name="credit_limit" class="form-control" required readonly> 
                     </div>
 
-                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Rejection Acceptance from the date of invoice </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Rejection Acceptance from the date of invoice </p>
             
                     
-                    <div>
-                        <label for="transportation_cost">Days</label>
+                    <div class="card">                 
+
+                        <label for="rejection_acceptance">Days</label>
                         <select id="rejection_acceptance" name="rejection_acceptance" class="form-control">
                             <option value="1"> 1 </option>
                             <option value="2"> 2 </option>
@@ -1168,38 +1268,48 @@
                     </div>
 
 
-                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">    Offer Valid Till </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Offer Valid Till </p>
                             
 
-                    <div>
+                    <div class="card">                 
+
 
                         <input type="date" name="offer_valid_date" class="form-control dateclas" required="" id="id_DC_date">
                     </div>
 
 
-                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">    Rate Contract For per Month procurement </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Rate Contract For per Month procurement </p>
                             
 
                                                 
 
-                    <div>
+                    <div class="card">
                         <input type="radio" id="Acceptance1" name="Acceptance">
-                        <label for="transportation_cost">Yes</label>
-                        <input type="radio" id="Acceptance1" name="Acceptance">
-                        <label for="radio1"> No </label>
+                        <label for="Acceptance1">Yes</label>
+                        <input type="radio" id="Acceptance2" name="Acceptance">
+                        <label for="Acceptance2"> No </label>
                         
                     </div>
 
 
 
-                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;"> In Case there is sudden rise of material price per unit will differ </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> In Case there is sudden rise of material price per unit will differ </p>
                             
 
-                    <div>
-                        <input type="radio" id="sudden_rise1" name="sudden_rise" value="yes">
-                        <label for="transportation_cost">Yes</label>
-                        <input type="radio" id="sudden_rise2" name="sudden_rise" value="no">
-                        <label for="radio1"> Price Rise in % </label>
+                    <div class="card">                 
+
+                        <input type="radio" id="sudden_rise_no" name="sudden_rise" value="No" required>
+                        <label for="sudden_rise_no">No</label>
+                        <input type="radio" id="sudden_rise1" name="sudden_rise" value="Yes" required>
+                        <label for="sudden_rise1">Yes</label>
+                        <input type="radio" id="sudden_rise2" name="sudden_rise" value="no" required>
+                        <label for="sudden_rise2"> Price Rise in % </label>
                         <select id="sudden_rise_percent" name="sudden_rise_percent" class="from-control"> 
                             <option value="1"> 0 </option>
                             <option value="2"> 1 </option>
@@ -1232,15 +1342,17 @@
 
                     </div>
 
-                    <p style="color: black; text-align: center;color: black;text-align: center;background: orange;border: 1px solid black;font-weight: 600; margin-top: 14px;">  Packaging and Forwarding </p>
+                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Packaging and Forwarding </p>
                             
 
                         
 
-                    <div>
+                    <div class="card">
 
 
-                        <label for="transportation_cost">Type of Packaging</label>
+                        <label for="packaging">Type of Packaging</label>
 
                         <select id="packaging" name="packaging" class="form-control">
                             <option value="paper"> Paper </option>
@@ -1251,7 +1363,7 @@
 
 
 
-                        <label for="transportation_cost">Packaging Charges</label>
+                        <label for="packaging_charges">Packaging Charges</label>
 
                         <select id="packaging_charges" name="packaging_charges" class="form-control"></select>
                     
@@ -1260,7 +1372,7 @@
 
                     </div>
 
-                    <div>
+                    <div class="card">
 
 
                         <label for="total_sqinch">Total Sqinch</label>
@@ -1286,13 +1398,55 @@
                     
         <br>
         <br>
-        <div>
-            <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
-                <span id="payment-button-amount">Update Production</span>
-            </button>
-        </div>
+            <input type="submit" id="payment-button"  value="Add Qutation" type="submit" style="width: 100%; margin-top: 25px; background : #7b7e80; border : none; border-radius : 5px;" class="btn btn-info">
     </div>
 </form>
+
+
+  <!-- Popup Modal -->
+  <div class="modal fade" id="popupFormModal" tabindex="-1" role="dialog" aria-labelledby="popupFormModalLabel" aria-hidden="true">
+
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="popupFormModalLabel">Add New Customer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="popupForm" method="post">
+  {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="itemName">Name</label>
+                        <input type="text" class="form-control" id="itemName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemName">Client GST</label>
+                        <input type="text" class="form-control" id="itemName" name="client_gst" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemDescription">Address</label>
+                        <textarea class="form-control" id="itemDescription" name="address" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemDescription">Mobile No</label>
+                        <textarea class="form-control" id="itemDescription" name="mobile_no" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemDescription">Credit INR</label>
+                        <textarea class="form-control" id="itemDescription" name="credit_limit" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    </form>
+</div>
 
 </div>
 
@@ -1302,6 +1456,16 @@
 
 {% block js %}
     
+
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/additional-methods.min.js"></script>
+
+
+
 
 <script>
 
@@ -1510,6 +1674,7 @@
                         quantity_a = document.getElementById("quantity_a").value;
                         var price = value * total_sq_inch
                         var final_price = price / quantity_a
+                        document.getElementById("rate").value = value;
                         document.getElementById("total_rate").value = final_price.toFixed(2);
                         document.getElementById("total_basic_amount").value = final_price.toFixed(2) * quantity_a;
                         
@@ -1622,7 +1787,6 @@ function update_other_values(){
     // Check if the event object exists and has the target property
     if (chargeRadioButton1.checked) {
 
-        alert('1')
 
         // Call your function here
         var basic_amount = parseFloat(document.getElementById("total_basic_amount").value);
@@ -1651,7 +1815,6 @@ function update_other_values(){
     }
     if (chargeRadioButton2.checked) {
 
-        alert('2')
 
         // Call your function here
         var basic_amount = parseFloat(document.getElementById("total_basic_amount").value);
@@ -1738,7 +1901,7 @@ function update_other_values(){
 const selectElement = document.getElementById("transportation_cost");
 
 // Add options to the select element
-for (let i = 100; i <= 10000; i += 100) {
+for (let i = 0; i <= 10000; i += 100) {
     const option = document.createElement("option");
     option.text = i;
     option.value = i;
@@ -1796,68 +1959,6 @@ var cardsAppended = 0;
 
 
 
-// JavaScript code for sending AJAX POST request
-$(document).ready(function() {
-    $('#submit-form').submit(function(event) {
-        event.preventDefault(); // Prevent default form submission
-        
-        // Serialize form data including CSRF token
-        var formData = $('form').serialize();
-        
-        // Send AJAX POST request
-        $.ajax({
-            type: 'POST',
-            url: "{% url 'add_order' %}", // Replace with your Django view URL
-            data: formData,
-            beforeSend: function(xhr, settings) {
-                // Set CSRF token in request headers
-                xhr.setRequestHeader('X-CSRFToken', $('input[name="csrfmiddlewaretoken"]').val());
-            },
-            success: function(response) {
-                // Handle successful response
-                console.log(response);
-
-                var cardHtml = '<div class="col-6">' +
-                    '<div class="card mb-3" style="width: 18rem;border: 1px solid black;">' +
-                        '<div class="card-body" style="border: 1px solid black;">' +
-                            '<p class="card-text">' + response.instance + '</p>' +
-                            '<a href="#" class="btn btn-primary">View</a>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>';
-
-                $('#card-row').append(cardHtml);
-                cardsAppended++;
-
-                // Check if the number of cards appended is divisible by 2
-                if (cardsAppended % 2 === 0) {
-                    $('#card-row').append('<div class="w-100"></div>'); // Add a new row
-                }
-
-                
-                // Assuming you have a form with id "myForm"
-               // Clear text inputs
-                $('#submit-form :input[type="text"]').val('');
-
-                // Clear radio buttons
-                $('#submit-form :input[type="radio"]').prop('checked', false);
-
-                // Clear number inputs
-                $('#submit-form :input[type="number"]').val('');
-
-               // item_code
-
-               $('#item_code').val('');
-                
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                // Handle error
-                console.error('Error:', textStatus, errorThrown);
-            }
-        });
-    });
-});
-
 
 
 
@@ -1881,23 +1982,36 @@ function renderOrders() {
     ordersContainer.innerHTML = ''; // Clear existing content
 
     orders.forEach(order => {
-        const orderElement = document.createElement('div');
-        orderElement.classList.add('col-sm-6');
-        orderElement.innerHTML = `
-        <div class="card mb-3" style="width: 18rem;border: 1px solid black;">
-            <div class="card-body" style="border: 1px solid black;">
-                <p class="card-text" style="margin-bottom: 1px;"> Order Id:- ${order.item_code} </p>
-                <p class="card-text" style="margin-bottom: 1px;"> Total SqInch:- ${order.quantity} </p>
-                <p class="card-text" style="margin-bottom: 1px;"> Rate:- ${order.rate_per_unit} </p>
-                <a onclick="editOrder(${order.id})" style="font-weight: 600;
-                color: black;
-                border: none;" class="btn btn-primary">View</a>
-                <a onclick="deleteOrder(${order.id})" style="background: red;
-                font-weight: 600;
-                color: black;
-                border: none;" class="btn btn-primary">Delete</a>
-            </div>
-        </div>
+        
+        const orderElement = document.createElement('tr');
+        orderElement.classList.add('ssdsds');
+        orderElement.innerHTML = ` Item Code:- ${order.item_code}<hr>
+        Material: ${order.material}<hr>
+        Process: ${order.process}<hr>
+        Size: ${order.total_sq_inch}<hr>
+        Text Matter: ${order.text_matter}<hr>
+        Type of Etching: ${order.etching}<hr>
+        Color: ${order.color}<hr>
+        Flim Charges: ${order.flim_charges_total}<hr>
+        Font: ${order.font_height}<hr>
+        Material Test Certificate: ${order.certificate_price}<hr>
+        Sample/Prototype: ${order.sample_price}<hr>
+        With GST: ${order.total_amount_with_charges_type}<hr>
+           </td>
+        <td> what will be here? </td>
+
+        <td> ${order.quantity}</td>
+        <td> ${order.rate_per_unit}</td>
+        <td> ${order.final_item_total} </td>
+        <td class="no-print"> <a onclick="editOrder(${order.id})" style="font-weight: 600;
+            color: black;
+            border: none; margin-bottom:20px;" class="btn btn-primary">View</a>
+            <a onclick="deleteOrder(${order.id})" style="background: red;
+            font-weight: 600;
+            color: black;
+            border: none;
+            margin-bottom : 10px;" class="btn btn-primary">Delete</a></td>
+        
         `;
 
 
@@ -2018,21 +2132,28 @@ document.getElementById('orderForm').addEventListener('submit', handleSubmit);
 
 
 
+
+
 function calculateTotal() {
+
+
+
 
     var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
 
-    document.getElementById('final_sqinch').value = final_sqinch
+    document.getElementById('total_sqinch').value = final_sqinch
 
 
     var totalFinalAmount = orders.reduce((acc, obj) => acc + parseFloat(obj.final_item_total), 0);
-    console.log(orders)
 
     var packagingCharges = parseFloat(document.getElementById("packaging_charges").value);
     var finalAmount = totalFinalAmount + parseFloat(packagingCharges);
 
     var transportation_cost = parseFloat(document.getElementById("transportation_cost").value);
     finalAmount = finalAmount + parseFloat(transportation_cost);
+
+    console.log(final_sqinch)
+    console.log(finalAmount)
 
     
     
@@ -2061,12 +2182,10 @@ formInputsasas.forEach(input => {
 $(document).ready(function(){
     $('#form2').submit(function(e){
         e.preventDefault(); // Prevent default form submission
-
-        alert('here')
+        alert("done")
 
         var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
 
-        alert(final_sqinch)
 
         
         // Gather form data
@@ -2079,7 +2198,7 @@ $(document).ready(function(){
         
         // Append form data from form3 to form data from form2
         formData = formData.concat(formData3);
-        // Additional array data
+        // Additional array data    
         
         // Append array data to form data
         formData.push({name: 'orders', value: JSON.stringify(orders)});
@@ -2096,6 +2215,8 @@ $(document).ready(function(){
             success: function(response){
                 // Handle success response
                 console.log(response);
+
+                window.location.href = "{% url 'list_order' %}";
             },
             error: function(xhr, status, error){
                 // Handle error
@@ -2107,28 +2228,94 @@ $(document).ready(function(){
 
 
 
-{% comment %} 
-document.addEventListener('DOMContentLoaded', function() {
-    var form = document.getElementById('orderForm');
 
-    // Function to pre-select radio buttons in a group
-    function preSelectRadioButton(groupName, selectedValue) {
-      var radioButtons = form.elements[groupName];
-      for (var i = 0; i < radioButtons.length; i++) {
-        if (radioButtons[i].value === selectedValue) {
-          radioButtons[i].checked = true;
-          break;
-        }
-      }
-    }
 
-    // Pre-select radio buttons in each group
-    preSelectRadioButton('thickness', "0.1");
-    preSelectRadioButton('sqinch', "4464");
-  }); {% endcomment %}
-  
+
+
+
+
+
+
+
+
+
+
+
+
+        $(document).ready(function () {
+            // Show the modal when the add button is clicked
+            $('#addButton').click(function () {
+                $('#popupFormModal').modal('show');
+            });
+
+            // Validate and submit the form
+            $('#popupForm').validate({
+                submitHandler: function (form, event) {
+                    // Prevent default form submission
+                    event.preventDefault();
+
+                    alert("dfgvhjkjhg")
+                    
+
+                    // Perform AJAX request here
+                    $.ajax({
+                        url: "{% url 'add_sales_customer_json' %}",  // Change this to your endpoint URL
+                        type: 'POST',
+                        data: $(form).serialize(),
+                        success: function (response) {
+                            console.log('Form submitted successfully:', response);
+                            $('#popupFormModal').modal('hide');
+
+                            const newCustomer = response.customer;
+                            console.log('Form submitted successfully:', newCustomer);
+    
+                            // Hide the modal
+    
+                            // Update the dropdown with the new customer
+                            const $dropdown = $('#customer');
+                            $dropdown.append(new Option(newCustomer.name, newCustomer.id));
+                            alert(newCustomer.credit_limit)
+
+                            document.getElementById('credit_limit').value = newCustomer.credit_limit;
+
+
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Form submission error:', error);
+                        }
+                    });
+                }
+            });
+
+
+            $('#customer').change(function (e) {
+                const customerId = $(this).val();
+                if (customerId) {
+                    $.ajax({
+                        url: "{% url 'get_customer_details' customer_id=123 %}".replace('123', customerId),
+                        type: 'GET',
+                        success: function (response) {
+                            const customer = response.customer;
+                            $('#credit_limit').val(customer.credit_limit);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error fetching customer details:', error);
+                        }
+                    });
+                } 
+            });
+
+
+        });
+
+
+
+
 
 
 </script>
+
+
+
 
 {% endblock js %}
