@@ -46,7 +46,7 @@
                         <tbody>
                             {% if data %}
                             {% for i in data %}
-
+                            
                             {% if i.is_approved == True %}
                             <tr style="background: #b0ffb0;">
                             {% else %}
@@ -71,9 +71,13 @@
 
                                     {% endif %}
 
+                                    {% if i.is_approved == True %}
+
                                    <a href="{% url 'print_order' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
                                         <span id="payment-button-amount">Print</span>
                                     </button>  </a>
+
+                                    {% endif %}
 
                                    <a href="{% url 'update_order' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
                                         <span id="payment-button-amount">View</span>

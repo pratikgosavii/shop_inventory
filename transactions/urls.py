@@ -40,7 +40,7 @@ urlpatterns = [
     path('generate-all-barcode/<int:project_matarial_production_id>/', generate_all_barcode, name='generate_all_barcode'),
     # path('generate-all-final-barcode/<int:project_matarial_production_id>/', generate_all_final_barcode, name='generate_all_final_barcode'),
     
-    path('submit-invoice-json/<project_outward_main_label_id>/<invoiceId>', submit_invoice_json, name='submit_invoice_json'),
+    path('submit-invoice-json/<production_material_id>/<invoiceId>', submit_invoice_json, name='submit_invoice_json'),
 
     path('scan-barcode/', scan_barcode, name='scan_barcode'),
     path('scan-main-barcode/', scan_main_barcode, name='scan_main_barcode'),
