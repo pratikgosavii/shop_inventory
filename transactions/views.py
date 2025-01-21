@@ -1538,7 +1538,7 @@ def confirm_small_outward_json(request, project_outward_id):
 
 
 @login_required(login_url='login')
-def submit_invoice_json(request, project_outward_main_label_id, invoiceId):
+def submit_invoice_json(request, production_material_id, invoiceId):
 
     print('------------here-------------')
 
@@ -1546,7 +1546,7 @@ def submit_invoice_json(request, project_outward_main_label_id, invoiceId):
 
     print(invoiceId)
 
-    instance = project_outward_main_label.objects.get(id = project_outward_main_label_id)
+    instance = project_matarial_production.objects.get(id = production_material_id)
 
     instance.invoice_no = invoiceId
 
@@ -2553,8 +2553,8 @@ def email_inward_report(request):
         subject='Inward Report PDF',
         body='Please find the attached Inward Report in PDF format.',
         from_email='rradailyupdates@gmail.com',
-        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
-        # to=['pratikgosavi654@gmail.com'],
+        # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+        to=['pratikgosavi654@gmail.com'],
     )
 
     # Attach the generated PDF

@@ -132,6 +132,8 @@ class project_matarial_production(models.Model):
     date_time = models.DateTimeField(auto_now=False, null = True, blank = True)
     barcode_count = models.BigIntegerField(default = 0, null = True, blank = True)
     main_label_count = models.BigIntegerField(default = 0, null = True, blank = True)
+    invoice_no = models.CharField(null = True, blank=True, max_length=50)
+
 
 
 from store.models import * 
@@ -404,7 +406,6 @@ class project_outward_main_label(models.Model):
     project_matarial_production = models.ForeignKey(project_matarial_production, null = True, blank = True, on_delete=models.CASCADE, related_name='outward_item_code_main_label')
     quantity = models.IntegerField()
     date_time = models.DateTimeField(auto_now=False, null = True, blank = True)
-    invoice_no = models.CharField(null = True, blank=True, max_length=50)
 
 
 class project_outward(models.Model):

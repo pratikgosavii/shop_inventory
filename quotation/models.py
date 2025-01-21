@@ -23,7 +23,50 @@ class sales_customer(models.Model):
         return self.name
 
 
-    
+ 
+
+from store.models import *
+
+
+class etching(models.Model):
+    name = models.CharField(max_length=50)  # E.g., 'Deep', 'Emboss'
+
+    def __str__(self):
+        return self.name
+
+class color(models.Model):
+    name = models.CharField(max_length=50)  # E.g., 'Single', '2 Color printing'
+
+    def __str__(self):
+        return self.name
+
+class text_matter(models.Model):
+    name = models.CharField(max_length=50)  # E.g., 'STANDARD', 'non standard text for nameplates & tags'
+
+    def __str__(self):
+        return self.name
+
+
+class PSI(models.Model):
+    category = models.ForeignKey(category, on_delete=models.CASCADE)
+    thickness = models.ForeignKey(thickness, on_delete=models.CASCADE)
+    etching = models.ForeignKey(etching, on_delete=models.CASCADE)
+    color = models.ForeignKey(color, on_delete=models.CASCADE)
+    text_matter = models.ForeignKey(text_matter, on_delete=models.CASCADE)
+    range_576 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    range_720_1728 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    range_1872_2880 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    range_3024_4032 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    range_4608 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+
+
+
+    class Meta:
+        unique_together = ('category', 'thickness', 'etching', 'color', 'text_matter')
+
+
+
+   
 
 INDUSTRY_OPTION_CHOICES = (
     ('automotive', 'automotive'),
@@ -327,34 +370,9 @@ SQINCH_OPTION_CHOICES = (
 
 
 
-TEXT_MATTER_OPTION_CHOICES = (
 
-('standard_text_matter', 'standard_text_matter'),
-('variable_text_matter', 'variable_text_matter'),
 
-)
 
-ETCHING_OPTION_CHOICES = (
-
-('deep_etching', 'deep_etching'),
-('embossed_etching', 'embossed_etching'),
-
-)
-
-ETCHING_OPTION_CHOICES = (
-
-('deep_etching', 'deep_etching'),
-('embossed_etching', 'embossed_etching'),
-
-)
-
-COLOR_COUNT_OPTION_CHOICES = (
-
-('1', '1'),
-('2', '2'),
-('multi_color', 'multi_color'),
-
-)
 
 COLOR_OPTION_CHOICES = (
 
@@ -380,26 +398,6 @@ FONT_HEIGHT_OPTION_CHOICES = (
 
 )
 
-
-THICKNESS_OPTION_CHOICES = (
-
-('0.1' ,'0.1'),
-('0.2' ,'0.2'),
-('0.3' ,'0.3'),
-('0.4' ,'0.4'),
-('0.5' ,'0.5'),
-('0.6' ,'0.6'),
-('0.7' ,'0.7'),
-('0.8' ,'0.8'),
-('0.9' ,'0.9'),
-('1.0' ,'1.0'),
-('1.2' ,'1.2'),
-('1.5' ,'1.5'),
-('2' ,'2'),
-('2.5' ,'2.5'),
-('3.0' ,'3.0'),
-
-)
 
 CHARGES_TYPE_OPTION_CHOICES = (
 
@@ -442,12 +440,12 @@ class order_child(models.Model):
     material = models.CharField(max_length=50, choices=MATERIAL_OPTION_CHOICES)
     other_material = models.CharField(max_length=50, null = True, blank = True)
     process = models.CharField(max_length=50, choices=PROCESS_OPTION_CHOICES)
-    text_matter = models.CharField(max_length=50, choices=TEXT_MATTER_OPTION_CHOICES)
-    etching = models.CharField(max_length=50, choices=ETCHING_OPTION_CHOICES)
-    color_count = models.CharField(max_length=50, choices=COLOR_COUNT_OPTION_CHOICES)
+    text_matter = models.ForeignKey(text_matter, on_delete=models.CASCADE)
+    etching = models.ForeignKey(etching, on_delete=models.CASCADE)
+    color_count = models.ForeignKey(color, on_delete=models.CASCADE)
     color = models.CharField(max_length=50, choices=COLOR_OPTION_CHOICES)
     font_height = models.CharField(max_length=50, choices=FONT_HEIGHT_OPTION_CHOICES)
-    thickness = models.CharField(max_length=50, choices=THICKNESS_OPTION_CHOICES)
+    thickness = models.ForeignKey(thickness, on_delete=models.CASCADE)
     length = models.FloatField(null = True, blank = True)
     total_sq_inch = models.FloatField(null = True, blank = True)
     width = models.FloatField(null = True, blank = True)
@@ -467,46 +465,3 @@ class order_child(models.Model):
     certificate_cost = models.CharField(max_length=50, choices= CERTIFICATE_OPTION_CHOICES)
     certificate_price = models.FloatField(null = True, blank = True)
     final_item_total = models.FloatField(null = True, blank = True)
-
-
-from store.models import *
-
-
-class etching(models.Model):
-    name = models.CharField(max_length=50)  # E.g., 'Deep', 'Emboss'
-
-    def __str__(self):
-        return self.name
-
-class color(models.Model):
-    name = models.CharField(max_length=50)  # E.g., 'Single', '2 Color printing'
-
-    def __str__(self):
-        return self.name
-
-class text_matter(models.Model):
-    name = models.CharField(max_length=50)  # E.g., 'STANDARD', 'non standard text for nameplates & tags'
-
-    def __str__(self):
-        return self.name
-
-
-class PSI(models.Model):
-    category = models.ForeignKey(category, on_delete=models.CASCADE)
-    thickness = models.ForeignKey(thickness, on_delete=models.CASCADE)
-    etching = models.ForeignKey(etching, on_delete=models.CASCADE)
-    color = models.ForeignKey(color, on_delete=models.CASCADE)
-    text_matter = models.ForeignKey(text_matter, on_delete=models.CASCADE)
-    range_576 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    range_720_1728 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    range_1872_2880 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    range_3024_4032 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    range_4608 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-
-
-
-    class Meta:
-        unique_together = ('category', 'thickness', 'etching', 'color', 'text_matter')
-
-
-

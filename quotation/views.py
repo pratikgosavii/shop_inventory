@@ -420,7 +420,7 @@ def send_qutation_notification(request, token, recipient_number, template_name, 
    
     msg = "New Qutation Added Visit \n" + 'https://shopinventory.pythonanywhere.com/transactions/update-order/' + str(parameter_value)
     email = EmailMessage(
-            subject='Outward Report PDF',
+            subject='New Quotation Added',
             body=msg,
             from_email='rradailyupdates@gmail.com',
             # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
@@ -497,10 +497,19 @@ def add_order(request):
       
         forms = order_Form()
 
+        color_data = color.objects.all()
+        thickness_data = thickness.objects.all()
+        etching_data = etching.objects.all()
+        text_matter_data = text_matter.objects.all()
+
         context = {
             'form': forms,
             'order_no' : '1',
-            'date' : datetime.now()
+            'date' : datetime.now(),
+            'color_data' : color_data,
+            'thickness_data' : thickness_data,
+            'etching_data' : etching_data,
+            'text_matter_data' : text_matter_data,
                               
         }
 
@@ -597,7 +606,12 @@ def update_order(request, order_id):
 
         print(order_child_instance_copy)
 
+        color_data = color.objects.all()
+        thickness_data = thickness.objects.all()
+        etching_data = etching.objects.all()
+        text_matter_data = text_matter.objects.all()
 
+        
         
         context = {
             'form': forms,
@@ -605,6 +619,10 @@ def update_order(request, order_id):
             'order_child_instance_dict': json.dumps(order_child_instance_list, cls=DjangoJSONEncoder),
             'instance_json': json.dumps(instance_dict, cls=DjangoJSONEncoder),  # Convert instance to JSON string
             'order_child_instance_copy': order_child_instance_copy,  # Convert instance to JSON string
+            'color_data' : color_data,
+            'thickness_data' : thickness_data,
+            'etching_data' : etching_data,
+            'text_matter_data' : text_matter_data,
         }
         return render(request, 'quotation/update_order.html', context)
 
@@ -776,6 +794,42 @@ from .forms import PSIForm
 from urllib.parse import urlencode
 
 
+
+def get_psi(request):
+
+    thickness = request.GET.get('thickness')
+    etching = request.GET.get('etching')
+    color = request.GET.get('color')
+    text_matter = request.GET.get('text_matter')
+    sq_inch = int(request.GET.get('sqInch'))
+
+    # Determine the range field based on sq_inch
+    if sq_inch <= 576:
+        range_field = 'range_576'
+    elif 720 <= sq_inch <= 1728:
+        range_field = 'range_720_1728'
+    elif 1872 <= sq_inch <= 2880:
+        range_field = 'range_1872_2880'
+    elif 3024 <= sq_inch <= 4032:
+        range_field = 'range_3024_4032'
+    elif sq_inch >= 4608:
+        range_field = 'range_4608'
+    else:
+        return JsonResponse({'value': None, 'message': 'No valid range found.'})
+
+    # Query the PSI model
+    try:
+        psi_entry = PSI.objects.get(
+            thickness_id=thickness,
+            etching_id=etching,
+            color_id=color,
+            text_matter_id=text_matter,
+            category_id=1,
+        )
+        value = getattr(psi_entry, range_field)
+        return JsonResponse({'value': value})
+    except PSI.DoesNotExist:
+        return JsonResponse({'value': None, 'message': 'No matching entry found.'})
 
 def update_psi(request):
     # Fetch thickness and category data

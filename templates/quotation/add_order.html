@@ -18,6 +18,13 @@
 
 <style>
 
+    hr{
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+    border: 0;
+    border-top: None  !important;
+    }
+
 
     .ssdsds {
         background-color: #b0ffb0;;
@@ -25,12 +32,12 @@
 
     .ssdsds{
     color: black;
-    font-weight: 600;
+    font-weight: 400;
     margin-left: 18px;
     left: 10px;
 
-    background-color: #f3f3f3;
-}
+    background-color: white;
+    }
 
 
 
@@ -285,7 +292,7 @@
 
             
                 <div style="justify-content: center;display: grid;" class="no-print">
-                    <div class="col-12">
+                    <div class="">
                         <form id="orderForm" style="display: contents; comehere">
                             {% csrf_token %}
                             
@@ -555,12 +562,14 @@
     padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Text Matter </p>
                                                     
                                 <div  class="card">
-                                
-                                    <input type="radio" id="standard_text_matter" value="standard_text_matter" name="text_matter" required>
-                                    <label for="standard_text_matter">Standard Text Matter</label>
 
-                                    <input type="radio" id="variable_text_matter_text_matter" value="variable_text_matter" name="text_matter" required>
-                                    <label for="variable_text_matter_text_matter">Variable Text Matter</label>
+                                    {% for i in text_matter_data %}
+                                
+                                        <input type="radio" id="text_matter{{ i.id }}" value="{{ i.id }}" name="text_matter" required>
+                                        <label for="text_matter{{ i.id }}">{{ i.name }}</label>
+
+                                    {% endfor %}
+
                                 </div>       
                                 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
@@ -569,11 +578,13 @@
                                                         
                                 <div  class="card">
                                     
-                                <input type="radio" id="deep_etching" value="deep_etching" name="etching" required>
-                                <label for="deep_etching">Deep Etching</label>
+                                    {% for i in etching_data %}
+                                    
+                                    <input type="radio" id="deep_etching{{ i.id }}" value="{{ i.id }}" name="etching" required>
+                                    <label for="deep_etching{{ i.id }}">{{ i.name }}g</label>
 
-                                <input type="radio" id="embossed_etching" value="embossed_etching" name="etching" required>
-                                <label for="embossed_etching">Embossed Etching</label>
+                                {% endfor %}
+
 
 
                                 </div>
@@ -585,15 +596,13 @@
                                                     
                             
                                 <div class="card">
+
+                                    {% for i in color_data %}
         
-                                    <input type="radio" value="1" id="color_count1" name="color_count" required>
-                                    <label for="color_count1">1</label>
+                                    <input type="radio" value="{{ i.id }}" id="color_count{{ i.id }}" name="color_count" required>
+                                    <label for="color_count{{ i.id }}">{{ i.name }}</label>
         
-                                    <input type="radio" value="2" id="color_count2" name="color_count" required>
-                                    <label for="color_count2">2</label>
-        
-                                    <input type="radio" value="multi_color" id="color_count3" name="color_count" required>
-                                    <label for="color_count3">Multi Color up to 4 Color (Printing - Silk Screen)</label>
+                                    {% endfor %}
         
                                 </div>
                         
@@ -673,50 +682,12 @@
                         
                                 <div class="card">
         
-                                    <input type="radio" value="0.1" id="thickness1" name="thickness" required>
-                                    <label for="thickness1" value="checkbox1">0.1</label>
-                                
-                                    <input type="radio" value="0.2" id="thickness2" name="thickness" required>
-                                    <label for="thickness2" value="checkbox2">0.2</label>
-                                
-                                    <input type="radio" value="0.3" id="thickness3" name="thickness" required>
-                                    <label for="thickness3" value="checkbox3">0.3</label>
-                                
-                                    <input type="radio" value="0.4" id="thickness4" name="thickness" required>
-                                    <label for="thickness4" value="checkbox4">0.4</label>
-                                
-                                    <input type="radio" value="0.5" id="thickness5" name="thickness" required>
-                                    <label for="thickness5" value="checkbox5">0.5</label>
-                                
-                                    <input type="radio" value="0.6" id="thickness6" name="thickness" required>
-                                    <label for="thickness6" value="checkbox6">0.6</label>
-                                
-                                    <input type="radio" value="0.7" id="thickness7" name="thickness" required>
-                                    <label for="thickness7" value="checkbox7">0.7</label>
-                                
-                                    <input type="radio" value="0.8" id="thickness8" name="thickness" required>
-                                    <label for="thickness8" value="checkbox8">0.8</label>
-                                
-                                    <input type="radio" value="0.9" id="thickness9" name="thickness" required>
-                                    <label for="thickness9" value="">0.9</label>
-                                
-                                    <input type="radio" value="1.0" id="thickness10" name="thickness" required>
-                                    <label for="thickness10" value="">1.0</label>
-                                
-                                    <input type="radio" value="1.2" id="thickness11" name="thickness" required>
-                                    <label for="thickness11" value="">1.2</label>
-                                
-                                    <input type="radio" value="1.5" id="thickness12" name="thickness" required>
-                                    <label for="thickness12" value="">1.5</label>
-                                
-                                    <input type="radio" value="2" id="thickness13" name="thickness" required>
-                                    <label for="thickness13" value="">2</label>
-                                
-                                    <input type="radio" value="2.5" id="thickness14" name="thickness" required>
-                                    <label for="thickness14" value="2.5">2.5</label>
-                                
-                                    <input type="radio" value="3" id="thickness15" name="thickness" required>
-                                    <label for="thickness15" value="">3.0</label>
+                                    {% for i in thickness_data %}
+                                    
+                                        <input type="radio" value="{{ i.id }}" id="thickness{{ i.id }}" name="thickness" required>
+                                        <label for="thickness{{ i.id }}" value="checkbox1">{{ i.name }}</label>
+                                    
+                                    {% endfor %}
                                 
                                 </div>
 
@@ -1460,13 +1431,7 @@
     
 
 
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/additional-methods.min.js"></script>
-
-
+ 
 
 
 <script>
@@ -1654,23 +1619,27 @@
                 const etching = document.querySelector('input[name="etching"]:checked').value;
 
 
-                fetch('../../static/js/data.json')
+                const baseUrl = window.location.origin; // Get the base URL (e.g., http://example.com)
+const url = new URL("{% url 'get_psi' %}", baseUrl); // 
+                url.searchParams.append('thickness', thickness);
+                url.searchParams.append('sqInch', sqInch);
+                url.searchParams.append('color', color);
+                url.searchParams.append('text_matter', text_matter);
+                url.searchParams.append('etching', etching);
+                console.log(url)
+                fetch(url)
                 .then(response => {
-                  if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                  }
-                  return response.json();
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
                 })
                 .then(tableData => {
-                    if (thickness && sqInch && color && text_matter && etching) {
-
-
-                    
-
-
-                        // Retrieve value from tableData
-                        const value = tableData[thickness][sqInch][etching][text_matter][color];
-
+                    // Check if the value is present
+                    if (tableData && tableData.value !== undefined) {
+                        const value = tableData.value;
+                        // Use the retrieved value as needed
+                        console.log('Retrieved value:', value);
                         // Display the value
                         total_sq_inch = document.getElementById("total_sq_inch").value;
                         quantity_a = document.getElementById("quantity_a").value;
@@ -1685,7 +1654,12 @@
                         update_other_values();
 
 
+                    }else {
+                        alert('No data available for the given inputs.');
                     }
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
 
 
 
@@ -1987,18 +1961,18 @@ function renderOrders() {
         
         const orderElement = document.createElement('tr');
         orderElement.classList.add('ssdsds');
-        orderElement.innerHTML = ` Item Code:- ${order.item_code}<hr>
-        Material: ${order.material}<hr>
-        Process: ${order.process}<hr>
-        Size: ${order.total_sq_inch}<hr>
-        Text Matter: ${order.text_matter}<hr>
-        Type of Etching: ${order.etching}<hr>
-        Color: ${order.color}<hr>
-        Flim Charges: ${order.flim_charges_total}<hr>
-        Font: ${order.font_height}<hr>
-        Material Test Certificate: ${order.certificate_price}<hr>
-        Sample/Prototype: ${order.sample_price}<hr>
-        With GST: ${order.total_amount_with_charges_type}<hr>
+        orderElement.innerHTML =  ` <td> Item Code:- ${order.item_code} <hr> <hr>  
+        Material: ${order.material} <hr> <hr> 
+        Process: ${order.process} <hr> <hr> 
+        Size: ${order.total_sq_inch} <hr> <hr> 
+        Text Matter: ${order.text_matter} <hr> <hr> 
+        Type of Etching: ${order.etching} <hr> <hr> 
+        Color: ${order.color} <hr> <hr> 
+        Flim Charges: ${order.flim_charges_total} <hr> <hr> 
+        Font: ${order.font_height} <hr> <hr> 
+        Material Test Certificate: ${order.certificate_price} <hr> <hr> 
+        Sample/Prototype: ${order.sample_price} <hr> <hr> 
+        With GST: ${order.total_amount_with_charges_type} <hr> <hr> 
            </td>
         <td> what will be here? </td>
 
@@ -2188,6 +2162,8 @@ $(document).ready(function(){
 
         var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
 
+        document.getElementById("payment-button").disabled = true;
+
 
         
         // Gather form data
@@ -2221,6 +2197,9 @@ $(document).ready(function(){
                 window.location.href = "{% url 'list_order' %}";
             },
             error: function(xhr, status, error){
+                document.getElementById("payment-button").disabled = false;
+
+
                 // Handle error
                 console.error(xhr.responseText);
             }

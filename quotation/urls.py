@@ -47,6 +47,7 @@ urlpatterns = [
     path('download-report-sales/', download_sales_report, name='download_sales_report'),
 
 
+    path('get-psi/', get_psi, name='get_psi'),
     path('update-psi/', update_psi, name='update_psi'),
 
 
