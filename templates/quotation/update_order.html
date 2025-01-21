@@ -202,7 +202,7 @@
               <br>
 
             <div class="row">
-                <div class="" style="">
+                <div class="col-12" style="">
                     <form id="form3" style="display: contents; comehere">
                         {% csrf_token %}
 
@@ -292,7 +292,7 @@
 
             
                 <div style="justify-content: center;display: grid;" class="no-print">
-                    <div class="col-12">
+                    <div class="">
                         <form id="orderForm" style="display: contents; comehere">
                             {% csrf_token %}
                             
@@ -535,7 +535,7 @@
                                     
                                     <div style="display: flex; gap : 20px;">
                                         <label for="length_a">Length</label>
-                                        <input type="number" name="length" class="form-control" id="length_a" required>
+                                        <input type="number" name="length_a" class="form-control" id="length_a" required>
                                         <select id="mm_inch_select"> 
                                             <option value="1"> MM </option>
                                             <option value="2"> Inch </option>
@@ -923,6 +923,35 @@
                                     </tr>
                                 </thead>
                                 <tbody id="submittedOrders">
+
+                                    {% for i in order_child_instance_copy %}
+
+                                    <tr>
+                                    <td>{{ forloop.counter }} </td>
+                                    <td>Item Code: {{ i.item_code }}<hr> <hr>  
+                                        Material: {{ i.material }}<hr> <hr>  
+                                        Process:  {{ i.process }}<hr> <hr>  
+                                        Dimentions : {{ i.length }} X {{ i.width }}<hr> <hr>  
+                                        Text Matter:  {{ i.text_matter }}<hr> <hr>  
+                                        Type of Etching:  {{ i.etching }}<hr> <hr>  
+                                        Color:  {{ i.color }}<hr> <hr>  
+                                        Flim Charges:  {{ i.flim_charges_total }}<hr> <hr>  
+                                        Font:  {{ i.font_height }}<hr> <hr>  
+                                        Material Test Certificate:  {{ i.certificate_price }}<hr> <hr>  
+                                        Sample/Prototype:  {{ i.sample_price }}<hr> <hr>  
+                                        </td>
+                                    <td> {{ i.quantity }}</td>
+                                    <td> {{ i.final_item_total }} </td>
+
+                                    <td class="no-print">
+                                        
+                                        <a onclick="editOrder({{ i.id }})" style="font-weight: 600; color: black; border: none; margin-bottom:20px;" class="btn btn-primary">View</a>
+                                        
+                                        <a onclick="deleteOrder({{ i.id }})" style="background: red; font-weight: 600; color: black; border: none; margin-bottom : 10px;" class="btn btn-primary">Delete</a></td>
+
+                                    </tr>
+                                    {% endfor %}
+
                                   
                                 </tbody>
                             </table>
@@ -1201,7 +1230,6 @@
                             </div>
 
                         <div>
-                        <br>
                                                                             
 
                     </div>
@@ -1491,7 +1519,12 @@
 
 <script>
 
+    const form = document.getElementById('orderForm');
 
+    const aaa = form.elements["length_a"];
+    console.log('-----------------------')
+    console.log(aaa)
+    console.log('-----------------------')
 
     function calculateSqIn() {
         // Get the length and width in mm from the input fields
@@ -2060,14 +2093,21 @@ function deleteOrder(orderId) {
 }
 
 // Function to edit submitted order
+
+// Function to edit submitted order
 function editOrder(orderId) {
+alert(orderId)
     const orderToEdit = orders.find(order => order.id === orderId);
+console.log(orderToEdit)
+
     if (orderToEdit) {
         // Populate form with order data for editing
         const form = document.getElementById('orderForm');
         for (const key in orderToEdit) {
             if (Object.hasOwnProperty.call(orderToEdit, key)) {
+                console.log(key)
                 const element = form.elements[key];
+                console.log(element)
                 if (element) {
                     element.value = orderToEdit[key];
                 }
@@ -2347,10 +2387,146 @@ $(document).ready(function(){
 
 
 
+$(document).ready(function(){
+
+
+    const instanceData = JSON.parse('{{ instance_json|escapejs }}');
+        console.log(instanceData)
+        const orderChildInstancesData = JSON.parse('{{ order_child_instance_dict|escapejs }}');
+
+        // Function to render order child instances
+    
+
+        orderChildInstancesData.forEach(child => {
+            const orderElement = document.createElement('div');
+        
+          
+            orders.push(child);
+            });
+
+
+
+        $('#form2').submit(function(e){
+            e.preventDefault(); // Prevent default form submission
+
+
+            var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
+
+
+        
+        // Gather form data
+        var formData = $(this).serializeArray();
+        
+        // Gather form data from form3
+        var formData3 = $('#form3').serializeArray();
+        
+        // Additional array data
+        
+        // Append form data from form3 to form data from form2
+        formData = formData.concat(formData3);
+        // Additional array data    
+        
+        // Append array data to form data
+        formData.push({name: 'orders', value: JSON.stringify(orders)});
+
+      
+
+        console.log(formData)
+
+        // Send data via POST request
+        $.ajax({
+            url: $(this).attr('action'),
+            type: 'POST',
+            data: formData,
+            success: function(response){
+                // Handle success response
+                console.log(response);
+
+                window.location.href = "{% url 'list_order' %}";
+            },
+            error: function(xhr, status, error){
+                // Handle error
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+
+
 
 
 </script>
 
+
+
+<script>
+
+
+     document.addEventListener('DOMContentLoaded', function() {
+        // Parse the JSON strings passed from the Django view
+        const instanceData = JSON.parse('{{ instance_json|escapejs }}');
+        console.log(instanceData)
+        const orderChildInstancesData = JSON.parse('{{ order_child_instance_dict|escapejs }}');
+    
+        
+    
+     
+        // Function to populate the form with instance data
+        function populateForm(instanceData) {
+            const form = document.getElementById('orderForm');
+            // Loop through instance data and populate form fields
+            for (const key in instanceData) {
+                if (instanceData.hasOwnProperty(key)) {
+                    const element = form.elements[key];
+                    if (element) {
+                        element.value = instanceData[key];
+                    }
+                }
+            }
+        }
+    
+        // Populate the form with instance data
+        populateForm(instanceData);
+    
+        function populateForm22(instanceData) {
+            const form = document.getElementById('form2');
+            // Loop through instance data and populate form fields
+            for (const key in instanceData) {
+                if (instanceData.hasOwnProperty(key)) {
+                    const element = form.elements[key];
+                    if (element) {
+                        element.value = instanceData[key];
+                    }
+                }
+            }
+        }
+    
+        // Populate the form with instance data
+        populateForm22(instanceData);
+    
+    
+        function populateForm222(instanceData) {
+            const form = document.getElementById('form3');
+            // Loop through instance data and populate form fields
+            for (const key in instanceData) {
+                if (instanceData.hasOwnProperty(key)) {
+                    const element = form.elements[key];
+                    if (element) {
+                        element.value = instanceData[key];
+                    }
+                }
+            }
+        }
+    
+        // Populate the form with instance data
+        populateForm222(instanceData);
+    });
+    
+      
+    
+    
+
+</script>
 
 
 
