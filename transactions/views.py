@@ -2086,7 +2086,12 @@ def add_inward_item_code(request):
             forms.save()
             return redirect('list_inward_item_code')
         else:
-            print(forms.errors)
+
+            context = {
+                'form': forms
+            }
+            return render(request, 'transactions/add_inward_item_code.html', context)
+
     
     else:
 

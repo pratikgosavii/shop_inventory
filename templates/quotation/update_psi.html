@@ -54,11 +54,34 @@
                       </div>
 
                       <div class="form-row">
+
+                        <div class="form-group col-md-6">
+                          <label for="process_id">Select Process:</label>
+                          <select name="process_id" id="process_id" class="form-control">
+                              {% for i in processs %}
+                              <option value="{{ i.id }}" {% if i.id == process.id %} Selected {% endif %} >{{ i.name }}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+
                         <div class="form-group col-md-6">
                           <label for="etching_id">Select Etching:</label>
                           <select name="etching_id" id="etching_id" class="form-control">
                               {% for i in etchings %}
                               <option value="{{ i.id }}" {% if i.id == etching.id %} Selected {% endif %} >{{ i.name }}</option>
+                              {% endfor %}
+                          </select>
+                        </div>
+
+                       
+                      </div>
+
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="text_id">Select Text Matter:</label>
+                          <select name="text_matter_id" id="text_id" class="form-control">
+                              {% for i in texts %}
+                              <option value="{{ i.id }}" {% if i.id == text.id %} Selected {% endif %} >{{ i.name }}</option>
                               {% endfor %}
                           </select>
                         </div>
@@ -71,17 +94,8 @@
                               {% endfor %}
                           </select>
                         </div>
-                      </div>
 
-                      <div class="form-row">
-                        <div class="form-group col-md-6">
-                          <label for="text_id">Select Text Matter:</label>
-                          <select name="text_matter_id" id="text_id" class="form-control">
-                              {% for i in texts %}
-                              <option value="{{ i.id }}" {% if i.id == text.id %} Selected {% endif %} >{{ i.name }}</option>
-                              {% endfor %}
-                          </select>
-                        </div>
+                        
                       </div>
 
                       <div class="form-group">
@@ -99,6 +113,7 @@
                       <input type="hidden" name="etching" value="{{ etching.id }}">
                       <input type="hidden" name="color" value="{{ color.id }}">
                       <input type="hidden" name="text_matter" value="{{ text.id }}">
+                      <input type="hidden" name="process" value="{{ process.id }}">
 
                       <div class="form-row">
                         <div class="form-group col-md-6">

@@ -133,6 +133,8 @@ font-family: 'Montserrat', sans-serif;
 </style>
 
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 {% endblock head %}
 
@@ -167,186 +169,46 @@ font-family: 'Montserrat', sans-serif;
                 <div class="card-body">
                     <div class="stat-widget-five">
                         <div class="stat-icon dib flat-color-1">
-                            <i class="fa fa-cart-plus"></i>
+                            <i class="fa pe-7s-users"></i>
                         </div>
                         <div class="stat-content">
                             <div class="text-left dib">
-                                <div class="stat-text"><span class="count">{{ stock }}</span></div>
-                                <div class="stat-heading">Stock</div>
+                                <div class="stat-text"><span class="count">{{ total_employee }}</span></div>
+                                <div class="stat-heading">Sales Employee's</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-      
+
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="stat-widget-five">
+                        <div class="stat-icon dib">
+                            <i class="ti-stats-up text-muted" style="font-size: 36px;"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="text-left dib">
+                                <div class="stat-text"><span class="count">{{ total_quotation }}</span></div>
+                                <div class="stat-heading">Total Quotation's</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+
 
     {% endif %}
     
 
-    <div class="col-12" style="padding: 0px; display : flex; GAP: 9px;">
-
-        <div class="col-6" style="border: 1px solid black;
-    padding: 9PX;">
-
-
-            {% if request.user.is_reception or request.user.is_superuser %}
-
-            
-            <div style="gap:20px;">
-
-
-                <form action="{% url 'generate_product_qr' %}" method="post" style="display: flex; gap: 24px; height: max-content;">
-
-                    {% csrf_token %}
-
-                    <input type="number" max="16" class="form-control" style="width : 263px;" name="quantity" placeholder="Enter Material Quantity" inputmode="numeric">
-                    <button type="submit" class="btn btn-success form-input"> Generate QR </button>
-                    
-                </form>
-
-                <hr style="border-top: 1px solid black;">
-
-                <div style="margin-top:20px;">
-
-                <a href="{% url 'generate_product_qr_with_values' %}" style="">
-                <button type="submit" class="btn btn-success form-input"> Generate QR with values </button> </a>
-
-                </div>
-
-                
-            </div>
-
-        
-            <br>
-
-                
-
-            <div style="padding-left : 20px; padding-bottom : 3px">
-
-                <p>  For Reception Use </p>
-
-                <div style="display:flex; gap:10px; justify-content: center;
-    align-items: center;
-    margin: auto; ">
-                    
-                    <div style="margin: auto; margin: auto;
-    border-right: 1px solid black;
-    padding-right: 38px;">
-
-                        <h4> Update Sheet Details </h4> <br>
-
-                        
-
-
-                        <a style="" href="{% url 'scanner_page' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan QR </button> </a>
-                            
-
-                    </div>
-
-                    <div style="margin: auto;">
-
-                        <h4> Checkout Outward </h4> <br>
-
-                        
-
-
-                        <a style="" href="{% url 'scan_barcode' %}">   <button type="button" style="background: orange; border: orange;" class="btn btn-success form-input"> Scan Barcode </button> </a>
-                            
-
-                    </div>
-                </div>
-
-            </div>
-
-                
-                
-                
-                
-            
-            {% endif %}
-
-
-            {% if request.user.is_cutter or request.user.is_superuser %}
-
-
-            <hr style="border-top: 1px solid black;">
-            
-            <div style="margin : 9px 0px; padding-left: 20px; width: fit-content;">
-                
-            
-            
-
-                <p>  For Cutter Use </p>
-                <h4>  Update Sheet Size </h4>
-                <br>
-                <div style="display:flex; ">
-
-
-                    <form id="scanning_form" onsubmit="redirectToPage(event)">
-
-                        <input type="text" id="parameterInput" class="form-control" placeholder="Scaner QR"> <br>
-
-                        <input type="submit" value="submit" class="btn btn-info">
-
-                    </form>
-            
-
-
-                </div>
-
-                        
-
-                    
-
-            </div>
-
-            {% endif %}
-
-        </div>
-
-                
-
-        <hr>
-
-        <div class="col-6" style="border: 1px solid black;
-    padding: 9PX;">
-
-
-            <h3 style="font-size: 18px; font-weight: 600; margin-bottom : 9px;"> Calculator </h3> 
-
-            <h3 style="font-size: 18px; font-weight: 600;"> MM X MM to SQinch Calculator </h3> 
-
-            <br>
-
-
-            <br>
-
-
-            <div class="form-group" style="width : 50%">
-                
-                <div style="border: 1px solid black;padding: 17px;">
-                    
-                    <label for="lengthMm">Length (mm):</label>
-                    <input type="text" class="form-control used-length-input" id="used-length-input" placeholder="Length" inputmode="numeric">
-
-                    
-                    <label for="widthMm">Width (mm):</label>
-                    <input type="text" class="form-control used-width-input" id="used-width-input" placeholder="Width" inputmode="numeric">
-
-                    </div>
-                    <br>
-
-                    <label for="name" class="control-label mb-1">Size</label>
-                    <input type="text" class="form-control used-sq-inch-input" id="used-sq-inch-input" placeholder="Used Square Inches" inputmode="numeric">
-
-                </div>
-
-            </div>
-
-        </div>
-    <div>
 
 
 
@@ -441,6 +303,12 @@ font-family: 'Montserrat', sans-serif;
 
 
 
+<div class="card-body p-3">
+    <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+    <canvas id="chart-line" class="chart-line chart-canvas chartjs-render-monitor" height="600" width="824" style="display: block; height: 300px; width: 412px; box-sizing: border-box;background: white;"></canvas>
+    </div>
+</div>
+
     
 {% endblock content %}
 
@@ -448,203 +316,202 @@ font-family: 'Montserrat', sans-serif;
 {% block js %}
 
 
-    <script>
 
 
 
-
-
-        function calculateSqIn() {
-            // Get the length and width in mm from the input fields
-            const lengthMm = parseFloat(document.getElementById('used-length-input').value);
-            const widthMm = parseFloat(document.getElementById('used-width-input').value);
-            
-            // Check if the inputs are valid numbers
-            if (!isNaN(lengthMm) && !isNaN(widthMm)) {
-                // Convert mm to inches (1 inch = 25.4 mm)
-                const lengthIn = lengthMm / 25.4;
-                const widthIn = widthMm / 25.4;
-                
-                // Calculate square inches
-                const sqIn = lengthIn * widthIn;
-                
-                // Display the result in the "size" input field
-                document.getElementById('used-sq-inch-input').value = sqIn.toFixed(2);
-            } else {
-                // Display an error message if inputs are not valid numbers
-                
-            }
-        }
-        
-        // Add event listeners to the input fields to trigger the calculation
-        document.getElementById('used-length-input').addEventListener('input', calculateSqIn);
-        document.getElementById('used-width-input').addEventListener('input', calculateSqIn);
-        
-        document.getElementById('used-sq-inch-input').addEventListener('input', function() {
-            document.getElementById('lengthMm').value = '';
-            document.getElementById('widthMm').value = '';
-        });
+<script>
+    if (document.querySelector(".chart-line")) {
+        var chartsLine = document.querySelectorAll(".chart-line");
     
-        // Calculate initially when the page loads
-        calculateSqIn();
+        chartsLine.forEach(function(chart) {
+            var ctx = chart.getContext("2d");
     
-
+            var gradientStroke1 = ctx.createLinearGradient(0, 230, 0, 50);
     
-        const channel = pusher.subscribe('alerts');
-        channel.bind('new-alert', function (data) {
-            const message = data.message;
-            const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
-
-            
-            
-            
-            var currentUser = "{{ request.user.is_reception }}";
-            var notificationDiv = document.getElementById('notificationDiv');
-            var closeNotificationButton = document.getElementById('closeNotification'); // Get the close button by its ID
-
-            var userStatusElement = document.getElementById('userStatus');
-            if (currentUser == "True") {
-                // Create a new div for the notification
-                var notificationDiv = document.getElementById('notificationDiv');
-
-            // Create a new div for the notification
-            var notificationItem = document.createElement('div');
-            notificationItem.className = 'box1';
-
-            // Add content to the notification div
-            var notificationContent = `
-                <div class="xmark-box">
-                    <i class="fa-solid fa-x" id="closeNotification"></i>
-                </div>
-                <div class="caption-box">
-                    <img src="https://www.pngall.com/wp-content/uploads/2/Approved-PNG-Download-Image.png" alt="approveimg">
-                    <div class="caption">
-                        <h5>HI,</h5>
-                        <p>${message}</p>
-                    </div>
-                </div>
-            `;
-            notificationItem.innerHTML = notificationContent;
-
-            notificationDiv.appendChild(notificationItem);
-            
-            if (soundEnabled) {
-                // Play the sound without asking for permission
-                const audio = new Audio('static/audio/popup.wav');
-                audio.play();
-            }
-
-            else{
-                alert('please enable sound')
-            }
-
-
-            }
-            // Add a click event listener to the close button
-            var closeButton = notificationItem.querySelector('#closeNotification');
-            closeButton.addEventListener('click', function () {
-                // Remove the notification item when the close button is clicked
-                notificationDiv.removeChild(notificationItem);
+            gradientStroke1.addColorStop(1, "rgba(203,12,159,0.2)");
+            gradientStroke1.addColorStop(0.2, "rgba(72,72,176,0.0)");
+            gradientStroke1.addColorStop(0, "rgba(203,12,159,0)"); //purple colors
+    
+            var gradientStroke2 = ctx.createLinearGradient(0, 230, 0, 50);
+    
+            gradientStroke2.addColorStop(1, "rgba(20,23,39,0.2)");
+            gradientStroke2.addColorStop(0.2, "rgba(72,72,176,0.0)");
+            gradientStroke2.addColorStop(0, "rgba(20,23,39,0)"); //purple colors
+    
+            new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    datasets: [{
+                            label: "Converted Quotation",
+                            tension: 0.4,
+                            borderWidth: 0,
+                            pointRadius: 0,
+                            borderColor: "#cb0c9f",
+                            borderWidth: 3,
+                            backgroundColor: gradientStroke1,
+                            fill: true,
+                            data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+                            maxBarThickness: 6,
+                        },
+                        {
+                            label: "Total Quotation",
+                            tension: 0.4,
+                            borderWidth: 0,
+                            pointRadius: 0,
+                            borderColor: "#3A416F",
+                            borderWidth: 3,
+                            backgroundColor: gradientStroke2,
+                            fill: true,
+                            data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+                            maxBarThickness: 6,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: "index",
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                            },
+                            ticks: {
+                                display: true,
+                                padding: 10,
+                                color: "#b2b9bf",
+                                font: {
+                                    size: 11,
+                                    family: "Open Sans",
+                                    style: "normal",
+                                    lineHeight: 2,
+                                },
+                            },
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                            },
+                            ticks: {
+                                display: true,
+                                color: "#b2b9bf",
+                                padding: 20,
+                                font: {
+                                    size: 11,
+                                    family: "Open Sans",
+                                    style: "normal",
+                                    lineHeight: 2,
+                                },
+                            },
+                        },
+                    },
+                },
             });
-
-            // Append the notification item to the notificationDiv
-          
+    
         });
+    };
+</script>
 
 
+
+<script>
+
+
+    function redirectToPage(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Get the value from the form input or another source
+        var parameterValue = document.getElementById('parameterInput').value;
+
+        // Redirect to the new URL with the dynamic parameter
+        window.location.href = '/transactions/update-assign-matarial-qr/' + parameterValue;
+    }
+
+
+    const enableSoundButton = document.getElementById('enable-sound-button');
+    const audioElement = document.getElementById('audio-element');
     
-
-
-
-
-        
-    </script>
-
-    <script src="https://kit.fontawesome.com/8535745612.js" crossorigin="anonymous"></script>
-
-
-    <script>
-
-
-        function redirectToPage(event) {
-            event.preventDefault(); // Prevent the default form submission
-    
-            // Get the value from the form input or another source
-            var parameterValue = document.getElementById('parameterInput').value;
-    
-            // Redirect to the new URL with the dynamic parameter
-            window.location.href = '/transactions/update-assign-matarial-qr/' + parameterValue;
-        }
-
-
-        const enableSoundButton = document.getElementById('enable-sound-button');
-        const audioElement = document.getElementById('audio-element');
-        
-        enableSoundButton.addEventListener('click', () => {
-            audioElement.play().then(() => {
-                // Autoplay is allowed, store user's preference
-                localStorage.setItem('soundEnabled', 'true');
-                enableSoundButton.style.display = 'none';
-            }).catch((error) => {
-                // Autoplay was denied by the user
-                console.error('Autoplay permission denied:', error);
-            });
+    enableSoundButton.addEventListener('click', () => {
+        audioElement.play().then(() => {
+            // Autoplay is allowed, store user's preference
+            localStorage.setItem('soundEnabled', 'true');
+            enableSoundButton.style.display = 'none';
+        }).catch((error) => {
+            // Autoplay was denied by the user
+            console.error('Autoplay permission denied:', error);
         });
-        
-        
-        // In the 'enable-sound-button' click handler
-        localStorage.setItem('soundEnabled', 'true');
-        
-                  if ('Notification' in window) {
-                    Notification.requestPermission().then(permission => {
-                      if (permission === 'granted') {
-                        enableSoundButton.style.display = 'none';// Permission granted, you can now send notifications (including sound) without asking again until revoked.
-                      } else if (permission === 'denied') {
-                        // Permission denied, handle accordingly.
-                      } else {
-                        // Permission dismissed or unavailable, handle accordingly.
-                      }
-                    });
+    });
+    
+    
+    // In the 'enable-sound-button' click handler
+    localStorage.setItem('soundEnabled', 'true');
+    
+              if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                  if (permission === 'granted') {
+                    enableSoundButton.style.display = 'none';// Permission granted, you can now send notifications (including sound) without asking again until revoked.
+                  } else if (permission === 'denied') {
+                    // Permission denied, handle accordingly.
+                  } else {
+                    // Permission dismissed or unavailable, handle accordingly.
                   }
-        
-                 
-                  const pusher = new Pusher('bc5ccb3b5fa0e00f91e5', {
-                    cluster: 'ap2',
-                    encrypted: true,
                 });
-                 
-                  const channel2 = pusher.subscribe('alerts');
-                channel2.bind('new-notificatin', function (data) {
-                    const message = data.message;
-        
-                    alert('here')
-                    alert(message)
-        
-                    const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
-        
-                    if (soundEnabled) {
-                        // Play the sound without asking for permission
-                        const audio = new Audio('static/audio/notification.wav');
-                        audio.play();
-                    }
-        
-                    else{
-                        alert('please enable sound')
-                    }
-        
-        
-        
-                    // To show all elements with the class "notification-badge"
-                    document.getElementById('notification-badge').style.display = 'flex';
-        
-        
-                });
-        
+              }
+    
+             
+              const pusher = new Pusher('bc5ccb3b5fa0e00f91e5', {
+                cluster: 'ap2',
+                encrypted: true,
+            });
+             
+              const channel2 = pusher.subscribe('alerts');
+            channel2.bind('new-notificatin', function (data) {
+                const message = data.message;
+    
+                alert('here')
+                alert(message)
+    
+                const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
+    
+                if (soundEnabled) {
+                    // Play the sound without asking for permission
+                    const audio = new Audio('static/audio/notification.wav');
+                    audio.play();
+                }
+    
+                else{
+                    alert('please enable sound')
+                }
+    
+    
+    
+                // To show all elements with the class "notification-badge"
+                document.getElementById('notification-badge').style.display = 'flex';
+    
+    
+            });
+    
 
-                
+            
 
-    </script>
-
+</script>
 
 
 

@@ -46,6 +46,12 @@ class text_matter(models.Model):
     def __str__(self):
         return self.name
 
+class process(models.Model):
+    name = models.CharField(max_length=50)  # E.g., 'STANDARD', 'non standard text for nameplates & tags'
+
+    def __str__(self):
+        return self.name
+
 
 class PSI(models.Model):
     category = models.ForeignKey(category, on_delete=models.CASCADE)
@@ -53,6 +59,7 @@ class PSI(models.Model):
     etching = models.ForeignKey(etching, on_delete=models.CASCADE)
     color = models.ForeignKey(color, on_delete=models.CASCADE)
     text_matter = models.ForeignKey(text_matter, on_delete=models.CASCADE)
+    process = models.ForeignKey(process, on_delete=models.CASCADE, null = True, blank  = True)
     range_576 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     range_720_1728 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     range_1872_2880 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
@@ -62,7 +69,7 @@ class PSI(models.Model):
 
 
     class Meta:
-        unique_together = ('category', 'thickness', 'etching', 'color', 'text_matter')
+        unique_together = ('category', 'thickness', 'etching', 'color', 'text_matter', 'process')
 
 
 
@@ -298,6 +305,11 @@ class order(models.Model):
     total_sqinch = models.FloatField()
     final_amount = models.FloatField()
     is_approved = models.BooleanField(default=False)
+    is_declimed = models.BooleanField(default=False)
+    is_converted = models.BooleanField(default=False)
+    rejection_reason = models.TextField(null = True, blank = True)
+    edit_explanation = models.TextField(null = True, blank = True)
+
 
 
 
@@ -439,7 +451,7 @@ class order_child(models.Model):
     item_code = models.TextField()
     material = models.CharField(max_length=50, choices=MATERIAL_OPTION_CHOICES)
     other_material = models.CharField(max_length=50, null = True, blank = True)
-    process = models.CharField(max_length=50, choices=PROCESS_OPTION_CHOICES)
+    process = models.ForeignKey(process, on_delete=models.CASCADE, related_name = "sfdsddsds", null = True, blank = True)
     text_matter = models.ForeignKey(text_matter, on_delete=models.CASCADE)
     etching = models.ForeignKey(etching, on_delete=models.CASCADE)
     color_count = models.ForeignKey(color, on_delete=models.CASCADE)

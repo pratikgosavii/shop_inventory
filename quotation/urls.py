@@ -32,6 +32,11 @@ urlpatterns = [
     path('delete-text-matter/<text_matter_id>', delete_text_matter, name='delete_text_matter'),
     path('list-text-matter/', list_text_matter, name='list_text_matter'),
 
+    path('add-process/', add_process, name='add_process'),
+    path('update-process/<process_id>', update_process, name='update_process'),
+    path('delete-process/<process_id>', delete_process, name='delete_process'),
+    path('list-process/', list_process, name='list_process'),
+
 
     path('gettoken/', gettoken, name='add_order'),
     path('send_qutation_notification/<order_id>', send_qutation_notification, name='send_qutation_notification'),
@@ -40,7 +45,10 @@ urlpatterns = [
     path('delete-order/<order_id>', delete_order, name='delete_order'),
     path('list-order/', list_order, name='list_order'),
     path('print-order/<order_id>', print_order, name='print_order'),
+
     path('approve-order/<order_id>', approve_order, name='approve_order'),
+    path('convert-order/<order_id>', convert_order, name='convert_order'),
+    path('unconvert-order/<order_id>', unconvert_order, name='unconvert_order'),
 
     
     path('report-sales/', sales_report, name='sales_report'),

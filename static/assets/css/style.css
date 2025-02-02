@@ -850,6 +850,8 @@ aside.left-panel:hover {
 }
 
 .navbar .navbar-nav li>a {
+    font-weight: 600;
+    font-size: 15px;
     background: none !important;
     color: #607d8b;
     display: inline-block;
@@ -892,6 +894,8 @@ aside.left-panel:hover {
 
 .navbar .navbar-nav li.menu-item-has-children a {
     line-height: 30px;
+    font-weight: 600;
+    font-size: 15px;
 }
 
 .navbar .navbar-nav li.menu-item-has-children a:before {

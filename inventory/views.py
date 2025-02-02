@@ -21,23 +21,14 @@ def dashboard(request):
         moved_to_scratch=False,
         moved_to_left_over=False,
         product__isnull=False
-    ).values(
-        'product', 
-        'product__category__name', 
-        'product__size__mm1', 
-        'product__size__mm2', 
-        'product__size__name', 
-        'product__grade__name', 
-        'product__thickness__name'
-    ).annotate(total_quantity=Count('id')).order_by('product')
+    ).count()
 
-    stock_count = data.aggregate(total_quantity1=Sum('total_quantity'))
 
 
     context = {
         'godown' : godiwn_count,
         'godown_data' : godown_data,
-        'stock' : stock_count
+        'stock' : data
     }
     
     return render(request, 'dashboard.html', context)

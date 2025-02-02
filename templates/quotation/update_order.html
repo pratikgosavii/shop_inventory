@@ -9,11 +9,6 @@
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
 </head>
 
 <style>
@@ -151,6 +146,32 @@
           display: none;
         }
       }
+
+
+      #loader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3); /* Light grey with opacity */
+        z-index: 9999; /* Ensure it stays on top */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    #loader {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+
+    
+
+
     
     
 </style>
@@ -200,95 +221,112 @@
             
 
               <br>
+              <div id="loader-overlay" style="display: none;">
+                <div id="loader">
+                    <img src="{% static '/images/loader.gif' %}" alt="Loading..." style="width: 50px; height: 50px;">
+                </div>
+            </div>
+            
+            
+              <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show" style="display: none;">
+                <span class="badge badge-pill badge-danger">Error</span>
+                <span id="errorMessage"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
 
-            <div class="row">
-                <div class="col-12" style="">
-                    <form id="form3" style="display: contents; comehere">
-                        {% csrf_token %}
+            {% if instance.is_approved and not request.user.is_superuser %}
+                <fieldset disabled>
+            {% endif %}
+                <div class="row">
+                    <div class="col-12" style="">
+                        <form id="form3" style="display: contents; comehere">
+                            {% csrf_token %}
 
-                        <h1 id="token"> </h1>
+                            <h1 id="token"> </h1>
 
-                        <div class="" style="justify-content: left;">
+                            <div class="" style="justify-content: left;">
 
-                            <div class="card" style="border: 1px solid black; padding: 9px 6px;">
+                                <div class="card" style="border: 1px solid black; padding: 9px 6px;">
 
-                                <div style="display:flex;">
-                                    <label style="margin: 10px 0px !important;" for="customer" class="control-label mb-1">Customer Name</label>
-                                    {{ form.customer }}     <input type="button" style="background: #003366; color:white; margin:10px;" value="Add" id="addButton">
+                                    <div style="display:flex;">
+                                        <label style="margin: 10px 0px !important;" for="customer" class="control-label mb-1">Customer Name</label>
+                                        {{ form.customer }}     <input type="button" style="background: #003366; color:white; margin:10px;" value="Add" id="addButton">
+                                    </div>
+                                    
+                                
+                                    
+                                    <div style="display:flex;">
+                                        <label style="margin: 10px 0px !important;" for="contance_person_no" class="control-label mb-1">Contact Person Name</label>
+                                        <!-- Use the  attribute to make the input field read-only -->
+                                        <input style="margin-left:10px !important;" name="contance_person_no" id="contance_person_no" type="text" value="" class="form-control" >
+                                    </div>
+                                    
+                                    <div style="display:flex;">
+                                        <label style="margin: 10px 0px !important;" for="contact_no" class="control-label mb-1">Mobile Number</label>
+                                        <!-- Use the  attribute to make the input field read-only -->
+                                        <input style="margin-left:10px !important;" name="contact_no" id="contact_no" type="text" value="" class="form-control" >
+                                    </div>
+                                    
+                                    <div style="display:flex;">
+                                        <label style="margin: 10px 0px !important;" for="email" class="control-label mb-1">Contact Email</label>
+                                        <!-- Use the  attribute to make the input field read-only -->
+                                        <input style="margin-left:10px !important;" name="email" id="email" type="text" value="" class="form-control" >
+                                    </div>
+                                    
+
                                 </div>
-                                
-                            
-                                
-                                <div style="display:flex;">
-                                    <label style="margin: 10px 0px !important;" for="contance_person_no" class="control-label mb-1">Contact Person Name</label>
-                                    <!-- Use the  attribute to make the input field read-only -->
-                                    <input style="margin-left:10px !important;" name="contance_person_no" id="contance_person_no" type="text" value="" class="form-control" >
-                                </div>
-                                
-                                <div style="display:flex;">
-                                    <label style="margin: 10px 0px !important;" for="contact_no" class="control-label mb-1">Mobile Number</label>
-                                    <!-- Use the  attribute to make the input field read-only -->
-                                    <input style="margin-left:10px !important;" name="contact_no" id="contact_no" type="text" value="" class="form-control" >
-                                </div>
-                                
-                                <div style="display:flex;">
-                                    <label style="margin: 10px 0px !important;" for="email" class="control-label mb-1">Contact Email</label>
-                                    <!-- Use the  attribute to make the input field read-only -->
-                                    <input style="margin-left:10px !important;" name="email" id="email" type="text" value="" class="form-control" >
-                                </div>
-                                
-
                             </div>
-                        </div>
 
-                        <div class="" style="justify-content: right;">
-
-
-                            <div style="" class="card">
-
-                                {% comment %} <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
-                                    <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer No</label>
-                                    <input type="text" style="margin-left:10px !important;" value="{{ form.order_id.value }}" class="form-control" readonly>
-                                </div> {% endcomment %}
-
-                                <div style="display: flex; border: 1px solid black; padding: 9px 6px;">
-                                    <label style="margin: 10px 0px !important;" for="date" class="control-label mb-1">Offer Date</label>
-                                    <!-- Use the readonly attribute to make the input field read-only -->
-                                    <input style="margin-left:10px !important;" name="date" id="date" type="datetime-local" value="{{ date|date:'Y-m-d\TH:i' }}" class="form-control" readonly>
-                                </div>
-                                
+                            <div class="" style="justify-content: right;">
 
 
-                                <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
-                                    <label style="margin: 10px 0px !important;" for="reference_from" class="control-label mb-1">Reference From</label>
+                                <div style="" class="card">
 
-                                    <div>
-                                            
-                                        <div>
+                                    {% comment %} <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
+                                        <label style="margin: 10px 0px !important;" for="name" class="control-label mb-1">Offer No</label>
+                                        <input type="text" style="margin-left:10px !important;" value="{{ form.order_id.value }}" class="form-control" readonly>
+                                    </div> {% endcomment %}
 
-                                            <input type="radio" id="conctc" value="Direct_Contact" name="reference_from">
-                                            <label style="margin: 10px 0px !important;"  for="conctc">Direct Contact</label>
-                                        </div>
+                                    <div style="display: flex; border: 1px solid black; padding: 9px 6px;">
+                                        <label style="margin: 10px 0px !important;" for="date" class="control-label mb-1">Offer Date</label>
+                                        <!-- Use the readonly attribute to make the input field read-only -->
+                                        <input style="margin-left:10px !important;" name="date" id="date" type="datetime-local" value="{{ date|date:'Y-m-d\TH:i' }}" class="form-control" readonly>
+                                    </div>
+                                    
+
+
+                                    <div style="display: flex; display: flex; border: 1px solid black; padding: 9px 6px;">
+                                        <label style="margin: 10px 0px !important;" for="reference_from" class="control-label mb-1">Reference From</label>
 
                                         <div>
-                                            <input type="radio" id="webs" value="Webiste" name="reference_from">
-                                            <label style="margin: 10px 0px !important;"  for="webs">Webiste</label>
-                                        </div>
+                                                
+                                            <div>
 
-                                        <div>
-                                            <input type="radio" id="mailrt" value="Mailer" name="reference_from">
-                                            <label style="margin: 10px 0px !important;" for="mailrt">Mailer</label>
-                                        </div>
+                                                <input type="radio" id="conctc" value="Direct_Contact" name="reference_from">
+                                                <label style="margin: 10px 0px !important;"  for="conctc">Direct Contact</label>
+                                            </div>
 
+                                            <div>
+                                                <input type="radio" id="webs" value="Webiste" name="reference_from">
+                                                <label style="margin: 10px 0px !important;"  for="webs">Webiste</label>
+                                            </div>
+
+                                            <div>
+                                                <input type="radio" id="mailrt" value="Mailer" name="reference_from">
+                                                <label style="margin: 10px 0px !important;" for="mailrt">Mailer</label>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
 
+                        </div>
                     </div>
+                
                 </div>
-               
-            </div>
 
             
                 <div style="justify-content: center;display: grid;" class="no-print">
@@ -362,41 +400,19 @@
                                 {% comment %} #2b1b83 {% endcomment %}
                                 <div class="card">
 
-                                    <input type="radio" id="chemical_etching" value="chemical_etching" name="process" required>
-                                    <label for="chemical_etching">Chemical Etching</label>
-
-                                    <input type="radio" id="etching_laser_cutting" value="etching_laser_cutting" name="process" required>
-                                    <label for="etching_laser_cutting">Etching + Laser Cutting</label>
-
+                                  
+                                    {% for i in process_data %}
                                     
-                                    <input type="radio" id="etching_laser_engraving" value="etching_laser_engraving" name="process" required>
-                                    <label for="etching_laser_engraving"> Etching + Laser Engraving</label>
+                                    <input type="radio" id="process{{ i.id }}" value="{{ i.id }}" name="process" required>
+                                    <label for="process{{ i.id }}">{{ i.name }}</label>
 
-                                    <input type="radio" id="chemical_milling" value="chemical_milling" name="process" required>
-                                    <label for="chemical_milling"> Chemical Milling</label>
-
-                                    <input type="radio" id="anodic_print" value="anodic_print" name="process" required>
-                                    <label for="anodic_print">Anodic Print</label>
-
-                            
-                                    <input type="radio" id="laser_cutting" value="laser_cutting" name="process" required>
-                                    <label for="laser_cutting">Laser Cutting</label>
-
-                                    <input type="radio" id="laser_cutting_coating" value="laser_cutting_coating" name="process" required>
-                                    <label for="laser_cutting_coating">Laser Cutting + Coating</label>
-
-                                    <input type="radio" id="stamping" value="stamping" name="process" required>
-                                    <label for="stamping">Stamping</label>
-
-
-                                    <input type="radio" id="injection_mould_texturing" value="injection_mould_texturing" name="process" required>
-                                    <label for="injection_mould_texturing"> Injection Mould Texturing </label>
+                                {% endfor %}
 
                                 </div>
 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-                    border-radius: 10px 10px 0px 0px;
-                    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> MOQ For nameplates in sq. inch </p>
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> MOQ For nameplates in sq. inch </p>
                                 
 
                                 <div>
@@ -527,15 +543,15 @@
                                 </div>
 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Size of Nameplate , Precision Parts & Laser Cutting in Inch </p>
-                        
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Size of Nameplate , Precision Parts & Laser Cutting in Inch </p>
+                                                
 
                                 <div class="card">
                                     
                                     <div style="display: flex; gap : 20px;">
                                         <label for="length_a">Length</label>
-                                        <input type="number" name="length_a" class="form-control" id="length_a" required>
+                                        <input type="number" name="length" class="form-control" id="length_a" required>
                                         <select id="mm_inch_select"> 
                                             <option value="1"> MM </option>
                                             <option value="2"> Inch </option>
@@ -558,9 +574,9 @@
                                 </div>
 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Text Matter </p>
-                                                    
+                                border-radius: 10px 10px 0px 0px;
+                                padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Text Matter </p>
+                                                                                
                                 <div  class="card">
 
                                     {% for i in text_matter_data %}
@@ -573,15 +589,15 @@
                                 </div>       
                                 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">Type of Etching </p>
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">Type of Etching </p>
                                                         
                                 <div  class="card">
                                     
                                     {% for i in etching_data %}
                                     
                                     <input type="radio" id="deep_etching{{ i.id }}" value="{{ i.id }}" name="etching" required>
-                                    <label for="deep_etching{{ i.id }}">{{ i.name }}g</label>
+                                    <label for="deep_etching{{ i.id }}">{{ i.name }}</label>
 
                                 {% endfor %}
 
@@ -591,8 +607,8 @@
 
 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Color Avaiable for Nameplate, Metal Business Card </p>
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Color Avaiable for Nameplate, Metal Business Card </p>
                                                     
                             
                                 <div class="card">
@@ -610,8 +626,8 @@
                         
 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Color (Silk Screen Printed Or Power Coated for Metal Business Card) on Nameplate , Metal Business Card </p>
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Color (Silk Screen Printed Or Power Coated for Metal Business Card) on Nameplate , Metal Business Card </p>
                         
 
                                 <div class="card">
@@ -634,8 +650,8 @@
                                 </div>
 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Font height in mm for all types of Nameplate </p>
+                                border-radius: 10px 10px 0px 0px;
+                                padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Font height in mm for all types of Nameplate </p>
                             
 
                                 <div class="card">
@@ -676,9 +692,9 @@
 
                             
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Thickness </p>
-                                                
+                                border-radius: 10px 10px 0px 0px;
+                                padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Thickness </p>
+                                                                            
                         
                                 <div class="card">
         
@@ -694,25 +710,11 @@
                             
 
 
-                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplate , As per MOQ</p>
-                        
-                                <div class="card">
-                                    
-                                    <input type="textbox" id="ssdsdsd" name="dsd"  class="form-control">
-                                    
-        
-                                    
-                                </div>
-                
-
-
 
 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Below MOQ for  Nameplates, Precision Parts in sq. inch </p>
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Below MOQ for  Nameplates, Precision Parts in sq. inch </p>
 
                                 <div>
                                     
@@ -727,8 +729,8 @@
                     
 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplates, As per MOQ</p>
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Rate Per unit in INR for Nameplates, As per MOQ</p>
 
                                 <div class="card">
 
@@ -749,8 +751,8 @@
                         
 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> GST (IGST, SGST)</p>
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> GST (IGST, SGST)</p>
 
                                 <div  class="card">
 
@@ -790,8 +792,8 @@
 
                                 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Film Charges / Development Charges </p>
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Film Charges / Development Charges </p>
                                 
                                 <div class="card">
 
@@ -816,8 +818,8 @@
                                 
 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Material Test Certificate ( MTC ) </p>
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Material Test Certificate ( MTC ) </p>
                                 
 
                                 <div class="card">
@@ -843,8 +845,8 @@
 
 
                                 <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Samples or Proto Type </p>
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Samples or Proto Type </p>
                                 
 
                                 <div class="card">
@@ -910,7 +912,7 @@
                         text-align: center;
                         margin-bottom: 14px;"> Item Orders Description </h1>
 
-                        <div class="table-stats order-table ov-h" style="overflow: scroll;">
+                        <div class="table-stats order-table ov-h">
                             <table class="table ">
                                 <thead>
                                     <tr>
@@ -941,15 +943,17 @@
                                         Sample/Prototype:  {{ i.sample_price }}<hr> <hr>  
                                         </td>
                                     <td> {{ i.quantity }}</td>
+                                    <td> {{ i.rate_per_unit }} </td>
                                     <td> {{ i.final_item_total }} </td>
 
-                                    <td class="no-print">
-                                        
-                                        <a onclick="editOrder({{ i.id }})" style="font-weight: 600; color: black; border: none; margin-bottom:20px;" class="btn btn-primary">View</a>
-                                        
-                                        <a onclick="deleteOrder({{ i.id }})" style="background: red; font-weight: 600; color: black; border: none; margin-bottom : 10px;" class="btn btn-primary">Delete</a></td>
-
-                                    </tr>
+                                    <td class="no-print" style="white-space: nowrap;">
+                                        <a onclick="editOrder({{ i.id }})" 
+                                           style="font-weight: 600; color: black; border: none; margin-right: 10px;" 
+                                           class="btn btn-primary">View</a>
+                                        <a onclick="deleteOrder({{ i.id }})" 
+                                           style="background: red; font-weight: 600; color: black; border: none;" 
+                                           class="btn btn-primary">Delete</a>
+                                    </td>
                                     {% endfor %}
 
                                   
@@ -958,451 +962,478 @@
 
 
 
+                            {% if instance.is_approved %}
+                        </fieldset>
+                        {% endif %}
+
+                        
                         <div class="">
+                            
+                      
 
                             <form id="form2">
-
+                                {% if instance.is_approved and not request.user.is_superuser %}
+                                <fieldset disabled>
+                                {% endif %}
                                 {% csrf_token %}
 
-                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Industry </p>
-                                
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+                                    border-radius: 10px 10px 0px 0px;
+                                    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Industry </p>
+                                                
 
-                            <div class="card">
+                                <div class="card">
 
-                                <input type="radio" id="industry1" name="industry" value="automotive">
-                                <label for="industry1">Automotive</label>
-                                
-                                <input type="radio" id="industry2" name="industry" value="auto_ancillary">
-                                <label for="industry2">Auto Ancillary</label>
-                                
-                                <input type="radio" id="industry3" name="industry" value="sugar">
-                                <label for="industry3">Sugar</label>
-                                
-                                <input type="radio" id="industry4" name="industry" value="domestic_appliance">
-                                <label for="industry4">Domestic Appliance</label>
-                                
-                                <input type="radio" id="industry5" name="industry" value="process_equipmen">
-                                <label for="industry5">Process Equipmen</label>
-                                
-                                <input type="radio" id="industry6" name="industry" value="petro_chemica">
-                                <label for="industry6">Petro Chemica</label>
-                                
-                                <input type="radio" id="industry7" name="industry" value="food_equipmen">
-                                <label for="industry7">Food Equipmen</label>
-                                
-                                <input type="radio" id="industry8" name="industry" value="medical_device_equipement">
-                                <label for="industry8">Medical Device & Equipement</label>
-                                
-                                <input type="radio" id="industry9" name="industry" value="defence">
-                                <label for="industry9">Defence</label>
-                                
-                                <input type="radio" id="industry10" name="industry" value="aviation_aero_space">
-                                <label for="industry10">Aviation & Aero Space</label>
-                                
-                                <input type="radio" id="industry11" name="industry" value="elevator">
-                                <label for="industry11">Elevator</label>
-                                
-                                <input type="radio" id="industry12" name="industry" value="electricals">
-                                <label for="industry12">Electricals</label>
-                                
-                                <input type="radio" id="industry13" name="industry" value="electronics">
-                                <label for="industry13">Electronics</label>
-                                
-                                <input type="radio" id="industry14" name="industry" value="filteration">
-                                <label for="industry14">Filteration</label>
-                                
+                                    <input type="radio" id="industry1" name="industry" value="automotive">
+                                    <label for="industry1">Automotive</label>
+                                    
+                                    <input type="radio" id="industry2" name="industry" value="auto_ancillary">
+                                    <label for="industry2">Auto Ancillary</label>
+                                    
+                                    <input type="radio" id="industry3" name="industry" value="sugar">
+                                    <label for="industry3">Sugar</label>
+                                    
+                                    <input type="radio" id="industry4" name="industry" value="domestic_appliance">
+                                    <label for="industry4">Domestic Appliance</label>
+                                    
+                                    <input type="radio" id="industry5" name="industry" value="process_equipmen">
+                                    <label for="industry5">Process Equipmen</label>
+                                    
+                                    <input type="radio" id="industry6" name="industry" value="petro_chemica">
+                                    <label for="industry6">Petro Chemica</label>
+                                    
+                                    <input type="radio" id="industry7" name="industry" value="food_equipmen">
+                                    <label for="industry7">Food Equipmen</label>
+                                    
+                                    <input type="radio" id="industry8" name="industry" value="medical_device_equipement">
+                                    <label for="industry8">Medical Device & Equipement</label>
+                                    
+                                    <input type="radio" id="industry9" name="industry" value="defence">
+                                    <label for="industry9">Defence</label>
+                                    
+                                    <input type="radio" id="industry10" name="industry" value="aviation_aero_space">
+                                    <label for="industry10">Aviation & Aero Space</label>
+                                    
+                                    <input type="radio" id="industry11" name="industry" value="elevator">
+                                    <label for="industry11">Elevator</label>
+                                    
+                                    <input type="radio" id="industry12" name="industry" value="electricals">
+                                    <label for="industry12">Electricals</label>
+                                    
+                                    <input type="radio" id="industry13" name="industry" value="electronics">
+                                    <label for="industry13">Electronics</label>
+                                    
+                                    <input type="radio" id="industry14" name="industry" value="filteration">
+                                    <label for="industry14">Filteration</label>
+                                    
 
-                            </div>
+                                </div>
 
-                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Product </p>
-                                
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+                                    border-radius: 10px 10px 0px 0px;
+                                    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Product </p>
+                                                            
 
-                            <div class="card">
+                                <div class="card">
 
-                                <input type="radio" id="product1" name="product" value="nameplate">
-                                <label for="product1">Nameplate</label>
-                                
-                                <input type="radio" id="product2" name="product" value="front_pannel">
-                                <label for="product2">Front Panel</label>
-                                
-                                <input type="radio" id="product3" name="product" value="nameplate_with_qr_code">
-                                <label for="product3">Nameplate with QR Code</label>
-                                
-                                <input type="radio" id="product4" name="product" value="project_based_cable_tags">
-                                <label for="product4">Project Based Cable Tags</label>
-                                
-                                <input type="radio" id="product5" name="product" value="schematic_drg">
-                                <label for="product5">Schematic Drg</label>
-                                
-                                <input type="radio" id="product6" name="product" value="thin_shim_and_spacer">
-                                <label for="product6">Thin Shim & Spacer</label>
-                                
-                                <input type="radio" id="product7" name="product" value="proto_type_stator_and_rotar_lamination">
-                                <label for="product7">Proto type Stator & Rotar Lamination</label>
-                                
-                                <input type="radio" id="product8" name="product" value="regular_thin_mesh">
-                                <label for="product8">Regular Thin Mesh</label>
-                                
-                                <input type="radio" id="product9" name="product" value="customized_mesh">
-                                <label for="product9">Customized Mesh</label>
-                                
-                                <input type="radio" id="product10" name="product" value="encoder_disc">
-                                <label for="product10">Encoder Disc</label>
-                                
-                                <input type="radio" id="product11" name="product" value="aperture_and_pin_holes">
-                                <label for="product11">Aperture & Pin Holes</label>
-                                
-                                <input type="radio" id="product12" name="product" value="texturing">
-                                <label for="product12">Texturing</label>
-                                
-                                <input type="radio" id="product13" name="product" value="speaker_grill">
-                                <label for="product13">Speaker Grill</label>
-                                
-                                <input type="radio" id="product14" name="product" value="contact_connector_and_terminals">
-                                <label for="product14">Contact, Connector & Terminals</label>
-                                
-                                <input type="radio" id="product15" name="product" value="valve_and_compressor_plate">
-                                <label for="product15">Valve & Compressor Plate</label>
-                                
-                                <input type="radio" id="product16" name="product" value="diaphragm">
-                                <label for="product16">Diaphragm</label>
-                                
-                                <input type="radio" id="product17" name="product" value="emi_rfi_shielding">
-                                <label for="product17">EMI / RFI Shielding</label>
-                                
-                                <input type="radio" id="product18" name="product" value="filteration">
-                                <label for="product18">Filteration</label>
-                                
-                                <input type="radio" id="product19" name="product" value="battery_contact">
-                                <label for="product19">Battery Contact</label>
-                                
-                                <input type="radio" id="product20" name="product" value="antenna_tele_communication">
-                                <label for="product20">Antenna Tele Communication</label>
-                                
-                                <input type="radio" id="product21" name="product" value="bipolar_plate_pem">
-                                <label for="product21">Bipolar Plate PEM</label>
-                                
-                                <input type="radio" id="product22" name="product" value="flat_spring_u_spring_v_spring">
-                                <label for="product22">Flat Spring, U Spring, V Spring</label>
-                                
-                                <input type="radio" id="product23" name="product" value="metal_business_card_with_nfc_chip">
-                                <label for="product23">Metal Business Card with NFC Chip</label>
-                                
-                                <input type="radio" id="product24" name="product" value="metal_business_card_without_chip">
-                                <label for="product24">Metal Business Card without Chip</label>
-                                
-                                <input type="radio" id="product25" name="product" value="book_mark_and_product_model">
-                                <label for="product25">Book Mark & Product Model</label>
-                                
-                                <input type="radio" id="product26" name="product" value="designer_stainless_steel_sheet">
-                                <label for="product26">Designer Stainless Steel Sheet</label>
-                                
-                                <input type="radio" id="product27" name="product" value="designer_stainless_steel_sheet_with_elevator_cabinet">
-                                <label for="product27">Designer Stainless Steel Sheet with Elevator Cabinet</label>
-                                
-                                <input type="radio" id="product28" name="product" value="designer_stainless_steel_sheet_with_elevator_cabinet_roof_and_bottom">
-                                <label for="product28">Designer Stainless Steel Sheet with Elevator Cabinet, Roof & Bottom</label>
-                                
-                            </div>
-
-
-                                
-                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Design format accepted </p>
-                                
-
-                            <div class="card">
-                                <input type="radio" id="file_format1" name="file_format" value="cdr">
-                                <label for="file_format1">CDR</label>
-                                
-                                <input type="radio" id="file_format2" name="file_format" value="dxf">
-                                <label for="file_format2">DXF</label>
-                                
-                                <input type="radio" id="file_format3" name="file_format" value="ai">
-                                <label for="file_format3">A.I</label>
-                                
-                                <input type="radio" id="file_format4" name="file_format" value="pdf">
-                                <label for="file_format4">PDF</label>
-                                
-                                <input type="radio" id="file_format5" name="file_format" value="excel">
-                                <label for="file_format5">Excel</label>
-                                
-                            </div>
+                                    <input type="radio" id="product1" name="product" value="nameplate">
+                                    <label for="product1">Nameplate</label>
+                                    
+                                    <input type="radio" id="product2" name="product" value="front_pannel">
+                                    <label for="product2">Front Panel</label>
+                                    
+                                    <input type="radio" id="product3" name="product" value="nameplate_with_qr_code">
+                                    <label for="product3">Nameplate with QR Code</label>
+                                    
+                                    <input type="radio" id="product4" name="product" value="project_based_cable_tags">
+                                    <label for="product4">Project Based Cable Tags</label>
+                                    
+                                    <input type="radio" id="product5" name="product" value="schematic_drg">
+                                    <label for="product5">Schematic Drg</label>
+                                    
+                                    <input type="radio" id="product6" name="product" value="thin_shim_and_spacer">
+                                    <label for="product6">Thin Shim & Spacer</label>
+                                    
+                                    <input type="radio" id="product7" name="product" value="proto_type_stator_and_rotar_lamination">
+                                    <label for="product7">Proto type Stator & Rotar Lamination</label>
+                                    
+                                    <input type="radio" id="product8" name="product" value="regular_thin_mesh">
+                                    <label for="product8">Regular Thin Mesh</label>
+                                    
+                                    <input type="radio" id="product9" name="product" value="customized_mesh">
+                                    <label for="product9">Customized Mesh</label>
+                                    
+                                    <input type="radio" id="product10" name="product" value="encoder_disc">
+                                    <label for="product10">Encoder Disc</label>
+                                    
+                                    <input type="radio" id="product11" name="product" value="aperture_and_pin_holes">
+                                    <label for="product11">Aperture & Pin Holes</label>
+                                    
+                                    <input type="radio" id="product12" name="product" value="texturing">
+                                    <label for="product12">Texturing</label>
+                                    
+                                    <input type="radio" id="product13" name="product" value="speaker_grill">
+                                    <label for="product13">Speaker Grill</label>
+                                    
+                                    <input type="radio" id="product14" name="product" value="contact_connector_and_terminals">
+                                    <label for="product14">Contact, Connector & Terminals</label>
+                                    
+                                    <input type="radio" id="product15" name="product" value="valve_and_compressor_plate">
+                                    <label for="product15">Valve & Compressor Plate</label>
+                                    
+                                    <input type="radio" id="product16" name="product" value="diaphragm">
+                                    <label for="product16">Diaphragm</label>
+                                    
+                                    <input type="radio" id="product17" name="product" value="emi_rfi_shielding">
+                                    <label for="product17">EMI / RFI Shielding</label>
+                                    
+                                    <input type="radio" id="product18" name="product" value="filteration">
+                                    <label for="product18">Filteration</label>
+                                    
+                                    <input type="radio" id="product19" name="product" value="battery_contact">
+                                    <label for="product19">Battery Contact</label>
+                                    
+                                    <input type="radio" id="product20" name="product" value="antenna_tele_communication">
+                                    <label for="product20">Antenna Tele Communication</label>
+                                    
+                                    <input type="radio" id="product21" name="product" value="bipolar_plate_pem">
+                                    <label for="product21">Bipolar Plate PEM</label>
+                                    
+                                    <input type="radio" id="product22" name="product" value="flat_spring_u_spring_v_spring">
+                                    <label for="product22">Flat Spring, U Spring, V Spring</label>
+                                    
+                                    <input type="radio" id="product23" name="product" value="metal_business_card_with_nfc_chip">
+                                    <label for="product23">Metal Business Card with NFC Chip</label>
+                                    
+                                    <input type="radio" id="product24" name="product" value="metal_business_card_without_chip">
+                                    <label for="product24">Metal Business Card without Chip</label>
+                                    
+                                    <input type="radio" id="product25" name="product" value="book_mark_and_product_model">
+                                    <label for="product25">Book Mark & Product Model</label>
+                                    
+                                    <input type="radio" id="product26" name="product" value="designer_stainless_steel_sheet">
+                                    <label for="product26">Designer Stainless Steel Sheet</label>
+                                    
+                                    <input type="radio" id="product27" name="product" value="designer_stainless_steel_sheet_with_elevator_cabinet">
+                                    <label for="product27">Designer Stainless Steel Sheet with Elevator Cabinet</label>
+                                    
+                                    <input type="radio" id="product28" name="product" value="designer_stainless_steel_sheet_with_elevator_cabinet_roof_and_bottom">
+                                    <label for="product28">Designer Stainless Steel Sheet with Elevator Cabinet, Roof & Bottom</label>
+                                    
+                                </div>
 
 
+                                    
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+                                border-radius: 10px 10px 0px 0px;
+                                padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> Design format accepted </p>
+                                    
+
+                                <div class="card">
+                                    <input type="radio" id="file_format1" name="file_format" value="cdr">
+                                    <label for="file_format1">CDR</label>
+                                    
+                                    <input type="radio" id="file_format2" name="file_format" value="dxf">
+                                    <label for="file_format2">DXF</label>
+                                    
+                                    <input type="radio" id="file_format3" name="file_format" value="ai">
+                                    <label for="file_format3">A.I</label>
+                                    
+                                    <input type="radio" id="file_format4" name="file_format" value="pdf">
+                                    <label for="file_format4">PDF</label>
+                                    
+                                    <input type="radio" id="file_format5" name="file_format" value="excel">
+                                    <label for="file_format5">Excel</label>
+                                    
+                                </div>
 
 
-                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    IncoTerm </p>
+
+
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+                                border-radius: 10px 10px 0px 0px;
+                                padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    IncoTerm </p>
+                                                        
+                            
+                                <div class="card">
+
+                            
+                                    <input type="radio" id="inco_ex_works" name="incoterm" value="ex-works" required>
+                                    <label for="inco_ex_works">Ex-Works</label>
+                                
+                                    <input type="radio" id="inco_fob" name="incoterm" value="f.o.b." required>
+                                    <label for="inco_fob">F.O.B.</label>
+                                
+                                    <input type="radio" id="inco_c_and_f" name="incoterm" value="c_and_f" required>
+                                    <label for="inco_c_and_f">C & F</label>
+                                
+                                    <input type="radio" id="inco_cif" name="incoterm" value="cif" required>
+                                    <label for="inco_cif">CIF</label>
+                                
+                                    <input type="radio" id="inco_warehouse" name="incoterm" value="warehouse_to_warehouse" required>
+                                    <label for="inco_warehouse">Warehouse to Warehouse</label>
+                                </div>
+
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+                                    border-radius: 10px 10px 0px 0px;
+                                    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Mode of Transport </p>
+                                                                                                        
                                                     
-                            
-                            <div class="card">
+                                <div class="card">
 
-                          
-                                <input type="radio" id="inco_ex_works" name="incoterm" value="ex-works" required>
-                                <label for="inco_ex_works">Ex-Works</label>
-                            
-                                <input type="radio" id="inco_fob" name="incoterm" value="f.o.b." required>
-                                <label for="inco_fob">F.O.B.</label>
-                            
-                                <input type="radio" id="inco_c_and_f" name="incoterm" value="c_and_f" required>
-                                <label for="inco_c_and_f">C & F</label>
-                            
-                                <input type="radio" id="inco_cif" name="incoterm" value="cif" required>
-                                <label for="inco_cif">CIF</label>
-                            
-                                <input type="radio" id="inco_warehouse" name="incoterm" value="warehouse_to_warehouse" required>
-                                <label for="inco_warehouse">Warehouse to Warehouse</label>
+                                    <input type="radio" id="transport_road" name="transportation_type" value="road" required>
+                                    <label for="transport_road">Road</label>
+
+                                    <input type="radio" id="transport_rail" name="transportation_type" value="rail" required>
+                                    <label for="transport_rail">Rail</label>
+
+                                    <input type="radio" id="transport_air" name="transportation_type" value="air" required>
+                                    <label for="transport_air">Air</label>
+
+                                    <input type="radio" id="transport_courier" name="transportation_type" value="courier" required>
+                                    <label for="transport_courier">Courier</label>
+
+                                    <input type="radio" id="transport_porter" name="transportation_type" value="porter" required>
+                                    <label for="transport_porter">Porter</label>
+
+                                    <input type="radio" id="transport_personal" name="transportation_type" value="personal_pick_up" required>
+                                    <label for="transport_personal">Personal Pick Up</label>
+                                </div>
+
+                                <div class="card">
+
+                                    <label for="transportation_cost">Transportation Cost</label>
+                                    <select id="transportation_cost" name="transportation_cost" class="form-control" required></select>
+
+                                </div>
+
+                                    
+
+                                <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+                                    border-radius: 10px 10px 0px 0px;
+                                    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Payment </p>
+                                
+                                <div class="card">                 
+                                    <div>
+
+                                        
+                                        <input type="radio" id="advance_advance" value="advance" name="payment" required>
+
+                                        <label for="advance_advance"> Advance </label>
+
+                                        
+                                    </div>
+                                    <div style="display: flex; gap: 10px;"> <input type="number" id="advance" name="advance" class="form-control"> 
+
+                                        <label for="checkbox1" name="payment">    % of Advance </label>  
+                                        
+                                    </div>
+                                    </div>
+
+                                    
+                                    <div class="card">
+                                        <input type="radio" id="against_delivery" value="against_delivery" name="payment" required>
+                                        <label for="against_delivery">Against Delivery</label>
+                                        <input type="radio" id="proforma_invoice" value="proforma_invoice" name="payment" required>
+                                        <label for="proforma_invoice"> Proforma Invoice </label>
+                                        <input type="radio" id="credit_in_day" value="credit_in_day" name="payment" required>
+                                        <label for="credit_in_day"> Credit in day </label>
+
+                                        <input type="number" id="credit_in_days" name="credit_in_days" name="limit to 99" min="0" max="100">
+
+                                    </div>
+
+                                <div>
+                                                                                
+
                             </div>
 
+
+
                             <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Mode of Transport </p>
-                                                                        
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Credit Limit in INR </p>
                                                 
-                            <div class="card">
 
-                                <input type="radio" id="transport_road" name="transportation_type" value="road" required>
-                                <label for="transport_road">Road</label>
-
-                                <input type="radio" id="transport_rail" name="transportation_type" value="rail" required>
-                                <label for="transport_rail">Rail</label>
-
-                                <input type="radio" id="transport_air" name="transportation_type" value="air" required>
-                                <label for="transport_air">Air</label>
-
-                                <input type="radio" id="transport_courier" name="transportation_type" value="courier" required>
-                                <label for="transport_courier">Courier</label>
-
-                                <input type="radio" id="transport_porter" name="transportation_type" value="porter" required>
-                                <label for="transport_porter">Porter</label>
-
-                                <input type="radio" id="transport_personal" name="transportation_type" value="personal_pick_up" required>
-                                <label for="transport_personal">Personal Pick Up</label>
-                            </div>
-
-                            <div class="card">
-
-                                <label for="transportation_cost">Transportation Cost</label>
-                                <select id="transportation_cost" name="transportation_cost" class="form-control" required></select>
-
-                            </div>
-
-                            
-
-                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Payment </p>
                             <div class="card">                 
-                            <div>
 
-                                
-                                <input type="radio" id="advance_advance" value="advance" name="payment" required>
 
-                                <label for="advance_advance"> Advance </label>
-
-                                
-                            </div>
-                            <div style="display: flex; gap: 10px;"> <input type="number" id="advance" name="advance" class="form-control"> 
-
-                                <label for="checkbox1" name="payment">    % of Advance </label>  
-                                
-                            </div>
+                                <label for="checkbox1"> Amount <input type="number" id="credit_limit" name="credit_limit" class="form-control" required readonly> 
                             </div>
 
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Rejection Acceptance from the date of invoice </p>
+                
                             
+                            <div class="card">                 
+
+                                <label for="rejection_acceptance">Days</label>
+                                <select id="rejection_acceptance" name="rejection_acceptance" class="form-control">
+                                    <option value="1"> 1 </option>
+                                    <option value="2"> 2 </option>
+                                    <option value="3"> 3 </option>
+                                    <option value="4"> 4 </option>
+                                    <option value="5"> 5 </option>
+                                    <option value="6"> 6 </option>
+                                    <option value="7"> 7 </option>
+                                    <option value="8"> 8 </option>
+                                </select>
+                                
+                            </div>
+
+
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Offer Valid Till </p>
+                                            
+
+                            <div class="card">                 
+
+
+                                <input type="date" name="offer_valid_date" class="form-control dateclas" required="" id="id_DC_date">
+                            </div>
+
+
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Rate Contract For per Month procurement </p>
+                                                    
+
+                                                        
+
                             <div class="card">
-                                <input type="radio" id="against_delivery" value="against_delivery" name="payment" required>
-                                <label for="against_delivery">Against Delivery</label>
-                                <input type="radio" id="proforma_invoice" value="proforma_invoice" name="payment" required>
-                                <label for="proforma_invoice"> Proforma Invoice </label>
-                                <input type="radio" id="credit_in_day" value="credit_in_day" name="payment" required>
-                                <label for="credit_in_day"> Credit in day </label>
-
-                                <input type="number" id="credit_in_days" name="credit_in_days" name="limit to 99" min="0" max="100">
-
+                                <input type="radio" id="Acceptance1" name="Acceptance">
+                                <label for="Acceptance1">Yes</label>
+                                <input type="radio" id="Acceptance2" name="Acceptance">
+                                <label for="Acceptance2"> No </label>
+                                
                             </div>
 
-                        <div>
-                                                                            
-
-                    </div>
 
 
-
-                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">   Credit Limit in INR </p>
-                            
-
-                    <div class="card">                 
-
-
-                        <label for="checkbox1"> Amount <input type="number" id="credit_limit" name="credit_limit" class="form-control" required readonly> 
-                    </div>
-
-                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Rejection Acceptance from the date of invoice </p>
-            
-                    
-                    <div class="card">                 
-
-                        <label for="rejection_acceptance">Days</label>
-                        <select id="rejection_acceptance" name="rejection_acceptance" class="form-control">
-                            <option value="1"> 1 </option>
-                            <option value="2"> 2 </option>
-                            <option value="3"> 3 </option>
-                            <option value="4"> 4 </option>
-                            <option value="5"> 5 </option>
-                            <option value="6"> 6 </option>
-                            <option value="7"> 7 </option>
-                            <option value="8"> 8 </option>
-                        </select>
-                        
-                    </div>
-
-
-                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Offer Valid Till </p>
-                            
-
-                    <div class="card">                 
-
-
-                        <input type="date" name="offer_valid_date" class="form-control dateclas" required="" id="id_DC_date">
-                    </div>
-
-
-                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">    Rate Contract For per Month procurement </p>
-                            
-
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> In Case there is sudden rise of material price per unit will differ </p>
                                                 
 
-                    <div class="card">
-                        <input type="radio" id="Acceptance1" name="Acceptance">
-                        <label for="Acceptance1">Yes</label>
-                        <input type="radio" id="Acceptance2" name="Acceptance">
-                        <label for="Acceptance2"> No </label>
-                        
-                    </div>
+                            <div class="card">                 
 
+                                <input type="radio" id="sudden_rise_no" name="sudden_rise" value="No" required>
+                                <label for="sudden_rise_no">No</label>
+                                <input type="radio" id="sudden_rise1" name="sudden_rise" value="Yes" required>
+                                <label for="sudden_rise1">Yes</label>
+                                <input type="radio" id="sudden_rise2" name="sudden_rise" value="no" required>
+                                <label for="sudden_rise2"> Price Rise in % </label>
+                                <select id="sudden_rise_percent" name="sudden_rise_percent" class="from-control"> 
+                                    <option value="1"> 0 </option>
+                                    <option value="2"> 1 </option>
+                                    <option value="2"> 2 </option>
+                                    <option value="2"> 3 </option>
+                                    <option value="2"> 4 </option>
+                                    <option value="2"> 5 </option>
+                                    <option value="2"> 6 </option>
+                                    <option value="2"> 7 </option>
+                                    <option value="2"> 8 </option>
+                                    <option value="2"> 9 </option>
+                                    <option value="2"> 10 </option>
+                                    <option value="2"> 11 </option>
+                                    <option value="2"> 12 </option>
+                                    <option value="2"> 13 </option>
+                                    <option value="2"> 14 </option>
+                                    <option value="2"> 15 </option>
+                                    <option value="2"> 16 </option>
+                                    <option value="2"> 17 </option>
+                                    <option value="2"> 18 </option>
+                                    <option value="2"> 19 </option>
+                                    <option value="2"> 20 </option>
+                                    <option value="2"> 21 </option>
+                                    <option value="2"> 22 </option>
+                                    <option value="2"> 23 </option>
+                                    <option value="2"> 24 </option>
+                                    <option value="2"> 25 </option>
+                                    
+                                    </select>
 
+                            </div>
 
-                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;"> In Case there is sudden rise of material price per unit will differ </p>
+                            <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
+                            border-radius: 10px 10px 0px 0px;
+                            padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Packaging and Forwarding </p>
+                                                
+
                             
 
-                    <div class="card">                 
+                            <div class="card">
 
-                        <input type="radio" id="sudden_rise_no" name="sudden_rise" value="No" required>
-                        <label for="sudden_rise_no">No</label>
-                        <input type="radio" id="sudden_rise1" name="sudden_rise" value="Yes" required>
-                        <label for="sudden_rise1">Yes</label>
-                        <input type="radio" id="sudden_rise2" name="sudden_rise" value="no" required>
-                        <label for="sudden_rise2"> Price Rise in % </label>
-                        <select id="sudden_rise_percent" name="sudden_rise_percent" class="from-control"> 
-                            <option value="1"> 0 </option>
-                            <option value="2"> 1 </option>
-                            <option value="2"> 2 </option>
-                            <option value="2"> 3 </option>
-                            <option value="2"> 4 </option>
-                            <option value="2"> 5 </option>
-                            <option value="2"> 6 </option>
-                            <option value="2"> 7 </option>
-                            <option value="2"> 8 </option>
-                            <option value="2"> 9 </option>
-                            <option value="2"> 10 </option>
-                            <option value="2"> 11 </option>
-                            <option value="2"> 12 </option>
-                            <option value="2"> 13 </option>
-                            <option value="2"> 14 </option>
-                            <option value="2"> 15 </option>
-                            <option value="2"> 16 </option>
-                            <option value="2"> 17 </option>
-                            <option value="2"> 18 </option>
-                            <option value="2"> 19 </option>
-                            <option value="2"> 20 </option>
-                            <option value="2"> 21 </option>
-                            <option value="2"> 22 </option>
-                            <option value="2"> 23 </option>
-                            <option value="2"> 24 </option>
-                            <option value="2"> 25 </option>
+
+                                <label for="packaging">Type of Packaging</label>
+
+                                <select id="packaging" name="packaging" class="form-control">
+                                    <option value="paper"> Paper </option>
+                                    <option value="plastic_bags"> Plastic Bags </option>
+                                    <option value="corrugated_box"> Corrugated Box </option>
+                                    <option value="wooden_box"> Wooden Box  </option>
+                                </select>
+
+
+
+                                <label for="packaging_charges">Packaging Charges</label>
+
+                                <select id="packaging_charges" name="packaging_charges" class="form-control"></select>
                             
-                            </select>
-
-                    </div>
-
-                    <p style="color: white; text-align: center;color: white;margin-bottom: 0px;
-    border-radius: 10px 10px 0px 0px;
-    padding: 5px;text-align: left; padding-left: 18px; background: #003366;font-weight: 600; margin-top: 14px;">  Packaging and Forwarding </p>
-                            
-
-                        
-
-                    <div class="card">
-
-
-                        <label for="packaging">Type of Packaging</label>
-
-                        <select id="packaging" name="packaging" class="form-control">
-                            <option value="paper"> Paper </option>
-                            <option value="plastic_bags"> Plastic Bags </option>
-                            <option value="corrugated_box"> Corrugated Box </option>
-                            <option value="wooden_box"> Wooden Box  </option>
-                        </select>
-
-
-
-                        <label for="packaging_charges">Packaging Charges</label>
-
-                        <select id="packaging_charges" name="packaging_charges" class="form-control"></select>
                     
-            
-            
-
-                    </div>
-
-                    <div class="card">
-
-
-                        <label for="total_sqinch">Total Sqinch</label>
-
-                        <input type="text" id="total_sqinch" name="total_sqinch" class="form-control">
-
-                        <label for="final_amount">Final Amount</label>
-
-                        <input type="text" id="final_amount" name="final_amount" class="form-control">
                     
-            
-            
 
+                            </div>
+
+                            <div class="card">
+
+
+                                <label for="total_sqinch">Total Sqinch</label>
+
+                                <input type="text" id="total_sqinch" name="total_sqinch" class="form-control">
+
+                                <label for="final_amount">Final Amount</label>
+
+                                <input type="text" id="final_amount" name="final_amount" class="form-control">
+                            
+                    
+                    
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="card">
+
+
+                            <label for="edit_explanation"> Edit Explanation </label>
+            
+                            <textarea class="form-control w-75" id="edit_explanation" name="edit_explanation" rows="5"></textarea>
+            
+            
+            
+                        </div>
+                                
                     </div>
-
-
                 </div>
-                        
-            </div>
-        </div>
+
+            
+
+            
 
 
                     
-        <br>
-        <br>
-            <input type="submit" id="payment-button"  value="Add Qutation" type="submit" style="width: 100%; margin-top: 25px; background : #7b7e80; border : none; border-radius : 5px;" class="btn btn-info">
-    </div>
-</form>
-
+                <br>
+                <br>
+                    <input type="submit" id="payment-button"  value="Update Qutation" type="submit" style="width: 100%; margin-top: 25px; background : #7b7e80; border : none; border-radius : 5px;" class="btn btn-info">
+            </div>
+        </form>
+        {% if instance.is_approved %}
+    </fieldset>
+    {% endif %}
 
   <!-- Popup Modal -->
   <div class="modal fade" id="popupFormModal" tabindex="-1" role="dialog" aria-labelledby="popupFormModalLabel" aria-hidden="true">
@@ -1418,28 +1449,39 @@
             </div>
             <div class="modal-body">
                 <form id="popupForm" method="post">
-  {% csrf_token %}
+                    {% csrf_token %}
 
+                    <!-- Name Field -->
                     <div class="form-group">
-                        <label for="itemName">Name</label>
-                        <input type="text" class="form-control" id="itemName" name="name" required>
+                        <label for="customerName">Name</label>
+                        <input type="text" class="form-control" id="customerName" name="name" placeholder="Enter customer name" required>
                     </div>
+
+                    <!-- Client GST Field -->
                     <div class="form-group">
-                        <label for="itemName">Client GST</label>
-                        <input type="text" class="form-control" id="itemName" name="client_gst" required>
+                        <label for="clientGst">Client GST</label>
+                        <input type="text" class="form-control" id="clientGst" name="client_gst" placeholder="Enter GST number" required>
                     </div>
+
+                    <!-- Address Field -->
                     <div class="form-group">
-                        <label for="itemDescription">Address</label>
-                        <textarea class="form-control" id="itemDescription" name="address" required></textarea>
+                        <label for="customerAddress">Address</label>
+                        <textarea class="form-control" id="customerAddress" name="address" placeholder="Enter address" rows="3" required></textarea>
                     </div>
+
+                    <!-- Mobile Number Field -->
                     <div class="form-group">
-                        <label for="itemDescription">Mobile No</label>
-                        <textarea class="form-control" id="itemDescription" name="mobile_no" required></textarea>
+                        <label for="mobileNumber">Mobile No</label>
+                        <input type="tel" class="form-control" id="mobileNumber" name="mobile_no" placeholder="Enter mobile number" pattern="[0-9]{10}" required>
                     </div>
+
+                    <!-- Credit Limit Field -->
                     <div class="form-group">
-                        <label for="itemDescription">Credit INR</label>
-                        <textarea class="form-control" id="itemDescription" name="credit_limit" required></textarea>
+                        <label for="creditLimit">Credit INR</label>
+                        <input type="number" class="form-control" id="creditLimit" name="credit_limit" placeholder="Enter credit limit" required>
                     </div>
+
+                    <!-- Submit Button -->
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
@@ -1457,7 +1499,7 @@
 
     <h3> Reference Table </h3>
     
-        <div class="table-stats order-table ov-h" style="overflow: scroll;">
+        <div class="table-stats order-table ov-h">
             <table class="table ">
                 <thead>
                     <tr>
@@ -1494,13 +1536,19 @@
     
     <br>
     <br>
+
+            {% if not instance.is_approved %}
+
             <a href="{% url 'approve_order' instance.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
                 <span id="payment-button-amount">Approve</span>
             </button>  </a>
     
+            {% endif %}
     
     </div>
-    
+</form>
+
+
 
 {% endblock content %}
 
@@ -1508,23 +1556,175 @@
     
 
 
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/additional-methods.min.js"></script>
-
-
-
 
 <script>
 
-    const form = document.getElementById('orderForm');
 
-    const aaa = form.elements["length_a"];
-    console.log('-----------------------')
-    console.log(aaa)
-    console.log('-----------------------')
+    $(document).ready(function(){
+
+
+        const instanceData = JSON.parse('{{ instance_json|escapejs }}');
+            console.log(instanceData)
+            const orderChildInstancesData = JSON.parse('{{ order_child_instance_dict|escapejs }}');
+            console.log(orderChildInstancesData)
+            // Function to render order child instances
+        
+    
+            orderChildInstancesData.forEach(child => {
+                const orderElement = document.createElement('div');
+            
+              
+                orders.push(child);
+                });
+    
+    
+    
+            $('#form2').submit(function(e){
+                e.preventDefault(); // Prevent default form submission
+    
+    
+                var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
+    
+    
+            
+            // Gather form data
+            var formData = $(this).serializeArray();
+            
+            // Gather form data from form3
+            var formData3 = $('#form3').serializeArray();
+            
+            // Additional array data
+            
+            // Append form data from form3 to form data from form2
+            formData = formData.concat(formData3);
+            // Additional array data    
+            
+            // Append array data to form data
+            formData.push({name: 'orders', value: JSON.stringify(orders)});
+    
+          
+    
+            console.log(formData)
+    
+            // Send data via POST request
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        // Handle success
+                        console.log(response.message);
+                        window.location.href = "{% url 'list_order' %}";
+                    } else {
+                        // Handle form errors
+                        const errorContainer = $(".sufee-alert");
+                        const errorMessage = $("#errorMessage");
+            
+                        // Clear previous errors
+                        errorMessage.html("");
+    
+                        alert('sdsd')
+    
+                        console.log(response)
+            
+                        // Display new errors
+                        $.each(response.errors, function(field, messages) {
+                            messages.forEach(function(message) {
+                                errorMessage.append(`${field}: ${message}`);
+                            });
+                        });
+            
+                        // Show the error alert
+                        errorContainer.show();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle general error (e.g., server issues)
+                    console.error(xhr.responseText);
+            
+                    const errorContainer = $(".sufee-alert");
+                    const errorMessage = $("#errorMessage");
+            
+                    errorMessage.html("An unexpected error occurred. Please try again.");
+                    errorContainer.show();
+                }
+            });
+            
+        });
+    });
+    
+    
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+       // Parse the JSON strings passed from the Django view
+       const instanceData = JSON.parse('{{ instance_json|escapejs }}');
+       console.log(instanceData)
+       const orderChildInstancesData = JSON.parse('{{ order_child_instance_dict|escapejs }}');
+   
+       
+   
+    
+       // Function to populate the form with instance data
+       function populateForm(instanceData) {
+           const form = document.getElementById('orderForm');
+           // Loop through instance data and populate form fields
+           for (const key in instanceData) {
+               if (instanceData.hasOwnProperty(key)) {
+                   const element = form.elements[key];
+                   if (element) {
+                       element.value = instanceData[key];
+                   }
+               }
+           }
+       }
+   
+       // Populate the form with instance data
+       populateForm(instanceData);
+   
+       function populateForm22(instanceData) {
+           const form = document.getElementById('form2');
+           // Loop through instance data and populate form fields
+           for (const key in instanceData) {
+               if (instanceData.hasOwnProperty(key)) {
+                   const element = form.elements[key];
+                   if (element) {
+                       element.value = instanceData[key];
+                   }
+               }
+           }
+       }
+   
+       // Populate the form with instance data
+       populateForm22(instanceData);
+   
+   
+       function populateForm222(instanceData) {
+           const form = document.getElementById('form3');
+           // Loop through instance data and populate form fields
+           for (const key in instanceData) {
+               if (instanceData.hasOwnProperty(key)) {
+                   const element = form.elements[key];
+                   if (element) {
+                       element.value = instanceData[key];
+                   }
+               }
+           }
+       }
+   
+       // Populate the form with instance data
+       populateForm222(instanceData);
+   });
+   
+     
+    // JavaScript to re-enable the specific button
+   document.getElementById('addButton').disabled = false;
+  
+   
+
+
+    
 
     function calculateSqIn() {
         // Get the length and width in mm from the input fields
@@ -2067,14 +2267,16 @@ function renderOrders() {
         <td> ${order.quantity}</td>
         <td> ${order.rate_per_unit}</td>
         <td> ${order.final_item_total} </td>
-        <td class="no-print"> <a onclick="editOrder(${order.id})" style="font-weight: 600;
-            color: black;
-            border: none; margin-bottom:20px;" class="btn btn-primary">View</a>
-            <a onclick="deleteOrder(${order.id})" style="background: red;
-            font-weight: 600;
-            color: black;
-            border: none;
-            margin-bottom : 10px;" class="btn btn-primary">Delete</a></td>
+        <td class="no-print" style="white-space: nowrap;">
+            <a onclick="editOrder(${order.id})" 
+            style="font-weight: 600; color: black; border: none; margin-right: 10px;" 
+            class="btn btn-primary">View</a>
+            <a onclick="deleteOrder(${order.id})" 
+            style="background: red; font-weight: 600; color: black; border: none;" 
+            class="btn btn-primary">Delete</a>
+        </td>
+
+
         
         `;
 
@@ -2083,9 +2285,14 @@ function renderOrders() {
     });
 }
 
+const deletedOrderIds = [];
+
 // Function to delete submitted order
 function deleteOrder(orderId) {
     orders = orders.filter(order => order.id !== orderId);
+    if (!deletedOrderIds.includes(orderId)) {
+        deletedOrderIds.push(orderId);
+    }
     renderOrders(); // Render updated list
 
     calculateTotal();
@@ -2096,22 +2303,39 @@ function deleteOrder(orderId) {
 
 // Function to edit submitted order
 function editOrder(orderId) {
-alert(orderId)
     const orderToEdit = orders.find(order => order.id === orderId);
-console.log(orderToEdit)
+
 
     if (orderToEdit) {
+        console.log('here')
         // Populate form with order data for editing
         const form = document.getElementById('orderForm');
         for (const key in orderToEdit) {
-            if (Object.hasOwnProperty.call(orderToEdit, key)) {
-                console.log(key)
-                const element = form.elements[key];
+        console.log('here1')
+
+            if (key == "length"){
+                
+
+                const element = document.getElementById("length_a");
                 console.log(element)
                 if (element) {
                     element.value = orderToEdit[key];
                 }
             }
+            else{
+        console.log('here2')
+
+
+                if (Object.hasOwnProperty.call(orderToEdit, key)) {
+                    console.log(key)
+                    const element = form.elements[key];
+                    console.log(element)
+                    if (element) {
+                        element.value = orderToEdit[key];
+                    }
+                }
+            }
+
         }
 
         // Store the ID of the order being edited
@@ -2276,7 +2500,9 @@ $(document).ready(function(){
         // Append array data to form data
         formData.push({name: 'orders', value: JSON.stringify(orders)});
 
-      
+            
+        // Add deletedOrderIds JSON data
+        formData.push({ name: 'deletedOrderIds', value: JSON.stringify(deletedOrderIds) });
 
         console.log(formData)
 
@@ -2287,9 +2513,17 @@ $(document).ready(function(){
             data: formData,
             success: function(response){
                 // Handle success response
-                console.log(response);
-
-                window.location.href = "{% url 'list_order' %}";
+                if (response.status === 'done') {
+                    // Handle success response
+                    console.log('Status is done:', response);
+            
+                    // Redirect to the desired URL
+                    window.location.href = "{% url 'list_order' %}";
+                } else {
+                    console.log('Unexpected status:', response.status);
+                    // Handle unexpected status, if needed
+                }
+            
             },
             error: function(xhr, status, error){
                 document.getElementById("payment-button").disabled = false;
@@ -2325,43 +2559,41 @@ $(document).ready(function(){
             });
 
             // Validate and submit the form
-            $('#popupForm').validate({
-                submitHandler: function (form, event) {
+            $('#popupForm').submit(function(e){
                     // Prevent default form submission
-                    event.preventDefault();
+                event.preventDefault();
 
-                    alert("dfgvhjkjhg")
-                    
+                alert("dfgvhjkjhg")
+                
 
-                    // Perform AJAX request here
-                    $.ajax({
-                        url: "{% url 'add_sales_customer_json' %}",  // Change this to your endpoint URL
-                        type: 'POST',
-                        data: $(form).serialize(),
-                        success: function (response) {
-                            console.log('Form submitted successfully:', response);
-                            $('#popupFormModal').modal('hide');
+                // Perform AJAX request here
+                $.ajax({
+                    url: "{% url 'add_sales_customer_json' %}",  // Change this to your endpoint URL
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        console.log('Form submitted successfully:', response);
+                        $('#popupFormModal').modal('hide');
 
-                            const newCustomer = response.customer;
-                            console.log('Form submitted successfully:', newCustomer);
-    
-                            // Hide the modal
-    
-                            // Update the dropdown with the new customer
-                            const $dropdown = $('#customer');
-                            $dropdown.append(new Option(newCustomer.name, newCustomer.id));
-                            alert(newCustomer.credit_limit)
+                        const newCustomer = response.customer;
+                        console.log('Form submitted successfully:', newCustomer);
 
-                            document.getElementById('credit_limit').value = newCustomer.credit_limit;
+                        // Hide the modal
+
+                        // Update the dropdown with the new customer
+                        const $dropdown = $('#customer');
+                        $dropdown.append(new Option(newCustomer.name, newCustomer.id));
+                        alert(newCustomer.credit_limit)
+
+                        document.getElementById('credit_limit').value = newCustomer.credit_limit;
 
 
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Form submission error:', error);
-                        }
-                    });
-                }
-            });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Form submission error:', error);
+                    }
+                });
+        });
 
 
             $('#customer').change(function (e) {
@@ -2387,146 +2619,10 @@ $(document).ready(function(){
 
 
 
-$(document).ready(function(){
-
-
-    const instanceData = JSON.parse('{{ instance_json|escapejs }}');
-        console.log(instanceData)
-        const orderChildInstancesData = JSON.parse('{{ order_child_instance_dict|escapejs }}');
-
-        // Function to render order child instances
-    
-
-        orderChildInstancesData.forEach(child => {
-            const orderElement = document.createElement('div');
-        
-          
-            orders.push(child);
-            });
-
-
-
-        $('#form2').submit(function(e){
-            e.preventDefault(); // Prevent default form submission
-
-
-            var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
-
-
-        
-        // Gather form data
-        var formData = $(this).serializeArray();
-        
-        // Gather form data from form3
-        var formData3 = $('#form3').serializeArray();
-        
-        // Additional array data
-        
-        // Append form data from form3 to form data from form2
-        formData = formData.concat(formData3);
-        // Additional array data    
-        
-        // Append array data to form data
-        formData.push({name: 'orders', value: JSON.stringify(orders)});
-
-      
-
-        console.log(formData)
-
-        // Send data via POST request
-        $.ajax({
-            url: $(this).attr('action'),
-            type: 'POST',
-            data: formData,
-            success: function(response){
-                // Handle success response
-                console.log(response);
-
-                window.location.href = "{% url 'list_order' %}";
-            },
-            error: function(xhr, status, error){
-                // Handle error
-                console.error(xhr.responseText);
-            }
-        });
-    });
-});
-
-
-
 
 </script>
 
 
-
-<script>
-
-
-     document.addEventListener('DOMContentLoaded', function() {
-        // Parse the JSON strings passed from the Django view
-        const instanceData = JSON.parse('{{ instance_json|escapejs }}');
-        console.log(instanceData)
-        const orderChildInstancesData = JSON.parse('{{ order_child_instance_dict|escapejs }}');
-    
-        
-    
-     
-        // Function to populate the form with instance data
-        function populateForm(instanceData) {
-            const form = document.getElementById('orderForm');
-            // Loop through instance data and populate form fields
-            for (const key in instanceData) {
-                if (instanceData.hasOwnProperty(key)) {
-                    const element = form.elements[key];
-                    if (element) {
-                        element.value = instanceData[key];
-                    }
-                }
-            }
-        }
-    
-        // Populate the form with instance data
-        populateForm(instanceData);
-    
-        function populateForm22(instanceData) {
-            const form = document.getElementById('form2');
-            // Loop through instance data and populate form fields
-            for (const key in instanceData) {
-                if (instanceData.hasOwnProperty(key)) {
-                    const element = form.elements[key];
-                    if (element) {
-                        element.value = instanceData[key];
-                    }
-                }
-            }
-        }
-    
-        // Populate the form with instance data
-        populateForm22(instanceData);
-    
-    
-        function populateForm222(instanceData) {
-            const form = document.getElementById('form3');
-            // Loop through instance data and populate form fields
-            for (const key in instanceData) {
-                if (instanceData.hasOwnProperty(key)) {
-                    const element = form.elements[key];
-                    if (element) {
-                        element.value = instanceData[key];
-                    }
-                }
-            }
-        }
-    
-        // Populate the form with instance data
-        populateForm222(instanceData);
-    });
-    
-      
-    
-    
-
-</script>
 
 
 

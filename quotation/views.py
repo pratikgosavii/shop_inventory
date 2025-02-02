@@ -54,7 +54,18 @@ from django.views.decorators.csrf import csrf_exempt
 @login_required(login_url='login')
 def quotation_dashboard(request):
 
-    return render(request, 'quotation_dashboard.html')
+    total_employee = User.objects.filter(is_salesman = True).count()
+    total_quotation = order.objects.all().count()
+
+    print(total_employee)
+    print(total_quotation)
+
+    context = {
+        'total_employee' : total_employee,
+        'total_quotation' : total_quotation,
+    }
+
+    return render(request, 'quotation_dashboard.html', context)
 
 
 
@@ -396,6 +407,80 @@ def list_text_matter(request):
 
 
 
+@login_required(login_url='login')
+def add_process(request):
+
+    if request.method == 'POST':
+
+        forms = process_Form(request.POST)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_process')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        forms = process_Form()
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'quotation/add_process.html', context)
+
+        
+
+
+@login_required(login_url='login')
+def update_process(request, process_id):
+
+    if request.method == 'POST':
+
+        instance = process.objects.get(id=process_id)
+
+        forms = process_Form(request.POST, instance=instance)
+
+        if forms.is_valid():
+            forms.save()
+            return redirect('list_process')
+        else:
+            print(forms.errors)
+    
+    else:
+
+        instance = process.objects.get(id=process_id)
+        forms = process_Form(instance=instance)
+
+        context = {
+            'form': forms
+        }
+        return render(request, 'quotation/add_process.html', context)
+
+        
+
+@login_required(login_url='login')
+def delete_process(request, process_id):
+
+    process.objects.get(id=process_id).delete()
+
+    return HttpResponseRedirect(reverse('list_process'))
+
+
+        
+
+
+@login_required(login_url='login')
+def list_process(request):
+
+    data = process.objects.all()
+
+    context = {
+        'data': data
+    }
+
+    return render(request, 'quotation/list_process.html', context)
+
 
 
 def gettoken(request):
@@ -425,6 +510,23 @@ def send_qutation_notification(request, token, recipient_number, template_name, 
             from_email='rradailyupdates@gmail.com',
             # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
             to=['pratikgosavi654@gmail.com'],
+        )
+
+   
+    # Send the email
+    email.send()
+
+def send_salesman_edit_notification(saleman_email, parameter_value):
+
+
+   
+    msg = "Qutation Edited Please Review Visit \n" + 'https://shopinventory.pythonanywhere.com/transactions/update-order/' + str(parameter_value)
+    email = EmailMessage(
+            subject='New Quotation Added',
+            body=msg,
+            from_email='rradailyupdates@gmail.com',
+            # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
+            to=['pratikgosavi654@gmail.com', saleman_email],
         )
 
    
@@ -475,12 +577,12 @@ def add_order(request):
 
             send_qutation_notification(request, access_token, recipient_number, template_name, language_code, forms_order.instance.id)
 
-            return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
-
-
+            return JsonResponse({"success": True, "message": "Order submitted successfully!"})
+        
         else:
-
+            # Send errors back to the frontend
             print(forms_order.errors)
+            return JsonResponse({"success": False, "errors": forms_order.errors})
 
       
         
@@ -501,6 +603,7 @@ def add_order(request):
         thickness_data = thickness.objects.all()
         etching_data = etching.objects.all()
         text_matter_data = text_matter.objects.all()
+        process_data = process.objects.all()
 
         context = {
             'form': forms,
@@ -510,6 +613,7 @@ def add_order(request):
             'thickness_data' : thickness_data,
             'etching_data' : etching_data,
             'text_matter_data' : text_matter_data,
+            'process_data' : process_data,
                               
         }
 
@@ -537,27 +641,33 @@ def update_order(request, order_id):
 
     if request.method == 'POST':
 
-        print('-----------------------')
-        print('-----------------------')
-        print('-----------------------')
-        print('-----------------------')
-        print('-----------------------')
+        print(request.POST)
 
         orders_data_json = request.POST.get('orders', '[]')
         deletedOrderIdss = request.POST.get('deletedOrderIds')
         orders_data = json.loads(orders_data_json)
-        deleted_order_ids = json.loads(deletedOrderIdss)
 
-        print(deleted_order_ids)
+        if deletedOrderIdss:
+            deleted_order_ids = json.loads(deletedOrderIdss)
+            print(deleted_order_ids)
 
-        for i in deleted_order_ids:
+            for i in deleted_order_ids:
 
-            print(i)
 
-            order_child.objects.get(id = i).delete()
+                order_child.objects.get(id = i).delete()
 
         updated_request = request.POST.copy()
-        updated_request.update({'user': request.user})
+
+        if not request.user.is_superuser:
+            updated_request.update({'user': request.user})
+            updated_request.update({'is_approved': True})
+        
+        else:
+
+            updated_request.update({'user': instance.user})
+
+
+
 
         print(request.POST)
         forms_order = order_Form(updated_request, instance = instance)
@@ -569,7 +679,7 @@ def update_order(request, order_id):
             for item in orders_data:
 
 
-                order_child_instance = order_child.objects.get(id = item['pk'])
+                order_child_instance = order_child.objects.get(id = item['id'])
                 item['order'] = forms_order.instance.id
                 
                 forms = OrderChildForm(item, instance = order_child_instance)
@@ -583,13 +693,17 @@ def update_order(request, order_id):
 
                     return JsonResponse({'status' : 'error'})
 
+            send_salesman_edit_notification(instance.user.email, order_id)
         
-            return JsonResponse({'status' : 'done', 'instance' : forms.instance.item_code})
-
+            return JsonResponse({"success": True, "message": "Form submitted successfully!"})
+        
 
         else:
+            # Send form errors back to the frontend
 
             print(forms_order.errors)
+            
+            return JsonResponse({"success": False, "errors": forms_order.errors})
 
       
         
@@ -604,12 +718,13 @@ def update_order(request, order_id):
         instance_dict = model_to_dict(instance)
         order_child_instance_list = [model_to_dict(child) for child in order_child_instance]
 
-        print(order_child_instance_copy)
-
+        print(order_child_instance_list)
+        
         color_data = color.objects.all()
         thickness_data = thickness.objects.all()
         etching_data = etching.objects.all()
         text_matter_data = text_matter.objects.all()
+        process_data = process.objects.all()
 
         
         
@@ -623,6 +738,7 @@ def update_order(request, order_id):
             'thickness_data' : thickness_data,
             'etching_data' : etching_data,
             'text_matter_data' : text_matter_data,
+            'process_data' : process_data,
         }
         return render(request, 'quotation/update_order.html', context)
 
@@ -685,6 +801,22 @@ def approve_order(request, order_id):
 
     order_instance = order.objects.get(id = order_id)
     order_instance.is_approved = True
+    order_instance.save()
+
+    return redirect('list_order')
+
+def convert_order(request, order_id):
+
+    order_instance = order.objects.get(id = order_id)
+    order_instance.is_converted = True
+    order_instance.save()
+
+    return redirect('list_order')
+
+def unconvert_order(request, order_id):
+
+    order_instance = order.objects.get(id = order_id)
+    order_instance.is_converted = False
     order_instance.save()
 
     return redirect('list_order')
@@ -801,6 +933,7 @@ def get_psi(request):
     etching = request.GET.get('etching')
     color = request.GET.get('color')
     text_matter = request.GET.get('text_matter')
+    process = request.GET.get('process')
     sq_inch = int(request.GET.get('sqInch'))
 
     # Determine the range field based on sq_inch
@@ -824,6 +957,7 @@ def get_psi(request):
             etching_id=etching,
             color_id=color,
             text_matter_id=text_matter,
+            process_id=process,
             category_id=1,
         )
         value = getattr(psi_entry, range_field)
@@ -838,6 +972,7 @@ def update_psi(request):
     etchings = etching.objects.all()
     colors = color.objects.all()
     texts = text_matter.objects.all()
+    processs = process.objects.all()
     
     if request.method == 'POST':
 
@@ -846,6 +981,7 @@ def update_psi(request):
         etching_id = request.POST.get('etching')
         color_id = request.POST.get('color')
         text_matter_id = request.POST.get('text_matter')
+        process_id = request.POST.get('process')
 
         print(request.POST)
 
@@ -854,9 +990,10 @@ def update_psi(request):
         etching_data = get_object_or_404(etching, id=etching_id)
         color_data = get_object_or_404(color, id=color_id)
         text_matter_data = get_object_or_404(text_matter, id=text_matter_id)
+        process_data = get_object_or_404(process, id=process_id)
 
         try:
-            PSI_instance = PSI.objects.get(thickness=thickness_data, category=category_data, etching = etching_data, color = color_data, text_matter = text_matter_data)
+            PSI_instance = PSI.objects.get(thickness=thickness_data, category=category_data, etching = etching_data, color = color_data, text_matter = text_matter_data, process = process_data)
             form = PSIForm(request.POST, instance=PSI_instance)
 
         except PSI.DoesNotExist:
@@ -865,7 +1002,7 @@ def update_psi(request):
         if form.is_valid():
             form.save()  # Save the form data
             url = reverse('update_psi')  # Get the base URL for the view
-            query_params = urlencode({'thickness_id': thickness_id, 'category_id': category_id, 'etching_id' : etching_id, 'color_id' : color_id, 'text_matter_id' : text_matter_id})  # Encode parameters
+            query_params = urlencode({'thickness_id': thickness_id, 'category_id': category_id, 'etching_id' : etching_id, 'color_id' : color_id, 'text_matter_id' : text_matter_id, 'process_id' : process_id})  # Encode parameters
             return redirect(f"{url}?{query_params}")
         else:
             print('Form is not valid')
@@ -883,6 +1020,7 @@ def update_psi(request):
                 'etchings': etchings,
                 'colors': colors,
                 'texts': texts,
+                'processs': processs,
             }
 
             return render(request, 'quotation/update_psi.html', context)
@@ -894,6 +1032,7 @@ def update_psi(request):
         etching_id = request.GET.get('etching_id')
         color_id = request.GET.get('color_id')
         text_matter_id = request.GET.get('text_matter_id')
+        process_id = request.GET.get('process_id')
 
         if thickness_id and category_id and etching_id and color_id and text_matter_id:
 
@@ -905,10 +1044,11 @@ def update_psi(request):
             etching_data = get_object_or_404(etching, id=etching_id)
             color_data = get_object_or_404(color, id=color_id)
             text_matter_data = get_object_or_404(text_matter, id=text_matter_id)
+            process_data = get_object_or_404(process, id=process_id)
 
             
             try:
-                PSI_instance = PSI.objects.get(thickness=thickness_data, category=category_data, etching = etching_data, color = color_data, text_matter = text_matter_data)
+                PSI_instance = PSI.objects.get(thickness=thickness_data, category=category_data, etching = etching_data, color = color_data, text_matter = text_matter_data, process = process_data)
                 forms = PSIForm(instance=PSI_instance)  # Render an empty form for GET requests
                 print('--------------1---------------')
 
@@ -929,11 +1069,13 @@ def update_psi(request):
                 'etching': etching_data,
                 'color': color_data,
                 'text': text_matter_data,
+                'process': process_data,
                 'thicknesses': thicknesses,
                 'categories': categories,
                 'etchings': etchings,
                 'colors': colors,
                 'texts': texts,
+                'processs' : processs,
             }
 
             return render(request, 'quotation/update_psi.html', context)
@@ -947,6 +1089,8 @@ def update_psi(request):
                 'etchings': etchings,
                 'colors': colors,
                 'texts': texts,
+                'processs' : processs,
+
             }
 
             return render(request, 'quotation/update_psi.html', context)

@@ -63,15 +63,39 @@
 
                             {% if request.user.is_superuser %}
 
-
+                                {% if i.is_approved == False %}
 
                                    <a href="{% url 'approve_order' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
                                         <span id="payment-button-amount">Approve</span>
                                     </button>  </a>
+                                
+                                    {% else %}
 
+{% comment %} 
+                                    <a href="{% url 'decline_order' i.id %}"> <button id="payment-button"  style="background-color: red; border: red; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+                                        <span id="payment-button-amount">Decline</span>
+                                    </button>  </a> {% endcomment %}
+
+
+
+                                    {% endif %}
                                     {% endif %}
 
                                     {% if i.is_approved == True %}
+
+                                        {% if not i.is_converted == True %}
+
+                                            <a href="{% url 'convert_order' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+                                                <span id="payment-button-amount">Convert</span>
+                                            </button>  </a>
+
+                                        {% else %}
+
+                                            <a href="{% url 'unconvert_order' i.id %}"> <button id="payment-button"  style="background-color: red; border: red; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
+                                                <span id="payment-button-amount">UnConvert</span>
+                                            </button>  </a>
+
+                                        {% endif %}
 
                                    <a href="{% url 'print_order' i.id %}"> <button id="payment-button"  style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
                                         <span id="payment-button-amount">Print</span>

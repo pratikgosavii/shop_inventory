@@ -34,6 +34,15 @@ class order_Form(forms.ModelForm):
                 'class': 'form-control', 'id': 'invoice',
             }),
 
+            'rejection_reason': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'rejection_reason',
+            }),
+
+            'edit_explanation': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'edit_explanation',
+            }),
+
+
 
             'date' : DateInput(attrs={ 'class': 'form-control', 'type': 'date'}, format = '%Y-%m-%d'),
           
@@ -114,6 +123,18 @@ class text_matter_Form(forms.ModelForm):
             }),
             
         }
+        
+class process_Form(forms.ModelForm):
+    class Meta:
+        model = process
+        
+        fields = ['name']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'name'
+            }),
+            
+        }
 
 
 
@@ -123,7 +144,7 @@ from .models import PSI
 class PSIForm(forms.ModelForm):
     class Meta:
         model = PSI
-        fields = ['etching', 'category', 'thickness', 'color', 'text_matter', 'range_576', 'range_720_1728', 'range_1872_2880', 'range_3024_4032', 'range_4608']
+        fields = ['etching', 'category', 'thickness', 'color', 'text_matter', 'process', 'range_576', 'range_720_1728', 'range_1872_2880', 'range_3024_4032', 'range_4608']
 
 
 

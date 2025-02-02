@@ -171,7 +171,7 @@ font-family: 'Montserrat', sans-serif;
                         </div>
                         <div class="stat-content">
                             <div class="text-left dib">
-                                <div class="stat-text"><span class="count">{{ stock }}</span></div>
+                                <div class="stat-text"><span class="count">{{ data }}</span></div>
                                 <div class="stat-heading">Stock</div>
                             </div>
                         </div>
@@ -185,10 +185,18 @@ font-family: 'Montserrat', sans-serif;
     {% endif %}
     
 
+    {% if not request.user.is_salesman %}
     <div class="col-12" style="padding: 0px; display : flex; GAP: 9px;">
 
         <div class="col-6" style="border: 1px solid black;
     padding: 9PX;">
+
+    {% else %}
+
+        <div>
+        <div>
+
+    {% endif %}
 
 
             {% if request.user.is_reception or request.user.is_superuser %}
@@ -449,8 +457,6 @@ font-family: 'Montserrat', sans-serif;
 
 
     <script>
-
-
 
 
 

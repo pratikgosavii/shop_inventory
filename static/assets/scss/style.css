@@ -891,6 +891,8 @@ aside.left-panel:hover {
 
 .navbar .navbar-nav li.menu-item-has-children a {
     line-height: 30px;
+    font-weight: 600;
+    font-size: 15px;
 }
 
 .navbar .navbar-nav li.menu-item-has-children a:before {
