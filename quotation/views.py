@@ -508,8 +508,7 @@ def send_qutation_notification(request, token, recipient_number, template_name, 
             subject='New Quotation Added',
             body=msg,
             from_email='rradailyupdates@gmail.com',
-            # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
-            to=['pratikgosavi654@gmail.com'],
+            to=['pratikgosavi654@gmail.com', 'varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
         )
 
    
