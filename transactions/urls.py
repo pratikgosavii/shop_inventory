@@ -116,6 +116,7 @@ urlpatterns = [
     path('check-sheet/', check_sheet, name='check_sheet'),
 
     path('list-stock/', list_stock, name='list_stock'),
+    path('stock-report-email/', stock_report_email, name='stock_report_email'),
     path('list-left-over-stock/', list_left_over_stock, name='list_left_over_stock'),
     path('list-dead-stock/', list_dead_stock, name='list_dead_stock'),
 

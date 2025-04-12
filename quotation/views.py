@@ -508,7 +508,8 @@ def send_qutation_notification(request, token, recipient_number, template_name, 
             subject='New Quotation Added',
             body=msg,
             from_email='rradailyupdates@gmail.com',
-            to=['pratikgosavi654@gmail.com', 'varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
+            # to=['pratikgosavi654@gmail.com', 'varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
+            to=['pratikgosavi654@gmail.com'],
         )
 
    
@@ -629,6 +630,25 @@ def add_order(request):
             return render(request, 'quotation/add_order.html', context)
 
 
+@csrf_exempt
+def update_explanation(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        reason_id = data.get("id")
+        description = data.get("description")
+
+        try:
+            reason = edit_reasons.objects.get(id=reason_id)
+            reason.description = description
+            reason.save()
+            return JsonResponse({"success": True})
+        except edit_reasons.DoesNotExist:
+            return JsonResponse({"success": False, "error": "Reason not found"})
+
+    return JsonResponse({"success": False, "error": "Invalid request"})
+
+
+
 
 import copy
 
@@ -638,17 +658,20 @@ def update_order(request, order_id):
 
     instance = order.objects.get(id = order_id)
 
+
     if request.method == 'POST':
 
-        print(request.POST)
+        print('-----------------------1-------------------')
+
+
 
         orders_data_json = request.POST.get('orders', '[]')
         deletedOrderIdss = request.POST.get('deletedOrderIds')
+        explanation = request.POST.get('edit_explanation')
         orders_data = json.loads(orders_data_json)
 
         if deletedOrderIdss:
             deleted_order_ids = json.loads(deletedOrderIdss)
-            print(deleted_order_ids)
 
             for i in deleted_order_ids:
 
@@ -668,12 +691,17 @@ def update_order(request, order_id):
 
 
 
-        print(request.POST)
         forms_order = order_Form(updated_request, instance = instance)
 
         if forms_order.is_valid():
 
             forms_order.save()
+
+            print('-----------1-------------')
+            instance1 = edit_reasons.objects.create(order=forms_order.instance, description=explanation)
+            print(instance1)
+            print('------------------------')
+
 
             for item in orders_data:
 
@@ -717,7 +745,6 @@ def update_order(request, order_id):
         instance_dict = model_to_dict(instance)
         order_child_instance_list = [model_to_dict(child) for child in order_child_instance]
 
-        print(order_child_instance_list)
         
         color_data = color.objects.all()
         thickness_data = thickness.objects.all()
@@ -934,6 +961,13 @@ def get_psi(request):
     text_matter = request.GET.get('text_matter')
     process = request.GET.get('process')
     sq_inch = int(request.GET.get('sqInch'))
+
+    print(thickness)
+    print(etching)
+    print(color)
+    print(text_matter)
+    print(process)
+    print(sq_inch)
 
     # Determine the range field based on sq_inch
     if sq_inch <= 576:

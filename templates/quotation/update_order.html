@@ -176,7 +176,7 @@
     
 </style>
 
-{% endblock head %}f
+{% endblock head %}
 
 {% block content %}
 
@@ -989,6 +989,11 @@
                                     
                                     <input type="radio" id="industry2" name="industry" value="auto_ancillary">
                                     <label for="industry2">Auto Ancillary</label>
+
+                                     
+                                <input type="radio" id="industry2" name="industry" required value="project">
+                                <label for="industry2">Project</label>
+                                
                                     
                                     <input type="radio" id="industry3" name="industry" value="sugar">
                                     <label for="industry3">Sugar</label>
@@ -1408,11 +1413,20 @@
 
                         <div class="card">
 
-
+                            
+                            
                             <label for="edit_explanation"> Edit Explanation </label>
-            
+                            
+                            {% for i in instance.order_ref.all %}
+                                <div class="mb-2">
+                                    <input type="text" class="form-control w-75" id="edit_explanation_{{ i.id }}" rows="5"  value="{{ i.description }}"> 
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="updateExplanation({{ i.id }})">Edit</button>
+                                </div>
+                            {% endfor %}
+                            
+                            <!-- Empty textarea for new entries -->
                             <textarea class="form-control w-75" id="edit_explanation" name="edit_explanation" rows="5"></textarea>
-            
+
             
             
                         </div>
@@ -1460,25 +1474,25 @@
                     <!-- Client GST Field -->
                     <div class="form-group">
                         <label for="clientGst">Client GST</label>
-                        <input type="text" class="form-control" id="clientGst" name="client_gst" placeholder="Enter GST number" required>
+                        <input type="text" class="form-control" id="clientGst" name="client_gst" placeholder="Enter GST number">
                     </div>
 
                     <!-- Address Field -->
                     <div class="form-group">
                         <label for="customerAddress">Address</label>
-                        <textarea class="form-control" id="customerAddress" name="address" placeholder="Enter address" rows="3" required></textarea>
+                        <textarea class="form-control" id="customerAddress" name="address" placeholder="Enter address" rows="3"></textarea>
                     </div>
 
                     <!-- Mobile Number Field -->
                     <div class="form-group">
                         <label for="mobileNumber">Mobile No</label>
-                        <input type="tel" class="form-control" id="mobileNumber" name="mobile_no" placeholder="Enter mobile number" pattern="[0-9]{10}" required>
+                        <input type="tel" class="form-control" id="mobileNumber" name="mobile_no" placeholder="Enter mobile number" pattern="[0-9]{10}">
                     </div>
 
                     <!-- Credit Limit Field -->
                     <div class="form-group">
                         <label for="creditLimit">Credit INR</label>
-                        <input type="number" class="form-control" id="creditLimit" name="credit_limit" placeholder="Enter credit limit" required>
+                        <input type="number" class="form-control" id="creditLimit" name="credit_limit" placeholder="Enter credit limit">
                     </div>
 
                     <!-- Submit Button -->
@@ -1563,6 +1577,19 @@
     $(document).ready(function(){
 
 
+
+        
+const formInputsasas = document.querySelectorAll('input, select');
+console.log('----')
+formInputsasas.forEach(input => {
+    console.log('----')
+
+  input.addEventListener('change', getValue);
+  input.addEventListener('change', calculateTotal);
+});
+
+
+
         const instanceData = JSON.parse('{{ instance_json|escapejs }}');
             console.log(instanceData)
             const orderChildInstancesData = JSON.parse('{{ order_child_instance_dict|escapejs }}');
@@ -1582,76 +1609,82 @@
             $('#form2').submit(function(e){
                 e.preventDefault(); // Prevent default form submission
     
+            $("#loader-overlay").show();
+
+            document.getElementById("payment-button").disabled = true;
     
                 var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
     
     
             
-            // Gather form data
-            var formData = $(this).serializeArray();
+                // Gather form data
+                var formData = $(this).serializeArray();
+                
+                // Gather form data from form3
+                var formData3 = $('#form3').serializeArray();
+                
+                // Additional array data
+                
+                // Append form data from form3 to form data from form2
+                formData = formData.concat(formData3);
+                // Additional array data    
+                
+                // Append array data to form data
+                formData.push({name: 'orders', value: JSON.stringify(orders)});
+        
             
-            // Gather form data from form3
-            var formData3 = $('#form3').serializeArray();
-            
-            // Additional array data
-            
-            // Append form data from form3 to form data from form2
-            formData = formData.concat(formData3);
-            // Additional array data    
-            
-            // Append array data to form data
-            formData.push({name: 'orders', value: JSON.stringify(orders)});
-    
-          
-    
-            console.log(formData)
-    
-            // Send data via POST request
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    if (response.success) {
-                        // Handle success
-                        console.log(response.message);
-                        window.location.href = "{% url 'list_order' %}";
-                    } else {
-                        // Handle form errors
+        
+                console.log(formData)
+        
+                // Send data via POST request
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        if (response.success) {
+                            // Handle success
+                            console.log(response.message);
+                            window.location.href = "{% url 'list_order' %}";
+                        } else {
+                            // Handle form errors
+                            const errorContainer = $(".sufee-alert");
+                            const errorMessage = $("#errorMessage");
+                
+                            // Clear previous errors
+                            errorMessage.html("");
+        
+                            alert('sdsd')
+        
+                            console.log(response)
+                
+                            // Display new errors
+                            $.each(response.errors, function(field, messages) {
+                                messages.forEach(function(message) {
+                                    errorMessage.append(`${field}: ${message}`);
+                                });
+                            });
+
+        document.getElementById("payment-button").disabled = false;
+
+                
+                            // Show the error alert
+                            errorContainer.show();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle general error (e.g., server issues)
+                        console.error(xhr.responseText);
+                
                         const errorContainer = $(".sufee-alert");
                         const errorMessage = $("#errorMessage");
-            
-                        // Clear previous errors
-                        errorMessage.html("");
-    
-                        alert('sdsd')
-    
-                        console.log(response)
-            
-                        // Display new errors
-                        $.each(response.errors, function(field, messages) {
-                            messages.forEach(function(message) {
-                                errorMessage.append(`${field}: ${message}`);
-                            });
-                        });
-            
-                        // Show the error alert
+                
+                        errorMessage.html("An unexpected error occurred. Please try again.");
                         errorContainer.show();
                     }
-                },
-                error: function(xhr, status, error) {
-                    // Handle general error (e.g., server issues)
-                    console.error(xhr.responseText);
-            
-                    const errorContainer = $(".sufee-alert");
-                    const errorMessage = $("#errorMessage");
-            
-                    errorMessage.html("An unexpected error occurred. Please try again.");
-                    errorContainer.show();
-                }
+                });
+                
             });
-            
-        });
     });
     
     
@@ -1906,6 +1939,7 @@
 
                 const etching = document.querySelector('input[name="etching"]:checked').value;
 
+                const process = document.querySelector('input[name="process"]:checked').value;
 
                 const baseUrl = window.location.origin; // Get the base URL (e.g., http://example.com)
 const url = new URL("{% url 'get_psi' %}", baseUrl); // 
@@ -1914,6 +1948,8 @@ const url = new URL("{% url 'get_psi' %}", baseUrl); //
                 url.searchParams.append('color', color);
                 url.searchParams.append('text_matter', text_matter);
                 url.searchParams.append('etching', etching);
+                url.searchParams.append('process', process);
+
                 console.log(url)
                 fetch(url)
                 .then(response => {
@@ -2311,13 +2347,12 @@ function editOrder(orderId) {
         // Populate form with order data for editing
         const form = document.getElementById('orderForm');
         for (const key in orderToEdit) {
-        console.log('here1')
 
             if (key == "length"){
                 
 
                 const element = document.getElementById("length_a");
-                console.log(element)
+               
                 if (element) {
                     element.value = orderToEdit[key];
                 }
@@ -2326,21 +2361,80 @@ function editOrder(orderId) {
         console.log('here2')
 
 
-                if (Object.hasOwnProperty.call(orderToEdit, key)) {
-                    console.log(key)
-                    const element = form.elements[key];
-                    console.log(element)
-                    if (element) {
-                        element.value = orderToEdit[key];
-                    }
+        if (Object.hasOwnProperty.call(orderToEdit, key)) {
+            console.log(key);
+            const element = form.elements[key];
+            console.log(element);
+            if (element) {
+                console.log('-----------------');
+                console.log(orderToEdit[key]);
+                console.log('-----------------');
+        
+                if (element.type === "radio") {
+                    // Select the radio button that matches the value
+                    const radioButtons = document.getElementsByName(key);
+                    radioButtons.forEach(radio => {
+                        if (radio.value == orderToEdit[key]) {
+                            radio.checked = true;
+                        }
+                    });
+                } else {
+                    element.value = orderToEdit[key];
                 }
+            }
+        }
+        
             }
 
         }
-
+        
+        select_qr_inc();
         // Store the ID of the order being edited
         document.getElementById('editOrderId').value = orderId;
     }
+}
+
+function select_qr_inc(){
+
+    
+        let calculatedValue = parseFloat(document.getElementById('total_sq_inch').value);
+        let radioButtons = document.getElementsByName('sqinch');
+    
+        console.log("Radio buttons found:", radioButtons.length);
+        console.log("Calculated Value:", calculatedValue);
+    
+        let closestHigherButton = null;
+        let highestButton = null;
+        let highestValue = -Infinity;
+    
+        for (const radioButton of radioButtons) {
+            const value = parseFloat(radioButton.value);
+            console.log(`Checking Radio Value: ${value}`);
+    
+            if (!isNaN(value)) {
+                if (value >= calculatedValue && closestHigherButton === null) {
+                    closestHigherButton = radioButton; // Select the first (smallest) higher value
+                }
+                if (value > highestValue) {
+                    highestValue = value;
+                    highestButton = radioButton; // Store the highest available button
+                }
+            }
+        }
+    
+        console.log("------------------");
+        console.log("Selected Radio:", closestHigherButton || highestButton);
+        console.log("------------------");
+    
+        if (closestHigherButton) {
+            closestHigherButton.checked = true;
+        } else if (highestButton) {
+            highestButton.checked = true;
+        } else {
+            console.warn("No suitable radio button found!");
+        }
+    
+
 }
 
 // Function to handle adding a new order
@@ -2466,87 +2560,6 @@ function calculateTotal() {
 
 // Add event listeners to all input fields in the form
 
-const formInputsasas = document.querySelectorAll('input, select');
-formInputsasas.forEach(input => {
-  input.addEventListener('change', getValue);
-  input.addEventListener('change', calculateTotal);
-});
-
-
-
-$(document).ready(function(){
-    $('#form2').submit(function(e){
-        e.preventDefault(); // Prevent default form submission
-        alert("done")
-
-        var final_sqinch = orders.reduce((acc, obj) => acc + parseFloat(obj.total_sq_inch), 0);
-
-        document.getElementById("payment-button").disabled = true;
-
-
-        
-        // Gather form data
-        var formData = $(this).serializeArray();
-        
-        // Gather form data from form3
-        var formData3 = $('#form3').serializeArray();
-        
-        // Additional array data
-        
-        // Append form data from form3 to form data from form2
-        formData = formData.concat(formData3);
-        // Additional array data    
-        
-        // Append array data to form data
-        formData.push({name: 'orders', value: JSON.stringify(orders)});
-
-            
-        // Add deletedOrderIds JSON data
-        formData.push({ name: 'deletedOrderIds', value: JSON.stringify(deletedOrderIds) });
-
-        console.log(formData)
-
-        // Send data via POST request
-        $.ajax({
-            url: $(this).attr('action'),
-            type: 'POST',
-            data: formData,
-            success: function(response){
-                // Handle success response
-                if (response.status === 'done') {
-                    // Handle success response
-                    console.log('Status is done:', response);
-            
-                    // Redirect to the desired URL
-                    window.location.href = "{% url 'list_order' %}";
-                } else {
-                    console.log('Unexpected status:', response.status);
-                    // Handle unexpected status, if needed
-                }
-            
-            },
-            error: function(xhr, status, error){
-                document.getElementById("payment-button").disabled = false;
-
-
-                // Handle error
-                console.error(xhr.responseText);
-            }
-        });
-    });
-});
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2619,6 +2632,36 @@ $(document).ready(function(){
 
 
 
+
+</script>
+
+<script>
+
+    function updateExplanation(reasonId, event) {
+        if (event) event.preventDefault();  // Prevent form submission
+    
+        let description = document.getElementById(`edit_explanation_${reasonId}`).value;
+    
+        fetch("{% url 'update_explanation' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify({ id: reasonId, description: description })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Updated successfully!");
+            } else {
+                alert("Update failed!");
+            }
+        });
+    }
+    
+
+    
 
 </script>
 

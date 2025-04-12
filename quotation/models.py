@@ -13,10 +13,10 @@ class sales_customer(models.Model):
 
     
     name = models.CharField(max_length=120, unique=True)
-    address = models.CharField(max_length=120, unique=False)
-    mobile_no = models.IntegerField()
-    client_gst = models.CharField(max_length=120, unique=False)
-    credit_limit = models.IntegerField()
+    address = models.CharField(max_length=120, unique=False, null = True, blank = True)
+    mobile_no = models.IntegerField(null = True, blank = True)
+    client_gst = models.CharField(max_length=120, unique=False, null = True, blank = True)
+    credit_limit = models.IntegerField(null = True, blank = True)
     
     
     def __str__(self):
@@ -79,6 +79,7 @@ INDUSTRY_OPTION_CHOICES = (
     ('automotive', 'automotive'),
     ('auto_ancillary', 'auto ancillary'),
     ('sugar', 'sugar'),
+    ('project', 'project'),
     ('domestic_appliance', 'domestic appliance'),
     ('process_equipmen', 'process equipmen'),
     ('petro_chemica', 'petro chemica'),
@@ -270,8 +271,12 @@ PACKAGING_CHARGES_CHOICES = (
     )
 
 
+	
 	     
 class order(models.Model):
+    
+    order_id = models.CharField(max_length=20, unique=False, editable=False)
+
     
     customer = models.ForeignKey(sales_customer, on_delete=models.CASCADE)
     contance_person_no = models.TextField(null = True, blank = True)
@@ -308,7 +313,21 @@ class order(models.Model):
     is_declimed = models.BooleanField(default=False)
     is_converted = models.BooleanField(default=False)
     rejection_reason = models.TextField(null = True, blank = True)
-    edit_explanation = models.TextField(null = True, blank = True)
+
+    def save(self, *args, **kwargs):
+            if not self.order_id:
+                last_order = order.objects.order_by('-id').first()
+                next_number = (int(last_order.order_id[7:]) + 1) if last_order else 1
+                self.order_id = f"RRAQUTA{next_number:04d}"  # Formats as "RRAQUTA0001", "RRAQUTA0002", etc.
+            super().save(*args, **kwargs) 
+
+    
+
+     
+class edit_reasons(models.Model):
+    
+    order = models.ForeignKey(order, on_delete=models.CASCADE, related_name = "order_ref")
+    description = models.CharField(max_length=100, choices=PRODUCT_OPTION_CHOICES)
 
 
 

@@ -103,6 +103,102 @@ def list_stock(request):
 
     return render(request, 'transactions/list_stock.html', context)
 
+
+def stock_report_email(request):
+
+    data = product_qr.objects.filter(
+        moved_to_scratch=False,
+        moved_to_left_over=False,
+        product__isnull=False
+    ).values(
+        'product__name',
+        'product__category__name',
+        'product__size__mm1',
+        'product__size__mm2',
+        'product__size__name',
+        'product__grade__name',
+        'product__thickness__name',
+    ).annotate(total_quantity=Count('id')).order_by('product')
+
+    buffer = BytesIO()
+    pdf = SimpleDocTemplate(
+        buffer,
+        pagesize=A4,
+        rightMargin=20,
+        leftMargin=20,
+        topMargin=20,
+        bottomMargin=20
+    )
+
+    elements = []
+    styles = getSampleStyleSheet()
+    title_style = styles['Title']
+    title_style.alignment = 1
+    title_style.fontSize = 14
+
+    title2_style = ParagraphStyle(
+        'Title2',
+        parent=styles['Heading2'],
+        alignment=1,
+        fontSize=12
+    )
+
+    # Titles
+    elements.append(Paragraph("Ravi Raj Anodisers", title_style))
+    elements.append(Paragraph("Stock Report", title2_style))
+    elements.append(Spacer(1, 0.3 * cm))
+
+    # Table Header
+    table_data = [[
+        "#", "Category", "Product", "Size (mm)", "Grade", "Thickness", "Qty"
+    ]]
+    for idx, stock in enumerate(data, start=1):
+        mm1 = stock['product__size__mm1']
+        mm2 = stock['product__size__mm2']
+        size_display = f"{mm1}x{mm2}" if mm1 and mm2 else stock['product__size__name']
+        table_data.append([
+            idx,
+            stock['product__category__name'],
+            stock['product__name'],
+            size_display,
+            stock['product__grade__name'],
+            stock['product__thickness__name'],
+            stock['total_quantity'],
+        ])
+
+    # Create and style the table
+    main_table = Table(table_data, colWidths=[30, 80, 100, 80, 70, 70, 50])
+    main_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgreen),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.whitesmoke),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('FONTSIZE', (0, 0), (-1, -1), 8),
+    ]))
+
+    elements.append(main_table)
+
+    # Generate PDF
+    pdf.build(elements)
+    file_path = os.path.join(settings.MEDIA_ROOT, 'stock_report.pdf')
+    with open(file_path, 'wb') as f:
+        f.write(buffer.getvalue())
+    buffer.close()
+
+    # Email
+    email = EmailMessage(
+        subject='Stock Report PDF',
+        body='Please find attached the Stock Report.',
+        from_email='rradailyupdates@gmail.com',
+        to=['pratikgosavi654@gmail.com'],
+    )
+    email.attach_file(file_path)
+    email.send()
+
+    return JsonResponse({'message': 'Stock report emailed successfully'})
+
+
 @login_required(login_url='login')
 def list_left_over_stock(request):
 

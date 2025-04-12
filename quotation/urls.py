@@ -41,6 +41,7 @@ urlpatterns = [
     path('gettoken/', gettoken, name='add_order'),
     path('send_qutation_notification/<order_id>', send_qutation_notification, name='send_qutation_notification'),
     path('add-order/', add_order, name='add_order'),
+     path('update_explanation/', update_explanation, name='update_explanation'),
     path('update-order/<order_id>', update_order, name='update_order'),
     path('delete-order/<order_id>', delete_order, name='delete_order'),
     path('list-order/', list_order, name='list_order'),

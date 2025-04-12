@@ -93,17 +93,19 @@
                         <a href="{% url 'update_psi' %}"><i class="menu-icon fa fa-laptop"></i>Pricing Masters </a>
                     </li>
 
-                    {% endif %}
-
                     
                     <li class="menu-item-has-children dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Add Quotation </a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Quotation </a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_order' %}">Add</a></li>
                             <li><i class="fa fa-th"></i><a href="{% url 'list_order' %}">View</a></li>
                         </ul>
                     </li>
 
+                    
+                    {% endif %}
+
+                    
                 {% endif %}
 
                
@@ -111,7 +113,7 @@
                 {% if request.user.is_salesman %}
 
                 <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Add Quotation </a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i> Quotation </a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_order' %}">Add</a></li>
                         <li><i class="fa fa-th"></i><a href="{% url 'list_order' %}">View</a></li>
