@@ -522,7 +522,7 @@ def work_alert(request, token, recipient_number, template_name, language_code, p
             subject='Work Alert',
             body=param1,
             from_email='rradailyupdates@gmail.com',
-            to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
+            to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com', 'pratikgosavi654@gmail.com'],
             # to=['pratikgosavi654@gmail.com'],
         )
 
