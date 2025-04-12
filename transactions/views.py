@@ -221,7 +221,8 @@ def stock_report_email(request):
         subject='Stock Report PDF',
         body='Please find attached the Stock Report.',
         from_email='rradailyupdates@gmail.com',
-        to=['pratikgosavi654@gmail.com'],
+        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com', 'billing@ravirajanodisers.com'],
+        # to=['pratikgosavi654@gmail.com'],
     )
     email.attach_file(file_path)
     email.send()
