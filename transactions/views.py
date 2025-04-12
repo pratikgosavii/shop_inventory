@@ -91,7 +91,6 @@ def list_stock(request):
             'product_qr_entries': product_qr_entries
         })
 
-    print(final_data)
     
     total_stock = data.aggregate(total_quantity1=Sum('total_quantity'))
 
@@ -104,14 +103,20 @@ def list_stock(request):
     return render(request, 'transactions/list_stock.html', context)
 
 
+from reportlab.platypus import (
+    SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, ListFlowable, ListItem
+)
+
 def stock_report_email(request):
+
+    today = timezone.now().date()
 
     data = product_qr.objects.filter(
         moved_to_scratch=False,
         moved_to_left_over=False,
         product__isnull=False
     ).values(
-        'product__name',
+        'product',
         'product__category__name',
         'product__size__mm1',
         'product__size__mm2',
@@ -120,6 +125,16 @@ def stock_report_email(request):
         'product__thickness__name',
     ).annotate(total_quantity=Count('id')).order_by('product')
 
+    # Prepare related QR entries
+    product_qr_map = defaultdict(list)
+    for qr in product_qr.objects.filter(
+        moved_to_scratch=False,
+        moved_to_left_over=False,
+        product__isnull=False
+    ).select_related('product'):
+        product_qr_map[qr.product_id].append(qr)
+
+    # PDF setup
     buffer = BytesIO()
     pdf = SimpleDocTemplate(
         buffer,
@@ -136,57 +151,72 @@ def stock_report_email(request):
     title_style.alignment = 1
     title_style.fontSize = 14
 
-    title2_style = ParagraphStyle(
-        'Title2',
+    subtitle_style = ParagraphStyle(
+        'Subtitle',
         parent=styles['Heading2'],
         alignment=1,
         fontSize=12
     )
 
-    # Titles
     elements.append(Paragraph("Ravi Raj Anodisers", title_style))
-    elements.append(Paragraph("Stock Report", title2_style))
-    elements.append(Spacer(1, 0.3 * cm))
+    elements.append(Paragraph("Stock Report", subtitle_style))
+    elements.append(Spacer(1, 0.4 * cm))
 
-    # Table Header
-    table_data = [[
-        "#", "Category", "Product", "Size (mm)", "Grade", "Thickness", "Qty"
-    ]]
-    for idx, stock in enumerate(data, start=1):
-        mm1 = stock['product__size__mm1']
-        mm2 = stock['product__size__mm2']
-        size_display = f"{mm1}x{mm2}" if mm1 and mm2 else stock['product__size__name']
-        table_data.append([
-            idx,
-            stock['product__category__name'],
-            stock['product__name'],
-            size_display,
-            stock['product__grade__name'],
-            stock['product__thickness__name'],
-            stock['total_quantity'],
-        ])
-
-    # Create and style the table
-    main_table = Table(table_data, colWidths=[30, 80, 100, 80, 70, 70, 50])
-    main_table.setStyle(TableStyle([
+    table_style = TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.lightgreen),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.whitesmoke),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
         ('FONTSIZE', (0, 0), (-1, -1), 8),
-    ]))
+    ])
 
-    elements.append(main_table)
+    # Table headers
+    header = ["#", "Material Name", "Length MM", "Width MM", "Size", "Grade", "Thickness", "Quantity"]
+    table_data = [header]
 
-    # Generate PDF
+    total_quantity = 0
+    for idx, stock in enumerate(data, 1):
+        size = stock['product__size__name'] or f"{stock['product__size__mm1']} x {stock['product__size__mm2']}"
+        table_data.append([
+            idx,
+            stock['product__category__name'],
+            stock['product__size__mm1'],
+            stock['product__size__mm2'],
+            size,
+            stock['product__grade__name'],
+            stock['product__thickness__name'],
+            stock['total_quantity']
+        ])
+
+        total_quantity += stock['total_quantity']
+
+        # Sheet list (like accordion)
+        qr_items = product_qr_map.get(stock['product'])
+        if qr_items:
+            lines = []
+            for qr in qr_items:
+                line = f"Finish: {qr.finish}    Sheet No: {qr.id}"
+                lines.append(Paragraph(line, styles['Normal']))
+            elements.append(Table([table_data[-1]], colWidths=[30, 90, 60, 60, 80, 60, 60, 50], style=table_style))
+            elements.append(ListFlowable(lines, bulletType='bullet'))
+        else:
+            elements.append(Table([table_data[-1]], colWidths=[30, 90, 60, 60, 80, 60, 60, 50], style=table_style))
+
+        elements.append(Spacer(1, 0.2 * cm))
+        table_data = [header]  # Reset header for each entry to maintain format
+
+    # Add total row
+    total_row = ["", "", "", "", "", "", "Total Stock :-", total_quantity]
+    elements.append(Table([total_row], colWidths=[30, 90, 60, 60, 80, 60, 60, 50], style=table_style))
+
+    # Build PDF
     pdf.build(elements)
     file_path = os.path.join(settings.MEDIA_ROOT, 'stock_report.pdf')
     with open(file_path, 'wb') as f:
         f.write(buffer.getvalue())
     buffer.close()
 
-    # Email
+    # Email it
     email = EmailMessage(
         subject='Stock Report PDF',
         body='Please find attached the Stock Report.',
@@ -196,7 +226,7 @@ def stock_report_email(request):
     email.attach_file(file_path)
     email.send()
 
-    return JsonResponse({'message': 'Stock report emailed successfully'})
+    return JsonResponse({'message': 'Stock report sent successfully'})
 
 
 @login_required(login_url='login')
