@@ -2654,8 +2654,8 @@ def email_inward_report(request):
         subject='Inward Report PDF',
         body='Please find the attached Inward Report in PDF format.',
         from_email='rradailyupdates@gmail.com',
-        # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
-        to=['pratikgosavi654@gmail.com'],
+        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+        # to=['pratikgosavi654@gmail.com'],
     )
 
     # Attach the generated PDF
