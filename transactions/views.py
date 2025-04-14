@@ -107,8 +107,29 @@ from reportlab.platypus import (
     SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, ListFlowable, ListItem
 )
 
-def stock_report_email(request):
 
+
+from collections import defaultdict
+from io import BytesIO
+from datetime import datetime
+import os
+
+from django.core.mail import EmailMessage
+from django.http import JsonResponse
+from django.utils import timezone
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.units import cm, mm
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.pdfgen import canvas
+
+from .models import product_qr  # Replace with actual import
+from django.conf import settings
+from django.db.models import Count
+
+
+def stock_report_email(request):
     today = timezone.now().date()
 
     data = product_qr.objects.filter(
@@ -134,13 +155,21 @@ def stock_report_email(request):
         product_qr_map[qr.product_id].append(qr)
 
     buffer = BytesIO()
+
+    def on_page(canvas, doc):
+        canvas.saveState()
+        canvas.setFont('Helvetica', 8)
+        canvas.drawRightString(A4[0] - 20, A4[1] - 20, f"Date: {today.strftime('%d-%m-%Y')}")
+        canvas.drawRightString(A4[0] - 20, 15, f"Page {doc.page}")
+        canvas.restoreState()
+
     pdf = SimpleDocTemplate(
         buffer,
         pagesize=A4,
         rightMargin=20,
         leftMargin=20,
-        topMargin=20,
-        bottomMargin=20
+        topMargin=40,
+        bottomMargin=40
     )
 
     elements = []
@@ -160,16 +189,17 @@ def stock_report_email(request):
     elements.append(Paragraph("Stock Report", subtitle_style))
     elements.append(Spacer(1, 0.4 * cm))
 
-    table_style = TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.lightgreen),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
-        ('FONTSIZE', (0, 0), (-1, -1), 8),
-    ])
-
     header = ["#", "Material Name", "Length MM", "Width MM", "Size", "Grade", "Thickness", "Quantity"]
-    table_data = [header]
+    header_table = Table([header], colWidths=[30, 90, 60, 60, 80, 60, 60, 50])
+    header_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#2E86C1")),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#AAB7B8")),
+        ('FONTSIZE', (0, 0), (-1, -1), 8),
+    ]))
+    elements.append(header_table)
+
     total_quantity = 0
 
     for idx, stock in enumerate(data, 1):
@@ -184,21 +214,26 @@ def stock_report_email(request):
             stock['product__thickness__name'],
             stock['total_quantity']
         ]
-        table_data.append(table_row)
         total_quantity += stock['total_quantity']
 
-        elements.append(Table([table_row], colWidths=[30, 90, 60, 60, 80, 60, 60, 50], style=table_style))
+        data_table = Table([table_row], colWidths=[30, 90, 60, 60, 80, 60, 60, 50])
+        data_table.setStyle(TableStyle([
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#AAB7B8")),
+            ('FONTSIZE', (0, 0), (-1, -1), 8),
+        ]))
+        elements.append(data_table)
 
-        # QR Sheet Table (instead of bullets)
         qr_items = product_qr_map.get(stock['product'])
         if qr_items:
             qr_table_data = [["Finish", "Sheet No"]]
             for qr in qr_items:
                 qr_table_data.append([str(qr.finish).upper(), str(qr.id)])
+
             qr_table = Table(qr_table_data, colWidths=[150, 100])
             qr_table.setStyle(TableStyle([
-                ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
-                ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+                ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#AAB7B8")),
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#D6EAF8")),
                 ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
                 ('FONTSIZE', (0, 0), (-1, -1), 8),
                 ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
@@ -207,15 +242,17 @@ def stock_report_email(request):
             elements.append(qr_table)
 
         elements.append(Spacer(1, 0.2 * cm))
-        table_data = [header]  # Reset header for next block
 
-    # Total row
     total_row = ["", "", "", "", "", "", "Total Stock :-", total_quantity]
-    elements.append(Table([total_row], colWidths=[30, 90, 60, 60, 80, 60, 60, 50], style=table_style))
-
+    total_table = Table([total_row], colWidths=[30, 90, 60, 60, 80, 60, 60, 50])
+    total_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#AAB7B8")),
+        ('FONTSIZE', (0, 0), (-1, -1), 8),
+    ]))
+    elements.append(total_table)
     elements.append(Spacer(1, 0.5 * cm))
 
-    # Footer: Checked/Verified by
     footer_table = Table([
         ["Checked By:", "", "Signature:"],
         ["Verified By Name:", "", "Signature:"],
@@ -228,24 +265,27 @@ def stock_report_email(request):
     ]))
     elements.append(footer_table)
 
-    # Build and save PDF
-    pdf.build(elements)
+    pdf.build(elements, onFirstPage=on_page, onLaterPages=on_page)
+
+    # 🛠️ Write to file BEFORE closing buffer
+    pdf_data = buffer.getvalue()
     file_path = os.path.join(settings.MEDIA_ROOT, 'stock_report.pdf')
     with open(file_path, 'wb') as f:
-        f.write(buffer.getvalue())
+        f.write(pdf_data)
     buffer.close()
 
-    # Send Email
+    # 📧 Email
     email = EmailMessage(
         subject='Stock Report PDF',
         body='Please find attached the Stock Report.',
         from_email='rradailyupdates@gmail.com',
-        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com', 'billing@ravirajanodisers.com'],
+        to=['pratikgosavi654@gmail.com'],  # Add others if needed
     )
     email.attach_file(file_path)
     email.send()
 
     return JsonResponse({'message': 'Stock report sent successfully'})
+
 
 
 @login_required(login_url='login')
