@@ -125,7 +125,6 @@ def stock_report_email(request):
         'product__thickness__name',
     ).annotate(total_quantity=Count('id')).order_by('product')
 
-    # Prepare related QR entries
     product_qr_map = defaultdict(list)
     for qr in product_qr.objects.filter(
         moved_to_scratch=False,
@@ -134,7 +133,6 @@ def stock_report_email(request):
     ).select_related('product'):
         product_qr_map[qr.product_id].append(qr)
 
-    # PDF setup
     buffer = BytesIO()
     pdf = SimpleDocTemplate(
         buffer,
@@ -170,14 +168,13 @@ def stock_report_email(request):
         ('FONTSIZE', (0, 0), (-1, -1), 8),
     ])
 
-    # Table headers
     header = ["#", "Material Name", "Length MM", "Width MM", "Size", "Grade", "Thickness", "Quantity"]
     table_data = [header]
-
     total_quantity = 0
+
     for idx, stock in enumerate(data, 1):
         size = stock['product__size__name'] or f"{stock['product__size__mm1']} x {stock['product__size__mm2']}"
-        table_data.append([
+        table_row = [
             idx,
             stock['product__category__name'],
             stock['product__size__mm1'],
@@ -186,43 +183,64 @@ def stock_report_email(request):
             stock['product__grade__name'],
             stock['product__thickness__name'],
             stock['total_quantity']
-        ])
-
+        ]
+        table_data.append(table_row)
         total_quantity += stock['total_quantity']
 
-        # Sheet list (like accordion)
+        elements.append(Table([table_row], colWidths=[30, 90, 60, 60, 80, 60, 60, 50], style=table_style))
+
+        # QR Sheet Table (instead of bullets)
         qr_items = product_qr_map.get(stock['product'])
         if qr_items:
-            lines = []
+            qr_table_data = [["Finish", "Sheet No"]]
             for qr in qr_items:
-                line = f"Finish: {qr.finish}    Sheet No: {qr.id}"
-                lines.append(Paragraph(line, styles['Normal']))
-            elements.append(Table([table_data[-1]], colWidths=[30, 90, 60, 60, 80, 60, 60, 50], style=table_style))
-            elements.append(ListFlowable(lines, bulletType='bullet'))
-        else:
-            elements.append(Table([table_data[-1]], colWidths=[30, 90, 60, 60, 80, 60, 60, 50], style=table_style))
+                qr_table_data.append([str(qr.finish).upper(), str(qr.id)])
+            qr_table = Table(qr_table_data, colWidths=[150, 100])
+            qr_table.setStyle(TableStyle([
+                ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
+                ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTSIZE', (0, 0), (-1, -1), 8),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+                ('TOPPADDING', (0, 0), (-1, -1), 4),
+            ]))
+            elements.append(qr_table)
 
         elements.append(Spacer(1, 0.2 * cm))
-        table_data = [header]  # Reset header for each entry to maintain format
+        table_data = [header]  # Reset header for next block
 
-    # Add total row
+    # Total row
     total_row = ["", "", "", "", "", "", "Total Stock :-", total_quantity]
     elements.append(Table([total_row], colWidths=[30, 90, 60, 60, 80, 60, 60, 50], style=table_style))
 
-    # Build PDF
+    elements.append(Spacer(1, 0.5 * cm))
+
+    # Footer: Checked/Verified by
+    footer_table = Table([
+        ["Checked By:", "", "Signature:"],
+        ["Verified By Name:", "", "Signature:"],
+    ], colWidths=[120, 300, 100])
+    footer_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 10),
+        ('TOPPADDING', (0, 0), (-1, -1), 10),
+    ]))
+    elements.append(footer_table)
+
+    # Build and save PDF
     pdf.build(elements)
     file_path = os.path.join(settings.MEDIA_ROOT, 'stock_report.pdf')
     with open(file_path, 'wb') as f:
         f.write(buffer.getvalue())
     buffer.close()
 
-    # Email it
+    # Send Email
     email = EmailMessage(
         subject='Stock Report PDF',
         body='Please find attached the Stock Report.',
         from_email='rradailyupdates@gmail.com',
         to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com', 'billing@ravirajanodisers.com'],
-        # to=['pratikgosavi654@gmail.com'],
     )
     email.attach_file(file_path)
     email.send()
