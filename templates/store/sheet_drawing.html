@@ -40,6 +40,7 @@
     <div id="tools">
         <button type="button" onclick="setMode('line')">✏️ Line</button>
         <button type="button" onclick="setMode('text')">📝 Text</button>
+        <button type="button" onclick="deleteSelected()">🗑️ Delete Selected</button>
         <button type="button" onclick="clearCanvas()">🗑️ Clear</button>
         <button type="submit">💾 Save Cuts</button>
         <button type="button" onclick="undo()">↩️ Undo</button>
@@ -192,6 +193,20 @@
         if (e.ctrlKey && e.key === "z") undo();
         if (e.ctrlKey && e.key === "y") redo();
     });
+
+    function deleteSelected() {
+        const activeObject = canvas.getActiveObject();
+        if (activeObject) {
+            canvas.remove(activeObject);
+            canvas.discardActiveObject();
+            canvas.renderAll();
+            saveHistory();
+        } else {
+            alert("No object selected to delete.");
+        }
+    }
+
+    
 </script>
 
 {% endblock js %}
