@@ -142,7 +142,12 @@ class product_qr(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     finish = models.CharField(max_length=50, null=True, blank=True)
     status = models.BooleanField(default = False)
-    
+
+class SheetCut(models.Model):
+    sheet = models.ForeignKey(product_qr, on_delete=models.CASCADE)
+    data = models.JSONField()  # ← This stores the entire drawing
+
+   
 class shelf(models.Model):
     name = models.CharField(max_length=120, unique=True)
     

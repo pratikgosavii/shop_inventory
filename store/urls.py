@@ -65,23 +65,13 @@ urlpatterns = [
     path('delete-inward-supplier/<update_inward_supplier_id>', delete_inward_supplier, name='delete_inward_supplier'),
     path('list-inward-supplier/', list_inward_supplier, name='list_inward_supplier'),
 
-    #delete urls 
-
-    path('list-godown-delete/', list_godown_delete, name='list_company_delete'),
-    path('list-company-goods-delete/', list_company_goods_delete, name='list_company_goods_delete'),
-    path('list-goods-company-delete/', list_goods_company_delete, name='list_goods_company_delete'),
-    path('list-agent-delete/', list_agent_delete, name='list_agent_delete'),
-    path('list-transport-delete/', list_transport_delete, name='list_transport_delete'),
+    
 
 
+    path('save_cuts/<int:sheet_id>/', views.save_cuts, name='save_cuts'),
+    path('get_cuts/<int:sheet_id>/', views.get_cuts, name='get_cuts'),
+    path('draw_sheet/<int:sheet_id>/', views.draw_sheet, name='draw_sheet'),  # this renders the HTML page
 
 
-
-
-    # 
-    # 
-    # 
-    # 
-    # 
 
 ]

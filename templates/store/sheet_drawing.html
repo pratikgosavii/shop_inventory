@@ -1,0 +1,201 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Product List{% endblock title %}
+
+
+{% block head %}
+
+    <title>Draw Cuts</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        canvas {
+            border: 2px solid black;
+            background: white;
+        }
+        #tools {
+            margin: 10px 0;
+            background: white;
+        }
+        button {
+            margin-right: 10px;
+            background: white;
+            border-radius: 10px;
+            padding: 4px;
+            
+        }
+    </style>
+</head>
+
+
+{% endblock head %}
+
+{% block content %}
+
+
+<div style="background: white;
+    padding: 17px;">
+
+<form id="cutForm" method="post">
+    {% csrf_token %}
+    <div id="tools">
+        <button type="button" onclick="setMode('line')">✏️ Line</button>
+        <button type="button" onclick="setMode('text')">📝 Text</button>
+        <button type="button" onclick="clearCanvas()">🗑️ Clear</button>
+        <button type="submit">💾 Save Cuts</button>
+        <button type="button" onclick="undo()">↩️ Undo</button>
+        <button type="button" onclick="redo()">↪️ Redo</button>
+    </div>
+
+    <input type="hidden" name="cuts" id="cutsData">
+</form>
+
+<canvas id="sheetCanvas" width="1000" height="500"></canvas>
+
+</div>
+
+
+{% block js %}
+
+
+<script>
+    const canvas = new fabric.Canvas('sheetCanvas', {
+        selection: true,
+        preserveObjectStacking: true
+    });
+
+    let mode = 'select';
+    let line, isDown;
+    let history = [];
+    let redoStack = [];
+
+    function setMode(newMode) {
+        mode = newMode;
+        if (mode === 'line') {
+            canvas.isDrawingMode = false;
+            canvas.selection = false;
+            canvas.defaultCursor = 'crosshair';
+        } else {
+            canvas.selection = true;
+            canvas.defaultCursor = 'default';
+        }
+    }
+
+    canvas.on('mouse:down', function (o) {
+        if (mode === 'line') {
+            isDown = true;
+            const pointer = canvas.getPointer(o.e);
+            const points = [pointer.x, pointer.y, pointer.x, pointer.y];
+            line = new fabric.Line(points, {
+                strokeWidth: 2,
+                fill: 'red',
+                stroke: 'red',
+                originX: 'center',
+                originY: 'center',
+                selectable: true
+            });
+            canvas.add(line);
+        } else if (mode === 'text') {
+            const pointer = canvas.getPointer(o.e);
+            const label = prompt("Enter label:");
+            if (label) {
+                canvas.discardActiveObject();
+                const text = new fabric.Text(label, {
+                    left: pointer.x,
+                    top: pointer.y,
+                    fontSize: 16,
+                    fill: 'black',
+                    selectable: true,
+                    hasBorders: true,
+                    hasControls: true
+                });
+                canvas.add(text);
+                canvas.setActiveObject(text);
+                canvas.renderAll();
+                saveHistory();
+            }
+        }
+    });
+
+    canvas.on('mouse:move', function (o) {
+        if (!isDown || mode !== 'line') return;
+        const pointer = canvas.getPointer(o.e);
+        line.set({ x2: pointer.x, y2: pointer.y });
+        canvas.renderAll();
+    });
+
+    canvas.on('mouse:up', function () {
+        if (mode === 'line') {
+            isDown = false;
+            saveHistory();
+        }
+    });
+
+    function saveHistory() {
+        redoStack = [];
+        history.push(JSON.stringify(canvas.toJSON()));
+    }
+
+    function undo() {
+        if (history.length === 0) return;
+        redoStack.push(JSON.stringify(canvas.toJSON()));
+        const prev = history.pop();
+        canvas.loadFromJSON(prev, canvas.renderAll.bind(canvas));
+    }
+
+    function redo() {
+        if (redoStack.length === 0) return;
+        history.push(JSON.stringify(canvas.toJSON()));
+        const next = redoStack.pop();
+        canvas.loadFromJSON(next, canvas.renderAll.bind(canvas));
+    }
+
+    function clearCanvas() {
+        canvas.clear();
+        saveHistory();
+    }
+
+    // Load saved cuts from backend
+    window.onload = function () {
+        $.getJSON("{% url 'get_cuts' sheet_id  %}", function (data) {
+            if (data.cuts) {
+                canvas.loadFromJSON(data.cuts, function () {
+                    canvas.renderAll();
+                    saveHistory();  // Optional if you're using undo/redo logic
+                });
+            }
+        });
+    };
+    
+
+    // Submit form via AJAX
+    $('#cutForm').on('submit', function (e) {
+        e.preventDefault();
+
+        const cutsJSON = JSON.stringify(canvas.toJSON());
+        $('#cutsData').val(cutsJSON);
+
+        $.ajax({
+            url: "{% url 'save_cuts' sheet_id %}",
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function (data) {
+                alert("Saved!");
+            },
+            error: function (err) {
+                alert("Error saving: " + err.statusText);
+            }
+        });
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener("keydown", function (e) {
+        if (e.ctrlKey && e.key === "z") undo();
+        if (e.ctrlKey && e.key === "y") redo();
+    });
+</script>
+
+{% endblock js %}
+
+
+{% endblock content %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 
@@ -500,80 +500,6 @@ def list_dealer(request):
 
 
 
-# @login_required(login_url='login')
-# def add_company(request):
-
-#     if request.method == 'POST':
-
-#         forms = company_Form(request.POST)
-
-#         if forms.is_valid():
-#             forms.save()
-#             return redirect('list_company')
-#         else:
-#             print(forms.errors)
-    
-#     else:
-
-#         forms = company_Form()
-
-#         context = {
-#             'form': forms
-#         }
-#         return render(request, 'store/add_company.html', context)
-
-        
-
-# @login_required(login_url='login')
-# def update_company(request, company_id):
-
-#     if request.method == 'POST':
-
-#         instance = company.objects.get(id=company_id)
-
-#         forms = company_Form(request.POST, instance=instance)
-
-#         if forms.is_valid():
-#             forms.save()
-#             return redirect('list_company')
-#         else:
-#             print(forms.errors)
-    
-#     else:
-
-#         instance = company.objects.get(id=company_id)
-#         forms = company_Form(instance=instance)
-
-#         context = {
-#             'form': forms
-#         }
-#         return render(request, 'store/add_company.html', context)
-
-        
-
-# @login_required(login_url='login')
-# def delete_company(request, company_id):
-
-#     company.objects.get(id=company_id).delete()
-
-#     return HttpResponseRedirect(reverse('list_company_delete'))
-
-
-        
-
-# @login_required(login_url='login')
-# def list_company(request):
-
-#     data = company.objects.all()
-
-#     context = {
-#         'data': data
-#     }
-
-#     return render(request, 'store/list_company.html', context)
-
-
-
 @login_required(login_url='login')
 def add_category(request):
     
@@ -972,94 +898,80 @@ def list_thickness(request):
 
 # delete view
 
-     
 
+
+
+
+from django.http import JsonResponse
+from .models import SheetCut
+import json
+
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render
+from .models import SheetCut  # your model
+
+@csrf_exempt
 @login_required(login_url='login')
-def list_company_delete(request):
-
-    data = company.objects.all()
-
+def draw_sheet(request, sheet_id):
+        
     context = {
-        'data': data
+        "sheet_id" : sheet_id
     }
+        
+    return render(request, 'store/sheet_drawing.html', context)
 
-    return render(request, 'delete/list_company_delete.html', context)
 
 
+
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
 @login_required(login_url='login')
-def list_company_delete(request):
+def save_cuts(request, sheet_id):
+   
+    if request.method == 'POST':
+        try:
+            sheet = product_qr.objects.get(id=sheet_id)
+            cuts_json = request.POST.get("cuts")
 
-    data = company.objects.all()
+            if not cuts_json:
+                return JsonResponse({'status': 'error', 'message': 'No cuts data received'}, status=400)
 
-    context = {
-        'data': data
-    }
+            # Overwrite old cuts for the sheet (optional cleanup)
+            
+            try:
+                
+                instance = SheetCut.objects.get(sheet=sheet)
+                instance. data=json.loads(cuts_json)
+                instance.save()
 
-    return render(request, 'delete/list_company_delete.html', context)
+            except SheetCut.DoesNotExist:  
+
+                SheetCut.objects.create(
+                    sheet=sheet,
+                    data=json.loads(cuts_json)
+                )
+
+            return JsonResponse({'status': 'success'})
+        except product_qr.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Sheet not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    return JsonResponse({'status': 'error', 'message': 'Invalid method'}, status=405)
 
 
-
+@csrf_exempt
 @login_required(login_url='login')
-def list_godown_delete(request):
-    
-    data = shelf.objects.all()
-    context = {
-            'data': data
-        }
+def get_cuts(request, sheet_id):
+    try:
+        sheet = product_qr.objects.get(id=sheet_id)
+        cut = SheetCut.objects.filter(sheet=sheet).first()
 
-
-    return render(request, 'delete/list_godown_delete.html', context)
-
-@login_required(login_url='login')
-def list_company_goods_delete(request):
-    
-    data = company_goods.objects.all()
-    context = {
-            'data': data
-        }
-
-
-    return render(request, 'delete/list_company_goods_delete.html', context)
-
-
-
-@login_required(login_url='login')
-def list_goods_company_delete(request):
-    
-    data = goods_company.objects.all()
-
-    context = {
-            'data': data
-        }
-
-
-    return render(request, 'delete/list_goods_company_delete.html', context)
-
-
-
-
-@login_required(login_url='login')
-def list_agent_delete(request):
-    
-    data = agent.objects.all()
-
-    context = {
-            'data': data
-        }
-
-
-    return render(request, 'delete/list_agent_delete.html', context)
-
-
-@login_required(login_url='login')
-def list_transport_delete(request):
-    
-    data = transport.objects.all()
-
-    context = {
-            'data': data
-        }
-
-
-    return render(request, 'delete/list_transport_delete.html', context)
-
+        if cut:
+            return JsonResponse({'cuts': cut.data})
+        else:
+            return JsonResponse({'cuts': None})
+    except product_qr.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Sheet not found'}, status=404)
