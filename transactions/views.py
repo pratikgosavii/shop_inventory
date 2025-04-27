@@ -134,7 +134,6 @@ def stock_report_email(request):
 
     data = product_qr.objects.filter(
         moved_to_scratch=False,
-        moved_to_left_over=False,
         product__isnull=False
     ).values(
         'product',
@@ -144,12 +143,12 @@ def stock_report_email(request):
         'product__size__name',
         'product__grade__name',
         'product__thickness__name',
+        'moved_to_left_over',  # IMPORTANT: So we know Fresh/Left Over
     ).annotate(total_quantity=Count('id')).order_by('product')
 
     product_qr_map = defaultdict(list)
     for qr in product_qr.objects.filter(
         moved_to_scratch=False,
-        moved_to_left_over=False,
         product__isnull=False
     ).select_related('product'):
         product_qr_map[qr.product_id].append(qr)
@@ -189,8 +188,9 @@ def stock_report_email(request):
     elements.append(Paragraph("Stock Report", subtitle_style))
     elements.append(Spacer(1, 0.4 * cm))
 
-    header = ["#", "Material Name", "Length MM", "Width MM", "Size", "Grade", "Thickness", "Quantity"]
-    header_table = Table([header], colWidths=[30, 90, 60, 60, 80, 60, 60, 50])
+    # Updated Header
+    header = ["#", "Material Name", "Length MM", "Width MM", "Size", "Grade", "Thickness", "Quantity", "Stock Type"]
+    header_table = Table([header], colWidths=[30, 90, 60, 60, 80, 60, 60, 50, 60])
     header_table.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#2E86C1")),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
@@ -204,6 +204,8 @@ def stock_report_email(request):
 
     for idx, stock in enumerate(data, 1):
         size = stock['product__size__name'] or f"{stock['product__size__mm1']} x {stock['product__size__mm2']}"
+        stock_type = "Left Over" if stock['moved_to_left_over'] else "Fresh Stock"
+
         table_row = [
             idx,
             stock['product__category__name'],
@@ -212,11 +214,12 @@ def stock_report_email(request):
             size,
             stock['product__grade__name'],
             stock['product__thickness__name'],
-            stock['total_quantity']
+            stock['total_quantity'],
+            stock_type,
         ]
         total_quantity += stock['total_quantity']
 
-        data_table = Table([table_row], colWidths=[30, 90, 60, 60, 80, 60, 60, 50])
+        data_table = Table([table_row], colWidths=[30, 90, 60, 60, 80, 60, 60, 50, 60])
         data_table.setStyle(TableStyle([
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
             ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#AAB7B8")),
@@ -226,11 +229,16 @@ def stock_report_email(request):
 
         qr_items = product_qr_map.get(stock['product'])
         if qr_items:
-            qr_table_data = [["Finish", "Sheet No"]]
+            qr_table_data = [["Finish", "Sheet No", "Stock Type"]]
             for qr in qr_items:
-                qr_table_data.append([str(qr.finish).upper(), str(qr.id)])
+                stock_type_row = "Left Over" if qr.moved_to_left_over else "Fresh Stock"
+                qr_table_data.append([
+                    str(qr.finish).upper(),
+                    str(qr.id),
+                    stock_type_row,
+                ])
 
-            qr_table = Table(qr_table_data, colWidths=[150, 100])
+            qr_table = Table(qr_table_data, colWidths=[120, 80, 80])
             qr_table.setStyle(TableStyle([
                 ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#AAB7B8")),
                 ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor("#D6EAF8")),
@@ -243,8 +251,8 @@ def stock_report_email(request):
 
         elements.append(Spacer(1, 0.2 * cm))
 
-    total_row = ["", "", "", "", "", "", "Total Stock :-", total_quantity]
-    total_table = Table([total_row], colWidths=[30, 90, 60, 60, 80, 60, 60, 50])
+    total_row = ["", "", "", "", "", "", "Total Stock :-", total_quantity, ""]
+    total_table = Table([total_row], colWidths=[30, 90, 60, 60, 80, 60, 60, 50, 60])
     total_table.setStyle(TableStyle([
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor("#AAB7B8")),
@@ -267,26 +275,24 @@ def stock_report_email(request):
 
     pdf.build(elements, onFirstPage=on_page, onLaterPages=on_page)
 
-    # 🛠️ Write to file BEFORE closing buffer
+    # Save and send email
     pdf_data = buffer.getvalue()
     file_path = os.path.join(settings.MEDIA_ROOT, 'stock_report.pdf')
     with open(file_path, 'wb') as f:
         f.write(pdf_data)
     buffer.close()
 
-    # 📧 Email
     email = EmailMessage(
         subject='Stock Report PDF',
         body='Please find attached the Stock Report.',
         from_email='rradailyupdates@gmail.com',
         to=[
-            'varad@ravirajanodisers.com',
-            'ravi@ravirajanodisers.com',
+            # 'varad@ravirajanodisers.com',
+            # 'ravi@ravirajanodisers.com',
             'pratikgosavi654@gmail.com',
-            'raj@ravirajanodisers.com',
-            'billing@ravirajanodisers.com',
+            # 'raj@ravirajanodisers.com',
+            # 'billing@ravirajanodisers.com',
         ],
-        # to=['pratikgosavi654@gmail.com'],  # Add others if needed
     )
     email.attach_file(file_path)
     email.send()
@@ -298,17 +304,18 @@ def stock_report_email(request):
 @login_required(login_url='login')
 def list_left_over_stock(request):
 
-   
     data = product_qr.objects.filter(
-        moved_to_scratch=False,
-        moved_to_left_over=True,
-        product__isnull=False
+    moved_to_scratch=False,
+    product__isnull=False
     ).values(
-        'product', 
-        'product__category__name', 
-        'product__size__name', 
-        'product__grade__name', 
-        'product__thickness__name'
+        'product',
+        'product__category__name',
+        'product__size__mm1',
+        'product__size__mm2',
+        'product__size__name',
+        'product__grade__name',
+        'product__thickness__name',
+        'moved_to_left_over',  # 👈 ADD THIS
     ).annotate(total_quantity=Count('id')).order_by('product')
 
     # Prepare final data with related product_qr entries
