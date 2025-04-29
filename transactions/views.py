@@ -305,6 +305,7 @@ def stock_report_email(request):
 def list_left_over_stock(request):
 
     data = product_qr.objects.filter(
+    moved_to_left_over=True,
     moved_to_scratch=False,
     product__isnull=False
     ).values(
@@ -324,11 +325,10 @@ def list_left_over_stock(request):
     for stock in data:
 
         # Get related product_qr entries for the specific product
-        product_qr_entries = product_qr.objects.filter(product=stock['product'], moved_to_scratch=False,
+        product_qr_entries = product_qr.objects.filter(product=stock['product'], 
+        moved_to_scratch=False,
         moved_to_left_over=True,
         product__isnull=False)
-        print('------------------------------------')
-        print(product_qr_entries)
 
         # Append the stock data and related product_qr entries
         final_data.append({
