@@ -287,11 +287,11 @@ def stock_report_email(request):
         body='Please find attached the Stock Report.',
         from_email='rradailyupdates@gmail.com',
         to=[
-            # 'varad@ravirajanodisers.com',
-            # 'ravi@ravirajanodisers.com',
+            'varad@ravirajanodisers.com',
+            'ravi@ravirajanodisers.com',
             'pratikgosavi654@gmail.com',
-            # 'raj@ravirajanodisers.com',
-            # 'billing@ravirajanodisers.com',
+            'raj@ravirajanodisers.com',
+            'billing@ravirajanodisers.com',
         ],
     )
     email.attach_file(file_path)
