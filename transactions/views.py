@@ -3878,7 +3878,11 @@ def update_assign_matarial_qr(request, product_qr_id):
 
         project_matarial_qr_instance = project_matarial_qr.objects.filter(product_qr__id = product_qr_id).first()
 
-        product_instance = project_matarial_qr_instance.project_material.product
+        try:
+            product_instance = project_matarial_qr_instance.project_material.product
+        except AttributeError:
+
+            return JsonResponse({"status": "error", "msg": "Project material not assigned."})
 
         cutter_intance = cutter.objects.get(id = cutter_id)
 

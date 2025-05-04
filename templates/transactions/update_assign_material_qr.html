@@ -84,6 +84,10 @@
 	</div>
 </div>     
 
+    <div class="alert alert-danger" id="error-message" role="alert" style="display: none;"></div>
+
+  </div>
+
 
 <div class="row">
     <div class="col-lg-12">
@@ -296,22 +300,29 @@
               if(data.status == "done"){
                 window.location.href = "{% url 'dashboard' %}"
               }
-              else{
-                console.log(data)
+              else {
+                console.log(data);
                 var errorMessage = data.msg;
-                console.log(errorMessage)
+                console.log(errorMessage);
+            
 
-                alert(errorMessage)
 
+                var errorDiv = document.getElementById("error-message");
+errorDiv.innerText = errorMessage;
+errorDiv.style.display = "block";
+
+
+
+                // Show error in UI
+            
+                // Re-enable the button
                 var paymentButton = document.getElementById('payment-button');
                 paymentButton.disabled = false;
-        
-                // Change the button color (you can change 'btn-info' to your desired class)
+            
+                // Change the button color
                 paymentButton.classList.remove('btn-secondary');
-                paymentButton.classList.add('btn-info'); // Change to the desired color class
-        
-
-              }
+                paymentButton.classList.add('btn-info');
+            }
             }
            
         });
