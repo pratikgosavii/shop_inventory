@@ -2665,15 +2665,16 @@ def draw_border(canvas, doc):
     canvas.rect(10, 10, width-20, height-20)  # Draw the rectangle border
     canvas.restoreState()
 
-def email_inward_report(request):
-    today = timezone.now().date()
-    
-    # Filter project_outward entries for today
-    outward_today = project_inward.objects.filter(date = today)
 
-    # Collect related project instances
-    
-    # Prepare data for the PDF
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.platypus import Paragraph
+
+
+def email_inward_report(request):
+
+    today = timezone.now().date() - timedelta(days=5)
+    inward_today = project_inward.objects.filter(date=today)
+
     buffer = BytesIO()
     pdf = SimpleDocTemplate(
         buffer,
@@ -2683,16 +2684,15 @@ def email_inward_report(request):
         topMargin=20,
         bottomMargin=20
     )
-    
+
     elements = []
     styles = getSampleStyleSheet()
 
-    # Modify the 'Title' style for the main title
+    # Title styles
     title_style = styles['Title']
     title_style.alignment = 1
     title_style.fontSize = 14
 
-    # Create a new style for the secondary title
     title_style2 = ParagraphStyle(
         'Title2',
         parent=styles['Title'],
@@ -2700,75 +2700,71 @@ def email_inward_report(request):
         fontSize=12
     )
 
-    # Title
-    title = Paragraph("Ravi Raj Anodisers", title_style)
-    elements.append(title)
+    # Paragraph style for table wrapping
+    wrap_style = ParagraphStyle(
+        name='WrapStyle',
+        fontSize=8,
+        alignment=1,
+    )
 
-    # Secondary Title
-    title2 = Paragraph("Inward Report", title_style2)
-    elements.append(title2)
+    # Add Title
+    elements.append(Paragraph("Ravi Raj Anodisers", title_style))
+    elements.append(Paragraph("Inward Report", title_style2))
+    elements.append(Spacer(1, 0.2 * cm))
 
-    counteer = 1
-    # Loop over each related project
-    for i in outward_today:
-    # Filter outward entries specific to this project
-      
+    counter = 1
 
-        # Main table for project details
+    for i in inward_today:
+        # Table data with wrapped Paragraphs
         main_table_data = [
             ["#", "Item Code", "Item Code Description", "Supplier", "Quantity", "Description", "Date"],
-            [   
-                str(counteer),
+            [
+                str(counter),
                 str(i.inward_item_code.item_code),
-                str(i.inward_item_code.description),
-                str(i.inward_supplier),
+                Paragraph(str(i.inward_item_code.description), wrap_style),
+                Paragraph(str(i.inward_supplier), wrap_style),
                 str(i.quantity),
-                str(i.description),
+                Paragraph(str(i.description), wrap_style),
                 str(i.date),
             ]
         ]
 
-        counteer += 1
+        counter += 1
 
-        # Create the main table
-        main_table = Table(main_table_data, colWidths=[30, 50, 120, 100, 50, 150, 50])
+        # Create table
+        main_table = Table(main_table_data, colWidths=[30, 50, 100, 80, 50, 100, 50])
         main_table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.lightgreen),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
             ('BACKGROUND', (1, 1), (-1, -1), colors.whitesmoke),
             ('GRID', (0, 0), (-1, -1), 1, colors.black),
-            ('FONTSIZE', (0, 0), (-1, -1), 8),  # Set font size for all cells
+            ('FONTSIZE', (0, 0), (-1, -1), 8),
         ]))
 
         elements.append(main_table)
         elements.append(Spacer(1, 0.5 * cm))
 
-       
-    # Build and save the PDF
+    # Build PDF
     pdf.build(elements, onFirstPage=draw_border, onLaterPages=draw_border)
     file_path = os.path.join(settings.MEDIA_ROOT, 'Inward_report.pdf')
     with open(file_path, 'wb') as f:
         f.write(buffer.getvalue())
     buffer.close()
 
-    # Create the email
+    # Email with attachment
     email = EmailMessage(
-        subject='Inward Report PDF',
+       subject='Inward Report PDF',
         body='Please find the attached Inward Report in PDF format.',
         from_email='rradailyupdates@gmail.com',
         to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
         # to=['pratikgosavi654@gmail.com'],
     )
-
-    # Attach the generated PDF
     email.attach_file(file_path)
-
-    # Send the email
     email.send()
 
-    return JsonResponse({'message': 'response message'}, status=400)
-
+    return JsonResponse({'message': 'Inward report sent successfully.'}, status=200)
 def confrim_outward_report(request):
     today = timezone.now().date()
     
