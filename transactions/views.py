@@ -2672,7 +2672,7 @@ from reportlab.platypus import Paragraph
 
 def email_inward_report(request):
 
-    today = timezone.now().date() - timedelta(days=5)
+    today = timezone.now().date()
     inward_today = project_inward.objects.filter(date=today)
 
     buffer = BytesIO()
