@@ -289,7 +289,6 @@ def stock_report_email(request):
         to=[
             'varad@ravirajanodisers.com',
             'ravi@ravirajanodisers.com',
-            'pratikgosavi654@gmail.com',
             'raj@ravirajanodisers.com',
             'billing@ravirajanodisers.com',
         ],
@@ -594,7 +593,7 @@ def work_alert(request, token, recipient_number, template_name, language_code, p
             subject='Work Alert',
             body=param1,
             from_email='rradailyupdates@gmail.com',
-            to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com', 'pratikgosavi654@gmail.com'],
+            to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
             # to=['pratikgosavi654@gmail.com'],
         )
 
@@ -2758,7 +2757,7 @@ def email_inward_report(request):
        subject='Inward Report PDF',
         body='Please find the attached Inward Report in PDF format.',
         from_email='rradailyupdates@gmail.com',
-        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
         # to=['pratikgosavi654@gmail.com'],
     )
     email.attach_file(file_path)
@@ -2866,7 +2865,7 @@ def confrim_outward_report(request):
         subject='Outward Report PDF',
         body='Please find the attached outward report in PDF format.',
         from_email='rradailyupdates@gmail.com',
-        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
+        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
         # to=['pratikgosavi654@gmail.com'],
     )
 
@@ -3477,8 +3476,7 @@ def send_outward_report_pdf_email_daily(request):
         subject='Outward Report PDF',
         body='Please find the attached outward report in PDF format.',
         from_email='rradailyupdates@gmail.com',
-        # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
-        to=['pratikgosavi654@gmail.com'],
+        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
     )
 
     # Attach the generated PDF
@@ -3676,8 +3674,7 @@ def send_outward_report_pdf_email(request):
         subject='Outward Report PDF',
         body='Please find the attached outward report in PDF format.',
         from_email='rradailyupdates@gmail.com',
-        # to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'pratikgosavi654@gmail.com', 'raj@ravirajanodisers.com'],
-        to=['pratikgosavi654@gmail.com'],
+        to=['varad@ravirajanodisers.com', 'ravi@ravirajanodisers.com', 'raj@ravirajanodisers.com'],
     )
 
     # Attach the generated PDF
