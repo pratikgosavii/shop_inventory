@@ -117,17 +117,24 @@
     </tr>
 
     <tr id="newRow">
-        <td>  <select name="item_code" class="form-control" id="bag_size">
+        <td>  
+            
+            <select name="item_code" class="form-control select2" id="bag_size">
                                             
 
-            <option value="">---------</option>
-            {% for y in item_code_data %}
-                
-                <option value="{{ y.id }}">{{ y }}</option>
-                
-            {% endfor %}
-          </select>  <input type="hidden" name="production_id" value=""> </td>
-        <td> <input type="number" value="" name="production_quantity" class="form-control" id="bag_size"> </td>
+                <option value="">---------</option>
+                {% for y in item_code_data %}
+                    
+                    <option value="{{ y.id }}">{{ y }}</option>
+                    
+                {% endfor %}
+            </select>  
+            <input type="hidden" name="production_id" value=""> 
+            
+        </td>
+        <td> 
+            <input type="number" value="" name="production_quantity" class="form-control" id="bag_size"> 
+        </td>
     </tr>
 
     <tbody>
@@ -271,6 +278,7 @@ function password_verify(){
 // Example usage: Call this function after dynamically adding a new table
 // Replace 'my-table' with the actual ID of the newly added table
 
+  $('.select2').select2();
 
 </script>
 
