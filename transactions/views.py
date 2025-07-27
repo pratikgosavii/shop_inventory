@@ -1096,11 +1096,19 @@ def list_request_material(request):
 
     return render(request, 'transactions/list_request_material.html', context)
 
+
+from .filters import *
+
+
 @login_required(login_url='login')
 def list_project(request):
 
   
     data = project.objects.all().order_by("-id")
+
+    
+    filterset = project_filter(request.GET, queryset=data, request=request)
+    data = filterset.qs
 
     
     page = request.GET.get('page', 1)
@@ -1115,6 +1123,7 @@ def list_project(request):
 
     context = {
         'data': data,
+        'filterset': filterset,
         'project_filter': project_filter(),
        
     }

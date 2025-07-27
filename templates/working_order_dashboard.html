@@ -370,7 +370,7 @@ font-family: 'Montserrat', sans-serif;
                                 <td class="serial">{{ forloop.counter }}</td>
                                 <td>{{ i.name }}</td>
                                 <td>  
-                                   <a href="{% url 'update_grade' i.id %}"> 
+                                   {% comment %} <a href="{% url 'update_grade' i.id %}"> 
                                        <button style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
                                         View
                                        </button>  
@@ -380,7 +380,7 @@ font-family: 'Montserrat', sans-serif;
                                        <button style="background-color: red; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
                                         Delete
                                        </button>  
-                                   </a>
+                                   </a> {% endcomment %}
                                 </td>
                             </tr>
                             {% endfor %}

@@ -30,8 +30,18 @@
 
 
 
-  </style>
+<style>
 
+        .select2-container{
+
+            width: 164.75px
+        }
+
+        .select2-container .select2-selection--single {
+            height: 37px !important;
+        }
+
+</style>
 
 
 {% endblock head %} {% block content %}  
@@ -43,6 +53,25 @@
 
 
 <br />
+
+<div class="col-12" style="background: #f1f1f1;
+    padding: 22px 17px; margin-bottom:10px;">
+<form method="get">
+    <div class="row">
+        {% for field in filterset.form %}
+            <div class="col-md-3 mb-2">
+                <label>{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <div class="col-md-3 mb-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary me-2 mr-2">Apply</button>
+            <a href="{% url 'list_project' %}" class="btn btn-secondary">Reset</a>
+        </div>
+    </div>
+</form>
+    </div>
+
 
 
 <div class="row">
@@ -235,6 +264,10 @@
         // You can optionally provide feedback to the user here
     }
 }
+
+
+  $('.select2').select2();
+
   
     
 </script>

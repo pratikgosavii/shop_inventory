@@ -108,54 +108,40 @@
                              
 
 
-                            <table id="item-table" class="table">
-  <thead>
+ <table id="my-table">
+
     <tr>
-      <th>Item Code</th>
-      <th>Quantity</th>
-      <th><button type="button" class="btn btn-success add-item">+</button>
-</th>
+        <td> Item Code </td>
+        <td> Quantity </td>
+        <td>  <button type="button" class="btn btn-success add-textbox" > <i class="fa fa-plus" aria-hidden="true"></i></button>  </td>
     </tr>
-  </thead>
-  <tbody>
-    <!-- Visible row on load -->
-    <tr class="item-row">
-      <td>
-        <select class="form-control item-select select2" name="item_code" style="width: 100%">
-          <option value="">---------</option>
-          {% for y in item_code_data %}
-            <option value="{{ y.id }}">{{ y }}</option>
-          {% endfor %}
-        </select>
-      </td>
-      <td>
-        <input type="number" class="form-control qty-input" name="quantity" min="1" value="1" style="width: 50%">
-      </td>
+
+    <tr id="newRow">
+        <td>  
+            
+            <select name="item_code" class="form-control select2" id="bag_size">
+                                            
+
+                <option value="">---------</option>
+                {% for y in item_code_data %}
+                    
+                    <option value="{{ y.id }}">{{ y }}</option>
+                    
+                {% endfor %}
+            </select>  
+            <input type="hidden" name="production_id" value=""> 
+            
+        </td>
+        <td> 
+            <input type="number" value="" name="production_quantity" class="form-control" id="bag_size"> 
+        </td>
     </tr>
-  </tbody>
-</table>
 
-<!-- Hidden Template (never shown, used only for cloning) -->
-<table class="d-none">
-  <tr id="item-template" class="item-row">
-    <td>
-      <select class="form-control item-select select2" name="item_code" style="width: 100%">
-        <option value="">---------</option>
-        {% for y in item_code_data %}
-          <option value="{{ y.id }}">{{ y }}</option>
-        {% endfor %}
-      </select>
-    </td>
-    <td>
-      <input type="number" class="form-control qty-input" name="quantity" min="1" value="1" style="width: 50%">
-    </td>
-  </tr>
-</table>
+    <tbody>
+    </tbody>
 
-<!-- Add Button -->
-
- 
-                            <br>
+</table>  
+ <br>
                             <div>
                                 <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
                                     <span id="payment-button-amount">Add Project</span>
@@ -180,44 +166,44 @@
 <!-- Include Select2 JS -->
 <!-- Initialize Select2 -->
 
-
-
 <script>
-function initializeSelect2OnRow(row) {
-  // Remove any previously initialized Select2 (safe way)
-  row.find('.select2').removeClass('select2-hidden-accessible').next('.select2').remove();
-
-  // Now re-initialize Select2
-  row.find('.select2').select2({
-  });
-}
-
-$(document).ready(function () {
-  $('.select2').select2(); // initialize for existing visible ones
-
-  $('.add-item').on('click', function () {
-    const template = $('#item-template').clone();
-
-    // Make it visible and remove ID so it's not duplicated
-    template.removeAttr('id').removeClass('d-none');
-
-    // Clear fields
-    template.find('select').val('');
-    template.find('input').val('');
-
-    // Append to table
-    $('#item-table tbody').append(template);
-
-    // Re-initialize Select2 on this row
-    initializeSelect2OnRow(template);
-  });
-});
-</script>
+    
+   
 
 
 
+   $(document).ready(function() {
+    var max = 10000;
+    var cnt = 1;
+    $(".add-textbox").on("click", function(e){
+        e.preventDefault();
+        if(cnt < max){
+            cnt++;
 
-<script>
+           // Example JavaScript code to clone and insert the row dynamically
+           const newRow = document.createElement('tr');
+           newRow.innerHTML = `
+               <td>
+                   <select name="item_code" class="form-control" id="bag_size">
+                       <option value="">---------</option>
+                       {% for y in item_code_data %}
+                           <option value="{{ y.id }}">{{ y }}</option>
+                       {% endfor %}
+                   </select> <input type="hidden" name="production_id" value=""> </td>
+               </td>
+               <td>
+                   <input type="number" value="" name="production_quantity" class="form-control" id="bag_size"></td>
+                 
+              
+           `;
+
+           // Append the new row to the table
+           const table = document.getElementById('my-table');
+           table.appendChild(newRow);
+
+                }
+            });
+        });
 
 const tableBody = document.querySelector('#my-table tbody');
 

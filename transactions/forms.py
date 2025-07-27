@@ -57,10 +57,10 @@ class project_Form(forms.ModelForm):
         widgets = {
            
             'employee_name': forms.Select(attrs={
-                'class': 'form-control', 'id': 'employee_name'
+                'class': 'form-control select2', 'id': 'employee_name'
             }),
             'customer': forms.Select(attrs={
-                'class': 'form-control', 'id': 'customer'
+                'class': 'form-control select2', 'id': 'customer'
             }),
            
            
@@ -124,11 +124,11 @@ class project_inward_Form(forms.ModelForm):
 
 
             'inward_item_code': forms.Select(attrs={
-                'class': 'form-control sele', 'id': 'inward_item_code_id'
+                'class': 'form-control sele select2', 'id': 'inward_item_code_id'
             }),
 
             'inward_supplier': forms.Select(attrs={
-                'class': 'form-control sele', 'id': 'bag_size'
+                'class': 'form-control sele select2', 'id': 'bag_size'
             }),
 
             'quantity': forms.TextInput(attrs={
