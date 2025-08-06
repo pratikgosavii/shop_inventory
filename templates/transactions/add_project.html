@@ -94,7 +94,7 @@
                                     <tr class="item-row">
                                         <td>
                                             <select class="form-control item-select select2" name="item_code" style="width: 100%">
-                                                <option value="">---------</option>
+                                                <option value="">Select Item Code</option>
                                                 {% for y in item_code_data %}
                                                     <option value="{{ y.id }}">{{ y }}</option>
                                                 {% endfor %}
@@ -114,8 +114,8 @@
                             <table class="d-none">
                                 <tr id="item-template" class="item-row">
                                     <td>
-                                        <select class="form-control item-select select2" name="item_code" style="width: 100%">
-                                            <option value="">---------</option>
+                                        <select class="form-control item-select select2" placeholder="Select Item Code" name="item_code" style="width: 100%">
+                                            <option value="">Select Item Code</option>
                                             {% for y in item_code_data %}
                                                 <option value="{{ y.id }}">{{ y }}</option>
                                             {% endfor %}
@@ -156,27 +156,44 @@
         row.find('select.select2').select2();
     }
 
+    $(document).ready(function() {
+    $('.select2').select2();  // this activates all elements with class="select2"
+});
+
+
     $('.add-item').on('click', function () {
     const template = $('#item-template').clone();
 
-    // Remove ID and hide class
+    // Remove ID and hidden class
     template.removeAttr('id').removeClass('d-none');
 
-    const select = template.find('select');
+    // Remove existing Select2 if any
+    template.find('select.select2').each(function () {
+        if ($(this).hasClass('select2-hidden-accessible')) {
+            $(this).select2('destroy');
+        }
 
-    // Check if it's already initialized before trying to destroy
-    if ($.fn.select2 && select.hasClass("select2-hidden-accessible")) {
-        select.select2('destroy');
-    }
+        // Remove any Select2 containers that might've been cloned
+        $(this).siblings('.select2').remove();
+    });
 
     // Clear values
-    select.val('');
-    template.find('input').val('1');
+    template.find('select').val(null);
+    template.find('input').val('');
 
-    // Append and re-init Select2
+    // Append to table
     $('#item-table tbody').append(template);
-    select.select2();
+
+    // Initialize select2 on the new row’s select
+    template.find('select.select2').select2({
+        width: '100%',
+        placeholder: 'Select Item Code',
+        allowClear: true
+    });
 });
+
+
+
 
 
         // Remove item row
