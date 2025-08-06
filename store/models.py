@@ -107,6 +107,7 @@ class item_code(models.Model):
 
     code = models.CharField(max_length=120, unique=False)
     status = models.BooleanField(default=0)
+    customer = models.ForeignKey(customer, on_delete=models.CASCADE, null=True, blank=True)
     
     
     def __str__(self):

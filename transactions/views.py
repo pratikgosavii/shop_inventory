@@ -1387,6 +1387,9 @@ def add_project(request):
 
             for a, b, c in zip(production_id, item_code_id, quantity):
 
+                if not b.strip():  # skip row if item_code is blank
+                    continue
+
                 if a and a!= '0':
 
                     print('here2')
@@ -1485,6 +1488,9 @@ def update_project_accountant(request, project_id):
             for a, b, c in zip(production_id, item_code_id, quantity):
                 print('----------')
                 print(a)
+                if not b.strip():  # skip row if item_code is blank
+                    continue
+                
                 if a and a != '0':
 
                     project_material_instnace = project_matarial_production.objects.get(id = a)

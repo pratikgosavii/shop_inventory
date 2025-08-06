@@ -20,10 +20,13 @@ class item_code_Form(forms.ModelForm):
     class Meta:
         model = item_code
         
-        fields = ['code']
+        fields = ['code', 'customer']
         widgets = {
             'code': forms.TextInput(attrs={
                 'class': 'form-control', 'id': 'code'
+            }),
+            'customer': forms.Select(attrs={
+                'class': 'form-control', 'id': 'customer'
             }),
             
         }
