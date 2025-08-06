@@ -91,6 +91,52 @@ class project_Form(forms.ModelForm):
             'DC_date': DateInput(attrs={ 'class': 'form-control dateclas', 'type': 'date'}, format = '%Y-%m-%d'),
             
         }
+           
+
+class order_booking_Form(forms.ModelForm):
+
+
+
+    class Meta:
+        model = order_booking
+        fields = '__all__'
+        widgets = {
+           
+            'employee_name': forms.Select(attrs={
+                'class': 'form-control select2', 'id': 'employee_name'
+            }),
+            'customer': forms.Select(attrs={
+                'class': 'form-control select2', 'id': 'customer'
+            }),
+           
+           
+            'order_id': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'order_id'
+            }),
+           
+            'rra_invoice_no': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'rra_invoice'
+            }),
+
+            'description': forms.TextInput(attrs={
+                'class': 'form-control', 'id': 'description'
+            }),
+
+
+            # 'design_file': forms.ClearableFileInput(attrs={
+            #                 'class': 'form-control',
+            # }),
+
+            # 'own_design_file': forms.ClearableFileInput(attrs={
+            #                 'class': 'form-control',
+                            
+            # }),
+           
+          
+
+            'DC_date': DateInput(attrs={ 'class': 'form-control dateclas', 'type': 'date'}, format = '%Y-%m-%d'),
+            
+        }
 
 
 

@@ -28,6 +28,11 @@ urlpatterns = [
     path('update-project/<project_id>', update_project, name='update_project'),
     path('get-sheet-details/', get_sheet_details, name='get_sheet_details'),
 
+    path('add-order-booking/', add_order_booking, name='add_order_booking'),
+    path('update-order-booking/<order_booking_id>', update_order_booking, name='update_order_booking'),
+    path('delete-order-booking/<order_booking_id>', delete_order_booking, name='delete_order_booking'),
+    path('list-order-booking/', list_order_booking, name='list_order_booking'),
+
     path('confirm-outward/<project_id>', confirm_outward, name='confirm_outward'),
     
     path('confirm-small-outward-json/<project_outward_id>', confirm_small_outward_json, name='confirm_small_outward_json'),

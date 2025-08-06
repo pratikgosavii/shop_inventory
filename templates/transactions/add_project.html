@@ -1,50 +1,44 @@
 {% extends 'base/base.html' %}
 
-
-
 {% block title %}Create Product{% endblock title %}
 
 {% block head %}
-
-
 <style>
+    .select2-container {
+        width: 100% !important;
+    }
 
-        .select2-container{
+    .select2-container .select2-selection--single {
+        height: 37px !important;
+        padding: 4px;
+    }
 
-            width: 164.75px
-        }
-
-        .select2-container .select2-selection--single {
-            height: 37px !important;
-        }
-
+    .select2-selection__arrow {
+        height: 37px !important;
+    }
 </style>
-
 {% endblock head %}
 
 {% block content %}
 
-
-<!-- Modal HTML -->
 <div id="myModal" class="modal fade">
-	<div class="modal-dialog modal-confirm">
-		<div class="modal-content">
-			<div class="modal-header">
-				<div class="icon-box">
-					<i class="material-icons">&#xE876;</i>
-				</div>				
-				<h4 class="modal-title w-100">Awesome!</h4>	
-			</div>
-			<div class="modal-body">
-				<p class="text-center">Your booking has been confirmed. Check your email for detials.</p>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="icon-box">
+                    <i class="material-icons">&#xE876;</i>
+                </div>				
+                <h4 class="modal-title w-100">Awesome!</h4>	
+            </div>
+            <div class="modal-body">
+                <p class="text-center">Your booking has been confirmed. Check your email for details.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success btn-block" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
 </div>     
-
 
 <div class="row">
     <div class="col-lg-12">
@@ -53,108 +47,89 @@
                 <strong class="card-title">Add Project Plan</strong>
             </div>
             <div class="card-body">
-                <!-- Credit Card -->
                 <div id="pay-invoice">
                     <div class="card-body">
                         <form action="#" id="submitform" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
 
-                            
-                         
                             <div class="form-group">
                                 <label for="name" class="control-label mb-1">Customer Name</label>
                                 {{ form.customer }}
-                               
                             </div>
 
                             <div class="form-group">
                                 <label for="name" class="control-label mb-1">Purchase Order No </label>
                                 {{ form.order_id }}
-                               
                             </div>
 
                             <div class="form-group">
                                 <label for="name" class="control-label mb-1">Description </label>
                                 {{ form.description }}
-                               
                             </div>
-
 
                             <div class="form-group">
                                 <label for="name" class="control-label mb-1">RRA Invoice No</label>
                                 {{ form.rra_invoice_no }}
-                                
                             </div>
 
                             <div class="form-group">
                                 <label for="name" class="control-label mb-1">Date</label>
                                 {{ form.DC_date }}
-                                
                             </div>
 
-                            {% comment %} <div class="form-group">
-                                <label for="name" class="control-label mb-1">Design File</label>
-                                {{ form.design_file }}
-                               
-                            </div> {% endcomment %}
-
-
                             <hr>
-
-                            
-                            <label for="name" class="control-label mb-1"> Item Code Details</label>
-
-                           
-                             
-
+                            <label for="name" class="control-label mb-1">Item Code Details</label>
 
                             <table id="item-table" class="table">
-  <thead>
-    <tr>
-      <th>Item Code</th>
-      <th>Quantity</th>
-      <th><button type="button" class="btn btn-success add-item">+</button>
-</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- Visible row on load -->
-    <tr class="item-row">
-      <td>
-        <select class="form-control item-select select2" name="item_code" style="width: 100%">
-          <option value="">---------</option>
-          {% for y in item_code_data %}
-            <option value="{{ y.id }}">{{ y }}</option>
-          {% endfor %}
-        </select>
-      </td>
-      <td>
-        <input type="number" class="form-control qty-input" name="quantity" min="1" value="1" style="width: 50%">
-      </td>
-    </tr>
-  </tbody>
-</table>
+                                <thead>
+                                    <tr>
+                                        <th>Item Code</th>
+                                        <th>Quantity</th>
+                                        <th>
+                                            <button type="button" class="btn btn-success add-item">+</button>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="item-row">
+                                        <td>
+                                            <select class="form-control item-select select2" name="item_code" style="width: 100%">
+                                                <option value="">---------</option>
+                                                {% for y in item_code_data %}
+                                                    <option value="{{ y.id }}">{{ y }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control qty-input" name="quantity" min="1" value="1" style="width: 50%">
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger remove-item">-</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-<!-- Hidden Template (never shown, used only for cloning) -->
-<table class="d-none">
-  <tr id="item-template" class="item-row">
-    <td>
-      <select class="form-control item-select select2" name="item_code" style="width: 100%">
-        <option value="">---------</option>
-        {% for y in item_code_data %}
-          <option value="{{ y.id }}">{{ y }}</option>
-        {% endfor %}
-      </select>
-    </td>
-    <td>
-      <input type="number" class="form-control qty-input" name="quantity" min="1" value="1" style="width: 50%">
-    </td>
-  </tr>
-</table>
+                            <!-- Hidden Template -->
+                            <table class="d-none">
+                                <tr id="item-template" class="item-row">
+                                    <td>
+                                        <select class="form-control item-select select2" name="item_code" style="width: 100%">
+                                            <option value="">---------</option>
+                                            {% for y in item_code_data %}
+                                                <option value="{{ y.id }}">{{ y }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control qty-input" name="quantity" min="1" value="1" style="width: 50%">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger remove-item">-</button>
+                                    </td>
+                                </tr>
+                            </table>
 
-<!-- Add Button -->
-
- 
                             <br>
                             <div>
                                 <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
@@ -164,136 +139,92 @@
                         </form>
                     </div>
                 </div>
-
             </div>
-        </div> <!-- .card -->
-
-    </div><!--/.col-->
+        </div>
+    </div>
 </div>
-
 
 {% endblock content %}
 
 {% block js %}
-    
-
-<!-- Include Select2 JS -->
-<!-- Initialize Select2 -->
-
-
+<!-- Select2 CDN -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
-function initializeSelect2OnRow(row) {
-  // Remove any previously initialized Select2 (safe way)
-  row.find('.select2').removeClass('select2-hidden-accessible').next('.select2').remove();
+    function initializeSelect2OnRow(row) {
+        row.find('select.select2').select2();
+    }
 
-  // Now re-initialize Select2
-  row.find('.select2').select2({
-  });
-}
-
-$(document).ready(function () {
-  $('.select2').select2(); // initialize for existing visible ones
-
-  $('.add-item').on('click', function () {
+    $('.add-item').on('click', function () {
     const template = $('#item-template').clone();
 
-    // Make it visible and remove ID so it's not duplicated
+    // Remove ID and hide class
     template.removeAttr('id').removeClass('d-none');
 
-    // Clear fields
-    template.find('select').val('');
-    template.find('input').val('');
+    const select = template.find('select');
 
-    // Append to table
+    // Check if it's already initialized before trying to destroy
+    if ($.fn.select2 && select.hasClass("select2-hidden-accessible")) {
+        select.select2('destroy');
+    }
+
+    // Clear values
+    select.val('');
+    template.find('input').val('1');
+
+    // Append and re-init Select2
     $('#item-table tbody').append(template);
-
-    // Re-initialize Select2 on this row
-    initializeSelect2OnRow(template);
-  });
-});
-</script>
-
-
-
-
-<script>
-
-const tableBody = document.querySelector('#my-table tbody');
-
-tableBody.addEventListener('click', function(event) {
-
-    const target = event.target;
-    if (target.classList.contains('remove-textbox')) {
-      const row = target.closest('tr'); // Find the parent row
-      if (row.parentNode.children.length > 1) {
-        row.remove(); // Remove the row from the table if there are more than one rows
-      }
-    }
-  });
-
-
-
-  $("#submitform").on("submit", function(e) {
-    // Check if any required fields are empty or disabled
-    const invalidFields = $(this).find("select[required]:enabled").filter(function() {
-        return !$(this).val(); // Check for empty value
-    });
-
-    if (invalidFields.length > 0) {
-        // Display an error message or take appropriate action
-        alert("Please fill in all required fields.");
-        return false; // Prevent form submission
-    }
-
+    select.select2();
 });
 
-function password_verify(){
 
-    password = document.getElementById('password').value;
-    employee_name = document.getElementById('employee_name').value;
-
-
-    $.ajax({
-        url: "{% url 'verify_password' %}",  // Replace with your actual API endpoint
-        method: 'POST',  // Change the HTTP method as needed
-        data: {
-            'employee' : employee_name,
-            'password' : password,
-            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-        },
-        success: function(response) {
-
-            if(response.status == "done"){
-                
-                password_verification = 1
-
-                document.getElementById('password').disabled = true;
-                document.getElementById('employee_name').disabled = true;
-                
-                alert('Password verification done')
-               
+        // Remove item row
+        $('#item-table').on('click', '.remove-item', function () {
+            const row = $(this).closest('tr');
+            if ($('#item-table tbody tr').length > 1) {
+                row.remove();
             }
+        });
 
-            else{
+        // Form validation
+        $("#submitform").on("submit", function (e) {
+            const invalidFields = $(this).find("select[required]:enabled").filter(function () {
+                return !$(this).val();
+            });
 
-                alert('Wrong password')
-
+            if (invalidFields.length > 0) {
+                alert("Please fill in all required fields.");
+                return false;
             }
-        },
-        error: function(error) {
-            console.log(error);
-            // Handle errors here
-        }
-    });
+        });
 
-}
+        // Password verification (if used elsewhere)
+        window.password_verify = function () {
+            const password = document.getElementById('password').value;
+            const employee_name = document.getElementById('employee_name').value;
 
-// Example usage: Call this function after dynamically adding a new table
-// Replace 'my-table' with the actual ID of the newly added table
-
-  $('.select2').select2();
-
+            $.ajax({
+                url: "{% url 'verify_password' %}",
+                method: 'POST',
+                data: {
+                    'employee': employee_name,
+                    'password': password,
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function (response) {
+                    if (response.status === "done") {
+                        document.getElementById('password').disabled = true;
+                        document.getElementById('employee_name').disabled = true;
+                        alert('Password verification done');
+                    } else {
+                        alert('Wrong password');
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        };
 </script>
-
 {% endblock js %}
