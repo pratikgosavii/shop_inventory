@@ -26,7 +26,7 @@ class item_code_Form(forms.ModelForm):
                 'class': 'form-control', 'id': 'code'
             }),
             'customer': forms.Select(attrs={
-                'class': 'form-control', 'id': 'customer'
+                'class': 'form-control select2', 'id': 'customer'
             }),
             
         }

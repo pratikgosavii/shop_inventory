@@ -120,7 +120,11 @@ def add_item_code(request):
         forms = item_code_Form(request.POST)
 
         if forms.is_valid():
-            forms.save()
+
+            new_item = forms.save(commit=False)
+            new_item.status = True
+            new_item.save()
+              
             return redirect('list_item_code')
         else:
             print(forms.errors)
@@ -199,7 +203,7 @@ def delete_item_code(request, item_code_id):
 @login_required(login_url='login')
 def list_item_code(request):
 
-    data = item_code.objects.all()
+    data = item_code.objects.filter(status=True)
 
     context = {
         'data': data

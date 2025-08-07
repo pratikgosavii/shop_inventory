@@ -35,7 +35,7 @@ class order_booking_filter(django_filters.FilterSet):
     
 
     item_code = django_filters.ModelChoiceFilter(
-        queryset=item_code.objects.all(),
+        queryset=item_code.objects.filter(status = True),
         field_name='item_code',
         to_field_name='code',
         label='Item Code',
@@ -86,7 +86,7 @@ class project_filter(django_filters.FilterSet):
     
 
     item_code = django_filters.ModelChoiceFilter(
-        queryset=item_code.objects.all(),
+        queryset=item_code.objects.filter(status = True),
         field_name='item_code',
         to_field_name='code',
         label='Item Code',
@@ -117,7 +117,7 @@ class project_filter(django_filters.FilterSet):
 class project_matarial_production_filter(django_filters.FilterSet):
 
     item_code = django_filters.ModelChoiceFilter(
-        queryset=item_code.objects.all(),  # Replace with your actual ItemCode queryset
+        queryset=item_code.objects.filter(status = True),  # Replace with your actual ItemCode queryset
         field_name='item_code',
         to_field_name='code',  # Field used to compare with the selected value
         label='Item Code',

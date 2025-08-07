@@ -56,7 +56,7 @@
                                             <span id="payment-button-amount">View</span>
                                         </button>
                                     </a>
-                                    {% if i.status == 0 %}
+                                    {% comment %} {% if i.status == 0 %}
                                     <a href="{% url 'activate_item_code' i.id %}">
                                         <button id="payment-button" class="btn btn-info" style="padding: 10px; border-radius: 12px;" type="submit">
                                             <span id="payment-button-amount">Activate</span>
@@ -68,7 +68,7 @@
                                             <span id="payment-button-amount">Deactivate</span>
                                         </button>
                                     </a>
-                                    {% endif %}
+                                    {% endif %} {% endcomment %}
                                 </td>
                             </tr>
                             {% endfor %}

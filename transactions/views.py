@@ -1358,6 +1358,8 @@ def list_order_booking(request):
 @login_required(login_url='login')
 def add_project(request):
 
+    item_code_data = item_code.objects.filter(status = True)
+
 
     if request.method == 'POST':
 
@@ -1444,7 +1446,6 @@ def add_project(request):
 
         forms = project_Form()
 
-        item_code_data = item_code.objects.all()
 
         context = {
             'form': forms,
@@ -1544,7 +1545,7 @@ def update_project_accountant(request, project_id):
 
         production_data = project_matarial_production.objects.filter(project = project_instance)
 
-        item_code_data = item_code.objects.all()
+        item_code_data = item_code.objects.filter(status = True)
 
         context = {
             'form': forms,
@@ -2433,7 +2434,7 @@ def delete_inward_item_code(request, inward_item_code_id):
 @login_required(login_url='login')
 def list_inward_item_code(request):
 
-    data = inward_item_code.objects.all()  
+    data = inward_item_code.objects.filter(status = True)  
 
     page = request.GET.get('page', 1)
     paginator = Paginator(data, 50)
@@ -2479,7 +2480,7 @@ def add_inward(request):
             
             data_form = project_inward_Form()
 
-            item_code_data = inward_item_code.objects.all()
+            item_code_data = inward_item_code.objects.filter(status = True)
 
             context = {
                 'form': forms,
@@ -2492,7 +2493,7 @@ def add_inward(request):
     else:
 
         forms = project_inward_Form()
-        item_code_data = inward_item_code.objects.all()
+        item_code_data = inward_item_code.objects.filter(status = True)
 
          
         context = {
@@ -4217,7 +4218,7 @@ def add_production(request, project_id):
 
         data = project_material.objects.filter(project = project_instance)
 
-        item_code_data = item_code.objects.all()
+        item_code_data = item_code.objects.filter(status = True)
 
         print(item_code_data)
 
