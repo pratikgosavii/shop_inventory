@@ -2434,7 +2434,7 @@ def delete_inward_item_code(request, inward_item_code_id):
 @login_required(login_url='login')
 def list_inward_item_code(request):
 
-    data = inward_item_code.objects.filter(status = True)  
+    data = inward_item_code.objects.all()  
 
     page = request.GET.get('page', 1)
     paginator = Paginator(data, 50)
@@ -2480,7 +2480,7 @@ def add_inward(request):
             
             data_form = project_inward_Form()
 
-            item_code_data = inward_item_code.objects.filter(status = True)
+            item_code_data = inward_item_code.objects.all()
 
             context = {
                 'form': forms,
@@ -2493,7 +2493,7 @@ def add_inward(request):
     else:
 
         forms = project_inward_Form()
-        item_code_data = inward_item_code.objects.filter(status = True)
+        item_code_data = inward_item_code.objects.all()
 
          
         context = {
