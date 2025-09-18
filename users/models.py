@@ -9,3 +9,6 @@ class User(AbstractUser):
     is_designer = models.BooleanField(default=False)
     is_cutter = models.BooleanField(default=False)
     is_salesman = models.BooleanField(default=False)
+    is_planner = models.BooleanField(default=False)
+    is_executor = models.BooleanField(default=False)
+    is_order_booker = models.BooleanField(default=False)

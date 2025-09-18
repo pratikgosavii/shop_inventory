@@ -1,4 +1,5 @@
 {% extends 'base/quotation_base.html' %}
+{% load static %}
 
 {% block title %} Quotation Dashboard{% endblock title %}
 
@@ -298,7 +299,7 @@ font-family: 'Montserrat', sans-serif;
 
     <button id="enable-sound-button" style="background: orange; border: orange;" class="btn btn-success form-input">Enable Sound</button>
 <audio id="audio-element" muted autoplay>
-    <source src="static/audio/popup.wav" type="audio/mpeg">
+    <source src="{% static '/audio/popup.wav'  %}" type="audio/mpeg">
 </audio>
 
 
@@ -492,7 +493,7 @@ font-family: 'Montserrat', sans-serif;
     
                 if (soundEnabled) {
                     // Play the sound without asking for permission
-                    const audio = new Audio('static/audio/notification.wav');
+                    const audio = new Audio('"{% static '/audio/popup.wav'  %}");
                     audio.play();
                 }
     

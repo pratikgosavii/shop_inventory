@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',
     'users.apps.UsersConfig',
     'transactions',
+    'order_booking',
     'quotation',
     'dbbackup',
     # 'django_crontab',

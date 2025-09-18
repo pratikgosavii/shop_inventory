@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block title %}Dashboard{% endblock title %}
 
@@ -129,25 +130,80 @@ font-family: 'Montserrat', sans-serif;
 }
 
 
+.table tbody tr {
+  transition: all 0.2s ease-in-out;
+  cursor: grab;
+}
+.table tbody tr:active {
+  cursor: grabbing;
+  background: #f0f8ff;
+}
+
+
+
+ /* Animation and style for dragged rows */
+    .sortable-ghost {
+      opacity: 0.4;
+    }
+
+    .sortable-chosen {
+      background: #f0f8ff;
+    }
+
+   /* make sure table uses normal collapse behaviour (your theme may already set this) */
+.table {
+  border-collapse: collapse;
+}
+
+/* Priority column = 2nd column (header + body) */
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  border-left: 4px solid #0b6f4a;   /* green left edge */
+  border-right: 4px solid #0b6f4a;  /* green right edge */
+  padding-left: 1rem;
+  padding-right: 1rem;
+  text-align: center;
+  font-weight: bold;
+  background: transparent;          /* ensure no bg breaks the lines */
+}
+
+/* Remove the horizontal divider inside the column so vertical edges look continuous */
+.table td:nth-child(2) {
+  border-bottom: 0 !important; /* override theme horizontal line */
+}
+
+/* Add top border on header to close the rectangle */
+.table thead th:nth-child(2) {
+  border-top: 4px solid #0b6f4a;
+}
+
+/* Add bottom border on the last body row to close the rectangle */
+.table tbody tr:last-child td:nth-child(2) {
+  border-bottom: 4px solid #0b6f4a;
+}
+
+/* Optional: subtle background for column cells (keeps look consistent) */
+.table tbody td:nth-child(2) {
+  background-color: rgba(11,111,74,0.03);
+}
+
+
+
+
 
 </style>
 
 <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+ <!-- SortableJS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+
 {% endblock head %}
 
 {% block content %}
-
-{% comment %} 
-    <a href="{% url 'report_daily' %}"> <button class="btn btn-primary" type="submit">
-        Daily Report
-    </button> </a>
-    
-    <a href="{% url 'generate_report_main' %}"> <button class="btn btn-primary" type="submit">
-        Monthly Report
-    </button> </a><br><br> {% endcomment %}
-
-    <!-- Widgets  -->
 
     
         <div class="container1212" style="margin-bottom: 15px;" id="notificationDiv">
@@ -226,123 +282,14 @@ font-family: 'Montserrat', sans-serif;
 
         </div>
 
-    <hr>
     
-    <div class="col-6">
-
-        <h3 style="font-size: 18px; font-weight: 600;"> MM X MM to SQinch Calculator </h3> 
-
-        <br>
-
-
-    <br>
-
-
-    <div class="form-group" style="width : 50%">
-        <div style="border: 1px solid black;
-        padding: 17px;">
-        <label for="lengthMm">Length (mm):</label>
-        <input type="text" class="form-control used-length-input" id="used-length-input" placeholder="Length" inputmode="numeric">
-
-        
-        <label for="widthMm">Width (mm):</label>
-        <input type="text" class="form-control used-width-input" id="used-width-input" placeholder="Width" inputmode="numeric">
-
-        </div>
-        <br>
-
-        <label for="name" class="control-label mb-1">Size</label>
-        <input type="text" class="form-control used-sq-inch-input" id="used-sq-inch-input" placeholder="Used Square Inches" inputmode="numeric">
-
-    </div>
-
-    </div>
     <div>
-{% comment %} 
-        {% if request.user.is_designer %}
 
-        {% endif %} {% endcomment %}
-
-
-        
-
-    <!-- /Widgets -->
-    
     <div class="clearfix"></div>
-
-    <!-- Orders -->
-    {% comment %} <div class="orders">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="box-title">Orders </h4>
-                    </div>
-                    <div class="card-body--">
-                        <div class="table-stats order-table ov-h">
-                            <table class="table ">
-                                <thead>
-                                    <tr>
-                                        <th class="serial">#</th>
-                                        <th>Supplier</th>
-                                        <th>Product</th>
-                                        <th>Design</th>
-                                        <th>Color</th>
-                                        <th>Buyer</th>
-                                        <th>Season</th>
-                                        <th>Drop</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% if orders %}
-                                    {% for order in orders %}
-                                    <tr>
-                                        <td class="serial">{{ forloop.counter }}</td>
-                                        <td>{{ order.supplier }}</td>
-                                        <td>{{ order.product }}</td>
-                                        <td>{{ order.design }}</td>
-                                        <td>{{ order.color }}</td>
-                                        <td>{{ order.buyer }}</td>
-                                        <td>{{ order.season }}</td>
-                                        <td>{{ order.drop }}</td>
-                                        <td>{{ order.created_date }}</td>
-                                        <td>
-                                            {% if order.status == 'pending' %}
-                                                <a class="btn btn-warning" href="">{{ order.status }}</a>
-                                            {% elif order.status == 'decline' %}
-                                                <a class="btn btn-danger" href="">{{ order.status }}</a>
-                                            {% elif order.status == 'complete' %}
-                                                <a class="btn btn-success" href="">{{ order.status }}</a>
-                                            {% elif order.status == 'approved' %}
-                                                <a class="btn btn-primary" href="">{{ order.status }}</a>
-                                            {% elif order.status == 'bulk' %}
-                                                <a class="btn btn-secondary" href="">{{ order.status }}</a>
-                                            {% else %}
-                                                <a class="btn btn-info" href="">{{ order.status }}</a>
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                    {% else %}
-                                        <tr><td>No Order Data</td></tr>
-                                    {% endif %}
-                                </tbody>
-                            </table>
-                        </div> <!-- /.table-stats -->
-                    </div>
-                </div> <!-- /.card -->
-            </div>  <!-- /.col-lg-8 -->
-
-            
-        </div>
-    </div> {% endcomment %}
-    <!-- /.orders -->
 
     <button id="enable-sound-button" style="background: orange; border: orange;" class="btn btn-success form-input">Enable Sound</button>
 <audio id="audio-element" muted autoplay>
-    <source src="static/audio/popup.wav" type="audio/mpeg">
+    <source src="{% static '/audio/popup.wav'  %}" type="audio/mpeg">
 </audio>
 
 
@@ -351,43 +298,137 @@ font-family: 'Montserrat', sans-serif;
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="box-title">Grade List </h4>
+                <h4 class="box-title">Production List </h4>
             </div>
             <div class="card-body--">
                 <div class="table-stats order-table ov-h">
-                    <table class="table" id="sortable">
-                        <thead>
-                            <tr>
-                                <th class="serial">#</th>
-                                <th>Grade Name</th>
-                                <th>Actions</th>
-                            </tr>
+                    <table class="table" id="sortableTable">
+                      <thead>
+                        <tr>
+                            <th class="serial">#</th>
+                            <th>Priority</th>
+                            <th>Employee</th>
+                            <th>Customer Name</th>
+                            <th>Order ID</th>
+                            <th>Project ID</th>
+                            <th>Total sqinch</th>
+                            <th>Description</th>
+                            <th>Order Type</th>
+                            <th>Delivery Date</th>
+                            <th>Delivery Type</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
                         </thead>
-                        <tbody>
-                            {% if data %}
+                        <tbody id="sortable">
+   
+                            <!-- ✅ Normal Orders -->
                             {% for i in data %}
-                            <tr data-id="{{ i.id }}" class="sortable-row">
-                                <td class="serial">{{ forloop.counter }}</td>
-                                <td>{{ i.name }}</td>
-                                <td>  
-                                   {% comment %} <a href="{% url 'update_grade' i.id %}"> 
-                                       <button style="background-color: green; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
-                                        View
-                                       </button>  
-                                   </a>
+                                <tr data-id="{{ i.id }}">
+                                    <td class="serial">{{ forloop.counter }}</td>
+                                    <td style="font-weight: bold;">{{ i.priority }}</td>
+                                    <td> 
+                                        {% for emp in i.assigned_employees.all %}
+                                            {{ emp }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ i.order.customer }}</td>
+                                    <td>{{ i.order.order_id }}</td>
+                                    <td>{{ i.order.id }}</td>
 
-                                   <a href="{% url 'delete_grade' i.id %}">
-                                       <button style="background-color: red; border: green; padding: 10px;border-radius: 12px;" type="submit" class="btn-info ">
-                                        Delete
-                                       </button>  
-                                   </a> {% endcomment %}
+                                    <td>{{ i.order.total_sqinch }}</td>
+                                    <td>{{ i.order.order_type }}</td>
+                                    <td>{{ i.order.delivery_date }}</td>
+                                    <td>{{ i.order.delivery_type }}</td>
+                                    <td>
+                                        {% if i.order.drawings %}
+                                            <a href="{{ i.order.drawings.url }}" target="_blank">View</a>
+                                        {% else %}No file{% endif %}
+                                    </td>
+                                    <td>{{ i.order.date }}</td>
+
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                    
+                                        <a href="{% url 'update_production_order' i.id %}" 
+                                                                        style="color: #006affff; text-decoration: none;"
+                                                                        title="View / Edit">
+                                                                        <i class="fa fa-info-circle" style="font-size: 1.8em;"></i>
+                                                                    </a>
+
+                                                                    
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                            <!-- Divider -->
+                            <tr>
+                                <td colspan="12" style="background: #f0f0f0; text-align: center; font-weight: bold;">
+                                    On Hold Orders
                                 </td>
                             </tr>
-                            {% endfor %}
-                            {% else %}
-                                <tr><td colspan="3">No Product Data</td></tr>
-                            {% endif %}
-                        </tbody>
+
+                            <tbody id="sortable-hold">
+
+                                <!-- 🔴 On Hold Orders -->
+                                {% for i in data_hold %}
+                                    <tr data-id="{{ i.id }}" class="table-danger">
+                                        <td class="serial">{{ forloop.counter }}</td>
+                                        <td style="font-weight: bold;">{{ i.priority }}</td>
+                                        <td> 
+                                            {% for emp in i.assigned_employees.all %}
+                                                {{ emp }}{% if not forloop.last %}, {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td>{{ i.order.customer }}</td>
+                                        <td>{{ i.order.order_id }}</td>
+                                        <td>{{ i.order.id }}</td>
+                                        <td>{{ i.order.total_sqinch }}</td>
+                                        <td>{{ i.order.order_type }}</td>
+                                        <td>{{ i.order.delivery_date }}</td>
+                                        <td>{{ i.order.delivery_type }}</td>
+                                        <td>
+                                            {% if i.order.drawings %}
+                                                <a href="{{ i.order.drawings.url }}" target="_blank">View</a>
+                                            {% else %}No file{% endif %}
+                                        </td>
+                                        <td>{{ i.order.date }}</td>
+
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+
+                                                <a href="{% url 'update_production_order' i.id %}" 
+                                                                            style="color: #006affff; text-decoration: none;"
+                                                                            title="View / Edit">
+                                                                            <i class="fa fa-info-circle" style="font-size: 1.8em;"></i>
+                                                                        </a>
+
+
+
+                                                    <a href="{% url 'active_production_order' i.id %}" 
+                                                        style="color: #5c5c5cff; text-decoration: none;"
+                                                        title="Move to Production">
+                                                        <i class="fa fa-sign-in" style="font-size: 1.8em;"></i>
+                                                        </a>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Collapsible Hold Details -->
+                                    <tr id="details-{{ i.id }}" class="collapse bg-light">
+                                        <td colspan="12" style="text-align: center; padding: 10px;">
+                                            <div>
+                                                <strong>Hold Reason:</strong> {{ i.get_hold_reason_display|default:"N/A" }} <br>
+                                                <strong>Remarks:</strong> {{ i.remarks|default:"No remarks provided" }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+
+
                     </table>
                 </div> <!-- /.table-stats -->
             </div>
@@ -397,6 +438,7 @@ font-family: 'Montserrat', sans-serif;
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
 
 
 
@@ -413,158 +455,113 @@ font-family: 'Montserrat', sans-serif;
 
 
 
-
-
-
-
 <script>
-    $(function() {
-        // Make the rows sortable
-        $("#sortable tbody").sortable({
-            update: function(event, ui) {
-                // Get the order of the rows
-                let order = [];
-                $('.sortable-row').each(function(index) {
-                    order.push({ id: $(this).data('id'), priority: index + 1 });
-                });
+document.addEventListener("DOMContentLoaded", function () {
+    let tbody = document.getElementById("sortable");
 
-                // Send the new order to the server via AJAX
-                $.ajax({
-                    type: "POST",
-                    url: "{% url 'update_priority' %}",
-                    data: {
-                        order: JSON.stringify(order),
-                        csrfmiddlewaretoken: '{{ csrf_token }}'
-                    },
-                    success: function(response) {
-                        console.log("Priority updated successfully.");
-                    },
-                    error: function(xhr, status, error) {
-                        console.log("Error updating priority:", error);
-                    }
-                });
-            }
-        });
-    });
-</script>
-
-
-
-
-
-    <script>
-
-
-
-
-
-        function calculateSqIn() {
-            // Get the length and width in mm from the input fields
-            const lengthMm = parseFloat(document.getElementById('used-length-input').value);
-            const widthMm = parseFloat(document.getElementById('used-width-input').value);
-            
-            // Check if the inputs are valid numbers
-            if (!isNaN(lengthMm) && !isNaN(widthMm)) {
-                // Convert mm to inches (1 inch = 25.4 mm)
-                const lengthIn = lengthMm / 25.4;
-                const widthIn = widthMm / 25.4;
-                
-                // Calculate square inches
-                const sqIn = lengthIn * widthIn;
-                
-                // Display the result in the "size" input field
-                document.getElementById('used-sq-inch-input').value = sqIn.toFixed(2);
-            } else {
-                // Display an error message if inputs are not valid numbers
-                
-            }
-        }
-        
-        // Add event listeners to the input fields to trigger the calculation
-        document.getElementById('used-length-input').addEventListener('input', calculateSqIn);
-        document.getElementById('used-width-input').addEventListener('input', calculateSqIn);
-        
-        document.getElementById('used-sq-inch-input').addEventListener('input', function() {
-            document.getElementById('lengthMm').value = '';
-            document.getElementById('widthMm').value = '';
-        });
-    
-        // Calculate initially when the page loads
-        calculateSqIn();
-    
-
-    
-        const channel = pusher.subscribe('alerts');
-        channel.bind('new-alert', function (data) {
-            const message = data.message;
-            const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
-
-            
-            
-            
-            var currentUser = "{{ request.user.is_reception }}";
-            var notificationDiv = document.getElementById('notificationDiv');
-            var closeNotificationButton = document.getElementById('closeNotification'); // Get the close button by its ID
-
-            var userStatusElement = document.getElementById('userStatus');
-            if (currentUser == "True") {
-                // Create a new div for the notification
-                var notificationDiv = document.getElementById('notificationDiv');
-
-            // Create a new div for the notification
-            var notificationItem = document.createElement('div');
-            notificationItem.className = 'box1';
-
-            // Add content to the notification div
-            var notificationContent = `
-                <div class="xmark-box">
-                    <i class="fa-solid fa-x" id="closeNotification"></i>
-                </div>
-                <div class="caption-box">
-                    <img src="https://www.pngall.com/wp-content/uploads/2/Approved-PNG-Download-Image.png" alt="approveimg">
-                    <div class="caption">
-                        <h5>HI,</h5>
-                        <p>${message}</p>
-                    </div>
-                </div>
-            `;
-            notificationItem.innerHTML = notificationContent;
-
-            notificationDiv.appendChild(notificationItem);
-            
-            if (soundEnabled) {
-                // Play the sound without asking for permission
-                const audio = new Audio('static/audio/popup.wav');
-                audio.play();
-            }
-
-            else{
-                alert('please enable sound')
-            }
-
-
-            }
-            // Add a click event listener to the close button
-            var closeButton = notificationItem.querySelector('#closeNotification');
-            closeButton.addEventListener('click', function () {
-                // Remove the notification item when the close button is clicked
-                notificationDiv.removeChild(notificationItem);
+    Sortable.create(tbody, {
+        animation: 150,
+        ghostClass: "sortable-ghost",
+        onEnd: function (evt) {
+            let order = [];
+            tbody.querySelectorAll("tr").forEach((row, index) => {
+                if (row.dataset.id) {  // ✅ skip rows without ID
+                    order.push({
+                        id: row.dataset.id,
+                        position: index + 1
+                    });
+                }
             });
 
-            // Append the notification item to the notificationDiv
-          
-        });
+            $.ajax({
+                url: "{% url 'update_priority' %}",
+                type: "POST",
+                data: JSON.stringify({ order: order }),
+                contentType: "application/json",
+                headers: { "X-CSRFToken": "{{ csrf_token }}" },
+                success: function (response) {
+                    console.log("Priority updated:", response);
+                    location.reload();
+                },
+                error: function (xhr) {
+                    console.error("Error updating priority:", xhr.responseText);
+                }
+            });
+       }
+    });
+});
 
 
-    
 
-
-
-
+  const enableSoundButton = document.getElementById('enable-sound-button');
+        const audioElement = document.getElementById('audio-element');
         
-    </script>
+        enableSoundButton.addEventListener('click', () => {
+            audioElement.play().then(() => {
+                // Autoplay is allowed, store user's preference
+                localStorage.setItem('soundEnabled', 'true');
+                enableSoundButton.style.display = 'none';
+            }).catch((error) => {
+                // Autoplay was denied by the user
+                console.error('Autoplay permission denied:', error);
+            });
+        });
+        
+        
+        // In the 'enable-sound-button' click handler
+        localStorage.setItem('soundEnabled', 'true');
+        
+                  if ('Notification' in window) {
+                    Notification.requestPermission().then(permission => {
+                      if (permission === 'granted') {
+                        enableSoundButton.style.display = 'none';// Permission granted, you can now send notifications (including sound) without asking again until revoked.
+                      } else if (permission === 'denied') {
+                        // Permission denied, handle accordingly.
+                      } else {
+                        // Permission dismissed or unavailable, handle accordingly.
+                      }
+                    });
+                  }
+        
+                 
+                  const pusher = new Pusher('bc5ccb3b5fa0e00f91e5', {
+                    cluster: 'ap2',
+                    encrypted: true,
+                });
+                 
+                  const channel2 = pusher.subscribe('alerts');
+                channel2.bind('new-notificatin', function (data) {
+                    const message = data.message;
+        
+                    alert('here')
+                    alert(message)
+        
+                    const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
+        
+                    if (soundEnabled) {
+                        // Play the sound without asking for permission
+                        const audio = new Audio("{% static '/audio/popup.wav'  %}");
+                        audio.play();
+                    }
+        
+                    else{
+                        alert('please enable sound')
+                    }
+        
+        
+        
+                    // To show all elements with the class "notification-badge"
+                    document.getElementById('notification-badge').style.display = 'flex';
+        
+        
+                });
+        
 
-    <script src="https://kit.fontawesome.com/8535745612.js" crossorigin="anonymous"></script>
+                
+
+
+
+</script>
 
 
 

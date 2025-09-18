@@ -1,5 +1,5 @@
 <aside id="left-panel" class="left-panel">
-    <nav class="navbar navbar-expand-sm navbar-default" style="overflow-y: scroll;">
+    <nav class="navbar navbar-expand-sm navbar-default">
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
 
@@ -10,10 +10,30 @@
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-id-card-o"></i><a href="{% url 'dashboard' %}">Inventory Dashboard</a></li>
                         <li><i class="fa fa-th"></i><a href="{% url 'quotation_dashboard' %}">Quotation Dashboard</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'dashboard_order_booking' %}">Order Booking Dashboard</a></li>
+                    
+                        {% if request.user.is_executor %}
+
+                            <li><i class="fa fa-th"></i><a href="{% url 'dashboard_working_order' %}">Production Dashboard</a></li>
+
+                        {% endif %}
+                        
                     </ul>
                 </li>
 
                 {% endif %}
+
+                {% if request.user.is_planner %}
+
+                    {# ✅ Only executor → show single dashboard link #}
+                    <li>
+                        <a href="{% url 'dashboard_working_order' %}">
+                            <i class="menu-icon fa fa-building-o"></i>Dashboard
+                        </a>
+                    </li>
+
+                {% endif %}
+
 
                
                 {% if request.user.is_superuser %}
@@ -78,7 +98,7 @@
                 </li>
 
                 <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Cutter </a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-building-o"></i>Employee </a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_cutter' %}">Add</a></li>
                         <li><i class="fa fa-th"></i><a href="{% url 'list_cutter' %}">View</a></li>
@@ -221,7 +241,7 @@
 
                 
 
-                <li class="menu-title">Transactions</li><!-- /.menu-title -->
+                <li class="menu-title">Operations</li><!-- /.menu-title -->
 
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Order Booking</a>
@@ -240,13 +260,13 @@
                     </ul>
                 </li>
 
-                <li class="menu-item-has-children dropdown">
+                {% comment %} <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Order</a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_order' %}">Add</a></li>
                         <li><i class="fa fa-th"></i><a href="{% url 'list_order' %}">View</a></li>
                     </ul>
-                </li>
+                </li> {% endcomment %}
 
                 {% endif %}
 
@@ -263,20 +283,32 @@
                     </ul>
                 </li>
 
-                <li class="menu-title">Transactions</li><!-- /.menu-title -->
+                <li class="menu-title">Operations</li><!-- /.menu-title -->
 
 
-                <li class="menu-item-has-children dropdown">
+                {% comment %} <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Order</a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_order' %}">Add</a></li>
                         <li><i class="fa fa-th"></i><a href="{% url 'list_order' %}">View</a></li>
                     </ul>
                 </li>
+                 {% endcomment %}
+                
+                {% endif %}
+                
 
+                {% if request.user.is_order_booker %}
+
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Booking</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_order_booking' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_order_booking' %}">View</a></li>
+                    </ul>
+                </li>
 
                 {% endif %}
-
 
                 {% if request.user.is_reception %}
                 
@@ -301,10 +333,49 @@
 
                 {% endif %}
 
+                {% if request.user.is_planner %}
+
+
+                 <li class="menu-title">Operations</li><!-- /.menu-title -->
+
+                 
+
+             
+
+                 <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Order Booking</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_order_booking' %}">Add</a></li>
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_order_booking' %}">View</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="{% url 'order_today_report' %}">
+                        <i class="menu-icon fa fa-users"></i> Today Report
+                    </a>
+                </li>
+
+                
+                
+                {% endif %}
+
+
+
                 {% if request.user.is_reception or request.user.is_designer %}
 
-                <li class="menu-title">Transactions</li><!-- /.menu-title -->
+                <li class="menu-title">Operations</li><!-- /.menu-title -->
 
+                 <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Order Booking</a>
+                    <ul class="sub-menu children dropdown-menu">
+                         {% if not request.user.is_designer  %}
+                         <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_order_booking' %}">Add</a></li>
+                         {% endif %}
+                        <li><i class="fa fa-th"></i><a href="{% url 'list_order_booking' %}">View</a></li>
+                    </ul>
+                </li>
+                
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Project</a>
                     <ul class="sub-menu children dropdown-menu">
@@ -328,6 +399,7 @@
                 
                 {% if request.user.is_superuser or request.user.is_designer %}
 
+                {% if not request.user.is_designer %}
                 <li class="menu-item-has-children dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Inward</a>
                     <ul class="sub-menu children dropdown-menu">
@@ -335,6 +407,8 @@
                         <li><i class="fa fa-th"></i><a href="{% url 'list_inward' %}">View</a></li>
                     </ul>
                 </li>
+
+                {% endif %}
                 
                 
 

@@ -1,0 +1,276 @@
+{% extends 'base/base.html' %} {% block title %}Product List{% endblock title %}
+{% block head %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    <!-- imp -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script> 
+
+
+
+<style>
+  tr.hide-table-padding td {
+    padding: 0;
+  }
+
+  .expand-button {
+    position: relative;
+  }
+
+  .accordion-toggle .expand-button:after {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translate(0, -50%);
+    content: "-";
+  }
+  .accordion-toggle.collapsed .expand-button:after {
+    content: "+";
+  }
+
+  
+</style>
+
+
+
+<style>
+
+        .select2-container{
+
+            width: 164.75px
+        }
+
+        .select2-container .select2-selection--single {
+            height: 37px !important;
+        }
+
+       {% comment %} .table-wrapper {
+  max-height: 1000px;       /* vertical scroll */
+  overflow-y: auto;
+  overflow-x: auto;        /* horizontal scroll */
+}
+
+
+/* Keep table header fixed */
+.table-wrapper table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+} {% endcomment %}
+
+
+
+
+</style>
+
+
+{% endblock head %} {% block content %}  
+
+
+
+<div class="row">
+  <div class="col-xl-12">
+
+
+<br />
+
+<div class="col-12" style="background: #f1f1f1;
+    padding: 22px 17px; margin-bottom:10px;">
+<form method="get">
+    <div class="row">
+        {% for field in filterset.form %}
+            <div class="col-md-3 mb-2">
+                <label>{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+        <div class="col-md-3 mb-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary me-2 mr-2">Apply</button>
+            <a href="{% url 'list_order_booking' %}" class="btn btn-secondary">Reset</a>
+        </div>
+    </div>
+</form>
+    </div>
+
+
+
+<div class="row">
+  <div class="col-xl-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="box-title">Order List</h4>
+      </div>
+      <div class="card-body--">
+        <div class="table-stats order-table ov-h">
+          <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                  <th class="serial">#</th>
+                  <th>Customer Name</th>
+                  <th>Order ID</th>
+                  <th>Project ID</th>
+                  <th>Total Sqinch</th>
+                  <th>Description</th>
+                  <th>Order Type</th>
+                  <th>Delivery Date</th>
+                  <th>Delivery Type</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for i in data %}
+              
+                  <tr data-toggle="collapse" data-target="#demo{{ forloop.counter }}" class="accordion-toggle">
+                  
+                      <td class="serial">{{ forloop.counter }}</td>
+                      <td>{{ i.customer }}</td>
+                      <td>{{ i.order_id }}</td>
+                      <td>{{ i.id }}</td>
+                      <td>{{ i.total_sqinch }}</td>
+                      <td>{{ i.description }}</td>
+                      <td>{{ i.order_type }}</td>
+                      <td>{{ i.delivery_date }}</td>
+                      <td>{{ i.delivery_type }}</td>
+                    
+                      <td>{{ i.date }}</td>
+
+                      <td>
+                          <div style="display: flex; align-items: center; gap: 8px;">
+                              
+                              
+                              {% if request.user.is_designer  %}
+                              <a href="{% url 'update_order_booking_designer' i.id %}" 
+                                  style="color: #007bff; text-decoration: none;"
+                                  title="View / Edit">
+                                  <i class="fa fa-info-circle" style="font-size: 1.8em;"></i>
+                              </a>
+                              {% elif request.user.is_accounts or request.user.is_planner or request.user.is_superuser %}
+                              <a href="{% url 'update_order_booking' i.id %}" 
+                                  style="color: #006affff; text-decoration: none;"
+                                  title="View / Edit">
+                                  <i class="fa fa-info-circle" style="font-size: 1.8em;"></i>
+                              </a>
+                              {% endif %}
+
+                              {% if request.user.is_superuser %}
+                              <a href="#" onclick="confirmDelete({{ i.id }})"
+                                  style="color: #dc3545; text-decoration: none;"
+                                  title="Delete">
+                                  <i class="fa fa-trash" style="font-size: 1.8em;"></i>
+                              </a>
+                              {% endif %}
+                            
+                            {% if request.user.is_planner and i.status == "planning" %}
+                            
+                              <a href="{% url 'move_to_production' i.id %}" 
+                                style="color: #5c5c5cff; text-decoration: none;"
+                                title="Move to Production">
+                                <i class="fa fa-sign-in" style="font-size: 1.8em;"></i>
+                              </a>
+                              {% endif %}
+
+                              
+                          </div>
+                      </td>
+
+                  </tr>
+                  {% endfor %}
+              </tbody>
+
+          </table>
+        </div>
+
+          {% if data.has_other_pages %}
+          <nav>
+            <ul class="pagination justify-content-center">
+              {% if data.has_previous %}
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  href="?page={{ data.previous_page_number }}"
+                  aria-label="Previous"
+                >
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&laquo;</span>
+              </li>
+              {% endif %} 
+              {% for p in data.paginator.page_range %} 
+              {% if data.number == p %}
+              <li class="page-item">
+                <a class="page-link" style="color: red" href="#">{{ p }}</a>
+              </li>
+              {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ p }}">{{ p }}</a>
+              </li>
+              {% endif %} 
+              {% endfor %} {% if data.has_next %}
+              <li class="page-item">
+                <a
+                  class="page-link"
+                  href="?page={{ data.next_page_number }}"
+                  aria-label="Next"
+                >
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&raquo;</span>
+              </li>
+              {% endif %}
+            </ul>
+          </nav>
+          {% endif %}
+        </div>
+        <!-- /.table-stats -->
+      </div>
+    </div>
+    <!-- /.card -->
+  </div>
+  <!-- /.col-lg-8 -->
+</div>
+
+<script>
+  
+
+  
+
+  
+
+  $("#year").change(function () {
+    url = window.location.href;
+    url = url.split("?")[0];
+    url = url + "?year=" + $(this).val();
+    location.href = url;
+  });
+
+
+
+
+  function confirmDelete(projectId) {
+    // Show a confirmation dialog
+    if (confirm("Are you sure you want to delete this project?")) {
+        // If the user confirms, construct the delete URL
+        const deleteUrl = "{% url 'delete_project' 0 %}".replace("0", projectId);
+        // Redirect to the delete URL
+        window.location.href = deleteUrl;
+    } else {
+        // If the user cancels, do nothing
+        // You can optionally provide feedback to the user here
+    }
+}
+
+
+  $('.select2').select2();
+
+  
+    
+</script>
+
+{% endblock content %}

@@ -1,0 +1,225 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Add Order{% endblock title %}
+
+{% block head %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    .select2-container {
+        width: 100% !important;
+    }
+    .select2-container .select2-selection--single {
+        height: 38px !important;
+        padding: 6px;
+    }
+    .select2-selection__arrow {
+        height: 38px !important;
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header">
+            <strong class="card-title">Add Order</strong>
+        </div>
+        <div class="card-body">
+            <form action="#" id="submitform" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">{{ form.customer.label_tag }} {{ form.customer }}</div>
+                    <div class="col-md-6">{{ form.purchase_no.label_tag }} {{ form.purchase_no }}</div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-4">{{ form.order_id.label_tag }} {{ form.order_id }}</div>
+                    <div class="col-md-4">{{ form.order_type.label_tag }} {{ form.order_type }}</div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-4">{{ form.delivery_type.label_tag }} {{ form.delivery_type }}</div>
+                    <div class="col-md-4">{{ form.delivery_date.label_tag }} {{ form.delivery_date }}</div>
+                    {% if request.user.is_superuser %}
+                    <div class="col-md-4">{{ form.status.label_tag }} {{ form.status }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">{{ form.drawings.label_tag }} {{ form.drawings }}</div>
+                </div>
+                {% if request.user.is_designer %}
+                
+                <div class="row mt-3">
+                        <div class="col-md-6">{{ form.design_completion_expected_date.label_tag }} {{ form.design_completion_expected_date }}</div>
+                        <div class="col-md-6">{{ form.expected_film_delivery_date.label_tag }} {{ form.expected_film_delivery_date }}</div>
+                        <div class="col-md-3 form-check mt-4">
+                            {{ form.is_drawing_avaiable }} {{ form.is_drawing_avaiable.label_tag }}
+                        </div>
+                        <div class="col-md-3 form-check mt-4">
+                            {{ form.is_flim_avaiable }} {{ form.is_flim_avaiable.label_tag }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <hr>
+                <p style="font-weight: bold; margin-bottom: 8px;">Item Code Details</p>
+                <table id="item-table" class="table table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width:20%">Item Code</th>
+                            <td style="width:20%"> Category </td>
+                            <td style="width:20%"> Thickness </td>
+                            <td style="width:20%"> Grade </td>
+                            <th style="width:20%">Quantity</th>
+                            <th style="width:10%">
+                                <button type="button" class="btn btn-success btn-sm add-item">+</button>
+                            </th>
+                        </tr>
+                        {% for i in production_data %}
+                            <tr>
+                                <td>
+                                    <select name="item_code" class="form-control" required>
+                                        <option value="">---------</option>
+                                        {% for y in item_code_data %}
+                                            <option value="{{ y.id }}" {% if y.id == i.item_code.id %}selected{% endif %}>
+                                                {{ y }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+
+                                <input type="hidden" name="production_id" value="{{ i.id }}">
+
+                                <!-- Category Dropdown using form field -->
+                                <td>
+                                    <select name="category" class="form-control" required>
+                                        {% for val, text in data_form.category.field.choices %}
+                                            <option value="{{ val }}" {% if val == i.category.id %}selected{% endif %}>
+                                                {{ text }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+
+                                <!-- Grade Dropdown using form field -->
+                                <td>
+                                    <select name="grade" class="form-control" required>
+                                        {% for val, text in data_form.grade.field.choices %}
+                                            <option value="{{ val }}" {% if val == i.grade.id %}selected{% endif %}>
+                                                {{ text }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+
+                                <!-- Thickness Dropdown using form field -->
+                                <td>
+                                    <select name="thickness" class="form-control" required>
+                                        {% for val, text in data_form.thickness.field.choices %}
+                                            <option value="{{ val }}" {% if val == i.thickness.id %}selected{% endif %}>
+                                                {{ text }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <input type="number" value="{{ i.production_quantity }}" name="production_quantity" class="form-control" required>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                    </thead>
+                    {% if not production_data %}
+                    <tbody>
+                        <tr class="item-row">
+                            <td>
+                                <select class="form-control item-select select2" name="item_code">
+                                    <option value="">Select Item Code</option>
+                                    {% for y in item_code_data %}
+                                        <option value="{{ y.id }}">{{ y }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td> {{ data_form.category }} </td> 
+                            <td> {{ data_form.thickness }} </td> 
+                            <td> {{ data_form.grade }} </td> 
+                            <td>
+                                <input type="number" class="form-control qty-input" name="production_quantity" min="1" value="1">
+                                <input type="hidden" name="production_id" value="">
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm remove-item">-</button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                    {% endif %}
+
+                </table>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary w-100">Add Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden Template -->
+<table class="d-none">
+    <tr id="item-template" class="item-row">
+        <td>
+            <select class="form-control item-select select2" name="item_code">
+                <option value="">Select Item Code</option>
+                {% for y in item_code_data %}
+                    <option value="{{ y.id }}">{{ y }}</option>
+                {% endfor %}
+            </select>
+        </td>
+         <td> {{ data_form.category }} </td> 
+                            <td> {{ data_form.thickness }} </td> 
+                            <td> {{ data_form.grade }} </td> 
+                            <td>
+                                <input type="number" class="form-control qty-input" name="production_quantity" min="1" value="1">
+                                <input type="hidden" name="production_id" value="">
+                            </td>
+        <td>
+            <button type="button" class="btn btn-danger btn-sm remove-item">-</button>
+        </td>
+    </tr>
+</table>
+{% endblock content %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.select2').select2();
+
+        $('.add-item').on('click', function () {
+            const template = $('#item-template').clone();
+            template.removeAttr('id').removeClass('d-none');
+
+            template.find('select.select2').each(function () {
+                if ($(this).hasClass('select2-hidden-accessible')) {
+                    $(this).select2('destroy');
+                }
+                $(this).siblings('.select2').remove();
+            });
+
+            template.find('select').val(null);
+            template.find('input').val('');
+
+            $('#item-table tbody').append(template);
+            template.find('select.select2').select2({ width: '100%', placeholder: 'Select Item Code', allowClear: true });
+        });
+
+        $('#item-table').on('click', '.remove-item', function () {
+            if ($('#item-table tbody tr').length > 1) {
+                $(this).closest('tr').remove();
+            }
+        });
+    });
+</script>
+{% endblock js %}

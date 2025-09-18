@@ -1281,79 +1281,6 @@ from store.forms import *
 
 
 
-@login_required(login_url='login')
-def add_order_booking(request):
-
-    if request.method == 'POST':
-
-        forms = order_booking_Form(request.POST)
-
-        if forms.is_valid():
-            forms.save()
-            return redirect('list_order_booking')
-        else:
-            print(forms.errors)
-    
-    else:
-
-        forms = order_booking_Form()
-
-        context = {
-            'form': forms
-        }
-        return render(request, 'store/add_order_booking.html', context)
-
-        
-
-@login_required(login_url='login')
-def update_order_booking(request, order_booking_id):
-
-    if request.method == 'POST':
-
-        instance = shelf.objects.get(id=order_booking_id)
-
-        forms = order_booking_Form(request.POST, instance=instance)
-
-        if forms.is_valid():
-            forms.save()
-            return redirect('list_order_booking')
-        else:
-            print(forms.errors)
-    
-    else:
-
-        instance = shelf.objects.get(id=order_booking_id)
-        forms = order_booking_Form(instance=instance)
-
-        context = {
-            'form': forms
-        }
-        return render(request, 'store/add_order_booking.html', context)
-
-        
-
-@login_required(login_url='login')
-def delete_order_booking(request, order_booking_id):
-
-    shelf.objects.get(id=order_booking_id).delete()
-
-    return HttpResponseRedirect(reverse('list_order_booking'))
-
-
-        
-
-@login_required(login_url='login')
-def list_order_booking(request):
-
-    data = order_booking.objects.all()
-
-    context = {
-        'data': data
-    }
-
-    return render(request, 'store/list_order_booking.html', context)
-
-
 
 @login_required(login_url='login')
 def add_project(request):
@@ -1424,7 +1351,7 @@ def add_project(request):
                                       cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
                                       ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
 
-            pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
+            # pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
 
             return redirect('list_project')
 
@@ -1520,7 +1447,7 @@ def update_project_accountant(request, project_id):
                                       cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
                                       ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
 
-            pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
+            # pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
 
             return redirect('list_project')
 
@@ -1638,7 +1565,7 @@ def add_project_designer(request, project_id):
                                       cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
                                       ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
 
-            pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
+            # pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
 
             return redirect('list_project')
 

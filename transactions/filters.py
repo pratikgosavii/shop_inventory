@@ -10,56 +10,6 @@ from django_filters import FilterSet, ChoiceFilter, NumberFilter
 from users.models import *
 
 
-class order_booking_filter(django_filters.FilterSet):
-
-    order_id = django_filters.CharFilter(
-        field_name='order_id',
-        lookup_expr='exact',
-        label='Order ID',
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Order ID'}),
-    )
-
-    project_id = django_filters.CharFilter(
-        field_name='id',
-        lookup_expr='exact',
-        label='project ID',
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'project ID'}),
-    )
-
-    customer = django_filters.ModelChoiceFilter(
-        queryset=customer.objects.all(),
-        field_name='customer',
-        widget=forms.Select(attrs={'class': 'form-control select2', 'id': 'customer'}),
-    )
-
-    
-
-    item_code = django_filters.ModelChoiceFilter(
-        queryset=item_code.objects.filter(status = True),
-        field_name='item_code',
-        to_field_name='code',
-        label='Item Code',
-        widget=forms.Select(attrs={'class': 'form-control select2'}),
-    )
-
-    
-    from_DC_date = DateFilter(
-        field_name="DC_date",
-        lookup_expr='gte',
-        widget=forms.DateInput(attrs={'id': 'from_datepicker', 'type': 'date', 'class': 'form-control date_css'}),
-    )
-
-    to_DC_date = DateFilter(
-        field_name="DC_date",
-        lookup_expr='lte',
-        widget=forms.DateInput(attrs={'id': 'to_datepicker', 'type': 'date', 'class': 'form-control date_css'}),
-    )
-
-    class Meta:
-        model = order_booking
-        fields = ['item_code', 'customer', 'order_id', 'project_id']
-
-        
 
 class project_filter(django_filters.FilterSet):
 
@@ -85,30 +35,26 @@ class project_filter(django_filters.FilterSet):
 
     
 
-    item_code = django_filters.ModelChoiceFilter(
-        queryset=item_code.objects.filter(status = True),
-        field_name='item_code',
-        to_field_name='code',
-        label='Item Code',
-        widget=forms.Select(attrs={'class': 'form-control select2'}),
-    )
+   
 
     
     from_DC_date = DateFilter(
         field_name="DC_date",
         lookup_expr='gte',
+        label="DC Date From",
         widget=forms.DateInput(attrs={'id': 'from_datepicker', 'type': 'date', 'class': 'form-control date_css'}),
     )
 
     to_DC_date = DateFilter(
         field_name="DC_date",
         lookup_expr='lte',
+        label="DC Date To",
         widget=forms.DateInput(attrs={'id': 'to_datepicker', 'type': 'date', 'class': 'form-control date_css'}),
     )
 
     class Meta:
         model = project
-        fields = ['item_code', 'customer', 'order_id', 'project_id']
+        fields = ['customer', 'order_id', 'project_id']
 
         
 

@@ -19,8 +19,17 @@ def login_page(request):
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
+                
+
+                if user.is_planner:
+                    return redirect('dashboard_working_order')
+                elif user.is_executor:
+                    return redirect('dashboard_executor_order')
+                    
                 return redirect('dashboard')
+            
             else:
+                print('wrong')
                 messages.error(request, 'wrong username password')
     context = {'form': forms}
     return render(request, 'users/login.html', context)

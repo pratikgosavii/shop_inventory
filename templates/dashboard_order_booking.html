@@ -1,0 +1,470 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock title %}
+
+
+{% block head %}
+
+
+<style>
+
+    ul#notificationList {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    ul#notificationList li {
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        margin: 5px;
+        padding: 10px;
+    }
+
+
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+
+.container1212{
+  font-family: 'Montserrat', sans-serif;
+font-family: 'Montserrat', sans-serif;
+
+    width: 90%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: relative;
+}
+.container1212:before{
+    content: '';
+    position: absolute;
+    height: 450px;
+    top: -6rem;
+    left: -4.5rem;
+    opacity: .3;
+}
+.container1212:after{
+    content: '';
+    position: absolute;
+    width: 600px;
+    height: 350px;
+    border-radius: 50% 33% 50% 50%;
+    top: -5rem;
+    right: -4rem;
+    z-index: -1;
+    opacity: .5;
+}
+.container1212 > .box1, .container >.box2{
+    padding: 1rem 1rem 2rem;
+    position: relative;
+    border-radius: 10px;
+    background-color:#ffffff ;
+    box-shadow: 0 0 10px #f8f4ff, 0 0 10px #b5a6c1;
+    overflow: hidden;
+}
+.container1212 .xmark-box{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: #f9f9fb;
+    color: #555662;
+    width: 20px;
+    height: 20px;
+    border-radius: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2.5px #f9f9fb;
+    text-align: center;
+    transition: all .2s;
+    cursor: pointer;
+}
+.container1212 .xmark-box:hover{
+    opacity: .8;
+}
+.container1212 > .box1 > .caption-box, .container1212 > .box2 > .caption-box{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    position: relative;
+}
+.container1212 > .box1:after{
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 100px;
+    background-color: #d6ebf4;
+    opacity: .4;
+    border-radius: 50%;
+    top: 1.5rem;
+    left: -9rem;
+    rotate: 92deg;
+}
+.container1212 > .box2:after{
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 100px;
+    background-color: #facaf3;
+    opacity: .4;
+    border-radius: 50%;
+    top: 1.5rem;
+    left: -9rem;
+    rotate: 92deg;
+}
+.container1212 img{
+    width: 30px;
+    height: 30px;
+}
+.container1212 .caption-box{
+    margin-top: .8rem;
+}
+.container1212 .caption{
+    margin-left: .7rem;
+}
+.container1212 .caption h5 {
+    margin: 1rem 0 .5rem;
+    font-size: 15px;
+}
+.container1212 .caption p{
+    font-size: 14px;
+}
+
+
+.table tbody tr {
+  transition: all 0.2s ease-in-out;
+  cursor: grab;
+}
+.table tbody tr:active {
+  cursor: grabbing;
+  background: #f0f8ff;
+}
+
+
+
+ /* Animation and style for dragged rows */
+    .sortable-ghost {
+      opacity: 0.4;
+    }
+
+    .sortable-chosen {
+      background: #f0f8ff;
+    }
+
+
+
+</style>
+
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+ <!-- SortableJS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+
+{% endblock head %}
+
+{% block content %}
+
+    
+        <div class="container1212" style="margin-bottom: 15px;" id="notificationDiv">
+           
+        </div>
+        
+    
+    
+
+
+    <div class="clearfix"></div>
+
+    <button id="enable-sound-button" style="background: orange; border: orange;" class="btn btn-success form-input">Enable Sound</button>
+<audio id="audio-element" muted autoplay>
+    <source src="{% static '/audio/popup.wav'  %}" type="audio/mpeg">
+</audio>
+
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="box-title">Production List </h4>
+            </div>
+            <div class="card-body--">
+                <div class="table-stats order-table ov-h">
+                    <table class="table" id="sortableTable">
+                      <thead>
+                        <tr>
+                            <th class="serial">#</th>
+                            <th>Priority</th>
+                            <th>Employee</th>
+                            <th>Customer Name</th>
+                            <th>Order ID</th>
+                            <th>Project ID</th>
+                            <th>Total sqinch</th>
+                            <th>Description</th>
+                            <th>Order Type</th>
+                            <th>Delivery Date</th>
+                            <th>Delivery Type</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="sortable">
+    <tbody id="sortable">
+    <!-- ✅ Normal Orders -->
+    {% for i in data %}
+        <tr data-id="{{ i.id }}">
+            <td class="serial">{{ forloop.counter }}</td>
+            <td style="font-weight: bold;">{{ i.priority }}</td>
+            <td> 
+                {% for emp in i.assigned_employees.all %}
+                    {{ emp }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{ i.order.customer }}</td>
+            <td>{{ i.order.order_id }}</td>
+            <td>{{ i.order.id }}</td>
+
+            <td>{{ i.order.total_sqinch }}</td>
+            <td>{{ i.order.order_type }}</td>
+            <td>{{ i.order.delivery_date }}</td>
+            <td>{{ i.order.delivery_type }}</td>
+            <td>
+                {% if i.order.drawings %}
+                    <a href="{{ i.order.drawings.url }}" target="_blank">View</a>
+                {% else %}No file{% endif %}
+            </td>
+            <td>{{ i.order.date }}</td>
+
+            <td>
+                <div style="display: flex; align-items: center; gap: 8px;">
+               
+                  <a href="{% url 'update_production_order' i.id %}" 
+                                                style="color: #006affff; text-decoration: none;"
+                                                title="View / Edit">
+                                                <i class="fa fa-info-circle" style="font-size: 1.8em;"></i>
+                                            </a>
+
+                                            
+                </div>
+
+                                                <a href="{% url 'mark_as_completed' i.id %}" 
+                                                style="color: #68d23abe; text-decoration: none;"
+                                                title="Move to Production">
+                                                <i class="fa fa-check-circle" style="font-size: 1.8em;"></i>
+                                                </a>
+                                               <a href="#" 
+                                                    class="open-hold-modal" 
+                                                    data-id="{{ i.id }}" 
+                                                    style="color: #b52323be; text-decoration: none;"
+                                                    title="Move to Hold">
+                                                    <i class="fa fa-times" style="font-size: 1.8em;"></i>
+                                                    </a>
+            </td>
+        </tr>
+    {% endfor %}
+
+    <!-- Divider -->
+    <tr>
+        <td colspan="12" style="background: #f0f0f0; text-align: center; font-weight: bold;">
+            On Hold Orders
+        </td>
+    </tr>
+
+    <!-- 🔴 On Hold Orders -->
+    {% for i in data_hold %}
+        <tr data-id="{{ i.id }}" class="table-danger">
+            <td class="serial">{{ forloop.counter }}</td>
+            <td style="font-weight: bold;">{{ i.priority }}</td>
+            <td> 
+                {% for emp in i.assigned_employees.all %}
+                    {{ emp }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+            <td>{{ i.order.customer }}</td>
+            <td>{{ i.order.order_id }}</td>
+            <td>{{ i.order.id }}</td>
+            <td>{{ i.order.total_sqinch }}</td>
+            <td>{{ i.order.order_type }}</td>
+            <td>{{ i.order.delivery_date }}</td>
+            <td>{{ i.order.delivery_type }}</td>
+            <td>
+                {% if i.order.drawings %}
+                    <a href="{{ i.order.drawings.url }}" target="_blank">View</a>
+                {% else %}No file{% endif %}
+            </td>
+            <td>{{ i.order.date }}</td>
+
+            <td>
+                <div style="display: flex; align-items: center; gap: 8px;">
+
+                     <a href="{% url 'update_production_order' i.id %}" 
+                                                style="color: #006affff; text-decoration: none;"
+                                                title="View / Edit">
+                                                <i class="fa fa-info-circle" style="font-size: 1.8em;"></i>
+                                            </a>
+
+
+
+                           <a href="{% url 'active_production_order' i.id %}" 
+                            style="color: #5c5c5cff; text-decoration: none;"
+                            title="Move to Production">
+                            <i class="fa fa-sign-in" style="font-size: 1.8em;"></i>
+                            </a>
+
+                </div>
+            </td>
+        </tr>
+
+        <!-- Collapsible Hold Details -->
+        <tr id="details-{{ i.id }}" class="collapse bg-light">
+            <td colspan="12" style="text-align: center; padding: 10px;">
+                <div>
+                    <strong>Hold Reason:</strong> {{ i.get_hold_reason_display|default:"N/A" }} <br>
+                    <strong>Remarks:</strong> {{ i.remarks|default:"No remarks provided" }}
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
+</tbody>
+
+
+                    </table>
+                </div> <!-- /.table-stats -->
+            </div>
+        </div> <!-- /.card -->
+    </div>  <!-- /.col-lg-8 -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+
+
+
+
+
+    
+{% endblock content %}
+
+
+{% block js %}
+
+
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let tbody = document.querySelector("table.table tbody");
+
+    Sortable.create(tbody, {
+        animation: 150, // smooth animation
+        ghostClass: "sortable-ghost", // class while dragging
+        onEnd: function (evt) {
+            console.log("Row moved from", evt.oldIndex, "to", evt.newIndex);
+
+            // OPTIONAL: send new order to server via AJAX
+            let order = [];
+            tbody.querySelectorAll("tr").forEach((row, index) => {
+                order.push({
+                    id: row.getAttribute("data-id"),
+                    position: index + 1
+                });
+            });
+            console.log(order);
+            $.ajax({
+                url: "{% url 'update_priority' %}",
+                type: "POST",
+                data: JSON.stringify({ order: order }),
+                contentType: "application/json",   // ✅ send as JSON
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }, // only if not csrf_exempt
+                success: function (response) {
+                    console.log("Priority updated:", response);
+                    location.reload(); 
+                },
+                error: function (xhr) {
+                    console.error("Error updating priority:", xhr.responseText);
+                }
+            });
+       }
+    });
+});
+
+
+
+  const enableSoundButton = document.getElementById('enable-sound-button');
+        const audioElement = document.getElementById('audio-element');
+        
+        enableSoundButton.addEventListener('click', () => {
+            audioElement.play().then(() => {
+                // Autoplay is allowed, store user's preference
+                localStorage.setItem('soundEnabled', 'true');
+                enableSoundButton.style.display = 'none';
+            }).catch((error) => {
+                // Autoplay was denied by the user
+                console.error('Autoplay permission denied:', error);
+            });
+        });
+        
+        
+        // In the 'enable-sound-button' click handler
+        localStorage.setItem('soundEnabled', 'true');
+        
+                  if ('Notification' in window) {
+                    Notification.requestPermission().then(permission => {
+                      if (permission === 'granted') {
+                        enableSoundButton.style.display = 'none';// Permission granted, you can now send notifications (including sound) without asking again until revoked.
+                      } else if (permission === 'denied') {
+                        // Permission denied, handle accordingly.
+                      } else {
+                        // Permission dismissed or unavailable, handle accordingly.
+                      }
+                    });
+                  }
+        
+                 
+                  const pusher = new Pusher('bc5ccb3b5fa0e00f91e5', {
+                    cluster: 'ap2',
+                    encrypted: true,
+                });
+                 
+                  const channel2 = pusher.subscribe('alerts');
+                channel2.bind('new-notificatin', function (data) {
+                    const message = data.message;
+        
+                    alert('here')
+                    alert(message)
+        
+                    const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
+        
+                    if (soundEnabled) {
+                        // Play the sound without asking for permission
+                        const audio = new Audio("{% static '/audio/popup.wav'  %}");
+                        audio.play();
+                    }
+        
+                    else{
+                        alert('please enable sound')
+                    }
+        
+        
+        
+                    // To show all elements with the class "notification-badge"
+                    document.getElementById('notification-badge').style.display = 'flex';
+        
+        
+                });
+        
+
+                
+
+
+
+</script>
+
+
+
+{% endblock js %}

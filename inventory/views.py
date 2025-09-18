@@ -36,35 +36,54 @@ def dashboard(request):
 
 
 
+from order_booking.models import *
+
+
+@login_required(login_url='login')
+def dashboard_order_booking(request):
+
+
+    data = production_orders.objects.filter(stage = "in_progress").order_by('priority')
+    
+    data_hold = production_orders.objects.filter(stage = "hold").order_by("start_date")
+
+    godown_data = 4
+    godiwn_count = 4
+
+
+    stock_count = 4
+
+
+    context = {
+        'data' : data,
+        'data_hold' : data_hold,
+        'godown' : godiwn_count,
+        'godown_data' : godown_data,
+        'stock' : stock_count
+    }
+
+    
+    return render(request, 'dashboard_order_booking.html', context)
+
 
 @login_required(login_url='login')
 def dashboard_working_order(request):
 
 
-    data = project_working_order.objects.filter(status = "active")
+    data = production_orders.objects.filter(stage = "in_progress").order_by('priority')
+    
+    data_hold = production_orders.objects.filter(stage = "hold").order_by("start_date")
 
     godown_data = 4
     godiwn_count = 4
 
-    data = product_qr.objects.filter(
-        moved_to_scratch=False,
-        moved_to_left_over=False,
-        product__isnull=False
-    ).values(
-        'product', 
-        'product__category__name', 
-        'product__size__mm1', 
-        'product__size__mm2', 
-        'product__size__name', 
-        'product__grade__name', 
-        'product__thickness__name'
-    ).annotate(total_quantity=Count('id')).order_by('product')
 
-    stock_count = data.aggregate(total_quantity1=Sum('total_quantity'))
+    stock_count = 4
 
 
     context = {
         'data' : data,
+        'data_hold' : data_hold,
         'godown' : godiwn_count,
         'godown_data' : godown_data,
         'stock' : stock_count
@@ -72,6 +91,38 @@ def dashboard_working_order(request):
 
     
     return render(request, 'working_order_dashboard.html', context)
+
+
+from order_booking.forms import *
+
+@login_required(login_url='login')
+def dashboard_executor_order(request):
+
+
+    data = production_orders.objects.filter(stage = "in_progress").order_by("priority")
+    data_hold = production_orders.objects.filter(stage = "hold").order_by("start_date")
+
+    print(data_hold)
+
+    godown_data = 4
+    godiwn_count = 4
+
+    forms = production_orders_Form()
+
+    stock_count = 4
+
+
+    context = {
+        'data' : data,
+        'data_hold' : data_hold,
+        'forms' : forms,
+        'godown' : godiwn_count,
+        'godown_data' : godown_data,
+        'stock' : stock_count
+    }
+
+    
+    return render(request, 'executor_working_order_dashboard.html', context)
 
 
 
@@ -82,15 +133,3 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 
 
-
-
-@csrf_exempt  # If you're using CSRF protection, don't forget to handle the token
-def update_priority(request):
-    if request.method == 'POST':
-        data = json.loads(request.POST.get('order'))
-        for item in data:
-            data = project_working_order.objects.get(id=item['id'])
-            data.priority = item['priority']
-            data.save()
-        return JsonResponse({'status': 'success'})
-    return JsonResponse({'status': 'error'}, status=400)

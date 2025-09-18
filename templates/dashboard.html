@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block title %}Dashboard{% endblock title %}
 
@@ -138,54 +139,45 @@ font-family: 'Montserrat', sans-serif;
 
 {% block content %}
 
-{% comment %} 
-    <a href="{% url 'report_daily' %}"> <button class="btn btn-primary" type="submit">
-        Daily Report
-    </button> </a>
-    
-    <a href="{% url 'generate_report_main' %}"> <button class="btn btn-primary" type="submit">
-        Monthly Report
-    </button> </a><br><br> {% endcomment %}
-
     <!-- Widgets  -->
 
     
-        <div class="container1212" style="margin-bottom: 15px;" id="notificationDiv">
-           
-        </div>
+    <div class="container1212" style="margin-bottom: 15px;" id="notificationDiv">
         
+    </div>
     
     
     
-        {% if request.user.is_reception or request.user.is_superuser %}
+    
+    {% if request.user.is_reception or request.user.is_superuser %}
     
     
-    <div class="row">
-       
-        <div class="col-lg-3 col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="stat-widget-five">
-                        <div class="stat-icon dib flat-color-1">
-                            <i class="fa fa-cart-plus"></i>
-                        </div>
-                        <div class="stat-content">
-                            <div class="text-left dib">
-                                <div class="stat-text"><span class="count">{{ data }}</span></div>
-                                <div class="stat-heading">Stock</div>
+        <div class="row">
+        
+            <div class="col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="stat-widget-five">
+                            <div class="stat-icon dib flat-color-1">
+                                <i class="fa fa-cart-plus"></i>
+                            </div>
+                            <div class="stat-content">
+                                <div class="text-left dib">
+                                    <div class="stat-text"><span class="count">{{ data }}</span></div>
+                                    <div class="stat-heading">Stock</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        
         </div>
-      
-    </div>
 
     {% endif %}
     
 
-    {% if not request.user.is_salesman %}
+    {% if not request.user.is_salesman and not request.user.is_designer and not request.user.is_executor and not request.user.is_order_booker %}
     <div class="col-12" style="padding: 0px; display : flex; GAP: 9px;">
 
         <div class="col-6" style="border: 1px solid black;
@@ -267,11 +259,6 @@ font-family: 'Montserrat', sans-serif;
                 </div>
 
             </div>
-
-                
-                
-                
-                
             
             {% endif %}
 
@@ -444,7 +431,7 @@ font-family: 'Montserrat', sans-serif;
 
     <button id="enable-sound-button" style="background: orange; border: orange;" class="btn btn-success form-input">Enable Sound</button>
 <audio id="audio-element" muted autoplay>
-    <source src="static/audio/popup.wav" type="audio/mpeg">
+    <source src="{% static '/audio/popup.wav'  %}" type="audio/mpeg">
 </audio>
 
 
@@ -536,7 +523,7 @@ font-family: 'Montserrat', sans-serif;
             
             if (soundEnabled) {
                 // Play the sound without asking for permission
-                const audio = new Audio('static/audio/popup.wav');
+                const audio = new Audio("{% static '/audio/popup.wav'  %}");
                 audio.play();
             }
 
@@ -630,7 +617,7 @@ font-family: 'Montserrat', sans-serif;
         
                     if (soundEnabled) {
                         // Play the sound without asking for permission
-                        const audio = new Audio('static/audio/notification.wav');
+                        const audio = new Audio("{% static '/audio/popup.wav'  %}");
                         audio.play();
                     }
         

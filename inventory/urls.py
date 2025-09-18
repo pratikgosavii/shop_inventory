@@ -27,11 +27,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', dashboard, name='dashboard'),
     path('dashboard-working-order/', dashboard_working_order, name='dashboard_working_order'),
-    path('update_priority/', update_priority, name='update_priority'),
+    path('dashboard-executor-order/', dashboard_executor_order, name='dashboard_executor_order'),
+    path('dashboard-order-booking/', dashboard_order_booking, name='dashboard_order_booking'),
+    
     path('users/', include('users.urls')),
     path('store/', include('store.urls')),
     path('transactions/', include('transactions.urls')),
-    path('order_booking/', include('order_booking.urls')),
+    path('order-booking/', include('order_booking.urls')),
     path('quotation/', include('quotation.urls')),
 
 ]
