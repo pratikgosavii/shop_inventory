@@ -76,6 +76,10 @@ def add_order_booking(request):
                 if a and a!= '0':
 
                     project_material_instnace = order_matarial_production.objects.get(id = a)
+                    # handle drawings file
+                    file_field_name = f'drawings_{a}'   # input name="drawings_{{ i.id }}"
+                    if file_field_name in request.FILES:
+                        project_material_instnace.drawings = request.FILES[file_field_name]
 
                     item_code_instance = item_code.objects.get(id = b)
                     category_instance = category.objects.get(id = c)
@@ -207,6 +211,10 @@ def update_order_booking(request, order_id):
                     project_material_instnace.category = category_instance
                     project_material_instnace.grade = grade_instance
                     project_material_instnace.thickness = thickness_instance
+
+                    file_field_name = f'drawings_{a}'   # input name="drawings_{{ i.id }}"
+                    if file_field_name in request.FILES:
+                        project_material_instnace.drawings = request.FILES[file_field_name]
 
 
                     project_material_instnace.save()
@@ -648,13 +656,12 @@ def update_priority(request):
 @login_required(login_url='login')
 def order_today_report(request):
 
-    data = order_booking.objects.all().order_by("-id")
+    data = order_booking.objects.filter(updated_at = date.today()).order_by("-id")
 
     # ✅ Prepare default filter values if not provided in GET
     get_data = request.GET.copy()
 
-    if "status" not in get_data:
-        get_data["status"] = "completed"   # default status
+      # default status
 
     if "date" not in get_data:
         get_data["date"] = date.today().strftime("%Y-%m-%d")  # default today's date

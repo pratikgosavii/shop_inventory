@@ -150,14 +150,11 @@
                             </td>
 
                             <!-- ✅ New file field column -->
-                            <td>
-                                <input type="file" name="drawings_{{ i.id }}">
+                                 <td>
                                 {% if i.drawings %}
                                     <a href="{{ i.drawings.url }}" target="_blank">Existing Drawing</a>
                                 {% endif %}
-                            </td>
-
-                            
+                            </td>      
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -196,6 +193,7 @@
                                 <input type="number" class="form-control qty-input" name="production_quantity" min="1" value="1">
                                 <input type="hidden" name="production_id" value="">
                             </td>
+                            
         <td>
             <button type="button" class="btn btn-danger btn-sm remove-item">-</button>
         </td>

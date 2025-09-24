@@ -45,6 +45,9 @@ class order_booking(models.Model):
     is_drawing_avaiable = models.BooleanField(default=False)
     is_flim_avaiable = models.BooleanField(default=False)
 
+    # 🔹 auto-updated on every save()
+    updated_at = models.DateField(auto_now=True)
+
     def save(self, *args, **kwargs):
         # Auto set is_drawing_avaiable if order_type is new
         if self.order_type == "new":
@@ -113,6 +116,10 @@ class production_orders(models.Model):
     actual_end_date = models.DateField(null=True, blank=True)
 
     remarks = models.TextField(null=True, blank=True)
+
+
+    # 🔹 auto-updated on every save()
+    updated_at = models.DateField(auto_now=True)
 
     def __str__(self):
         return f"Production for {self.order.order_id} ({self.get_stage_display()})"

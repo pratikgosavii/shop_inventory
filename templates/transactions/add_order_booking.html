@@ -72,6 +72,8 @@
                             <td style="width:20%"> Thickness </td>
                             <td style="width:20%"> Grade </td>
                             <th style="width:20%">Quantity</th>
+                            <th style="width:20%">Design File</th>
+
                             <th style="width:10%">
                                 <button type="button" class="btn btn-success btn-sm add-item">+</button>
                             </th>
@@ -127,6 +129,14 @@
                                 <td>
                                     <input type="number" value="{{ i.production_quantity }}" name="production_quantity" class="form-control" required>
                                 </td>
+
+                                 <td>
+                                <input type="file" name="drawings_{{ i.id }}">
+                                {% if i.drawings %}
+                                    <a href="{{ i.drawings.url }}" target="_blank">Existing Drawing</a>
+                                {% endif %}
+                            </td>
+                            
                             </tr>
                             {% endfor %}
                     </thead>
@@ -147,6 +157,12 @@
                             <td>
                                 <input type="number" class="form-control qty-input" name="production_quantity" min="1" value="1">
                                 <input type="hidden" name="production_id" value="">
+                            </td>
+                             <td>
+                                <input type="file" name="drawings_{{ i.id }}">
+                                {% if i.drawings %}
+                                    <a href="{{ i.drawings.url }}" target="_blank">Existing Drawing</a>
+                                {% endif %}
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-sm remove-item">-</button>
@@ -183,6 +199,12 @@
                             <td>
                                 <input type="number" class="form-control qty-input" name="production_quantity" min="1" value="1">
                                 <input type="hidden" name="production_id" value="">
+                            </td>
+                               <td>
+                                <input type="file" name="drawings_{{ i.id }}">
+                                {% if i.drawings %}
+                                    <a href="{{ i.drawings.url }}" target="_blank">Existing Drawing</a>
+                                {% endif %}
                             </td>
         <td>
             <button type="button" class="btn btn-danger btn-sm remove-item">-</button>
@@ -222,4 +244,18 @@
         });
     });
 </script>
+
+{% if request.user.is_planner %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Disable all inputs, selects, textareas, and buttons inside the form
+        document.querySelectorAll("#submitform input, #submitform select, #submitform textarea, #submitform button").forEach(function(el) {
+            el.setAttribute("disabled", "disabled");
+        });
+    });
+</script>
+{% endif %}
+
+
+
 {% endblock js %}

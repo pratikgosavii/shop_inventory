@@ -341,14 +341,12 @@
                  
 
              
-
-                 <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Order Booking</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-id-card-o"></i><a href="{% url 'add_order_booking' %}">Add</a></li>
-                        <li><i class="fa fa-th"></i><a href="{% url 'list_order_booking' %}">View</a></li>
-                    </ul>
+                <li>
+                    <a href="{% url 'list_order_booking' %}">
+                        <i class="menu-icon fa fa-users"></i> Order Booking
+                    </a>
                 </li>
+
 
                 <li>
                     <a href="{% url 'order_today_report' %}">
