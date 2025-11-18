@@ -133,7 +133,6 @@ font-family: 'Montserrat', sans-serif;
 
 </style>
 
-<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 
 {% endblock head %}
 
@@ -429,11 +428,14 @@ font-family: 'Montserrat', sans-serif;
     </div> {% endcomment %}
     <!-- /.orders -->
 
-    <button id="enable-sound-button" style="background: orange; border: orange;" class="btn btn-success form-input">Enable Sound</button>
-<audio id="audio-element" muted autoplay>
-    <source src="{% static '/audio/popup.wav'  %}" type="audio/mpeg">
-</audio>
+  <!-- Enable Sound Button -->
+<button id="enable-sound-button">🔔 Enable Sound</button>
 
+<!-- Audio element (muted initially) -->
+<audio id="audio-element" src="{% static 'audio/popup.wav' %}" preload="auto" muted></audio>
+
+<!-- Notification container -->
+<div id="notificationDiv"></div>
 
 
     
@@ -441,6 +443,9 @@ font-family: 'Montserrat', sans-serif;
 
 
 {% block js %}
+
+
+<script src="https://kit.fontawesome.com/8535745612.js" crossorigin="anonymous"></script>
 
 
     <script>
@@ -480,84 +485,10 @@ font-family: 'Montserrat', sans-serif;
     
         // Calculate initially when the page loads
         calculateSqIn();
-    
 
     
-        const channel = pusher.subscribe('alerts');
-        channel.bind('new-alert', function (data) {
-            const message = data.message;
-            const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
-
-            
-            
-            
-            var currentUser = "{{ request.user.is_reception }}";
-            var notificationDiv = document.getElementById('notificationDiv');
-            var closeNotificationButton = document.getElementById('closeNotification'); // Get the close button by its ID
-
-            var userStatusElement = document.getElementById('userStatus');
-            if (currentUser == "True") {
-                // Create a new div for the notification
-                var notificationDiv = document.getElementById('notificationDiv');
-
-            // Create a new div for the notification
-            var notificationItem = document.createElement('div');
-            notificationItem.className = 'box1';
-
-            // Add content to the notification div
-            var notificationContent = `
-                <div class="xmark-box">
-                    <i class="fa-solid fa-x" id="closeNotification"></i>
-                </div>
-                <div class="caption-box">
-                    <img src="https://www.pngall.com/wp-content/uploads/2/Approved-PNG-Download-Image.png" alt="approveimg">
-                    <div class="caption">
-                        <h5>HI,</h5>
-                        <p>${message}</p>
-                    </div>
-                </div>
-            `;
-            notificationItem.innerHTML = notificationContent;
-
-            notificationDiv.appendChild(notificationItem);
-            
-            if (soundEnabled) {
-                // Play the sound without asking for permission
-                const audio = new Audio("{% static '/audio/popup.wav'  %}");
-                audio.play();
-            }
-
-            else{
-                alert('please enable sound')
-            }
-
-
-            }
-            // Add a click event listener to the close button
-            var closeButton = notificationItem.querySelector('#closeNotification');
-            closeButton.addEventListener('click', function () {
-                // Remove the notification item when the close button is clicked
-                notificationDiv.removeChild(notificationItem);
-            });
-
-            // Append the notification item to the notificationDiv
-          
-        });
-
-
-    
-
-
-
-
         
-    </script>
-
-    <script src="https://kit.fontawesome.com/8535745612.js" crossorigin="anonymous"></script>
-
-
-    <script>
-
+    
 
         function redirectToPage(event) {
             event.preventDefault(); // Prevent the default form submission
@@ -570,71 +501,49 @@ font-family: 'Montserrat', sans-serif;
         }
 
 
-        const enableSoundButton = document.getElementById('enable-sound-button');
-        const audioElement = document.getElementById('audio-element');
-        
-        enableSoundButton.addEventListener('click', () => {
-            audioElement.play().then(() => {
-                // Autoplay is allowed, store user's preference
-                localStorage.setItem('soundEnabled', 'true');
-                enableSoundButton.style.display = 'none';
-            }).catch((error) => {
-                // Autoplay was denied by the user
-                console.error('Autoplay permission denied:', error);
-            });
-        });
-        
-        
-        // In the 'enable-sound-button' click handler
-        localStorage.setItem('soundEnabled', 'true');
-        
-                  if ('Notification' in window) {
-                    Notification.requestPermission().then(permission => {
-                      if (permission === 'granted') {
-                        enableSoundButton.style.display = 'none';// Permission granted, you can now send notifications (including sound) without asking again until revoked.
-                      } else if (permission === 'denied') {
-                        // Permission denied, handle accordingly.
-                      } else {
-                        // Permission dismissed or unavailable, handle accordingly.
-                      }
-                    });
-                  }
-        
-                 
-                  const pusher = new Pusher('bc5ccb3b5fa0e00f91e5', {
-                    cluster: 'ap2',
-                    encrypted: true,
-                });
-                 
-                  const channel2 = pusher.subscribe('alerts');
-                channel2.bind('new-notificatin', function (data) {
-                    const message = data.message;
-        
-                    alert('here')
-                    alert(message)
-        
-                    const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
-        
-                    if (soundEnabled) {
-                        // Play the sound without asking for permission
-                        const audio = new Audio("{% static '/audio/popup.wav'  %}");
-                        audio.play();
-                    }
-        
-                    else{
-                        alert('please enable sound')
-                    }
-        
-        
-        
-                    // To show all elements with the class "notification-badge"
-                    document.getElementById('notification-badge').style.display = 'flex';
-        
-        
-                });
         
 
-                
+   document.addEventListener('DOMContentLoaded', () => {
+    const enableSoundButton = document.getElementById('enable-sound-button');
+    const audioElement = document.getElementById('audio-element');
+
+    // Hide button if already enabled
+    const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
+    const notificationsGranted = localStorage.getItem('notificationsGranted') === 'true';
+
+    if (soundEnabled && notificationsGranted) {
+        enableSoundButton.style.display = 'none';
+        audioElement.muted = false; // unmute for future alerts
+    }
+
+    // Enable sound & notifications
+    enableSoundButton.addEventListener('click', async () => {
+        try {
+            // Unmute and play once to unlock audio
+            audioElement.muted = false;
+            await audioElement.play();
+            localStorage.setItem('soundEnabled', 'true');
+            console.log("✅ Sound enabled.");
+
+            // Request notification permission
+            if ('Notification' in window) {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    localStorage.setItem('notificationsGranted', 'true');
+                    console.log("✅ Notifications granted.");
+                } else {
+                    console.warn("Notification permission denied.");
+                }
+            }
+
+            enableSoundButton.style.display = 'none';
+        } catch (err) {
+            console.warn("Could not enable sound:", err);
+        }
+    });
+
+    
+});
 
     </script>
 

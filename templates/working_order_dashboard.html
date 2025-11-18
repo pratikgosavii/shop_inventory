@@ -193,7 +193,6 @@ font-family: 'Montserrat', sans-serif;
 
 </style>
 
-<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -508,7 +507,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         
         
-        // In the 'enable-sound-button' click handler
+        {% comment %} // In the 'enable-sound-button' click handler
         localStorage.setItem('soundEnabled', 'true');
         
                   if ('Notification' in window) {
@@ -555,7 +554,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         
                 });
-        
+         {% endcomment %}
 
                 
 

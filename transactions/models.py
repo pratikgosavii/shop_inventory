@@ -441,3 +441,23 @@ class project_inward(models.Model):
     description = models.CharField(max_length=500)
     date = models.DateField(auto_now_add=False)
 
+
+
+
+
+from django.db import models
+
+class system_alert(models.Model):
+    ROLE_CHOICES = [
+        ('reception', 'Reception'),
+        ('designer', 'Designer'),
+        ('production', 'Production'),
+    ]
+
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    is_active = models.BooleanField(default=False)
+    message = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.role} - {'Active' if self.is_active else 'Inactive'}"

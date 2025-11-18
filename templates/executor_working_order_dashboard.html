@@ -178,7 +178,6 @@ font-family: 'Montserrat', sans-serif;
 
 </style>
 
-<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
 
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -501,38 +500,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   }
         
                  
-                  const pusher = new Pusher('bc5ccb3b5fa0e00f91e5', {
-                    cluster: 'ap2',
-                    encrypted: true,
-                });
-                 
-                  const channel2 = pusher.subscribe('alerts');
-                channel2.bind('new-notificatin', function (data) {
-                    const message = data.message;
-        
-                    alert('here')
-                    alert(message)
-        
-                    const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
-        
-                    if (soundEnabled) {
-                        // Play the sound without asking for permission
-                        const audio = new Audio("{% static '/audio/popup.wav'  %}");
-                        audio.play();
-                    }
-        
-                    else{
-                        alert('please enable sound')
-                    }
-        
-        
-        
-                    // To show all elements with the class "notification-badge"
-                    document.getElementById('notification-badge').style.display = 'flex';
-        
-        
-                });
-        
+                  
 
 
 function updateClock() {

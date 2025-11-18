@@ -1343,13 +1343,14 @@ def add_project(request):
                     item_code_instance = item_code.objects.get(id = b)
                     instance = project_matarial_production.objects.create(item_code = item_code_instance, production_quantity = c, project = project_instance)
 
+            system_alert.objects.create(role="designer", message="New job assigned")
 
-            a1212 = alert.objects.create(message = "new project created id" + order_id)
-            pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
-                                      key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
-                                      secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
-                                      cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
-                                      ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
+            # a1212 = alert.objects.create(message = "new project created id" + order_id)
+            # pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
+            #                           key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
+            #                           secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
+            #                           cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
+            #                           ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
 
             # pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
 
@@ -1440,12 +1441,12 @@ def update_project_accountant(request, project_id):
 
                 
 
-            a1212 = alert.objects.create(message = "new project created id" + order_id)
-            pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
-                                      key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
-                                      secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
-                                      cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
-                                      ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
+            # a1212 = alert.objects.create(message = "new project created id" + order_id)
+            # pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
+            #                           key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
+            #                           secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
+            #                           cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
+            #                           ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
 
             # pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
 
@@ -1558,12 +1559,12 @@ def add_project_designer(request, project_id):
                     print(aaaas)
                     print('-----------------')
 
-            a1212 = alert.objects.create(message = "new project created id" + order_id)
-            pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
-                                      key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
-                                      secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
-                                      cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
-                                      ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
+            # a1212 = alert.objects.create(message = "new project created id" + order_id)
+            # pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
+            #                           key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
+            #                           secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
+            #                           cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
+            #                           ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
 
             # pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
 
@@ -5038,3 +5039,30 @@ def demo(request):
             item_code=item_code,
             defaults={'description': description}
         )
+
+
+
+
+from django.core.cache import cache
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+@api_view(['GET'])
+def check_alert(request, role):
+    """Lightweight alert check with caching."""
+    cache_key = f"alert_status_{role}"
+    data = cache.get(cache_key)
+
+    if data is None:
+        has_alert = system_alert.objects.filter(role=role, is_active=True).exists()
+        data = {'has_alert': has_alert}
+        cache.set(cache_key, data, 3)  # cache 3 seconds
+    return Response(data)
+
+@api_view(['POST'])
+def trigger_alert(request, role):
+    """Raise or reset alert manually (for admin or system event)."""
+    state = request.data.get('is_active', True)
+    system_alert.objects.update_or_create(role=role, defaults={'is_active': state})
+    cache.delete(f"alert_status_{role}")  # clear cache
+    return Response({'status': 'ok', 'active': state})

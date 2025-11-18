@@ -126,7 +126,8 @@ urlpatterns = [
     path('list-notifications/', list_notifications, name='list_notifications'),
     path('low_stock_report/<notification_id>', low_stock_report, name='low_stock_report'),
 
-
+    path('api/check_alert/<str:role>/', check_alert),
+    path('api/trigger_alert/<str:role>/', trigger_alert),
 
     path('script', script, name='script'),
                                                                                                             

@@ -109,12 +109,12 @@ def add_order_booking(request):
                     instance = order_matarial_production.objects.create(item_code = item_code_instance, category = category_instance, grade = grade_instance, thickness = thickness_instance, production_quantity = c, order = order_instance)
 
 
-            a1212 = alert.objects.create(message = "New Order Registered ID " + order_id)
-            pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
-                                      key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
-                                      secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
-                                      cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
-                                      ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
+            # a1212 = alert.objects.create(message = "New Order Registered ID " + order_id)
+            # pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
+            #                           key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
+            #                           secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
+            #                           cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
+            #                           ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
 
             # pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
 
@@ -234,12 +234,12 @@ def update_order_booking(request, order_id):
 
                 
 
-            a1212 = alert.objects.create(message = "Order Updated  ID " + order_id)
-            pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
-                                      key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
-                                      secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
-                                      cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
-                                      ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
+            # a1212 = alert.objects.create(message = "Order Updated  ID " + order_id)
+            # pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
+            #                           key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
+            #                           secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
+            #                           cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
+            #                           ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"])
 
             # pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
 
@@ -341,14 +341,14 @@ def update_order_booking_designer(request, order_id):
                     # create alert
                     a1212 = alert.objects.create(message=f"Order Updated  ID {order_id}")
 
-                    # push notification
-                    pusher_client = pusher.Pusher(
-                        app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
-                        key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
-                        secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
-                        cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
-                        ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"]
-                    )
+                    # # push notification
+                    # pusher_client = pusher.Pusher(
+                    #     app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
+                    #     key=settings.PUSH_NOTIFICATIONS_SETTINGS["KEY"],
+                    #     secret=settings.PUSH_NOTIFICATIONS_SETTINGS["SECRET"],
+                    #     cluster=settings.PUSH_NOTIFICATIONS_SETTINGS["CLUSTER"],
+                    #     ssl=settings.PUSH_NOTIFICATIONS_SETTINGS["USE_TLS"]
+                    # )
                     # pusher_client.trigger('alerts', 'new-alert', {'message': a1212.message})
 
                 # 🔹 if all good, redirect
