@@ -36,6 +36,7 @@ def add_order_booking(request):
     if request.method == 'POST':
 
         print(request.POST)
+        print(request.FILES)
 
         # Deserialize the JSON data into a Python object
         forms = order_booking_Form(request.POST, request.FILES, user=request.user)
@@ -65,6 +66,10 @@ def add_order_booking(request):
 
             print('valid')
 
+
+            # collect drawings uploaded for newly added rows (without existing production_id)
+            new_drawings_files = request.FILES.getlist('drawings_')
+            new_drawings_cursor = 0
 
             for a, b, c, d, e, f in zip(production_id, item_code_id, category_id, grade_id, thickness_id, quantity):
 
@@ -106,8 +111,21 @@ def add_order_booking(request):
                     grade_instance = grade.objects.get(id = d)
                     thickness_instance = thickness.objects.get(id = e)
 
-                    instance = order_matarial_production.objects.create(item_code = item_code_instance, category = category_instance, grade = grade_instance, thickness = thickness_instance, production_quantity = c, order = order_instance)
+                    instance = order_matarial_production.objects.create(
+                        item_code=item_code_instance,
+                        category=category_instance,
+                        grade=grade_instance,
+                        thickness=thickness_instance,
+                        production_quantity=f,
+                        order=order_instance
+                    )
+                    # attach drawings for new rows in the order they were submitted (if any)
+                    if new_drawings_cursor < len(new_drawings_files):
+                        instance.drawings = new_drawings_files[new_drawings_cursor]
+                        instance.save()
+                        new_drawings_cursor += 1
 
+            system_alert.objects.create(role="designer", message="New job assigned", is_active = True)
 
             # a1212 = alert.objects.create(message = "New Order Registered ID " + order_id)
             # pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
@@ -189,6 +207,10 @@ def update_order_booking(request, order_id):
             order_instance = forms.save()
 
 
+            # collect drawings uploaded for newly added rows (without existing production_id)
+            new_drawings_files = request.FILES.getlist('drawings_')
+            new_drawings_cursor = 0
+
             for a, b, c, d, e, f in zip(production_id, item_code_id, category_id, grade_id, thickness_id, quantity):
 
                 print('----------')
@@ -206,7 +228,7 @@ def update_order_booking(request, order_id):
                     thickness_instance = thickness.objects.get(id = e)
                     
                     project_material_instnace.item_code = item_code_instance
-                    project_material_instnace.production_quantity = c
+                    project_material_instnace.production_quantity = f
                     
                     project_material_instnace.category = category_instance
                     project_material_instnace.grade = grade_instance
@@ -230,9 +252,22 @@ def update_order_booking(request, order_id):
                     grade_instance = grade.objects.get(id = d)
                     thickness_instance = thickness.objects.get(id = e)
 
-                    instance = order_matarial_production.objects.create(item_code = item_code_instance, category = category_instance, grade = grade_instance, thickness = thickness_instance, production_quantity = c, order = order_instance)
+                    instance = order_matarial_production.objects.create(
+                        item_code=item_code_instance,
+                        category=category_instance,
+                        grade=grade_instance,
+                        thickness=thickness_instance,
+                        production_quantity=f,
+                        order=order_instance
+                    )
+                    # attach drawings for new rows in the order they were submitted (if any)
+                    if new_drawings_cursor < len(new_drawings_files):
+                        instance.drawings = new_drawings_files[new_drawings_cursor]
+                        instance.save()
+                        new_drawings_cursor += 1
 
                 
+            system_alert.objects.create(role="designer", message="New job assigned", is_active = True)
 
             # a1212 = alert.objects.create(message = "Order Updated  ID " + order_id)
             # pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
@@ -340,6 +375,9 @@ def update_order_booking_designer(request, order_id):
 
                     # create alert
                     a1212 = alert.objects.create(message=f"Order Updated  ID {order_id}")
+                    
+                    
+                    # system_alert.objects.create(role="designer", message="New job assigned", is_active = True)
 
                     # # push notification
                     # pusher_client = pusher.Pusher(
@@ -523,7 +561,7 @@ def move_to_production(request, order_id):
     priority = production_orders.objects.filter(stage="in_progress").count()
     production = production_orders.objects.create(
         order=order,
-        priority=priority+1,  # default medium priority (or get from request.POST if form)
+        priority=priority+2,  # default medium priority (or get from request.POST if form)
         stage="in_progress",
         start_date=timezone.now().date(), 
     )

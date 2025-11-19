@@ -270,11 +270,6 @@ font-family: 'Montserrat', sans-serif;
 
     <div class="clearfix"></div>
 
-    <button id="enable-sound-button" style="background: orange; border: orange;" class="btn btn-success form-input">Enable Sound</button>
-<audio id="audio-element" muted autoplay>
-    <source src="{% static '/audio/popup.wav'  %}" type="audio/mpeg">
-</audio>
-
 
 <div class="col-12" style="justify-content: center;
     align-items: center;">
@@ -469,37 +464,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-  const enableSoundButton = document.getElementById('enable-sound-button');
-        const audioElement = document.getElementById('audio-element');
-        
-        enableSoundButton.addEventListener('click', () => {
-            audioElement.play().then(() => {
-                // Autoplay is allowed, store user's preference
-                localStorage.setItem('soundEnabled', 'true');
-                enableSoundButton.style.display = 'none';
-            }).catch((error) => {
-                // Autoplay was denied by the user
-                console.error('Autoplay permission denied:', error);
-            });
-        });
-        
-        
-        // In the 'enable-sound-button' click handler
-        localStorage.setItem('soundEnabled', 'true');
-        
-                  if ('Notification' in window) {
-                    Notification.requestPermission().then(permission => {
-                      if (permission === 'granted') {
-                        enableSoundButton.style.display = 'none';// Permission granted, you can now send notifications (including sound) without asking again until revoked.
-                      } else if (permission === 'denied') {
-                        // Permission denied, handle accordingly.
-                      } else {
-                        // Permission dismissed or unavailable, handle accordingly.
-                      }
-                    });
-                  }
-        
-                 
+  
                   
 
 

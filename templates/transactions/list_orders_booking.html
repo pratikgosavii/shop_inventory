@@ -139,7 +139,7 @@
                           <div style="display: flex; align-items: center; gap: 8px;">
                               
                               
-                              {% if request.user.is_designer  %}
+                              {% if request.user.is_designer or request.user.is_order_booker  %}
                               <a href="{% url 'update_order_booking_designer' i.id %}" 
                                   style="color: #007bff; text-decoration: none;"
                                   title="View / Edit">

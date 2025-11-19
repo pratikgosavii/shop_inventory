@@ -1343,7 +1343,7 @@ def add_project(request):
                     item_code_instance = item_code.objects.get(id = b)
                     instance = project_matarial_production.objects.create(item_code = item_code_instance, production_quantity = c, project = project_instance)
 
-            system_alert.objects.create(role="designer", message="New job assigned")
+            system_alert.objects.create(role="designer", message="New job assigned", is_active = True)
 
             # a1212 = alert.objects.create(message = "new project created id" + order_id)
             # pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
@@ -1440,6 +1440,7 @@ def update_project_accountant(request, project_id):
                     instance = project_matarial_production.objects.create(item_code = item_code_instance, project = project_instance, production_quantity = c)
 
                 
+            system_alert.objects.create(role="designer", message="New job assigned", is_active = True)
 
             # a1212 = alert.objects.create(message = "new project created id" + order_id)
             # pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
@@ -1558,6 +1559,8 @@ def add_project_designer(request, project_id):
                     print('-----------------')
                     print(aaaas)
                     print('-----------------')
+            
+            system_alert.objects.create(role="designer", message="New job assigned", is_active = True)
 
             # a1212 = alert.objects.create(message = "new project created id" + order_id)
             # pusher_client = pusher.Pusher(app_id=settings.PUSH_NOTIFICATIONS_SETTINGS["APP_ID"],
@@ -5054,9 +5057,24 @@ def check_alert(request, role):
     data = cache.get(cache_key)
 
     if data is None:
-        has_alert = system_alert.objects.filter(role=role, is_active=True).exists()
-        data = {'has_alert': has_alert}
-        cache.set(cache_key, data, 3)  # cache 3 seconds
+
+        # Check if alert is active for this role
+        alert_qs = system_alert.objects.filter(role=role, is_active=True)
+
+        if alert_qs.exists():
+            # Return TRUE once
+            data = {'has_alert': True}
+
+            # Immediately deactivate (so next response becomes false)
+            alert_qs.update(is_active=False)
+
+        else:
+            # No alert
+            data = {'has_alert': False}
+
+        # Cache for 3 sec
+        cache.set(cache_key, data, 3)
+
     return Response(data)
 
 @api_view(['POST'])

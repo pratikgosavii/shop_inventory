@@ -429,11 +429,6 @@ font-family: 'Montserrat', sans-serif;
     <!-- /.orders -->
 
   <!-- Enable Sound Button -->
-<button id="enable-sound-button">🔔 Enable Sound</button>
-
-<!-- Audio element (muted initially) -->
-<audio id="audio-element" src="{% static 'audio/popup.wav' %}" preload="auto" muted></audio>
-
 <!-- Notification container -->
 <div id="notificationDiv"></div>
 
@@ -500,50 +495,6 @@ font-family: 'Montserrat', sans-serif;
             window.location.href = '/transactions/update-assign-matarial-qr/' + parameterValue;
         }
 
-
-        
-
-   document.addEventListener('DOMContentLoaded', () => {
-    const enableSoundButton = document.getElementById('enable-sound-button');
-    const audioElement = document.getElementById('audio-element');
-
-    // Hide button if already enabled
-    const soundEnabled = localStorage.getItem('soundEnabled') === 'true';
-    const notificationsGranted = localStorage.getItem('notificationsGranted') === 'true';
-
-    if (soundEnabled && notificationsGranted) {
-        enableSoundButton.style.display = 'none';
-        audioElement.muted = false; // unmute for future alerts
-    }
-
-    // Enable sound & notifications
-    enableSoundButton.addEventListener('click', async () => {
-        try {
-            // Unmute and play once to unlock audio
-            audioElement.muted = false;
-            await audioElement.play();
-            localStorage.setItem('soundEnabled', 'true');
-            console.log("✅ Sound enabled.");
-
-            // Request notification permission
-            if ('Notification' in window) {
-                const permission = await Notification.requestPermission();
-                if (permission === 'granted') {
-                    localStorage.setItem('notificationsGranted', 'true');
-                    console.log("✅ Notifications granted.");
-                } else {
-                    console.warn("Notification permission denied.");
-                }
-            }
-
-            enableSoundButton.style.display = 'none';
-        } catch (err) {
-            console.warn("Could not enable sound:", err);
-        }
-    });
-
-    
-});
 
     </script>
 
