@@ -3322,7 +3322,20 @@ footer.site-footer .footer-inner a {
         display: none;
     }
     aside.left-panel {
-        overflow: scroll;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        height: 100vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        touch-action: pan-y;
+        z-index: 1000;
+    }
+    body.sidebar-open {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
     }
     .right-panel header.header {
         height: 62px;
