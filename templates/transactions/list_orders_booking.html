@@ -139,13 +139,13 @@
                           <div style="display: flex; align-items: center; gap: 8px;">
                               
                               
-                              {% if request.user.is_designer or request.user.is_order_booker  %}
+                              {% if request.user.is_designer %}
                               <a href="{% url 'update_order_booking_designer' i.id %}" 
                                   style="color: #007bff; text-decoration: none;"
                                   title="View / Edit">
                                   <i class="fa fa-info-circle" style="font-size: 1.8em;"></i>
                               </a>
-                              {% elif request.user.is_accounts or request.user.is_planner or request.user.is_superuser %}
+                              {% elif request.user.is_accounts or request.user.is_planner or request.user.is_superuser  or request.user.is_order_booker %}
                               <a href="{% url 'update_order_booking' i.id %}" 
                                   style="color: #006affff; text-decoration: none;"
                                   title="View / Edit">
