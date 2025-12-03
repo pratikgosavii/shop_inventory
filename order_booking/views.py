@@ -49,6 +49,7 @@ def add_order_booking(request):
         grade_id = request.POST.getlist('grade')
         thickness_id = request.POST.getlist('thickness')
         quantity = request.POST.getlist('production_quantity')
+        new_row_tokens = request.POST.getlist('new_row_token')
         production_id = request.POST.getlist('production_id')
 
         print('-----------------')
@@ -66,12 +67,7 @@ def add_order_booking(request):
 
             print('valid')
 
-
-            # collect drawings uploaded for newly added rows (without existing production_id)
-            new_drawings_files = request.FILES.getlist('drawings_')
-            new_drawings_cursor = 0
-
-            for a, b, c, d, e, f in zip(production_id, item_code_id, category_id, grade_id, thickness_id, quantity):
+            for a, b, c, d, e, f, token in zip(production_id, item_code_id, category_id, grade_id, thickness_id, quantity, new_row_tokens):
 
                 print('in form')
 
@@ -81,10 +77,13 @@ def add_order_booking(request):
                 if a and a!= '0':
 
                     project_material_instnace = order_matarial_production.objects.get(id = a)
-                    # handle drawings file
+                    # handle drawings files (multiple)
                     file_field_name = f'drawings_{a}'   # input name="drawings_{{ i.id }}"
-                    if file_field_name in request.FILES:
-                        project_material_instnace.drawings = request.FILES[file_field_name]
+                    for uploaded_file in request.FILES.getlist(file_field_name):
+                        order_matarial_production_drawing.objects.create(
+                            production=project_material_instnace,
+                            file=uploaded_file
+                        )
 
                     item_code_instance = item_code.objects.get(id = b)
                     category_instance = category.objects.get(id = c)
@@ -119,11 +118,14 @@ def add_order_booking(request):
                         production_quantity=f,
                         order=order_instance
                     )
-                    # attach drawings for new rows in the order they were submitted (if any)
-                    if new_drawings_cursor < len(new_drawings_files):
-                        instance.drawings = new_drawings_files[new_drawings_cursor]
-                        instance.save()
-                        new_drawings_cursor += 1
+                    # attach drawings for this new row using its token
+                    if token:
+                        file_field_name_new = f'drawings_{token}'
+                        for uploaded_file in request.FILES.getlist(file_field_name_new):
+                            order_matarial_production_drawing.objects.create(
+                                production=instance,
+                                file=uploaded_file
+                            )
 
             system_alert.objects.create(role="designer", message="New job assigned", is_active = True)
 
@@ -189,6 +191,7 @@ def update_order_booking(request, order_id):
         grade_id = request.POST.getlist('grade')
         thickness_id = request.POST.getlist('thickness')
         production_id = request.POST.getlist('production_id')
+        new_row_tokens = request.POST.getlist('new_row_token')
 
 
         print('-----------------------')
@@ -207,11 +210,9 @@ def update_order_booking(request, order_id):
             order_instance = forms.save()
 
 
-            # collect drawings uploaded for newly added rows (without existing production_id)
-            new_drawings_files = request.FILES.getlist('drawings_')
-            new_drawings_cursor = 0
+            # no-op: per-row files handled via unique new_row_token now
 
-            for a, b, c, d, e, f in zip(production_id, item_code_id, category_id, grade_id, thickness_id, quantity):
+            for a, b, c, d, e, f, token in zip(production_id, item_code_id, category_id, grade_id, thickness_id, quantity, new_row_tokens):
 
                 print('----------')
                 print(a)
@@ -235,8 +236,11 @@ def update_order_booking(request, order_id):
                     project_material_instnace.thickness = thickness_instance
 
                     file_field_name = f'drawings_{a}'   # input name="drawings_{{ i.id }}"
-                    if file_field_name in request.FILES:
-                        project_material_instnace.drawings = request.FILES[file_field_name]
+                    for uploaded_file in request.FILES.getlist(file_field_name):
+                        order_matarial_production_drawing.objects.create(
+                            production=project_material_instnace,
+                            file=uploaded_file
+                        )
 
 
                     project_material_instnace.save()
@@ -260,11 +264,14 @@ def update_order_booking(request, order_id):
                         production_quantity=f,
                         order=order_instance
                     )
-                    # attach drawings for new rows in the order they were submitted (if any)
-                    if new_drawings_cursor < len(new_drawings_files):
-                        instance.drawings = new_drawings_files[new_drawings_cursor]
-                        instance.save()
-                        new_drawings_cursor += 1
+                    # attach drawings for this new row using its token
+                    if token:
+                        file_field_name_new = f'drawings_{token}'
+                        for uploaded_file in request.FILES.getlist(file_field_name_new):
+                            order_matarial_production_drawing.objects.create(
+                                production=instance,
+                                file=uploaded_file
+                            )
 
                 
             system_alert.objects.create(role="designer", message="New job assigned", is_active = True)
@@ -360,10 +367,13 @@ def update_order_booking_designer(request, order_id):
                         instance = order_matarial_production.objects.get(id=a)
                         instance.size = b
 
-                        # handle drawings file
+                        # handle drawings files (multiple)
                         file_field_name = f'drawings_{a}'   # input name="drawings_{{ i.id }}"
-                        if file_field_name in request.FILES:
-                            instance.drawings = request.FILES[file_field_name]
+                        for uploaded_file in request.FILES.getlist(file_field_name):
+                            order_matarial_production_drawing.objects.create(
+                                production=instance,
+                                file=uploaded_file
+                            )
 
                         instance.save()
 

@@ -130,11 +130,14 @@
                                     <input type="number" value="{{ i.production_quantity }}" name="production_quantity" class="form-control" required>
                                 </td>
 
-                                 <td>
-                                <input type="file" name="drawings_{{ i.id }}">
-                                {% if i.drawings %}
-                                    <a href="{{ i.drawings.url }}" target="_blank">Existing Drawing</a>
-                                {% endif %}
+                                <td>
+                                <input type="file" name="drawings_{{ i.id }}" multiple>
+                                {% for d in i.drawings.all %}
+                                    <div><a href="{{ d.file.url }}" target="_blank">Drawing {{ forloop.counter }}</a></div>
+                                {% empty %}
+                                    <div>No drawings uploaded</div>
+                                {% endfor %}
+                                <input type="hidden" name="new_row_token" value="">
                             </td>
                             
                             </tr>
@@ -159,10 +162,8 @@
                                 <input type="hidden" name="production_id" value="">
                             </td>
                              <td>
-                                <input type="file" name="drawings_{{ i.id }}">
-                                {% if i.drawings %}
-                                    <a href="{{ i.drawings.url }}" target="_blank">Existing Drawing</a>
-                                {% endif %}
+                                <input type="file" name="drawings_" multiple class="new-drawings-input">
+                                <input type="hidden" name="new_row_token" class="new-row-token-input" value="">
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-sm remove-item">-</button>
@@ -200,11 +201,9 @@
                                 <input type="number" class="form-control qty-input" name="production_quantity" min="1" value="1">
                                 <input type="hidden" name="production_id" value="">
                             </td>
-                               <td>
-                                <input type="file" name="drawings_{{ i.id }}">
-                                {% if i.drawings %}
-                                    <a href="{{ i.drawings.url }}" target="_blank">Existing Drawing</a>
-                                {% endif %}
+                             <td>
+                                <input type="file" name="drawings_" multiple class="new-drawings-input">
+                                <input type="hidden" name="new_row_token" class="new-row-token-input" value="">
                             </td>
         <td>
             <button type="button" class="btn btn-danger btn-sm remove-item">-</button>
@@ -218,6 +217,16 @@
 <script>
     $(document).ready(function () {
         $('.select2').select2();
+
+        function assignTokenToRow($row) {
+            const token = Date.now().toString() + Math.floor(Math.random()*1000000).toString();
+            const $file = $row.find('input.new-drawings-input');
+            const $token = $row.find('input.new-row-token-input');
+            if ($file.length && $token.length) {
+                $file.attr('name', 'drawings_' + token);
+                $token.val(token);
+            }
+        }
 
         $('.add-item').on('click', function () {
             const template = $('#item-template').clone();
@@ -235,11 +244,23 @@
 
             $('#item-table tbody').append(template);
             template.find('select.select2').select2({ width: '100%', placeholder: 'Select Item Code', allowClear: true });
+
+            // assign token to the newly added row
+            assignTokenToRow(template);
         });
 
         $('#item-table').on('click', '.remove-item', function () {
             if ($('#item-table tbody tr').length > 1) {
                 $(this).closest('tr').remove();
+            }
+        });
+
+        // assign token to any initial "new row" present on load
+        $('#item-table tbody tr').each(function () {
+            const $row = $(this);
+            const $file = $row.find('input.new-drawings-input');
+            if ($file.length && $file.attr('name') === 'drawings_') {
+                assignTokenToRow($row);
             }
         });
     });

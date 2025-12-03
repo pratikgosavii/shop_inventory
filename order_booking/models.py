@@ -69,13 +69,25 @@ class order_matarial_production(models.Model):
     production_quantity = models.IntegerField(null = True, blank = True)
     date_time = models.DateTimeField(auto_now=False, null = True, blank = True)
     size = models.IntegerField(default=0)
-    drawings = models.FileField(upload_to='media/project_drawings/', null=True, blank=True)
 
 
 
 
 
 
+
+
+class order_matarial_production_drawing(models.Model):
+
+    production = models.ForeignKey(order_matarial_production, on_delete=models.CASCADE, related_name="drawings")
+    file = models.FileField(upload_to='media/project_drawings/', null=True, blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        try:
+            return f"Drawing for {self.production.order.order_id}"
+        except Exception:
+            return "Drawing"
 
 class production_orders(models.Model):
 
